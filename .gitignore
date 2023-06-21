@@ -16,7 +16,6 @@
 
 
 # production
-/dist
 /lib
 /docs-dist
 
