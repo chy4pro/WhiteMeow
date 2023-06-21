@@ -36,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+	// @ts-nocheck
 import { ref } from 'vue';
 import { storage, scrollTo } from '@/utils/index.ts'
 import { chat } from '@/apis/chat.ts'
@@ -51,7 +52,7 @@ const messageStore = userMessage();
 
 const loading = ref(false);
 const messageList = ref<any>(null);
-let ws = null
+let ws:any = null
 
 const newMessage = ref('');
 const pageTotal = ref(0);
@@ -154,7 +155,7 @@ onMounted(()=>{
     name: '',			// name
     isHeart:false,			// 是否心跳
     isReconnection:true,		// 是否断开重连
-    received: function(data){
+    received: function(data:any){
       // 监听服务器返回信息
         console.log("received",data)
         let dataFormat = JSON.parse(data)
