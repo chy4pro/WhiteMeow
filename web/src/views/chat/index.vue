@@ -147,7 +147,7 @@ onMounted(()=>{
   storage.setItem('auth', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyNDg2NTUsImlhdCI6MTY4MjMyODY1NSwidXNlcklkIjoyfQ.c54BKBpqCYhnnZU6LEsP04th9VUZ2q2jXEYmtu2k38U');
   scrollBottomFlag.value = true;
   ws = reactive(new Socket({
-    url: 'ws://43.153.76.9:8888/customer/chat',
+    url: 'ws://43.134.117.47:8888/customer/chat',
     name: '',			// name
     isHeart:false,			// 是否心跳
     isReconnection:true,		// 是否断开重连
