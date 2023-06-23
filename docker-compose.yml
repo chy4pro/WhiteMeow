@@ -1,0 +1,20 @@
+# yaml 配置
+version: "3.7"
+services:
+  web:                                  # 前端node容器(运行nginx中的Vue项目)
+    container_name: frontend-web           # 容器名为'web'
+    restart: always                        # 重启策略: 容器退出时总是重启容器
+    build:
+      context: .                           # 指定设定上下文根目录，然后以该目录为准指定Dockerfile
+      dockerfile: ./docker/web/Dockerfile
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "80:80"                        # 映射端口
+    volumes:
+      - ~/data/nginx/logs:/var/log/nginx
+    networks:
+      - share-net
+networks:
+  share-net:
+    name: share-net

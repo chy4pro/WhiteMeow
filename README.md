@@ -1,1 +1,1 @@
-# WhiteMeow
+一键启动：```docker-compose up -d```
