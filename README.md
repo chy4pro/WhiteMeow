@@ -1,9 +1,9 @@
 # WhiteMeow
-白小喵，是一个集成chatgpt等功能的AI聊天系统。
+白小喵，是一个集成chatgpt等功能的AI聊天系统的前端项目。
 
 ## 目录结构
 ```
-├── web
+├── web                            -- web项目文件
 │   ├── favicon.ico
 │   ├── index.html                 -- 主页面
 │   ├── package.json               -- 包管理器代码
