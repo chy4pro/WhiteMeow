@@ -26,10 +26,10 @@
             @keyup.enter.native="sendMessage"
           />
           <div class="send-button" @click="sendMessage" :disabled="!isConnect">
-            <img :src="getImageUrl('/src/assets/images/airplant.svg')" class="fly-icon" />
+            <img :src="getImageUrl('airplant.svg')" class="fly-icon" />
           </div>
         </div>
-        <img class="cat-img" :src="getImageUrl('/src/assets/images/111.gif')" alt="">
+        <img class="cat-img" :src="getImageUrl('111.gif')" alt="">
       </div>
     </div>
   </div>
@@ -142,8 +142,8 @@ const showMore = () => {
 };
 
 // 引入本地图片
-const getImageUrl = (url: string) => {
-  return new URL(url, import.meta.url).href;
+const getImageUrl = (name: string) => {
+  return new URL(`/src/assets/images/${name}`, import.meta.url).href;
 }
 
 
