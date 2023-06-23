@@ -7,3 +7,10 @@
 *.njsproj
 *.sln
 *.sw?
+
+# dependencies
+node_modules
+/node_modules
+
+/dist
+dist
