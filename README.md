@@ -2,6 +2,7 @@
 白小喵，是一个集成chatgpt等功能的AI聊天系统。
 
 ## 目录结构
+```
 ├── web
 │   ├── favicon.ico
 │   ├── index.html                 -- 主页面
@@ -13,7 +14,8 @@
 │       ├── Dockerfile             -- web项目的 Dockerfile
 │       └── nginx.conf             -- web项目的 nginx配置文件
 └── docker-compose.yml             -- docker-compose 配置文件
-
+```
 ## 项目部署
 
-一键启动：```docker-compose up -d```
+一键启动：
+```docker-compose up -d```
