@@ -1,8 +1,10 @@
 <template>
-  <img class="image" :src="imgUrl" :style="{width: props.width+'px', height: props.height + 'px'}"/>
+  <img class="image" :src="getImageUrl(props.name)" :style="styleObj"/>
 </template>
 
 <script setup lang="ts">
+  import { getImageUrl } from '@/utils/index.ts'
+
   const props = defineProps({
     fullPath: {
       type: String,
@@ -21,7 +23,15 @@
     },
   });
 
-  const imgUrl = computed(() => {
-    return new URL(props.fullPath ? props.fullPath : `/src/assets/images/${props.name}`, import.meta.url).href;
-  });
+  const styleObj = () =>{
+    if(props.width){
+      return {width: props.width+'px'}
+    }
+    if(props.height){
+      return {height: props.height + 'px'}
+    }
+    if(props.width && props.height){
+      return {width: props.width+'px', height: props.height + 'px'}
+    }
+  }
 </script>

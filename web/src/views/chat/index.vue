@@ -11,7 +11,7 @@
             <div class="message-content">{{ message.content }}</div>
           </div>
           <div class="emoji-box">
-              <Image :full-path="'/src/assets/images/emoji/' + filterEmoji(message.emoji) + '.png'" alt="" v-if="message.emoji!==0"/>
+              <img :src="getEmojiUrl(message.emoji)" alt="" v-if="message.emoji!==0"/>
             </div>
         </div>
       </div>
@@ -26,10 +26,10 @@
             @keyup.enter.native="sendMessage"
           />
           <div class="send-button" @click="sendMessage" :disabled="!isConnect">
-            <img :src="getImageUrl('airplant.svg')" class="fly-icon" />
+            <Image name="airplant.svg" class="fly-icon" />
           </div>
         </div>
-        <img class="cat-img" :src="getImageUrl('111.gif')" alt="">
+        <Image class="cat-img" name="111.gif" alt="" />
       </div>
     </div>
   </div>
@@ -38,12 +38,11 @@
 <script setup lang="ts">
 	// @ts-nocheck
 import { ref } from 'vue';
-import { storage, scrollTo } from '@/utils/index.ts'
+import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
 import { chat } from '@/apis/chat.ts'
 import Socket from "@/utils/http/websocket.js";
 import { genId } from "@/utils/idGenerator.js";
 import { useCounterStore, userMessage } from '@/store/index.js';
-import { filterEmoji } from '@/utils/filter.js';
 
 const router = useRouter();
 const { query, params } = useRoute();
@@ -62,7 +61,7 @@ const scrollBottomFlag = ref(false);
 const recordList = reactive({
   page: 1,
   page_size: 10,
-  user: storage.getItem('userId'),
+  user: genId('userId',1),
   open_kf_id: 'wkWpQ2GQAAZgrSsvcgtaV-kOVfhsIERw',
   start_created_at: '',
   end_created_at: ''
@@ -141,10 +140,7 @@ const showMore = () => {
   getChatRecord();
 };
 
-// 引入本地图片
-const getImageUrl = (name: string) => {
-  return new URL(`/src/assets/images/${name}`, import.meta.url).href;
-}
+
 
 
 onMounted(()=>{
@@ -303,12 +299,11 @@ const getChatRecord = async() => {
         font-size: $size_18;
         margin-right: 2rem;
       }
-      .emoji-box{
-        width: 5rem;
-        height: 5rem;
-        flex: 1;
-        @include centerBox;
-      }
+    }
+    .emoji-box{
+      width: 5rem;
+      height: 5rem;
+      @include centerBox;
     }
   }
 }

@@ -1,7 +1,4 @@
-// 引入本地图片
-export const getImageUrl = (url: string) => {
-  return new URL(url, import.meta.url).href;
-};
+import { filterEmoji } from '@/utils/filter.js';
 
 export const scrollTo = (offsetTop: number) => {
   const parent = document.querySelector('#app')
@@ -10,3 +7,13 @@ export const scrollTo = (offsetTop: number) => {
     behavior: 'smooth'
   })
 };
+
+// 引入本地图片
+export const getImageUrl = (name: string) => {
+  return new URL(`/src/assets/images/${name}`, import.meta.url).href;
+}
+
+// 引入本地图片
+export const getEmojiUrl = (name: string) => {
+  return new URL(`/src/assets/images/emoji/${filterEmoji(name)}.png`, import.meta.url).href;
+}
