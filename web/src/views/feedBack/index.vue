@@ -45,7 +45,7 @@ const submit = async() => {
   let params = {
       'user': storage.getItem('userId'),
       'message_id': new GenId({ WorkerId: 1, SeqBitLength: 14 }).NextId().toString(),
-      'open_kf_id': 'wkWpQ2GQAAZgrSsvcgtaV-kOVfhsIERw',
+      'open_kf_id': 'wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA',
       'title': commentTitle.value,
       'content': commentContent.value
   }
