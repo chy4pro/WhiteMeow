@@ -24,7 +24,7 @@
           />
         </div>
         <div class="feedback-btn-list">
-          <el-button color="#fff" round size="large" class="submit-btn">提交</el-button>
+          <el-button color="#fff" round size="large" class="submit-btn" @click="submit">提交</el-button>
         </div>
       </div>
     </div>
@@ -32,8 +32,31 @@
 </template>
 
 <script setup lang="ts">
+import axios from '@/utils/http/index';
+import GenId from 'cherry-id';
+import { storage } from '@/utils/index.ts'
+import { genId } from "@/utils/idGenerator.js";
+
 const commentTitle = ref('');
 const commentContent = ref('');
+const router = useRouter();
+
+const submit = async() => {
+  console.log(commentTitle.value, commentContent.value);
+  let params = {
+      'user': storage.getItem('userId'),
+      'message_id': new GenId({ WorkerId: 1, SeqBitLength: 14 }).NextId().toString(),
+      'open_kf_id': 'wkWpQ2GQAAZgrSsvcgtaV-kOVfhsIERw',
+      'title': commentTitle.value,
+      'content': commentContent.value
+  }
+
+  const result:any = await axios.post('/feedback/save', params);
+  if(result.message === 'ok'){
+    console.log('提交成功');
+    router.push({path: '/feedbackSuccess'});
+  }
+}
 </script>
 
 <style lang="scss" scoped>

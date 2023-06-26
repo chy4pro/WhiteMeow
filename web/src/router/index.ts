@@ -1,7 +1,7 @@
 import { createRouter, RouteRecordRaw, createWebHashHistory } from 'vue-router'
 import home from '@/views/home/index.vue';
 import chat from '@/views/chat/index.vue';
-import thanks from '@/views/thanks/index.vue';
+import feedbackSuccess from '@/views/feedbackSuccess/index.vue';
 import feedBack from '@/views/feedBack/index.vue';
 import intro from '@/views/intro/index.vue';
 // import smartForm from '../components/SmartForm/index.vue';
@@ -23,9 +23,9 @@ export const routes: Array<RouteRecordRaw>  = [
     component: feedBack
   },
   {
-    path: '/thanks',
-    name: 'thanks',
-    component: thanks
+    path: '/feedbackSuccess',
+    name: 'feedbackSuccess',
+    component: feedbackSuccess
   },
   {
     path: '/intro',
