@@ -88,10 +88,11 @@ const sendMessage = () => {
 .home-bg.bg-box{
   background: url('@/assets/images/home-bg.png') no-repeat center;
   background-size: 100% 100%;
+  overflow-y: auto;
 }
 .intro-wrap{
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   margin: 0 auto;
   @include flex-center;
   flex-direction: column;
