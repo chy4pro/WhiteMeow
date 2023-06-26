@@ -35,7 +35,6 @@
 import axios from '@/utils/http/index';
 import GenId from 'cherry-id';
 import { storage } from '@/utils/index.ts'
-import { genId } from "@/utils/idGenerator.js";
 
 const commentTitle = ref('');
 const commentContent = ref('');
