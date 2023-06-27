@@ -12,7 +12,7 @@ services:
     ports:
       - "80:80"                        # 映射端口
     volumes:
-      - ~/data/nginx/logs:/var/log/nginx
+      - ./logs/frontend-web/nginx:/var/log/nginx
     networks:
       - share-net
 networks:
