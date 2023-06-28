@@ -3,7 +3,7 @@ html{
   -webkit-text-size-adjust: 100%;
   -webkit-font-feature-settings: normal;
   font-feature-settings: normal;
-  font-family: KuaiLe,Söhne,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  font-family: Söhne,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
   font-variation-settings: normal;
   line-height: 1;
   tab-size: 4;
@@ -162,7 +162,7 @@ $spacing-size: 0;
 
 /* reset */
 input, textarea{
-  font-family: KuaiLe;
+  // font-family: KuaiLe;
   text-indent: 1em;
 }
 ::-webkit-input-placeholder {

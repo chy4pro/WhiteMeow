@@ -11,7 +11,7 @@ import axios from '@/utils/http/index';
 //   }
 // }
 // 用户登录
-export const chat = (params:any) => {
+export const chat = (params:object) => {
   
   // 返回的数据格式可以和服务端约定
   return axios.post('/customer/get-chat-record', params)

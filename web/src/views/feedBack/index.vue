@@ -76,7 +76,7 @@ const submit = async() => {
     margin-top: 20px;
     .feedback-btn{
       margin-right: 20px;
-      font-family: KuaiLe;
+      /* font-family: KuaiLe; */
       color: $green_1;
     }
   }
@@ -88,7 +88,7 @@ const submit = async() => {
 
 .submit-btn{
   width: 200px;
-  font-family: KuaiLe;
+  /* font-family: KuaiLe; */
   color: $green_1;
   border: 3px solid $gray_1;
   border-radius: 10px;

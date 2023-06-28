@@ -2,7 +2,7 @@
   <div class="chat-bg bg-box">
     <div class="container-box">
       <NavBar/>
-      <div class="arrow-left" @click="router.go(-1)"></div>
+      <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
 
       <div class="message-list" ref="messageList">
         <div class="more-btn" @click="showMore" v-if="recordList.page*recordList.page_size < pageTotal">查看更多</div>
@@ -36,7 +36,6 @@
 </template>
 
 <script setup lang="ts">
-	// @ts-nocheck
 import { ref } from 'vue';
 import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
 import { chat } from '@/apis/chat.ts'
@@ -201,7 +200,7 @@ const getChatRecord = async() => {
 
     loading.value = false
 
-    if(result?.list?.length > 0){
+    if(result && result.list && result.list.length > 0){
       result.list.reverse();
       if(messages.value.length>0){
         let resultList = result.list.map((item: any) => {
@@ -220,7 +219,7 @@ const getChatRecord = async() => {
           }
         })
       }
-      pageTotal.value = result.total
+      pageTotal.value = result.total as number;
 
       if(scrollBottomFlag.value===true){
         scrollToBottom()

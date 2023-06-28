@@ -1,4 +1,3 @@
-// @ts-ignore
 
 import axios, {
   AxiosInstance,
@@ -17,8 +16,10 @@ interface Result {
 }
 
 // 请求响应参数，包含data
-interface ResultData<T = any> extends Result {
-  data?: T
+interface ResultData<T> {
+  data?: T;
+  list?: Array<T>;
+  [key: string]: unknown;
 }
 const URL: string = import.meta.env.VITE_API_BASE_URL
 enum RequestEnums {
