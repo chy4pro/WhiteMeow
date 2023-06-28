@@ -6,7 +6,7 @@ import axios, {
   AxiosResponse
 } from 'axios'
 import qs from 'qs';
-import {isPlainObject} from 'lodash'
+import {isPlainObject} from 'lodash-es'
 import {storage} from '@/utils/storage'
 import ElMessage from "element-plus"
 // 定义请求响应参数，不含data
