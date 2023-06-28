@@ -35,7 +35,7 @@ export default defineConfig({
     }),
     viteImagemin({
       gifsicle: {
-        optimizationLevel: 7,
+        optimizationLevel: 5,
         interlaced: false
       },
       optipng: {
@@ -47,17 +47,6 @@ export default defineConfig({
       pngquant: {
         quality: [0.8, 0.9],
         speed: 4
-      },
-      svgo: {
-        plugins: [
-          {
-            name: 'removeViewBox'
-          },
-          {
-            name: 'removeEmptyAttrs',
-            active: false
-          }
-        ]
       }
     }),
     visualizer()
