@@ -10,7 +10,7 @@ export const routes: Array<RouteRecordRaw>  = [
   {
     path: '/',
     name: 'home',
-    component: home
+    component: ()=> defineAsyncComponent(()=>import('@/views/home/index.vue'))
   },
   {
     path: '/chat',
