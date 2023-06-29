@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import { visualizer } from 'rollup-plugin-visualizer';
-import viteImagemin from 'vite-plugin-imagemin'
+// import viteImagemin from 'vite-plugin-imagemin'
 
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite';
@@ -33,22 +33,22 @@ export default defineConfig({
       // 配置文件生成位置
       dts: 'src/components.d.ts'
     }),
-    viteImagemin({
-      gifsicle: {
-        optimizationLevel: 5,
-        interlaced: false
-      },
-      optipng: {
-        optimizationLevel: 7
-      },
-      mozjpeg: {
-        quality: 20
-      },
-      pngquant: {
-        quality: [0.8, 0.9],
-        speed: 4
-      }
-    }),
+    // viteImagemin({
+    //   gifsicle: {
+    //     optimizationLevel: 5,
+    //     interlaced: false
+    //   },
+    //   optipng: {
+    //     optimizationLevel: 7
+    //   },
+    //   mozjpeg: {
+    //     quality: 20
+    //   },
+    //   pngquant: {
+    //     quality: [0.8, 0.9],
+    //     speed: 4
+    //   }
+    // }),
     visualizer()
   ],
   css: {
