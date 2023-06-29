@@ -15,22 +15,22 @@ export const routes: Array<RouteRecordRaw>  = [
   {
     path: '/chat',
     name: 'chat',
-    component: chat
+    component: ()=> defineAsyncComponent(()=>import('@/views/chat/index.vue'))
   },
   {
     path: '/feedBack',
     name: 'feedBack',
-    component: feedBack
+    component: ()=> defineAsyncComponent(()=>import('@/views/feedBack/index.vue'))
   },
   {
     path: '/feedbackSuccess',
     name: 'feedbackSuccess',
-    component: feedbackSuccess
+    component: ()=> defineAsyncComponent(()=>import('@/views/feedbackSuccess/index.vue'))
   },
   {
     path: '/intro',
     name: 'intro',
-    component: intro
+    component: ()=> defineAsyncComponent(()=>import('@/views/intro/index.vue'))
   }
 ]
 

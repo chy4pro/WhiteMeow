@@ -74,7 +74,7 @@
     @include flex-between($flexWrap: wrap);
     .intro-btn{
       margin: 10px 10px;
-      font-family: KuaiLe;
+      /* font-family: KuaiLe; */
       color: $green_1;
     }
   }

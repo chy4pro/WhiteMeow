@@ -108,7 +108,7 @@ const sendMessage = () => {
     @include flex-between($flexWrap: wrap);
     .intro-btn{
       margin: 10px 10px;
-      font-family: KuaiLe;
+      /* font-family: KuaiLe; */
       color: $green_1;
     }
   }
@@ -130,7 +130,7 @@ const sendMessage = () => {
       border: none;
       background: none;
       font-size: $size_18;
-      font-family: KuaiLe;
+      /* font-family: KuaiLe; */
       text-indent: 1em;
       color: $gray_1;
       &:focus{
