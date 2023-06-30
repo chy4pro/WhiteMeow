@@ -61,7 +61,8 @@ class RequestHttp {
         return {
           ...config,
           headers: {
-            'Authorization': auth, // 请求头中携带token信息
+            'x-token': auth || '',
+            //'Authorization': auth, // 请求头中携带token信息
             'Content-Type': 'application/json',
           }
         }
