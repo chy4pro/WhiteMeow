@@ -71,13 +71,13 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     open: false,
-    port: 8081,
-    proxy: {
-      '/api': {
-        target: 'http://177.7.0.15:8081', // 凡是遇到 /api 路径的请求，都映射到 target 属性
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '') // 重写 api 为 空，就是去掉它
-      }
+    port: 8081
+  },
+  proxy: {
+    '/api': {
+      target: 'http://177.7.0.15:8081', // 凡是遇到 /api 路径的请求，都映射到 target 属性
+      changeOrigin: true,
+      rewrite: path => path.replace(/^\/api/, '') // 重写 api 为 空，就是去掉它
     }
   }
 })
