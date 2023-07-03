@@ -21,6 +21,6 @@ COPY ./docker/web/nginx.conf /etc/nginx/
 # 拷贝前端vue项目打包后生成的文件到nginx下运行
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 # 暴露80端口
-EXPOSE 8081
+EXPOSE 80
 # 使用daemon off的方式将nginx运行在前台保证镜像不至于退出
 CMD ["nginx", "-g", "daemon off;"]
