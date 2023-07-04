@@ -42,6 +42,7 @@ import { chat } from '@/apis/chat.ts'
 import Socket from "@/utils/http/websocket.js";
 import { genId } from "@/utils/idGenerator.js";
 import { useCounterStore, userMessage } from '@/store/index.js';
+import { last } from 'lodash-es';
 
 const router = useRouter();
 const { query, params } = useRoute();
@@ -51,6 +52,7 @@ const messageStore = userMessage();
 const loading = ref(false);
 const messageList = ref<any>(null);
 let ws:any = null
+
 
 const newMessage = ref('');
 const pageTotal = ref(0);
@@ -143,10 +145,13 @@ const showMore = () => {
 
 
 onMounted(()=>{
+  let current_message_id:string = ''
+  let current_content:string = ''
+
   storage.setItem('auth', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyNDg2NTUsImlhdCI6MTY4MjMyODY1NSwidXNlcklkIjoyfQ.c54BKBpqCYhnnZU6LEsP04th9VUZ2q2jXEYmtu2k38U');
   scrollBottomFlag.value = true;
   ws = reactive(new Socket({
-    url: 'ws://43.134.117.47:8888/customer/chat',
+    url: 'ws://43.153.76.9:8888/customer/chat',
     name: '',			// name
     isHeart:false,			// 是否心跳
     isReconnection:true,		// 是否断开重连
@@ -154,11 +159,25 @@ onMounted(()=>{
       // 监听服务器返回信息
         console.log("received",data)
         let dataFormat = JSON.parse(data)
-        messages.value.push({
-          content: dataFormat.message.length>0 ? dataFormat.message : dataFormat.error_message,
-          emoji: dataFormat.emoji,
-          isUser: false
-        });
+
+        if(dataFormat.is_end === false){
+          if(dataFormat.message_id === current_message_id){
+            const index = messages.value.findIndex(item => item.message_id === current_message_id);
+            const currentMessage = messages.value[index];
+            currentMessage.content += dataFormat.message
+          }
+          else{
+            messages.value.push({
+              content: dataFormat.error_message.length>0 ? dataFormat.error_message : dataFormat.message,
+              emoji: dataFormat.emoji,
+              message_id: dataFormat.message_id,
+              isUser: false
+            });
+          }
+
+          current_message_id = dataFormat.message_id ? dataFormat.message_id : ''
+        }
+
         scrollToBottom();
     }
   }));
