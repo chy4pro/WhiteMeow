@@ -143,7 +143,6 @@ const showMore = () => {
 
 
 
-
 onMounted(()=>{
   let current_message_id:string = ''
   let current_content:string = ''
@@ -162,7 +161,7 @@ onMounted(()=>{
 
         if(dataFormat.is_end === false){
           if(dataFormat.message_id === current_message_id){
-            const index = messages.value.findIndex(item => item.message_id === current_message_id);
+            const index = messages.value.findIndex((item:any) => item.message_id === current_message_id);
             const currentMessage = messages.value[index];
             currentMessage.content += dataFormat.message
           }
