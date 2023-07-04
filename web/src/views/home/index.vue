@@ -3,7 +3,7 @@
     <NavBar showLogo/>
     
     <div class="intro-wrap">
-      <Image name="111.gif" :width="300" :height="300"/>
+      <Image name="home-cat.png" :width="300" :height="300"/>
 
       <h1 class="intro-title">白小喵每天陪着你哦</h1>
       <div class="intro-btn-list">
@@ -86,8 +86,10 @@ const sendMessage = () => {
 
 <style lang="scss" scoped>
 .home-bg.bg-box{
-  background: url('@/assets/images/home-bg.png') no-repeat center;
-  background-size: 100% 100%;
+  /* background: url('@/assets/images/home-bg.png') no-repeat center;
+  background-size: 100% 100%; */
+  background: rgb(255,164,237);
+  background: linear-gradient(130deg, rgba(255,164,237,1) 0%, rgba(255,221,236,1) 100%);
   overflow-y: auto;
 }
 .intro-wrap{
