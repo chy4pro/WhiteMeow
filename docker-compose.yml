@@ -10,7 +10,7 @@ services:
     environment:
       TZ: Asia/Shanghai
     ports:
-      - "80:80"                        # 映射端口
+      - "8081:80"                        # 映射端口
     volumes:
       - ./logs/frontend-web/nginx:/var/log/nginx
     networks:
