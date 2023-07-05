@@ -20,7 +20,7 @@
           <el-popover
           :width="200"
           trigger="hover"
-          content="有人欺负你或者心情不好，请尽管告诉本喵，本喵专治各种不开心"
+          content="当本喵还是小小喵的时候就已经熟读知识百科，不信你来考者我呀!"
           placement="top"
           >
             <template #reference>
@@ -30,7 +30,7 @@
           <el-popover
           :width="200"
           trigger="hover"
-          content="有人欺负你或者心情不好，请尽管告诉本喵，本喵专治各种不开心"
+          content="不瞒你说，本喵参加过的考试千千万万，作业不会问问我，说不定我就会呢~"
           placement="top"
           >
             <template #reference>
@@ -40,7 +40,7 @@
           <el-popover
           :width="200"
           trigger="hover"
-          content="有人欺负你或者心情不好，请尽管告诉本喵，本喵专治各种不开心"
+          content="出个主意，写个文案，方案，小作文啥的，本喵也非常擅长"
           placement="top"
           >
             <template #reference>
