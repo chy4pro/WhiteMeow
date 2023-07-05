@@ -20,7 +20,7 @@
           <el-popover
           :width="200"
           trigger="hover"
-          content="当本喵还是小小喵的时候就已经熟读知识百科，不信你来考者我呀!"
+          content="当本喵还是小小喵的时候就已经熟读知识百科，不信你来考考我呀!"
           placement="top"
           >
             <template #reference>
