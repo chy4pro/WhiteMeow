@@ -74,7 +74,7 @@ const newMessage = ref('');
 const router = useRouter();
 
 const sendMessage = () => {
-  if (!newMessage.value){
+  if (newMessage.value){
     console.log('我发送了',newMessage.value);
     messageStore.firstMessage = newMessage.value;
     newMessage.value = '';

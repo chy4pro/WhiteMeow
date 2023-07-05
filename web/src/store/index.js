@@ -4,7 +4,6 @@ import { storage } from '@/utils/index.ts';
 export const useCounterStore = defineStore('counter', {
   state: () => ({
     index: 0 | storage.getItem('index'),
-    firstMessage: ''
   }),
   actions: {
     add() {
