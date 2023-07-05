@@ -35,7 +35,7 @@ export default class Socket {
             }
             // 给后台发送数据
             if(data !== undefined) {
-                return this.ws.send(JSON.stringify({type: 'init'}))
+                return this.ws.send(JSON.stringify({typeStatus: 'init'}))
             }
         }
         // 接受服务器返回的信息
@@ -72,7 +72,7 @@ export default class Socket {
     _heartCheck() {
         this.pingInterval = setInterval(() => {
             if(this.ws.readyState === 1) {
-                this.ws.send(JSON.stringify({type: 'ping'}))
+                this.ws.send(JSON.stringify({heartbeat: true}))
             }
         },this._timeout)
     }

@@ -42,7 +42,6 @@ import { chat } from '@/apis/chat.ts'
 import Socket from "@/utils/http/websocket.js";
 import { genId } from "@/utils/idGenerator.js";
 import { useCounterStore, userMessage } from '@/store/index.js';
-import { last } from 'lodash-es';
 
 const router = useRouter();
 const { query, params } = useRoute();
@@ -152,14 +151,14 @@ onMounted(()=>{
   ws = reactive(new Socket({
     url: import.meta.env.VITE_API_WEBSOCKET_URL + '/customer/chat',//'ws://43.153.76.9:8888/customer/chat',
     name: '',			// name
-    isHeart:false,			// 是否心跳
+    isHeart:true,			// 是否心跳
     isReconnection:true,		// 是否断开重连
     received: function(data:any){
       // 监听服务器返回信息
         console.log("received",data)
         let dataFormat = JSON.parse(data)
 
-        if(dataFormat.is_end === false){
+        if(dataFormat.message_id !== '' && dataFormat.is_end === false && dataFormat.message !== ''){
           if(dataFormat.message_id === current_message_id){
             const index = messages.value.findIndex((item:any) => item.message_id === current_message_id);
             const currentMessage = messages.value[index];
@@ -175,9 +174,10 @@ onMounted(()=>{
           }
 
           current_message_id = dataFormat.message_id ? dataFormat.message_id : ''
+          scrollToBottom();
         }
 
-        scrollToBottom();
+        
     }
   }));
   ws.connect();
@@ -265,8 +265,10 @@ const getChatRecord = async() => {
   overflow: hidden;
 }
 .chat-bg.bg-box {
-  background: url('@/assets/images/chat-bg.png') no-repeat center;
-  background-size: 100% 100%;
+  /* background: url('@/assets/images/chat-bg.png') no-repeat center;
+  background-size: 100% 100%; */
+  background: rgb(255,164,237);
+  background: linear-gradient(130deg, rgba(255,164,237,1) 0%, rgba(255,221,236,1) 100%);
   @include phone{
     padding: 8rem 1rem 12rem 1rem;
   }
