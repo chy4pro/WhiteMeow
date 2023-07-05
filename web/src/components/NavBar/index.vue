@@ -50,7 +50,7 @@ const goFeedBack = () => {
     cursor: pointer;
     img{
       width: 60px;
-      height: 50px;
+      height: auto;
     }
     .logo-text{
       font-size: 20px;
