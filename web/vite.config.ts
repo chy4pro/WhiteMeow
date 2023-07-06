@@ -5,6 +5,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import UnoCSS from 'unocss/vite'
 import presetUno from '@unocss/preset-uno'
 import presetAttributify from '@unocss/preset-attributify'
+import viteCompression from 'vite-plugin-compression'
 
 // import viteImagemin from 'vite-plugin-imagemin'
 
@@ -36,6 +37,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    viteCompression(),
     UnoCSS({
         presets: [presetUno(), presetAttributify()]
     }),
