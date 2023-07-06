@@ -177,7 +177,14 @@ onMounted(()=>{
           scrollToBottom();
         }
 
-        
+        // update emoji
+        if(dataFormat.is_end === true){
+          if(dataFormat.message_id === current_message_id){
+            const index = messages.value.findIndex((item:any) => item.message_id === current_message_id);
+            const currentMessage = messages.value[index];
+            currentMessage.emoji = dataFormat.emoji
+          }
+        }
     }
   }));
   ws.connect();
