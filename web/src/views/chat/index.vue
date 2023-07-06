@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-bg bg-box">
+  <div class="chat-bg bg-box wh-full">
     <div class="container-box">
       <NavBar/>
       <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
@@ -94,7 +94,7 @@ const sendMessage = () => {
       
       // 发送消息
       let sendData = {
-        type: 'sendMsg',
+        "typeStatus": 'sendMsg',
         "message_id":genId(`msg_${counter.index}`, 2 ,20),
         "message":newMessage.value,
         "user": genId('userId',1),

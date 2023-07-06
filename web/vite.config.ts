@@ -1,7 +1,11 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type PluginOption } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import { visualizer } from 'rollup-plugin-visualizer';
+import UnoCSS from 'unocss/vite'
+import presetUno from '@unocss/preset-uno'
+import presetAttributify from '@unocss/preset-attributify'
+
 // import viteImagemin from 'vite-plugin-imagemin'
 
 import Components from 'unplugin-vue-components/vite'
@@ -10,8 +14,31 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    // rollup 配置
+    cssCodeSplit: true,
+    rollupOptions: {
+       //启用/禁用 CSS 代码拆分
+      output: {
+          // key自定义 value[] 插件同步package.json名称 或 src/相对路径下的指定文件 （自己可以看manualChunks ts类型）
+          manualChunks: {
+              // vue vue-router合并打包
+              'vue': ['vue', 'vue-router'],
+              'axios': ['axios'],
+              // element-plus按需引入
+              'element-plus': ['element-plus'],
+          }
+      }
+    }
+  },
+  esbuild:{
+    drop: ['console','debugger'], // 删除 所有的console 和 debugger
+  },
   plugins: [
     vue(),
+    UnoCSS({
+        presets: [presetUno(), presetAttributify()]
+    }),
     AutoImport({
       resolvers: [ElementPlusResolver()],
       imports: ['vue', 'vue-router'],
@@ -49,7 +76,11 @@ export default defineConfig({
     //     speed: 4
     //   }
     // }),
-    visualizer()
+    visualizer({
+      gzipSize: true,
+      brotliSize: true,
+      emitFile: false
+    })
   ],
   css: {
     preprocessorOptions: {
