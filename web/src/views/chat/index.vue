@@ -324,6 +324,7 @@ const getChatRecord = async() => {
         /* width: 100%; */
         font-size: $size_18;
         margin-right: 2rem;
+        white-space: pre-line;
       }
     }
     .emoji-box{
