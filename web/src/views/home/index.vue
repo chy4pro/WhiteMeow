@@ -69,6 +69,7 @@
 
 <script setup lang="ts">
 import { userMessage } from '@/store/index.js';
+import { hImage } from '@/utils/preloadImg.js';
 const messageStore = userMessage();
 const newMessage = ref('');
 const router = useRouter();
@@ -81,6 +82,39 @@ const sendMessage = () => {
   }
 
   router.push({ name: 'chat'});
+}
+
+onMounted(()=>{
+  loadImages();
+})
+
+//已加载完成的数量 
+const loadCount = ref(0);
+//执行下载所有图片
+const loadImages = ()=> {
+  let imgs = [
+    '111.gif',
+    'emoji/爱你.png',
+    'emoji/抱歉.png',
+    'emoji/不开心.png',
+    'emoji/吃惊.png',
+    'emoji/愤怒:暴躁.png',
+    'emoji/好奇.png',
+    'emoji/开心:哈哈.png',
+    'emoji/哭泣:伤心:难过.png',
+    'emoji/快乐.png',
+    'emoji/困.png',
+    'emoji/期待:好奇.png',
+    'emoji/请求.png',
+    'emoji/生气.png',
+    'emoji/无聊.png',
+    'emoji/拥抱:关爱.png',
+    'emoji/着急.png',
+  ]
+
+  for (let img of imgs) {
+    hImage(img)
+  }
 }
 </script>
 
