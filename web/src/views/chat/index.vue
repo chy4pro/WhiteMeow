@@ -151,7 +151,7 @@ onMounted(()=>{
   ws = reactive(new Socket({
     url: import.meta.env.VITE_API_WEBSOCKET_URL + '/customer/chat',//'ws://43.153.76.9:8888/customer/chat',
     name: '',			// name
-    isHeart:true,			// 是否心跳
+    isHeart:false,			// 是否心跳
     isReconnection:true,		// 是否断开重连
     received: function(data:any){
       // 监听服务器返回信息
