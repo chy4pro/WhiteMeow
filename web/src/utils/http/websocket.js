@@ -72,8 +72,8 @@ export default class Socket {
     _heartCheck() {
         this.pingInterval = setInterval(() => {
             if(this.ws.readyState === 1) {
-                // this.ws.send(JSON.stringify({heartbeat: true}))
-                this.ws.ping()
+                this.ws.send(new Int8Array([9]))
+                // this.ws.ping()
 
             }
         },this._timeout)
