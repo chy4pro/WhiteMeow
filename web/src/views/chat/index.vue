@@ -43,8 +43,6 @@ import Socket from "@/utils/http/websocket.js";
 import { genId } from "@/utils/idGenerator.js";
 import { useCounterStore, userMessage } from '@/store/index.js';
 
-const router = useRouter();
-const { query, params } = useRoute();
 const counter = useCounterStore();
 const messageStore = userMessage();
 
@@ -68,7 +66,7 @@ const recordList = reactive({
 });
 
 
-
+// 发送首页传过来的第一条消息
 const sendFirstMessage = ()=>{
   if(messageStore.firstMessage){
     newMessage.value = messageStore.firstMessage
@@ -77,6 +75,7 @@ const sendFirstMessage = ()=>{
   }
 }
 
+// 发送消息
 const sendMessage = () => {
   if(isConnect.value === true){
     if (newMessage.value) {
@@ -144,10 +143,11 @@ const showMore = () => {
 
 onMounted(()=>{
   let current_message_id:string = ''
-  let current_content:string = ''
 
   storage.setItem('auth', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyNDg2NTUsImlhdCI6MTY4MjMyODY1NSwidXNlcklkIjoyfQ.c54BKBpqCYhnnZU6LEsP04th9VUZ2q2jXEYmtu2k38U');
   scrollBottomFlag.value = true;
+
+  // scoket连接
   ws = reactive(new Socket({
     url: import.meta.env.VITE_API_WEBSOCKET_URL + '/customer/chat',//'ws://43.153.76.9:8888/customer/chat',
     name: '',			// name
@@ -188,29 +188,28 @@ onMounted(()=>{
     }
   }));
   ws.connect();
-  watch(()=> ws.status, (newValue, oldValue) => {
+
+  // 监听连接状态变化
+  watch(()=> ws.status, async(newValue, oldValue) => {
     console.log('myVariable 变化了:', newValue);
     if(newValue === 'open'){
       isConnect.value = true;
-      sendFirstMessage();
+      let result = await getChatRecord();
+      if(result && result.list && result.list.length > 0){
+        sendFirstMessage();
+      }
     }
     else{
       isConnect.value = false;
     }
   });
-  getChatRecord();
 }) 
 
-// watch(()=> ws.status, (newValue, oldValue) => {
-//   console.log('myVariable 变化了:', newValue);
-//   if(newValue === 'open'){
-//     isConnect.value = true;
-//     sendFirstMessage();
-//   }
-//   else{
-//     isConnect.value = false;
-//   }
-// });
+onBeforeRouteLeave((to, from, next) => {
+  ws.close();
+  next();
+})
+
 
 
 
@@ -255,6 +254,8 @@ const getChatRecord = async() => {
     else{
       //messages.push({ content: result.message, isUser: false })
     }
+
+    return result;
   } catch (err) {
     // loading.value = false
     // messages[messages.length - 1].content = err.message

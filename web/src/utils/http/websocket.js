@@ -73,7 +73,7 @@ export default class Socket {
         this.pingInterval = setInterval(() => {
             if(this.ws.readyState === 1) {
                 // this.ws.send(JSON.stringify({heartbeat: true}))
-                this.ws.ping()
+                //this.ws.ping()
 
             }
         },this._timeout)
