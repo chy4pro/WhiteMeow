@@ -151,7 +151,7 @@ onMounted(()=>{
   ws = reactive(new Socket({
     url: import.meta.env.VITE_API_WEBSOCKET_URL + '/customer/chat',//'ws://43.153.76.9:8888/customer/chat',
     name: '',			// name
-    isHeart:true,			// 是否心跳
+    isHeart:false,			// 是否心跳
     isReconnection:true,		// 是否断开重连
     received: function(data:any){
       // 监听服务器返回信息
@@ -351,12 +351,12 @@ const getChatRecord = async() => {
     padding: 5rem 1rem;
   }
   .cat-img{
-    width: 18rem;
-    height: 18rem;
+    width: 8rem;
+    height: 8rem;
     align-self: start;
     @include ipad{
-      width: 10rem;
-      height: 10rem;
+      width: 6rem;
+      height: 6rem;
     }
     @include phone{
       width: 5rem;
