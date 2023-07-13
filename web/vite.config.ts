@@ -24,11 +24,6 @@ export default defineConfig({
       output: {
           // key自定义 value[] 插件同步package.json名称 或 src/相对路径下的指定文件 （自己可以看manualChunks ts类型）
           manualChunks: {
-              // vue vue-router合并打包
-              'vue': ['vue', 'vue-router'],
-              'axios': ['axios'],
-              // element-plus按需引入
-              'element-plus': ['element-plus'],
           }
       }
     }
