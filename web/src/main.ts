@@ -1,10 +1,6 @@
 import { createApp } from 'vue'
 import router from './router'
 import "@/index.css";
-import "element-plus/theme-chalk/el-loading.css";
-import "element-plus/theme-chalk/el-message.css";
-import "element-plus/theme-chalk/el-notification.css";
-import "element-plus/theme-chalk/el-message-box.css";
 import 'uno.css'
 // import '@/utils/rem.js';
 

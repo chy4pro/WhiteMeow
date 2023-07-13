@@ -63,6 +63,9 @@
 </template>
 
 <script setup lang="ts">
+// element-plus
+import "element-plus/theme-chalk/el-loading.css";
+import "element-plus/theme-chalk/el-notification.css";
 import { ref } from 'vue';
 import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
 import { chat } from '@/apis/chat.ts'
