@@ -1,8 +1,6 @@
 <template>
-  <div class="main-container">
-    <HeaderLayout />
-    <MainLayout />
-  </div>
+  <HeaderLayout />
+  <MainLayout />
 </template>
 
 <script>

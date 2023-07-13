@@ -3,7 +3,7 @@ import home from '@/views/home/index.vue';
 import chat from '@/views/chat/index.vue';
 import feedbackSuccess from '@/views/feedbackSuccess/index.vue';
 import feedBack from '@/views/feedBack/index.vue';
-import intro from '@/views/intro/index.vue';
+// import intro from '@/views/intro/index.vue';
 // import smartForm from '../components/SmartForm/index.vue';
 
 export const routes: Array<RouteRecordRaw>  = [
@@ -26,11 +26,6 @@ export const routes: Array<RouteRecordRaw>  = [
     path: '/feedbackSuccess',
     name: 'feedbackSuccess',
     component: feedbackSuccess
-  },
-  {
-    path: '/intro',
-    name: 'intro',
-    component: intro
   }
 ]
 

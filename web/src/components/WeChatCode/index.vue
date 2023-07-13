@@ -1,15 +1,16 @@
 <template>
-  <div class="wechat-wrap" :class="initialObj">
-    <div class="title">白小喵在wx</div>
-    <div class="code-box">
-      <Image name="123.png" width="40" height="40"/>
+  <div class="w-80 mx-a mt-50 static right-55 bottom-55" :class="initialObj">
+    <div class="text-center color-white text-14 mb-10">白小喵在wx</div>
+    <div class="w-full h-80 text-center relative overflow-hidden">
+      <Image name="123.png" :width="70" :height="70"/>
     </div>
   </div>
 
 </template>
 <script setup>
 const initialObj = computed(()=>({
-  initial: props.position === 'initial'
+  static: props.position === 'static',
+  'md:fixed': props.position === 'fixed'
 }))
 
 const props = defineProps({
@@ -17,42 +18,10 @@ const props = defineProps({
     type: String,
     default: 'fixed',
     validator(value) {
-      return ['fixed', 'initial'].includes(value)
+      return ['fixed', 'static'].includes(value)
     }
   }
 });
 
 
 </script>
-<style lang="scss" scoped>
-.wechat-wrap{
-  width: 80px;
-  position: fixed;
-  right: 55px;
-  bottom: 55px;
-  &.initial{
-    position: initial;
-    margin: 20px auto;
-  }
-  @include phone{
-    position: initial;
-    margin: 20px auto;
-  }
-  .title{
-    text-align: center;
-    /* margin-bottom: 10px; */
-    color: #fff;
-  }
-  .code-box{
-    width: 100%;
-    height: 80px;
-
-    @include centerBox;
-    img{
-      width: 70px;
-      height: 70px;
-    }
-  }
-}
-
-</style>

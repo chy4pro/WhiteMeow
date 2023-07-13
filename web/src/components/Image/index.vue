@@ -23,15 +23,8 @@
     },
   });
 
-  const styleObj = () =>{
-    if(props.width){
-      return {width: props.width+'px'}
-    }
-    if(props.height){
-      return {height: props.height + 'px'}
-    }
-    if(props.width && props.height){
-      return {width: props.width+'px', height: props.height + 'px'}
-    }
-  }
+  const styleObj = reactive({
+    width: props.width+'px',
+    height: typeof props.height == 'number' ?  props.height + 'px' : props.height,
+  })
 </script>

@@ -1,33 +1,41 @@
-// @ts-nocheck
+import { defineConfig, presetAttributify, presetUno, transformerDirectives } from 'unocss'
 
-import { defineConfig, presetAttributify, presetUno } from 'unocss'
+const remRE = /(-?[\.\d]+)rem/g
+
 export default defineConfig({
+  transformers: [
+    transformerDirectives(),
+  ],
+
   shortcuts: {
     'wh-full': 'w-full h-full',
     'wh-screen': 'w-screen h-screen',
     'wh-auto': 'w-auto h-auto',
+    'flex-center': 'flex items-center justify-center',
+    'flex-col-center': 'flex flex-col items-center justify-center',
+    'flex-row-center': 'flex flex-row items-center justify-center',
+    'flex-col-start': 'flex flex-col items-start justify-start',
+    'flex-row-start': 'flex flex-row items-start justify-start',
+    'flex-col-end': 'flex flex-col items-end justify-end',
+    'flex-row-end': 'flex flex-row items-end justify-end',
+    'flex-col-between': 'flex flex-col items-between justify-between',
+    'flex-row-between': 'flex flex-row items-between justify-between',
+    'flex-col-around': 'flex flex-col items-around justify-around',
+    'flex-row-around': 'flex flex-row items-around justify-around',
+    'flex-col-evenly': 'flex flex-col items-evenly justify-evenly',
+    'flex-row-evenly': 'flex flex-row items-evenly justify-evenly',
   },
   rules: [
-    [/^bc-(.+)$/, ([, color]) => ({ 'border-color': `#${color}` })],
-    // @ts-ignore
-    [/^m-(\d+)$/, ([, d]) => ({ margin: `${d * 0.1}rem` })],
-    [/^ml-(\d+)$/, ([, d]) => ({ 'margin-left': `${d * 0.1}rem` })],
-    [/^mr-(\d+)$/, ([, d]) => ({ 'margin-right': `${d * 0.1}rem` })],
-    [/^mt-(\d+)$/, ([, d]) => ({ 'margin-top': `${d * 0.1}rem` })],
-    [/^mb-(\d+)$/, ([, d]) => ({ 'margin-bottom': `${d * 0.1}rem` })],
-    [/^p-(\d+)$/, ([, d]) => ({ padding: `${d * 0.1}rem` })],
-    [/^pl-(\d+)$/, ([, d]) => ({ 'padding-left': `${d * 0.1}rem` })],
-    [/^pr-(\d+)$/, ([, d]) => ({ 'padding-right': `${d * 0.1}rem` })],
-    [/^pt-(\d+)$/, ([, d]) => ({ 'padding-top': `${d * 0.1}rem` })],
-    [/^pb-(\d+)$/, ([, d]) => ({ 'padding-bottom': `${d * 0.1}rem` })],
+
   ],
   theme: {
-    // screens: {
-    //   sm: '480px',
-    //   md: '768px',
-    //   lg: '976px',
-    //   xl: '1440px',
-    // },
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+      '2xl': '1536px'
+    },
     colors: {
       'blue': '#1fb6ff',
       'purple': '#7e5bef',
@@ -40,6 +48,9 @@ export default defineConfig({
       'gray-light': '#d3dce6',
     },
     extend: {
+      maxWidth: {
+        '1/2': '50%',
+      },
       spacing: {
         '128': '32rem',
         '144': '36rem',

@@ -1,30 +1,29 @@
 <template>
-  <div class="feedback-bg bg-box">
+  <div class="bg-box wh-full">
     <div class="container-box">
       <NavBar showLogo/>
 
-      <div class="feedback-wrap">
-        <h1 class="feedback-title">联系铲屎官</h1>
-        <div class="input-container mb-10">
-          <el-input
+      <div class="w-full max-w-500 text-center">
+        <h1 class="text-30 font-700 color-white">联系铲屎官</h1>
+        <div class="input-container mb-10 bg-white">
+          <input
             type="text"
             class="chat-input"
-            :autosize="{ minRows: 2, maxRows: 4}"
             placeholder="欢迎尽情向铲屎官吐槽白小喵！"
             v-model="commentTitle"
           />
         </div>
-        <div class="input-container">
-          <el-input
+        <div class="input-container h-a bg-white">
+          <textarea
             type="textarea"
-            class="chat-input textarea"
-            :autosize="{ minRows: 8, maxRows: 10}"
+            class="chat-input"
+            rows="10"
             placeholder=""
             v-model="commentContent"
-          />
+          ></textarea>
         </div>
-        <div class="feedback-btn-list">
-          <el-button color="#fff" round size="large" class="submit-btn" @click="submit">提交</el-button>
+        <div class="mt-20">
+          <el-button color="#fff" size="large" class="w-200 color-[--green-1] border-3 border-solid border-color-[--gray-1] border-rd-10 hover:border-color-[--gray-1]" @click="submit">提交</el-button>
         </div>
       </div>
     </div>
@@ -57,40 +56,3 @@ const submit = async() => {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-
-.feedback-wrap{
-  width: 100%;
-  height: 100%;
-  @include flex-center;
-  flex-direction: column;
-  .feedback-title{
-    font-size: 30px;
-    font-weight: bold;
-    color: #fff;
-    margin-top: 20px;
-  }
-  
-  .feedback-btn-list{
-    margin-top: 20px;
-    .feedback-btn{
-      margin-right: 20px;
-      /* font-family: KuaiLe; */
-      color: $green_1;
-    }
-  }
-
-  .input-container{
-    background-color: #fff;
-  }
-}
-
-.submit-btn{
-  width: 200px;
-  /* font-family: KuaiLe; */
-  color: $green_1;
-  border: 3px solid $gray_1;
-  border-radius: 10px;
-}
-</style>

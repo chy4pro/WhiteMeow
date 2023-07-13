@@ -1,15 +1,15 @@
 <template>
-  <div class="nav-bar">
-    <div class="logo" :style="{'visibility': (props.showLogo ? 'visible' : 'hidden')}"  @click="goHome">
-      <Image name="catpaw.png" alt="" />
-      <div class="logo-text">GQ Tech</div>
+  <div class="w-full h-auto fixed left-0 top-0 px-10 py-20 box-border flex flex-row flex-nowrap justify-between flex-items-center z-1000">
+    <div class="text-center cursor-pointer" :style="{'visibility': (props.showLogo ? 'visible' : 'hidden')}"  @click="goHome">
+      <Image name="catpaw.png" alt="" :width="60" :height="'auto'"/>
+      <div class="text-20 font-700 color-[--green-1]">GQ Tech</div>
     </div>
-    <div class="btn-group">
+    <div class="flex flex-row flex-nowrap flex-justify-start flex-items-center">
       <div class="icon-wrap" @click="goHome">
-        <Image name="home.png" alt="" />
+        <Image name="home.png" alt="" :width="40"/>
       </div>
       <div class="icon-wrap" @click="goFeedBack">
-        <Image name="email.png" alt="" />
+        <Image name="email.png" alt="" :width="40"/>
       </div>
     </div>
   </div>
@@ -35,42 +35,8 @@ const goFeedBack = () => {
 
 </script>
 
-<style lang="scss" scoped>
-.nav-bar{
-  width: 100%;
-  height: auto;
-  position: fixed;
-  left: 0;
-  top: 0;
-  padding: 10px 20px;
-  box-sizing: border-box;
-  @include flex-between;
-  .logo{
-    text-align: center;
-    cursor: pointer;
-    img{
-      width: 60px;
-      height: auto;
-    }
-    .logo-text{
-      font-size: 20px;
-      font-weight: bold;
-      color: $green_1;
-    }
-  }
-}
-.btn-group{
-  @include flex-start;
-  justify-self: flex-end;
-  .icon-wrap{
-    width: 40px;
-    height: 40px;
-    margin-right: 15px;
-    cursor: pointer;
-    img{
-      width: 100%;
-      height: 100%;
-    }
-  }
+<style scoped>
+.icon-wrap{
+  --at-apply: w-40 h-40 mr-15 cursor-pointer;
 }
 </style>

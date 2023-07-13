@@ -2,9 +2,10 @@ import { defineConfig, type PluginOption } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import { visualizer } from 'rollup-plugin-visualizer';
-import UnoCSS from 'unocss/vite'
-import presetUno from '@unocss/preset-uno'
-import presetAttributify from '@unocss/preset-attributify'
+import UnoCSS from 'unocss/vite';
+import presetUno from '@unocss/preset-uno';
+import presetAttributify from '@unocss/preset-attributify';
+
 import viteCompression from 'vite-plugin-compression'
 
 // import viteImagemin from 'vite-plugin-imagemin'
@@ -84,16 +85,6 @@ export default defineConfig({
       emitFile: false
     })
   ],
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `
-          @import "@/styles/variables.scss";
-          @import "@/styles/mixin.scss";
-          `,
-      },
-    },
-  },
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'src/assets/images'),

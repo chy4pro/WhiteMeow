@@ -1,24 +1,51 @@
 <template>
-  <div class="chat-bg bg-box wh-full">
+  <div class="bg-box wh-full">
     <div class="container-box">
       <NavBar/>
       <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
 
-      <div class="message-list" ref="messageList">
+      <div class="h-full box-border overflow-y-auto relative mt-122 mb-120" ref="messageList">
         <div class="more-btn" @click="showMore" v-if="recordList.page*recordList.page_size < pageTotal">查看更多</div>
-        <div class="message-row mb-10" v-for="(message, index) in messages" :key="index" :class="{ 'user-message': message.isUser }">
-          <div class="message-item">
-            <div class="message-content">{{ message.content }}</div>
+
+        <div class="flex flex-items-end mb-10 flex-nowrap px-30 " v-for="(message, index) in messages" :key="index" :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
+          <div class="
+            flex-self-start
+            color-[--green-1]
+            max-w-1/2
+            border-2
+            border-solid
+            border-[--gray-1]
+            b-rd-[15px]
+            bg-[--white-1]
+          ">
+            <div class="
+              mr-20
+              whitespace-pre-line
+              p-10
+              line-height-normal
+            ">{{ message.content }}</div>
           </div>
-          <div class="emoji-box">
+          <div class="
+            w-5
+            h-5
+            center-box
+          ">
               <img :src="getEmojiUrl(message.emoji)" alt="" v-if="message.emoji!==0"/>
             </div>
         </div>
       </div>
 
-      <div class="chat-bottom-fixed">
-        <div class="input-container mr-30">
-          <el-input
+      <div class="
+        w-full
+        fixed
+        bottom-0
+        left-0
+        z-1000
+        p-30
+        flex-center
+        box-border">
+        <div class="input-container w-full mr-30">
+          <input
             type="text"
             class="chat-input"
             placeholder="点击聊天"
@@ -29,7 +56,7 @@
             <Image name="airplant.svg" class="fly-icon" />
           </div>
         </div>
-        <Image class="cat-img" name="111.gif" alt="" />
+        <Image name="111.gif" class="self-start" alt="" :width="'80px'" :height="'80px'"/>
       </div>
     </div>
   </div>
@@ -268,125 +295,15 @@ const getChatRecord = async() => {
 
 </script>
 
-<style lang="scss" scoped>
-.container-box{
-  overflow: hidden;
-}
-.chat-bg.bg-box {
-  /* background: url('@/assets/images/chat-bg.png') no-repeat center;
-  background-size: 100% 100%; */
-  background: rgb(255,164,237);
-  background: linear-gradient(130deg, rgba(255,164,237,1) 0%, rgba(255,221,236,1) 100%);
-  @include phone{
-    padding: 8rem 1rem 12rem 1rem;
-  }
-}
-
-.message-list {
-  height: 100%;
-  box-sizing: border-box;
-  overflow-y: auto;
-  position: relative;
-  padding-top: 30px;
-  .more-btn{
-    position: absolute;
-    top: 0px;
-    left: 50%;
-    z-index: 1000;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  .message-row{
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-    width: 100%;
-    &.user-message {
-      justify-content: flex-start;
-      > .message-item {
-        align-self: flex-start;
-        background-color: $white_1;
-        border: 0.2rem solid $gray_1;
-      }
-    }
-    .message-item {
-      max-width: 50%;
-      border-radius: 1.5rem;
-      color: $green_1;
-      background-color: $pink_1;
-      border: 0.2rem solid $gray_1;
-      align-self: flex-end;
-      padding: 0.5rem 1.5rem;
-      @include flex-start;
-
-      .message-content {
-        /* width: 100%; */
-        font-size: $size_18;
-        margin-right: 2rem;
-        white-space: pre-line;
-      }
-    }
-    .emoji-box{
-      width: 5rem;
-      height: 5rem;
-      @include centerBox;
-    }
-  }
-}
-
-.chat-bottom-fixed{
-  width: 100%;
-  max-width: 120rem;
-  position: fixed;
-  bottom: 0;
+<style scoped>
+.more-btn{
+  position: absolute;
+  top: 0px;
   left: 50%;
-  transform: translateX(-50%);
-  z-index: 999;
-  padding: 5rem 10rem;
-  box-sizing: border-box;
-  @include flex-between;
-  @include phone{
-    padding: 5rem 1rem;
-  }
-  .cat-img{
-    width: 8rem;
-    height: 8rem;
-    align-self: start;
-    @include ipad{
-      width: 6rem;
-      height: 6rem;
-    }
-    @include phone{
-      width: 5rem;
-      height: 5rem;
-    }
-  }
-}
-
-::v-deep .el-input__wrapper{
-  background-color: transparent;
-}
-
-.arrow-left{
-  width: 4rem;
-  height: 4rem;
-  background-color: transparent;
-  border-color: #fff;
-  border-style: solid;
-  border-width: 1rem 1rem 0 0;
-  transform: rotate(-135deg) translateY(8rem);
-  position: fixed;
-  left: 0;
-  top: 50%;
   z-index: 1000;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 20px;
   cursor: pointer;
-  @include phone{
-    width: 2rem;
-    height: 2rem;
-    left: -30px;
-    top: 90px;
-  }
 }
 </style>
