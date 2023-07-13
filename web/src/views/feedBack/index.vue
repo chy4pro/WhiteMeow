@@ -3,7 +3,7 @@
     <div class="container-box">
       <NavBar showLogo/>
 
-      <div class="w-full max-w-500 text-center">
+      <div class="w-full max-w-500 text-center box-border px-30">
         <h1 class="text-30 font-700 color-white">联系铲屎官</h1>
         <div class="input-container mb-10 bg-white">
           <input
