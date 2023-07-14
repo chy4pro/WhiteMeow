@@ -1,4 +1,4 @@
-import { defineConfig, presetAttributify, presetUno, transformerDirectives } from 'unocss'
+import { defineConfig, presetAttributify, presetUno, transformerDirectives, presetIcons } from 'unocss'
 
 const remRE = /(-?[\.\d]+)rem/g
 
@@ -63,5 +63,12 @@ export default defineConfig({
   presets: [
     presetUno(), 
     presetAttributify(),
+    presetIcons({
+      /* options */
+      prefix: 'i-',
+      extraProperties: {
+        display: 'inline-block'
+      }
+    })
   ]
 })

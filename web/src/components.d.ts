@@ -7,8 +7,10 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ClarityEyeHideLine: typeof import('./components/Icon/ClarityEyeHideLine.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElPopover: typeof import('element-plus/es')['ElPopover']
+    EyeHideLine: typeof import('./components/Icon/eye-hide-line.vue')['default']
     Image: typeof import('./components/Image/index.vue')['default']
     NavBar: typeof import('./components/NavBar/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
