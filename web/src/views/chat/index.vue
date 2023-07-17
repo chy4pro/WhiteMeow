@@ -225,7 +225,7 @@ onMounted(()=>{
     if(newValue === 'open'){
       isConnect.value = true;
       let result = await getChatRecord();
-      if(result && result.list && result.list.length > 0){
+      if(Object.keys(result as object).length > 0){
         sendFirstMessage();
       }
     }
