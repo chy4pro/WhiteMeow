@@ -12,7 +12,7 @@ export default class Socket {
         this.status = null;
         this.pingInterval = null;
         // 心跳检测频率
-        this._timeout = 50000;
+        this._timeout = 40000;
         this.isHeart = options.isHeart;
         this.isReconnection = options.isReconnection;
     }
