@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-box wh-full" :class="colorDemo">
+  <div class="bg-box wh-full">
     <div class="container-box">
       <NavBar/>
       <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
 
-      <div class="wh-full box-border overflow-y-auto relative mt-122 mb-120 py-30" ref="messageList">
+      <div class="h-full box-border overflow-y-auto relative mt-122 mb-120 py-30" ref="messageList">
         <div class="more-btn" @click="showMore" v-if="recordList.page*recordList.page_size < pageTotal">查看更多</div>
 
         <div class="flex flex-items-end mb-10 flex-nowrap px-30 " v-for="(message, index) in messages" :key="index" :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
@@ -104,7 +104,7 @@ const sendFirstMessage = ()=>{
     sendMessage()
   }
 }
-let colorDemo:any = '';
+
 // 发送消息
 const sendMessage = () => {
   if(isConnect.value === true){
@@ -129,18 +129,6 @@ const sendMessage = () => {
         "user": genId('userId',1),
         "open_kf_id": "wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA"
       }
-
-      colorDemo = reactive({
-        'css1': newMessage.value.indexOf('你好')!=-1,
-        'css2': newMessage.value.indexOf('开心')!=-1,
-        'css3': newMessage.value.indexOf('但是')!=-1,
-      })
-
-      // setTimeout(()=>{
-      //   delete colorDemo['bg-gradient-to-r bg-gradient-from-[rgba(255,164,237,1)] bg-gradient-to-[#d0e6a5]']
-      //   delete colorDemo['bg-gradient-to-r bg-gradient-from-[#d0e6a5] bg-gradient-to-[#ffdd94]']
-      //   delete colorDemo['bg-gradient-to-r bg-gradient-from-[#ffdd94] bg-gradient-to-[#86e3ce]']
-      // },15000)
       ws.sendMsg(sendData)
       newMessage.value = ''
       scrollBottomFlag.value = true;
@@ -155,8 +143,6 @@ const sendMessage = () => {
   }
 
 };
-
-
 
 const scrollToBottom = async() => {
   await nextTick()
