@@ -4,7 +4,7 @@
       <NavBar/>
       <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
 
-      <div class="h-full box-border overflow-y-auto relative mt-122 mb-120 py-30" ref="messageList">
+      <div class="wh-full box-border overflow-y-auto relative mt-122 mb-120 py-30" ref="messageList">
         <div class="more-btn" @click="showMore" v-if="recordList.page*recordList.page_size < pageTotal">查看更多</div>
 
         <div class="flex flex-items-end mb-10 flex-nowrap px-30 " v-for="(message, index) in messages" :key="index" :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
