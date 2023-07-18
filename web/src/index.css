@@ -14,7 +14,7 @@ html{
   font-variation-settings: normal;
   line-height: 1;
   tab-size: 4;
-  font-size: 25%;
+  font-size: 4px;
 }
 
 html, body{
@@ -41,6 +41,84 @@ body{
   background: linear-gradient(130deg, rgba(255,164,237,1) 0%, rgba(255,221,236,1) 100%);
 }
 
+.css1{
+  background: linear-gradient(270deg, #d0e6a5, rgba(255,164,237,1));
+  background-size: 400% 400%;
+  -webkit-animation: AnimationName 15s ease forwards;
+  -moz-animation: AnimationName 15s ease forwards;
+  animation: AnimationName 15s ease forwards;
+  /* background: linear-gradient(270deg, #d0e6a5, rgba(255,164,237,1)); */
+}
+.css2{
+  background: linear-gradient(270deg, #ffdd94, #d0e6a5);
+  background-size: 400% 400%;
+  -webkit-animation: AnimationName2 15s ease forwards;
+  -moz-animation: AnimationName2 15s ease forwards;
+  animation: AnimationName2 15s ease forwards;
+}
+.css3{
+  background: linear-gradient(270deg, #86e3ce, #ffdd94);
+  background-size: 400% 400%;
+  -webkit-animation: AnimationName3 15s ease forwards;
+  -moz-animation: AnimationName3 15s ease forwards;
+  animation: AnimationName3 15s ease forwards;
+}
+
+@-webkit-keyframes AnimationName {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+@-moz-keyframes AnimationName {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes AnimationName {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes AnimationName2 {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes AnimationName3 {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
 .center-box {
   --at-apply: relative hidden;
 }
