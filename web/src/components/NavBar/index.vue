@@ -29,9 +29,3 @@ const goFeedBack = () => {
 };
 
 </script>
-
-<style scoped>
-.icon-wrap{
-  --at-apply: w-40 h-40 mr-15 cursor-pointer;
-}
-</style>
