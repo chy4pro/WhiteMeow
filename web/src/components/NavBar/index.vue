@@ -1,16 +1,11 @@
 <template>
-  <div class="w-full h-auto fixed left-0 top-0 px-10 py-20 box-border flex flex-row flex-nowrap justify-between flex-items-center z-1000">
-    <div class="text-center cursor-pointer" :style="{'visibility': (props.showLogo ? 'visible' : 'hidden')}"  @click="goHome">
-      <Image name="catpaw.png" alt="" :width="60" :height="'auto'"/>
-      <div class="text-20 font-700 color-[--green-1]">GQ Tech</div>
+  <div class="w-full h-auto fixed left-0 top-0 box-border flex-row-between z-1000 bg-white">
+    <div class="cursor-pointer" :style="{'visibility': (props.showLogo ? 'visible' : 'hidden')}"  @click="goHome">
+      <Image name="logo.svg" :width="'128px'" :height="'56px'" class="ml-40px my-8px"/>
     </div>
-    <div class="flex flex-row flex-nowrap flex-justify-start flex-items-center">
-      <div class="icon-wrap" @click="goHome">
-        <Image name="home.png" alt="" :width="40"/>
-      </div>
-      <div class="icon-wrap" @click="goFeedBack">
-        <Image name="email.png" alt="" :width="40"/>
-      </div>
+    <div>
+      <Image name="personal.svg" alt="" :width="'40px'" :height="'40px'" class="mr-24px cursor-pointer" @click="goHome"/>
+      <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/>
     </div>
   </div>
 
