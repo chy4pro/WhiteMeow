@@ -4,6 +4,7 @@
   --pink-1: #EAD3DE;
   --green-1: #156669;
   --white-1: #EEECDE;
+  --pink-01: #FFDFFC;
 }
 
 html{
@@ -37,8 +38,8 @@ body{
 }
 .bg-box {
   --at-apply: wh-full flex flex-col flex-items-center overflow-auto;
-  background: rgb(255,164,237);
-  background: linear-gradient(130deg, rgba(255,164,237,1) 0%, rgba(255,221,236,1) 100%);
+  background: #FFDFFC;
+  /* background: linear-gradient(130deg, rgba(255,164,237,1) 0%, rgba(255,221,236,1) 100%); */
 }
 
 .css1{
@@ -151,3 +152,18 @@ body{
   --un-translate-y:-50%;
   --at-apply: w-40 h-40 absolute right-30 top-50% transform-gpu;
 }
+
+/*reset ant design*/
+:root .pink-checkbox .ant-checkbox-checked .ant-checkbox-inner{
+  background-color: #F18FDB;
+  border-color: #F18FDB;
+}
+:root .pink-checkbox .ant-checkbox-checked .ant-checkbox-inner{
+  background-color: #F18FDB;
+  border-color: #F18FDB;
+}
+:root .pink-checkbox.ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox-checked:not(.ant-checkbox-disabled) .ant-checkbox-inner{
+  background-color: #F18FDB;
+  border-color: #F18FDB;
+}
+/*reset ant design*/
