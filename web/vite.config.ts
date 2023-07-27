@@ -7,6 +7,7 @@ import presetUno from '@unocss/preset-uno';
 import presetAttributify from '@unocss/preset-attributify';
 
 import viteCompression from 'vite-plugin-compression'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 
 // import viteImagemin from 'vite-plugin-imagemin'
 
@@ -49,7 +50,9 @@ export default defineConfig({
       },
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver(),AntDesignVueResolver({
+        importStyle: false, // css in js
+      })],
       // 指定组件位置，默认是src/components
       dirs: ['src/components'],
       // ui库解析器

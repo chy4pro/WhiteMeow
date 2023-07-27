@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/lodash-es": "^4.17.7",
+    "ant-design-vue": "4.x",
     "cherry-id": "^0.0.4",
     "element-plus": "^2.3.6",
     "lodash-es": "^4.17.21",
