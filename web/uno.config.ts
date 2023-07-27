@@ -26,15 +26,29 @@ export default defineConfig({
     'flex-row-evenly': 'flex flex-row items-center justify-evenly',
   },
   rules: [
-
+    // 动态背景
+    [
+      /^uno-bg-(.*)$/,
+      ([_, d]) => {
+        let img = d.split('.')[0]
+        let type = d.split('.')[1]
+        return {
+          background: `url('./src/assets/images/${img}.${type}')`,
+          'background-size': '100% 100%',
+          'background-repeat': 'no-repeat',
+          'box-sizing': 'border-box'
+        }
+      }
+    ]
   ],
   theme: {
     screens: {
       sm: '480px',
-      md: '768px',
-      lg: '976px',
-      xl: '1440px',
-      '2xl': '1536px'
+      md: '750px',
+      lg: '1080px',
+      xl: '1336px',
+      '2xl': '1536px',
+      '3xl': '1920px'
     },
     colors: {
       'blue': '#1fb6ff',
@@ -70,5 +84,5 @@ export default defineConfig({
         display: 'inline-block'
       }
     })
-  ]
+  ],
 })
