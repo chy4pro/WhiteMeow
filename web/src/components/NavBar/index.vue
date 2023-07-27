@@ -4,7 +4,7 @@
       <Image name="logo.svg" :width="'128px'" :height="'56px'" class="ml-40px my-8px"/>
     </div>
     <div>
-      <Image name="personal.svg" alt="" :width="'40px'" :height="'40px'" class="mr-24px cursor-pointer" @click="goHome"/>
+      <Image name="personal.svg" alt="" :width="'40px'" :height="'40px'" class="mr-24px cursor-pointer" @click="goRegister"/>
       <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/>
     </div>
   </div>
@@ -24,6 +24,9 @@ const props = defineProps({
 const goHome = () => {
   router.push({ path: '/' });
 };
+const goRegister = () => {
+  router.push({ path: '/register' });
+}
 const goFeedBack = () => {
   router.push({ path: '/feedBack' });
 };

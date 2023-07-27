@@ -1,69 +1,71 @@
 <template>
-  <div class="bg-box">
+  <div class="bg-box wh-full">
     <NavBar showLogo/>
-    
-    <div class="container text-center box-border px-20">
-      <Image name="home-cat.png" :width="300" :height="300" class="mt-50"/>
+    <div class="
+      fixed
+      w-111rem
+      h-111rem
+      rounded-50%
+      bottom--60rem
+      left--35rem
+      bg-[rgba(241,143,219,0.21)]">
+    </div>
 
-      <h1 class="text-30 color-white font-700 mt-20">白小喵每天陪着你哦</h1>
-      <div>
-        <el-popover
-        :width="200"
-        trigger="hover"
-        content="有人欺负你或者心情不好，请尽管告诉本喵，本喵专治各种不开心"
-        placement="top"
-        >
-          <template #reference>
-            <el-button color="#fff" round class="intro-btn">喵喵聊愈</el-button>
-          </template>
-        </el-popover>
-        <el-popover
-        :width="200"
-        trigger="hover"
-        content="当本喵还是小小喵的时候就已经熟读知识百科，不信你来考考我呀!"
-        placement="top"
-        >
-          <template #reference>
-            <el-button color="#fff" round class="intro-btn">喵答百科</el-button>
-          </template>
-        </el-popover>
-        <el-popover
-        :width="200"
-        trigger="hover"
-        content="不瞒你说，本喵参加过的考试千千万万，作业不会问问我，说不定我就会呢~"
-        placement="top"
-        >
-          <template #reference>
-            <el-button color="#fff" round class="intro-btn">喵写作业</el-button>
-          </template>
-        </el-popover>
-        <el-popover
-        :width="200"
-        trigger="hover"
-        content="出个主意，写个文案，方案，小作文啥的，本喵也非常擅长"
-        placement="top"
-        >
-          <template #reference>
-            <el-button color="#fff" round class="intro-btn">职场答喵</el-button>
-          </template>
-        </el-popover>
-      </div>
+    <div class="
+      fixed
+      w-42rem
+      h-42rem
+      rounded-50%
+      top--12rem
+      right-15.9rem
+      bg-[rgba(241,143,219,0.21)]">
+    </div>
 
-      <div class="input-container w-full bg-white mt-50 m-a">
-        <input
-          type="text"
-          class="chat-input"
-          placeholder="从这里输入开始撸喵～"
-          v-model="newMessage"
-          @keyup.enter.native="sendMessage"
-        />
-        <div 
-        class="send-button" @click="sendMessage">
-          <Image name="airplant.svg" :width="40" :height="40"/>
+    <div class="
+      w-108rem
+      h-72rem
+      max-w-1080px
+      max-h-720px
+      bg-[rgba(255,255,255,0.7)]
+      backdrop-blur-11.5px
+      rounded-24px
+      mt-18rem
+      mb-18rem
+      shadow-lg 
+      shadow-[rgba(209,126,201,0.45)]
+      flex-shrink-0
+      ">
+      <div class="uno-bg-home-panel-bg.svg wh-full">
+        <Image name="catpaw-logo.svg" :width="'16.5rem'" :height="'4.3rem'" class="ml-4rem mt-4.2rem max-w-165px"/>
+        <div class="
+          absolute
+          top-11.6rem
+          left-50%
+          transform
+          translate-x--50%
+          flex
+          flex-col-center">
+          <div>
+            <Image name="catpaw-rounded-icon.svg" :width="'20rem'" :height="'20rem'" class="max-w-200px max-h-200px"/>
+          </div>
+          <div class="mt-64px xs: mt-6px">
+            <Image name="slogan-text.svg" :width="'48rem'" :height="'4.3rem'"  class="max-w-480px"/>
+          </div>
+          <div class="
+            mt-80px
+            w-28rem
+            h-5.6rem
+            max-w-280px
+            rounded-6px
+            bg-black
+            color-white" @click="goToChat"
+            >
+            <h1 class="text-2rem text-center line-height-5.6rem m-0 cursor-pointer">开始撸猫</h1>
+          </div>
         </div>
-      </div>
 
-      <WeChatCode/>
+        
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +84,10 @@ const sendMessage = () => {
     newMessage.value = '';
   }
 
+  router.push({ name: 'chat'});
+}
+
+const goToChat = () => {
   router.push({ name: 'chat'});
 }
 
