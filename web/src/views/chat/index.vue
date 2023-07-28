@@ -4,10 +4,10 @@
       <NavBar/>
       <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
 
-      <div class="wh-full box-border overflow-y-auto relative mt-122 mb-120 py-30" ref="messageList">
+      <div class="wh-full box-border overflow-y-auto relative mt-12.2rem mb-12rem py-30px" ref="messageList">
         <div class="more-btn" @click="showMore" v-if="recordList.page*recordList.page_size < pageTotal">查看更多</div>
 
-        <div class="flex flex-items-end mb-10 flex-nowrap px-30 " v-for="(message, index) in messages" :key="index" :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
+        <div class="flex flex-items-end mb-10px flex-nowrap px-30px " v-for="(message, index) in messages" :key="index" :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
           <div class="
             flex-self-start
             color-[--green-1]
@@ -19,9 +19,9 @@
             bg-[--white-1]
           ">
             <div class="
-              mr-20
+              mr-20px
               whitespace-pre-line
-              p-10
+              p-10px
               line-height-normal
             ">{{ message.content }}</div>
           </div>
@@ -44,7 +44,7 @@
         p-30
         flex-center
         box-border">
-        <div class="input-container w-full mr-30">
+        <div class="input-container w-full mr-30px">
           <input
             type="text"
             class="chat-input"
@@ -89,7 +89,7 @@ const scrollBottomFlag = ref(false);
 const recordList = reactive({
   page: 1,
   page_size: 10,
-  user: genId('userId',1),
+  user: storage.getItem('newUserId') || genId('userId',1),
   open_kf_id: 'wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA',
   start_created_at: '',
   end_created_at: ''

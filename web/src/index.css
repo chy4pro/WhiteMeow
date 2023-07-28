@@ -136,7 +136,7 @@ body{
 }
 
 .input-container{
-  --at-apply: h-50 b-rounded-15 box-border relative  overflow-hidden max-w-500 border-solid border-2 border-[--gray-1];
+  --at-apply: h-5.7rem b-rounded-15px box-border relative  overflow-hidden max-w-500 border-solid border-2 border-[--gray-1];
 }
 
 .chat-input{

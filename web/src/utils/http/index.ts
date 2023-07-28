@@ -22,6 +22,7 @@ interface ResultData<T> {
   data?: T;
   list?: Array<T>;
   token?: string;
+  user?: string | number;
   [key: string]: unknown;
 }
 const URL: string = import.meta.env.VITE_API_BASE_URL

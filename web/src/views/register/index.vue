@@ -328,7 +328,7 @@ const updateLoginStatus = async() => {
   //loginStore.isLogin = true;
   try {
     let params = {
-      "user": genId('userId', 1),
+      "user": newUserId.value ? newUserId.value : genId('userId', 1) ,
       "password": "123456",
       "status": 1
     }
@@ -371,6 +371,7 @@ const getUserInfo = async() =>{
   }
 }
 const autoLoginForIdentify = ref<boolean>(false)
+const newUserId = ref('')
 // 验证码登录
 const startLogin = async() => {
 
@@ -387,6 +388,10 @@ const startLogin = async() => {
       .then(async()=>{
         disabledCodeLogin.value=false;
         const result = await loginByCode(params);
+        if(result && result.user){
+          newUserId.value = result.user
+          storage.setItem('newUserId',result.user)
+        }
         updateLoginStatus()
       }).catch((err)=>{
         //return true

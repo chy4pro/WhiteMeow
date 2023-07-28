@@ -24,7 +24,8 @@ export const useLoginStore = defineStore('login', {
   state: () => ({
     isLogin: storage.getItem('token') ? true : false,
     token: '',
-    userInfo: {}
+    userInfo: {},
+    newUserId: ''
   }),
   actions: {
     login() {
