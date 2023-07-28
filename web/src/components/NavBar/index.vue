@@ -4,7 +4,7 @@
       <Image name="icon40_home.svg" :width="'40px'" :height="'40px'" class="ml-64px my-8px"/>
     </div>
     <div class="relative mr-64px ">
-      <Image name="personal.svg" alt="" :width="'40px'" :height="'40px'" class="cursor-pointer" @mouseenter="open = true"/>
+      <Image name="personal.svg" alt="" :width="'40px'" :height="'40px'" class="cursor-pointer" @mouseenter="open = true" @click="goRegister"/>
       <!-- <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/> -->
       <transition name="fade">
         <div v-if="open" class="absolute left-50% transform
@@ -14,7 +14,7 @@
               <div class="w-full text-center pb-12px color-#666 text-16px mt-20px border-b border-b-solid border-b-[#E7E7E7]">{{ nickname }}</div>
             </div>
 
-            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" @click="goRegister">
+            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" @click="goPersonal">
             <div class="py-12px flex-row-center ">
               <Image name="icon24_account.svg" :width="'24px'" :height="'24px'" />
               <span class="text-16px font-500 line-height-normal">个人中心</span>
@@ -39,6 +39,7 @@
 import { useLoginStore } from '@/store/index.js';
 import { logout } from '@/apis/login.ts'
 import { storage } from '@/utils/index.ts'
+import { message } from 'ant-design-vue';
 const router = useRouter();
 const loginStore = useLoginStore();
 
@@ -53,14 +54,22 @@ const nickname = storage.getItem('nickname') || ''
 const goHome = () => {
   router.push({ path: '/' });
 };
-const goRegister = () => {
-  router.push({ path: '/register' });
-}
+
 const goFeedBack = () => {
   router.push({ path: '/feedBack' });
 };
 let token = ref('')
 token = storage.getItem('token')
+
+const goPersonal = () => {
+  if(!token){
+    message.info('请先登录一下哦')
+    router.push({ path: '/register' });
+  }
+}
+const goRegister = () => {
+  router.push({ path: '/register' });
+}
 // 登出
 const startLogout = async() => {
   //loginStore.isLogin = true;
