@@ -9,6 +9,8 @@ import qs from 'qs';
 import {isPlainObject} from 'lodash-es'
 import {storage} from '@/utils/storage'
 import ElMessage from "element-plus"
+import { message } from 'ant-design-vue';
+
 // 定义请求响应参数，不含data
 interface Result {
   code: number
@@ -93,9 +95,12 @@ class RequestHttp {
       },
       (error: AxiosError) => {
         const { response } = error
-        if (response) {
-          this.handleCode(response.status)
-        }
+        message.error(response.data)
+
+        return Promise.reject(response.data)
+        // if (response) {
+        //   this.handleCode(response.status)
+        // }
         if (!window.navigator.onLine) {
           //ElMessage.error('网络连接失败') // 可以跳转到错误页面，也可以不做操作 // return router.replace({ //   path: '/404' // });
         }

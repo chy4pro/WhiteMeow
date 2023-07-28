@@ -141,7 +141,6 @@
 <script setup lang="ts">
 import { userMessage } from '@/store/index.js';
 import { hImage } from '@/utils/preloadImg.js';
-import type { TabsPaneContext } from 'element-plus'
 
 const messageStore = userMessage();
 const newMessage = ref('');
@@ -155,9 +154,7 @@ const activeKey = ref('1');
 
 const activeName = ref('first')
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
-}
+
 const sendMessage = () => {
   if (newMessage.value){
     console.log('我发送了',newMessage.value);

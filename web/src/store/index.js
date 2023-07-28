@@ -18,3 +18,17 @@ export const userMessage = defineStore('message', {
     firstMessage: ''
   })
 });
+
+//login
+export const useLoginStore = defineStore('login', {
+  state: () => ({
+    isLogin: storage.getItem('token') ? true : false,
+    token: '',
+    userInfo: {}
+  }),
+  actions: {
+    login() {
+      this.isLogin = true;
+    }
+  }
+})

@@ -11,6 +11,7 @@ import protocol from '@/views/protocol/index.vue';
 import privacy from '@/views/privacy/index.vue';
 // import intro from '@/views/intro/index.vue';
 // import smartForm from '../components/SmartForm/index.vue';
+import requireAuth from './routerGuard'; // 导入路由守卫
 
 export const routes: Array<RouteRecordRaw>  = [
   {
@@ -36,7 +37,8 @@ export const routes: Array<RouteRecordRaw>  = [
   {
     path: '/register',
     name: 'register',
-    component: register
+    component: register,
+    //beforeEnter: requireAuth, // 使用路由守卫
   },
   {
     path: '/setPassword',
@@ -51,7 +53,8 @@ export const routes: Array<RouteRecordRaw>  = [
   {
     path: '/login',
     name: 'login',
-    component: login
+    component: login,
+    beforeEnter: requireAuth, // 使用路由守卫
   },
   {
     path: '/protocol',

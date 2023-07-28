@@ -1,18 +1,46 @@
 <template>
-  <div class="w-full h-auto fixed left-0 top-0 box-border flex-row-between z-1000 bg-white">
+  <div class="w-full h-auto fixed left-0 top-0 box-border flex-row-between z-1000 bg-white" @mouseleave="open = false">
     <div class="cursor-pointer" :style="{'visibility': (props.showLogo ? 'visible' : 'hidden')}"  @click="goHome">
-      <Image name="logo.svg" :width="'128px'" :height="'56px'" class="ml-40px my-8px"/>
+      <Image name="icon40_home.svg" :width="'40px'" :height="'40px'" class="ml-64px my-8px"/>
     </div>
-    <div>
-      <Image name="personal.svg" alt="" :width="'40px'" :height="'40px'" class="mr-24px cursor-pointer" @click="goRegister"/>
-      <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/>
+    <div class="relative mr-64px ">
+      <Image name="personal.svg" alt="" :width="'40px'" :height="'40px'" class="cursor-pointer" @mouseenter="open = true"/>
+      <!-- <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/> -->
+      <transition name="fade">
+        <div v-if="open" class="absolute left-50% transform
+          translate-x--50% top-48px w-128px h-164px bg-white rounded-8px" style="box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);">
+          <div class="flex-col-center">
+            <div class="px-12px w-full">
+              <div class="w-full text-center pb-12px color-#666 text-16px mt-20px border-b border-b-solid border-b-[#E7E7E7]">{{ nickname }}</div>
+            </div>
+
+            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" @click="goRegister">
+            <div class="py-12px flex-row-center ">
+              <Image name="icon24_account.svg" :width="'24px'" :height="'24px'" />
+              <span class="text-16px font-500 line-height-normal">个人中心</span>
+            </div>
+            </div>
+            
+            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" v-if="token" @click="startLogout">
+            <div class="py-12px flex-row-center">
+              <Image name="icon24_sign_out.svg" :width="'24px'" :height="'24px'" />
+              <span class="text-16px font-500 line-height-normal">退出登录</span>
+            </div>
+            </div>
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 
 </template>
 
 <script setup lang="ts">
+import { useLoginStore } from '@/store/index.js';
+import { logout } from '@/apis/login.ts'
+import { storage } from '@/utils/index.ts'
 const router = useRouter();
+const loginStore = useLoginStore();
 
 const props = defineProps({
   showLogo: {
@@ -20,7 +48,8 @@ const props = defineProps({
     default: false
   }
 });
-
+const open = ref(false)
+const nickname = storage.getItem('nickname') || ''
 const goHome = () => {
   router.push({ path: '/' });
 };
@@ -30,5 +59,41 @@ const goRegister = () => {
 const goFeedBack = () => {
   router.push({ path: '/feedBack' });
 };
+let token = ref('')
+token = storage.getItem('token')
+// 登出
+const startLogout = async() => {
+  //loginStore.isLogin = true;
+  try {
+    if(token){
+      let params = {
+        "Authorization": token
+      }
 
+      const result = await logout(params);
+      if(result && result.message === 'ok'){
+        message.success('登出成功')
+        
+        storage.removeItem('token')
+        //router.push({ path: 'register'});
+      }
+    }
+    else{
+      
+    }
+
+  } catch (err) {
+    // loading.value = false
+    // messages[messages.length - 1].content = err.message
+  } finally {
+    // loader hide
+    // closeToast();
+  }
+}
 </script>
+
+<style scoped>
+  .list-item{
+    
+  }
+</style>

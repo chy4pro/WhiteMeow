@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import router from './router'
 import 'uno.css'
-import '@/utils/rem.js';
+// import '@/utils/rem.js';
 import 'ant-design-vue/dist/reset.css';
 import "@/index.css";
 
