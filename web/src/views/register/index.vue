@@ -389,8 +389,8 @@ const startLogin = async() => {
         disabledCodeLogin.value=false;
         const result = await loginByCode(params);
         if(result && result.user){
-          newUserId.value = result.user
-          storage.setItem('newUserId',result.user)
+          newUserId.value = result.user as string
+          storage.setItem('newUserId',result.user as string)
         }
         updateLoginStatus()
       }).catch((err)=>{
