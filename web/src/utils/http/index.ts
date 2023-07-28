@@ -21,6 +21,7 @@ interface Result {
 interface ResultData<T> {
   data?: T;
   list?: Array<T>;
+  token?: string;
   [key: string]: unknown;
 }
 const URL: string = import.meta.env.VITE_API_BASE_URL
@@ -56,6 +57,7 @@ class RequestHttp {
     this.service.interceptors.request.use(
       (config:any) => {
         const auth = storage.getItem('auth') || ''
+        const token = storage.getItem('token') || ''
         // get请求data转换
         if (config.method === 'get' && config.data && isPlainObject(config.data)) {
           config.data = qs.stringify(config.data)
@@ -64,7 +66,7 @@ class RequestHttp {
           ...config,
           headers: {
             'X-Token': auth || '',
-            //'Authorization': auth, // 请求头中携带token信息
+            'Authorization': token, // 请求头中携带token信息
             'Content-Type': 'application/json',
           }
         }
@@ -95,9 +97,11 @@ class RequestHttp {
       },
       (error: AxiosError) => {
         const { response } = error
-        message.error(response.data)
-
-        return Promise.reject(response.data)
+        
+        if (response && response.data) {
+          message.error(response.data as string)
+          return Promise.reject(response.data)
+        }
         // if (response) {
         //   this.handleCode(response.status)
         // }

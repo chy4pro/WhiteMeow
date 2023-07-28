@@ -56,8 +56,6 @@
                     v-bind="layout"
                     autocomplete="off"
                     @finish="handleFinish"
-                    @validate="handleValidate"
-                    @finishFailed="handleFinishFailed"
                   >
                   <div class="mb-1.6rem">
                     <a-form-item ref="mobileNumber" name="mobileNumber">
@@ -89,7 +87,7 @@
                 <a-button  class="w-full color-white min-h-30px h-5.6rem mt-4rem" :class="disabledCodeLogin ? 'bg-[#999]':'bg-black'" @click="startLogin">登录/注册</a-button>
                 <a-form-item ref="agreementCheck" name="agreementCheck">
                   <div class="flex-row-start">
-                    <a-checkbox class="self-start pink-checkbox" v-model:checked="formState.agreementCheck">
+                    <a-checkbox class="self-start pink-checkbox" v-model:checked="formState.agreementCheck" @change="handleFormInput()">
                     </a-checkbox>
 
                     <div class="ml-0.8rem">
@@ -214,26 +212,24 @@ const layout = {
 const handleFinish = (values: FormState) => {
   console.log(values, formState);
 };
-const handleFinishFailed = errors => {
-  console.log(errors);
-};
-const handleValidate = (...args) => {
-  console.log(args);
-};
+
 let disabledCodeLogin = ref(true);
 
     // 监听表单输入事件，实时校验并更新按钮状态
     const handleFormInput = () => {
-  formRef.value
-    .validate()
-    .then(()=>{
-      disabledCodeLogin.value=false;
-      //return false;
-    }).catch((err)=>{
-      disabledCodeLogin.value=true;
-      //return true
-    })
-    };
+      if(formRef && formRef.value){
+        formRef.value
+        .validate()
+        .then(()=>{
+          disabledCodeLogin.value=false;
+          //return false;
+        }).catch((err)=>{
+          disabledCodeLogin.value=true;
+          //return true
+        })
+        };
+      }
+
 
 const goBack = () => {
   router.back();
@@ -307,7 +303,7 @@ const sendMsg = async() => {
         countDown.value--
       }, 1000);
 
-      const result = await sendSms({"mobile":mobileNumber.value});
+      const result = await sendSms({"mobile":formState.mobileNumber});
       //const result = { "message": "ok"}
       if(result?.message !== 'ok'){
         reset()
@@ -338,10 +334,10 @@ const updateLoginStatus = async() => {
     }
 
     const result = await updateLogin(params);
-    if(result && result.token.length > 0){
+    if(result && result.token && result.token.length > 0){
       //message.success('登录成功')
       ///loginStore.token = result.token;
-      storage.setItem('token', result.token)
+      storage.setItem('token', result.token as string)
       getUserInfo()
       router.push({ name: 'chat'});
     }
@@ -362,7 +358,9 @@ const getUserInfo = async() =>{
 
     const result = await getUser(params);
     loginStore.userInfo = result;
-    storage.setItem('nickname', result.nickname)
+    if(result && result.nickname){
+      storage.setItem('nickname', result.nickname as string)
+    }
   } catch (err) {
     console.log(err)
     // loading.value = false
@@ -378,20 +376,22 @@ const startLogin = async() => {
 
   try {
     let params = {
-      "mobile": mobileNumber.value,
-      "code": identifyCode.value,
+      "mobile": formState.mobileNumber,
+      "code": formState.identifyCode,
       "is_login_free": autoLoginForIdentify.value ? 1 : 0,
       "user": genId('userId', 1)
     }
-    formRef.value
-    .validate()
-    .then(async()=>{
-    const result = await loginByCode(params);
-    updateLoginStatus()
-    }).catch((err)=>{
-      disabledCodeLogin.value=true;
-      //return true
-    })
+    if(formRef && formRef.value){
+      formRef.value
+      .validate()
+      .then(async()=>{
+        disabledCodeLogin.value=false;
+        const result = await loginByCode(params);
+        updateLoginStatus()
+      }).catch((err)=>{
+        //return true
+      })
+    }
 
   } catch (err) {
     console.log(err)

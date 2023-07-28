@@ -28,6 +28,7 @@
       bg-white
       rounded-24px
       mt-18rem
+      sm:mt-10rem
       mb-18rem
       shadow-lg 
       shadow-[rgba(219,175,201,0.45)]
