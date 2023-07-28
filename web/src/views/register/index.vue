@@ -30,6 +30,7 @@
       bg-white
       rounded-24px
       mt-18rem
+      sm:mt-10rem
       mb-18rem
       overflow-hidden
       flex-shrink-0
@@ -47,9 +48,7 @@
               <div class="text-center">
                 <Image name="catpaw-logo.svg" :width="'16.5rem'" :height="'4.3rem'" class="mb-4.2rem max-w-165px"/>
               </div>
-              <a-tabs v-model:activeKey="activeKey" centered>
-                <a-tab-pane key="1" tab="验证码登录" class="h-40rem overflow-auto">
-                  <a-form
+              <a-form
                     ref="formRef"
                     name="custom-validation"
                     :model="formState"
@@ -102,37 +101,6 @@
                   </div>
                 </a-form-item>
                   </a-form>
-                </a-tab-pane>
-                <a-tab-pane key="2" tab="密码登录">
-                  <div class="mb-1.6rem">
-                    <a-input-group compact class="input-group">
-                      <!-- <a-select v-model:value="select" class="w-80px">
-                        <a-select-option value="+86">+86</a-select-option>
-                        <a-select-option value="Jiangsu">Jiangsu</a-select-option>
-                      </a-select> -->
-                      <a-input v-model:value="input1" placeholder="请输入电话号码" class="normal-input-wrap" style="width: 100%;"/>
-                    </a-input-group>
-                  </div>
-
-
-                  <a-input-password class="normal-input-wrap">
-                    <template #suffix>
-                      <div class="cursor-pointer">
-                        <Image name="icon24_eye.svg" class="w-2.4rem h-2.4rem"/>
-                      </div>
-                    </template>
-                  </a-input-password>
-
-                  <div class="mt-0.8rem">
-                    <a-checkbox class="text-1.4rem pink-checkbox">自动登录</a-checkbox>
-                  </div>
-
-                  <a-button  class="w-full color-white min-h-30px h-5.6rem mt-4rem" :class="disabledCodeLogin ? 'bg-[#999]':'bg-black'" :disabled="disabledCodeLogin || true">登录/注册</a-button>
-
-                  <Agreement></Agreement>
-                </a-tab-pane>
-              </a-tabs>
-              
             </div>
 
 
