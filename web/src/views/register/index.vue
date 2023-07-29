@@ -291,28 +291,35 @@ const sendMsg = async() => {
     countDown.value = 60
   }
   try {
+    formRef.value
+      .validateFields(['mobileNumber'])
+      .then(async()=>{
+        if(!disableSendMsg.value){
+          disableSendMsg.value = true
+          // 倒计时
+          count = setInterval(()=>{
+            if(countDown.value === 0){
+              reset()
+              return
+            }
+            countDown.value--
+          }, 1000);
 
-    if(!disableSendMsg.value){
-      disableSendMsg.value = true
-      // 倒计时
-      count = setInterval(()=>{
-        if(countDown.value === 0){
-          reset()
-          return
+          const result = await sendSms({"mobile":formState.mobileNumber});
+          //const result = { "message": "ok"}
+          if(result?.message !== 'ok'){
+            reset()
+            //identifyCode.value = result?.data?.code
+          }
         }
-        countDown.value--
-      }, 1000);
+        else{
+          
+        }
 
-      const result = await sendSms({"mobile":formState.mobileNumber});
-      //const result = { "message": "ok"}
-      if(result?.message !== 'ok'){
-        reset()
-        //identifyCode.value = result?.data?.code
-      }
-    }
-    else{
-      
-    }
+      }).catch((err)=>{
+        //return true
+      })
+
   } catch (err) {
     reset()
     // loading.value = false
