@@ -84,9 +84,12 @@ const startLogout = async() => {
       const result = await logout(params);
       if(result && result.message === 'ok'){
         message.success('登出成功')
-        storage.removeItem('userId')
-        storage.removeItem('token')
-        router.push({ path: 'register'});
+        // storage.removeItem('userId')
+        // storage.removeItem('newUserId')
+        // storage.removeItem('token')
+        storage.clear()
+        //router.push({ path: '/'});
+        goHome()
       }
     }
     else{
