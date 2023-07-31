@@ -52,9 +52,13 @@ const props = defineProps({
   }
 });
 const open = ref(false)
-const nickname = computed(()=>{
-  let nickname = storage.getItem('nickname')
-  if(nickname === ''){
+const nickname:any = computed(()=>{
+  let userInfo = loginStore.userInfo
+  if(Object.keys(userInfo).length === 0){
+    return ''
+  }
+
+  if(userInfo.nickname === ''){
     return ''
   }else{
     if(nickname){

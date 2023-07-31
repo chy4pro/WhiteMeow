@@ -23,9 +23,9 @@ export const userMessage = defineStore('message', {
 export const useLoginStore = defineStore('login', {
   state: () => ({
     isLogin: storage.getItem('token') ? true : false,
-    token: '',
-    userInfo: {},
-    newUserId: ''
+    token: storage.getItem('token') || '',
+    userInfo: storage.getItem('userInfo') || {},
+    newUserId: storage.getItem('newUserId')
   }),
   actions: {
     login() {
