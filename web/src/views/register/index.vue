@@ -291,7 +291,8 @@ const sendMsg = async() => {
     countDown.value = 60
   }
   try {
-    formRef.value
+    if(formRef && formRef.value){
+      formRef.value
       .validateFields(['mobileNumber'])
       .then(async()=>{
         if(!disableSendMsg.value){
@@ -319,6 +320,7 @@ const sendMsg = async() => {
       }).catch((err)=>{
         //return true
       })
+    }
 
   } catch (err) {
     reset()
