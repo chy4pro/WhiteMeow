@@ -12,7 +12,7 @@
           <div class="flex-col-center">
             <div class="px-12px w-full">
               <div class="w-full text-center pb-12px color-#666 text-16px mt-20px border-b border-b-solid border-b-[#E7E7E7]">
-                <span>{{ nickname || '游客'}}</span>
+                <span>{{ nickname }}</span>
               </div>
             </div>
 
@@ -52,7 +52,20 @@ const props = defineProps({
   }
 });
 const open = ref(false)
-const nickname = storage.getItem('nickname') || ''
+const nickname = computed(()=>{
+  let nickname = storage.getItem('nickname')
+  if(nickname === ''){
+    return ''
+  }else{
+    if(nickname){
+      return nickname
+    }
+    else {
+      return '游客'
+    }
+  }
+})
+
 const goHome = () => {
   router.push({ path: '/' });
 };
