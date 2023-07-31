@@ -12,6 +12,7 @@
       shadow-lg 
       shadow-[rgba(209,126,201,0.45)]
       flex-shrink-0
+      relative
       ">
       <div class="uno-bg-home-panel-bg.svg wh-full">
         <Image name="catpaw-logo.svg" :width="'16.5rem'" :height="'4.3rem'" class="ml-4rem mt-4.2rem max-w-165px"/>
