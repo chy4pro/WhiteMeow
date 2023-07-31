@@ -7,6 +7,9 @@ dependencies:
   '@types/lodash-es':
     specifier: ^4.17.7
     version: 4.17.7
+  '@unocss/reset':
+    specifier: ^0.54.0
+    version: 0.54.0
   ant-design-vue:
     specifier: 4.x
     version: 4.0.0(vue@3.3.0)
@@ -706,6 +709,10 @@ packages:
   /@unocss/reset@0.53.1:
     resolution: {integrity: sha512-rkb6mB0JESRFxZXSknZ3TWQ92TmZwpJyF2OV+7GPZrtUk1YBzydH6DfLjLPxyD1xEUtsQsacNHFO7NEmd9WO6A==}
     dev: true
+
+  /@unocss/reset@0.54.0:
+    resolution: {integrity: sha512-zxvr96hVsmvJtxCLatLSCc67RBEgqvVDhEtkIFxIz5oCJzxvipJTGdKxM4F6Akyzx1A+q7zM8dimqvmC6D5Idw==}
+    dev: false
 
   /@unocss/scope@0.53.1:
     resolution: {integrity: sha512-7fnTM6gjIU1PA5cJ7EZqBmutIKWUJ7HNe0VfpegqfsmvQfngkVjB+n/gdVNUwreHKCcYOD7lwOk12b8oihntdA==}
