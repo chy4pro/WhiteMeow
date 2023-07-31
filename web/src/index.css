@@ -6,7 +6,12 @@
   --white-1: #EEECDE;
   --pink-01: #FFDFFC;
 }
-
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('@/assets/font/RedHatDisplay-VariableFont_wght');
+  font-weight: normal;
+  font-style: normal;
+}
 html{
   -webkit-text-size-adjust: 100%;
   -webkit-font-feature-settings: normal;
@@ -31,6 +36,7 @@ body{
   line-height: inherit;
   margin: 0;
   font-size: 16px;
+  font-family: 'RedHatDisplay';
 }
 
 #app{
