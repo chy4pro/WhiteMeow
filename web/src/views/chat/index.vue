@@ -1,7 +1,5 @@
 <template>
-  <div class="bg-box wh-full">
-    <div class="container-box">
-      <NavBar/>
+
       <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
 
       <div class="wh-full box-border overflow-y-auto relative mt-12.2rem mb-12rem py-30px" ref="messageList">
@@ -58,8 +56,6 @@
         </div>
         <Image name="111.gif" class="self-start" alt="" :width="'80px'" :height="'80px'"/>
       </div>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
