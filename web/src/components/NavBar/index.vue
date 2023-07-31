@@ -1,6 +1,18 @@
 <template>
-  <div class="w-full h-auto fixed left-0 top-0 box-border flex-row-between z-1000 bg-white" @mouseleave="open = false">
-    <div class="cursor-pointer"  @click="goHome">
+  <div class="
+    w-full
+    h-auto
+    fixed
+    left-0
+    top-0
+    box-border
+    flex-row-end
+    z-1000
+    bg-[rgba(255,255,255,0.3)]
+      backdrop-blur-37px
+    "
+    @mouseleave="open = false">
+    <div class="cursor-pointer mr-24px"  @click="goHome">
       <Image name="icon40_home.svg" :width="'40px'" :height="'40px'" class="ml-64px my-8px"/>
     </div>
     <div class="relative mr-64px ">
