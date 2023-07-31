@@ -346,7 +346,7 @@ const getUserInfo = async() =>{
     const result = await getUser(params);
     loginStore.userInfo = result;
     if(result && Object.keys(result).length > 0){
-      storage.setItem('userInfo', result)
+      storage.setItem('userInfo', JSON.stringify(result))
     }
   } catch (err) {
     console.log(err)
