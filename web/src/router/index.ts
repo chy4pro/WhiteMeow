@@ -14,8 +14,12 @@ import privacy from '@/views/privacy/index.vue';
 import requireAuth from './routerGuard'; // 导入路由守卫
 
 export const routes: Array<RouteRecordRaw>  = [
-  {
+  { 
     path: '/',
+    redirect: '/home'
+  },
+  {
+    path: '/home',
     name: 'home',
     component: home
   },
