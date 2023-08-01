@@ -25,11 +25,11 @@ html{
   tab-size: 4;
   font-size: 10px;
 }
-/* @media screen and (min-width: 1366px){
+@media screen and (max-width: 1440px){
   html{
     font-size: 8px;
   }
-} */
+}
 
 html, body{
   height: 100%;
@@ -51,7 +51,7 @@ body{
   --at-apply: overflow-hidden wh-full flex-col-center box-border;
 }
 .bg-box {
-  --at-apply: wh-full flex flex-col flex-items-center overflow-auto;
+  --at-apply: wh-full flex-col-center overflow-auto;
   background: #FFDFFC;
   /* background: linear-gradient(130deg, rgba(255,164,237,1) 0%, rgba(255,221,236,1) 100%); */
 }

@@ -13,10 +13,10 @@
     "
     @mouseleave="open = false">
     <div class="cursor-pointer mr-24px"  @click="goHome">
-      <Image name="icon40_home.svg" :width="'40px'" :height="'40px'" class="ml-64px my-8px"/>
+      <Image name="icon40_home.svg" class="ml-64px my-8px w-4rem h-4rem"/>
     </div>
-    <div class="relative mr-64px ">
-      <Image name="personal.svg" alt="" :width="'40px'" :height="'40px'" class="cursor-pointer" @mouseenter="open = true" @click="goRegister"/>
+    <div class="cursor-pointer relative mr-64px ">
+      <Image name="personal.svg" alt="" class="w-4rem h-4rem" @mouseenter="open = true" @click="goRegister"/>
       <!-- <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/> -->
       <transition name="fade">
         <div v-if="open" class="absolute left-50% transform

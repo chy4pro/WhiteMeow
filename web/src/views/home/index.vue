@@ -7,8 +7,7 @@
       bg-[rgba(255,255,255,0.7)]
       backdrop-blur-11.5px
       rounded-24px
-      mt-18rem
-      mb-18rem
+      mt-48px
       shadow-lg 
       shadow-[rgba(209,126,201,0.45)]
       flex-shrink-0
