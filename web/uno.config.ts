@@ -47,8 +47,9 @@ export default defineConfig({
       md: '750px',
       lg: '1080px',
       xl: '1336px',
-      '2xl': '1536px',
-      '3xl': '1920px'
+      '2xl': '1440px',
+      '3xl': '1536px',
+      '4xl': '1920px'
     },
     colors: {
       'blue': '#1fb6ff',
