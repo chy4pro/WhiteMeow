@@ -7,9 +7,7 @@
       z-999
       bg-white
       rounded-24px
-      mt-18rem
-      sm:mt-10rem
-      mb-18rem
+      mt-48px
       overflow-hidden
       flex-shrink-0
       "
