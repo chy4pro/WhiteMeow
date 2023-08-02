@@ -39,7 +39,19 @@ export default defineConfig({
           'box-sizing': 'border-box'
         }
       }
-    ]
+    ],
+    [
+      /^uno-shadow-(.*)$/,
+      ([_, d]) => {
+        let shadow = d.split('+')[0].substring(1, d.split('+')[0].length - 1);
+        let color = d.split('+')[1].substring(1, d.split('+')[1].length - 1);
+        shadow = shadow.split(',').join(' ')
+        //uno-shadow-[0px,4px,4px,0px]-[rgba(0,0,0,0.1)]
+        return {
+          'box-shadow': `${shadow} ${color}`
+        }
+      }
+    ],
   ],
   theme: {
     screens: {

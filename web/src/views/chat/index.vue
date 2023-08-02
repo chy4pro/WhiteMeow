@@ -43,50 +43,77 @@
         <div class="main">
           <div class="wh-full box-border overflow-y-auto relative" ref="messageList">
 
-          <div class="text-center mt-16px cursor-pointer" @click="showMore">
+          <div class="text-center mt-16px cursor-pointer" @click="showMore" v-if="recordList.page*recordList.page_size < pageTotal">
             <div class="w-24px h-24px flex-col-center mx-a">
               <Image name="icon_more.svg" alt="" class="w-14px h-12.6px"/>
             </div>
             <div class="color-#666668 text-14px">查看历史聊天记录</div>
           </div>
 
-          <div class="text-center mt-17px color-#666668 text-14px">
-            18:00
-          </div>
 
-          <div class="flex flex-items-end mb-13px flex-nowrap px-30px " v-for="(message, index) in messages" :key="index" :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
-            <div class="
-              flex-self-start
-              color-[#000c]
-              max-w-1/2
-              b-rd-[8px]
-              relative
-              "
-              :class="message.isUser === true ? 'bg-[#F5C4EA]' : 'bg-[#fff]'"
-              >
-              <div class="
-                mr-20px
-                whitespace-pre-line
-                text-16px
-                font-400
-                px-16px
-                py-8px
-                line-height-24px
-              ">{{ message.content }}</div>
 
-              <div class="absolute bottom-0" :class="message.isUser === true ? ' right--9px' : 'left--9px'" >
-                <Image name="chat-triangle-pink.svg" alt="" class="w-19px h-15px" v-if="message.isUser === true"/>
-                <Image name="chat-triangle-white.svg" alt="" class="w-19px h-15px" v-else/>
-              </div>
+          <div v-for="[date, logs] in chatLogsMap" :key="date">
+            <div class="text-center mt-17px color-#666668 text-14px">
+              {{ date }}
             </div>
+            <div class="flex flex-items-end mb-13px flex-nowrap px-30px " v-for="(message, index) in logs" :key="index" :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
+              <div class="
+                flex-self-start
+                color-[#000c]
+                max-w-1/2
+                b-rd-[8px]
+                relative
+                "
+                :class="[message.isUser === true ? 'bg-[#F5C4EA]' : 'bg-[#fff]']"
+                @mouseenter="message.showHoverIcon = true" @mouseleave="message.showHoverIcon = false"
+                @click="clickHeart(message)"
+                >
+                <div class="
+                  whitespace-pre-line
+                  text-14px
+                  font-400
+                  px-16px
+                  py-8px
+                  line-height-24px
+                ">
+                  
+                  <div>{{ message.content }}</div>
+                  <div class="text-right" v-show="!message.showHoverIcon">
+                    <Image :name="`icon_${message.evaluateIcon}.svg`" alt="" class="w-16px h-16px" v-show="message.evaluateIcon"/>
+                  </div>
+                  <div 
+                  class="
+                  hover:bg-[#FFDFFC]
+                    rounded-4px
+                    uno-shadow-[0px,4px,4px,0px]+[rgba(0,0,0,0.1)]
+                    absolute
+                    top--12px
+                    right-11px
+                  " v-show="message.showHoverIcon && !message.isUser"
+                    :class="message.hoverIcon === 'heart_active' ? 'bg-[#FFDFFC]' : 'bg-white'"
+                  >
+                    <Image :name="`icon_${message.hoverIcon}.svg`" alt="" class="
+                    w-16px
+                    h-16px
+                    mx-8px
+                    my-4px"/>
+                  </div>
+                </div>
 
-            <div class="
-              w-5
-              h-5
-              center-box
-            ">
-                <img :src="getEmojiUrl(message.emoji)" alt="" v-if="message.emoji!==0"/>
+                <div class="absolute bottom-0" :class="message.isUser === true ? ' right--9px' : 'left--9px'" >
+                  <Image name="chat-triangle-pink.svg" alt="" class="w-19px h-15px" v-if="message.isUser === true"/>
+                  <Image name="chat-triangle-white.svg" alt="" class="w-19px h-15px" v-else/>
+                </div>
               </div>
+
+              <div class="
+                w-5
+                h-5
+                center-box
+              ">
+                  <img :src="getEmojiUrl(message.emoji?.toString() || '')" alt="" v-if="message.emoji!==0"/>
+                </div>
+            </div>
           </div>
         </div>
         </div>
@@ -94,14 +121,14 @@
           <div class="bg-white h-56px rounded-8px w-full mr-30px">
             <input
               type="text"
-              class="wh-full outline-none border-none rounded-8px indent-24px"
+              class="wh-full outline-none border-none rounded-8px indent-24px text-14px"
               placeholder="你想和我聊些什么？......"
               v-model="newMessage"
               @keyup.enter.native="sendMessage"
             />
           </div>
-          <div class="" @click="sendMessage" :disabled="!isConnect">
-            <Image name="icon24_send.svg" class="" />
+          <div @click="sendMessage" :disabled="!isConnect" class="cursor-pointer">
+            <Image :name="sendBtnName" class="w-24px h-24px" @mouseenter="sendBtnName = 'icon_send_active.svg'" @mouseleave="sendBtnName = 'icon24_send.svg'"  />
           </div>
         </div>
       </div>
@@ -140,9 +167,10 @@
 
 <script setup lang="ts">
 // element-plus
-import "element-plus/theme-chalk/el-loading.css";
-import "element-plus/theme-chalk/el-notification.css";
+// import "element-plus/theme-chalk/el-loading.css";
+// import "element-plus/theme-chalk/el-notification.css";
 import { ref } from 'vue';
+import * as dayjs from 'dayjs'
 import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
 import { chat } from '@/apis/chat.ts'
 import Socket from "@/utils/http/websocket.js";
@@ -152,7 +180,7 @@ import { useCounterStore, userMessage, useLoginStore } from '@/store/index.js';
 const counter = useCounterStore();
 const messageStore = userMessage();
 const loginStore = useLoginStore
-
+var chatLogsMap = reactive(new Map<string, Message[]>());
 const loading = ref(false);
 const messageList = ref<any>(null);
 let ws:any = null
@@ -172,10 +200,11 @@ const recordList = reactive({
   end_created_at: ''
 });
 
+const sendBtnName = ref('icon24_send.svg')
 const tablistMap = [
   {
     path: 'icon_ly_',
-    label: '疗愈喵',
+    label: '聊愈喵',
     status: 'press'
   },
   {
@@ -229,16 +258,46 @@ const sendFirstMessage = ()=>{
   }
 }
 
+const clickHeart = (message:Message) => {
+  let old = message.evaluateIcon;
+  if(old === ''){
+    message.hoverIcon = 'heart_active'
+    message.evaluateIcon = 'heart'
+    message.showHoverIcon = false
+  }
+  else if(old === 'heart'){
+    message.hoverIcon = 'heart'
+    message.evaluateIcon = ''
+    message.showHoverIcon = true
+  }
+}
+
 // 发送消息
 const sendMessage = () => {
   if(isConnect.value === true){
     if (newMessage.value) {
       // 处理非空的 messages.value
+      const today = dayjs(new Date().getTime()).format('YYYY-MM-DD');
+
       messages.value.push({
+        created_at: today,
         content: newMessage.value,
         emoji: 0,
         isUser: true
       });
+      if (!chatLogsMap.has(today)) {
+        chatLogsMap.set(today, []); 
+      }
+
+      let getToday = chatLogsMap.get(today)
+        if(getToday){
+          getToday.push({
+            created_at: today,
+            content: newMessage.value,
+            emoji: 0,
+            isUser: true
+          })
+        }
 
       const addIndex = () => {
         counter.add();
@@ -297,7 +356,8 @@ const showMore = () => {
 
 onMounted(()=>{
   let current_message_id:string = ''
-
+  recordList.page += 1;
+  checkChatRecord();
   storage.setItem('auth', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyNDg2NTUsImlhdCI6MTY4MjMyODY1NSwidXNlcklkIjoyfQ.c54BKBpqCYhnnZU6LEsP04th9VUZ2q2jXEYmtu2k38U');
   scrollBottomFlag.value = true;
 
@@ -311,34 +371,57 @@ onMounted(()=>{
       // 监听服务器返回信息
         console.log("received",data)
         let dataFormat = JSON.parse(data)
+        const today = dayjs(new Date().getTime()).format('YYYY-MM-DD');
 
-        if(dataFormat.message_id !== '' && dataFormat.is_end === false && dataFormat.message !== ''){
-          if(dataFormat.message_id === current_message_id){
-            const index = messages.value.findIndex((item:any) => item.message_id === current_message_id);
-            const currentMessage = messages.value[index];
-            currentMessage.content += dataFormat.message
-          }
-          else{
-            messages.value.push({
-              content: dataFormat.error_message.length>0 ? dataFormat.error_message : dataFormat.message,
-              emoji: dataFormat.emoji,
-              message_id: dataFormat.message_id,
-              isUser: false
-            });
-          }
+        if (!chatLogsMap.has(today)) {
+          chatLogsMap.set(today, []); 
+        }
+        else{
+          const chatLogs = chatLogsMap.get(today);
+          if(chatLogs){
+            if(dataFormat.message_id !== '' && dataFormat.is_end === false && dataFormat.message !== ''){
+              if(dataFormat.message_id === current_message_id){
+                const index = messages.value.findIndex((item:any) => item.message_id === current_message_id);
+                const currentMessage = messages.value[index];
+                currentMessage.content += dataFormat.message
+                chatLogs[chatLogs.length - 1].content += dataFormat.message
+              }
+              else{
+                messages.value.push({
+                  content: dataFormat.error_message.length>0 ? dataFormat.error_message : dataFormat.message,
+                  evaluateIcon: '',
+                  hoverIcon: 'heart',
+                  showHoverIcon: false,
+                  emoji: dataFormat.emoji,
+                  message_id: dataFormat.message_id,
+                  isUser: false
+                });
+                chatLogs.push({
+                  content: dataFormat.error_message.length>0 ? dataFormat.error_message : dataFormat.message,
+                  evaluateIcon: '',
+                  hoverIcon: 'heart',
+                  showHoverIcon: false,
+                  emoji: dataFormat.emoji,
+                  message_id: dataFormat.message_id,
+                  isUser: false
+                });
+              }
 
-          current_message_id = dataFormat.message_id ? dataFormat.message_id : ''
-          scrollToBottom();
+              current_message_id = dataFormat.message_id ? dataFormat.message_id : ''
+              scrollToBottom();
+            }
+
+            // update emoji
+            if(dataFormat.is_end === true){
+              if(dataFormat.message_id === current_message_id){
+                const index = messages.value.findIndex((item:any) => item.message_id === current_message_id);
+                const currentMessage = messages.value[index];
+                currentMessage.emoji = dataFormat.emoji
+              }
+            }
+          }
         }
 
-        // update emoji
-        if(dataFormat.is_end === true){
-          if(dataFormat.message_id === current_message_id){
-            const index = messages.value.findIndex((item:any) => item.message_id === current_message_id);
-            const currentMessage = messages.value[index];
-            currentMessage.emoji = dataFormat.emoji
-          }
-        }
     }
   }));
   ws.connect();
@@ -364,19 +447,66 @@ onBeforeRouteLeave((to, from, next) => {
   next();
 })
 
+interface Message {
+  id?: number,
+  relation_id?: number,
+  user?: string,
+  user_name?: string,
+  message_id?: string,
+  open_kf_id?: string,
+  open_kf_name?: string,
+  agent_id?: number,
+  content?: string,
+  emoji?: number,
+  chat_type?: number,
+  answer_or_question?: number,
+  message_type?: number,
+  created_at?: string,
+  updated_at?: string,
+  evaluateIcon?: string,
+  isUser?: boolean,
+  showHoverIcon?: boolean,
+  hoverIcon?: string,
+}
 
+const chatLogsSplit = (chatLogs: Message[]): Map<string, Message[]>=>{
 
+  chatLogs.forEach(log => {
+    let date:string = '';
+    if(log && log.created_at){
+      date = log.created_at.split(' ')[0]; // 取日期部分
+    }
+    
+    if (!chatLogsMap.has(date)) {
+      chatLogsMap.set(date, []); 
+    }
+    
+    const logs = chatLogsMap.get(date);
+    if (logs) {
+      logs.push(log); 
+    }
+  })
+  return chatLogsMap;
+
+}
+
+// 查询是否有聊天记录
+const checkChatRecord = async() => {
+  const result = await chat(recordList);
+  recordList.page = 0;
+  pageTotal.value = result.total as number;
+}
 
 // 获取聊天记录
 const getChatRecord = async() => {
   try {
     // loading
-    loading.value = true
+    //loading.value = true
 
     const result = await chat(recordList);
     console.log(result)
 
-    loading.value = false
+    //loading.value = false
 
     if(result && result.list && result.list.length > 0){
       result.list.reverse();
@@ -384,7 +514,9 @@ const getChatRecord = async() => {
         let resultList = result.list.map((item: any) => {
           return {
             ...item,
-            isUser: item.answer_or_question === 1 ? true : false
+            isUser: item.answer_or_question === 1 ? true : false,
+            evaluateIcon: '',
+            hoverIcon: '',
           }
         })
         messages.value = resultList.concat(messages.value);
@@ -393,10 +525,13 @@ const getChatRecord = async() => {
         messages.value = result.list.map((item: any) => {
           return {
             ...item,
-            isUser: item.answer_or_question === 1 ? true : false
+            isUser: item.answer_or_question === 1 ? true : false,
+            evaluateIcon: item.answer_or_question === 1 ? '' : '',
+            hoverIcon: item.answer_or_question === 1 ? '' : 'heart',
           }
         })
       }
+      chatLogsSplit(messages.value);
       pageTotal.value = result.total as number;
 
       if(scrollBottomFlag.value===true){
@@ -457,7 +592,7 @@ bg-[rgba(255,255,255,0.7)]
   --at-apply: p-0 mb-0 w-full list-none mt-32px;
 }
 .chat-panel  .nav-part-tablist > li {
-  --at-apply: rounded-6px py-16px px-8px flex-row-between cursor-pointer;
+  --at-apply: rounded-6px text-14px py-16px px-8px flex-row-between cursor-pointer;
 }
 .chat-panel  .nav-part-tablist > li.press {
   background: linear-gradient(90deg, #FCD3FF 22.92%, rgba(255, 255, 255, 0.00) 100%);

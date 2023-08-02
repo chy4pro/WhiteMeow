@@ -18,17 +18,17 @@ export default class Socket {
     }
     connect(data) {
         this.ws = new WebSocket(this.url);
-        const loading = ElLoading.service({
-            target: document.querySelector('#app'),
-            lock: true,
-            text: 'Loading',
-            background: 'rgba(0, 0, 0, 0.7)',
-        })
+        // const loading = ElLoading.service({
+        //     target: document.querySelector('#app'),
+        //     lock: true,
+        //     text: 'Loading',
+        //     background: 'rgba(0, 0, 0, 0.7)',
+        // })
         // 建立连接
         this.ws.onopen = (e) => {
             this.status = 'open';
             console.log("连接成功", e)
-            loading.close()
+            // loading.close()
             if(this.isHeart) {
                 // 心跳
                 this._heartCheck()
@@ -40,7 +40,7 @@ export default class Socket {
         }
         // 接受服务器返回的信息
         this.ws.onmessage = (e) => {
-            loading.close()
+            // loading.close()
 
             if(typeof this.callback === 'function'){
                 return this.callback(e.data)
@@ -52,13 +52,13 @@ export default class Socket {
         this.ws.onclose = (e) => {
             console.log('onclose',e)
             this._closeSocket(e)
-            loading.close()
+            // loading.close()
         }
         // 报错
         this.onerror = (e) => {
             console.log('onerror',e)
             this._closeSocket(e)
-            loading.close()
+            // loading.close()
         }
     }
     sendMsg(data) {
