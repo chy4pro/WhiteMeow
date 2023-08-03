@@ -65,8 +65,7 @@
                 relative
                 "
                 :class="[message.isUser === true ? 'bg-[#F5C4EA]' : 'bg-[#fff]']"
-                @mouseenter="message.showHoverIcon = true" @mouseleave="message.showHoverIcon = false"
-                @click="clickHeart(message)"
+                @mouseenter="hoverHeartIcon(message)" @mouseleave="message.showHoverIcon = false"
                 >
                 <div class="
                   whitespace-pre-line
@@ -79,7 +78,7 @@
                   
                   <div>{{ message.content }}</div>
                   <div class="text-right" v-show="!message.showHoverIcon">
-                    <Image :name="`icon_${message.evaluateIcon}.svg`" alt="" class="w-16px h-16px" v-show="message.evaluateIcon"/>
+                    <Image :name="`icon_${message.evaluateIcon}.svg`" alt="" class="w-16px h-16px" v-show="message.evaluateIcon" @click="clickHeart(message)"/>
                   </div>
                   <div 
                   class="
@@ -89,7 +88,9 @@
                     absolute
                     top--12px
                     right-11px
-                  " v-show="message.showHoverIcon && !message.isUser"
+                  " 
+                    @click="clickHeart(message)"
+                    v-show="message.showHoverIcon && !message.isUser"
                     :class="message.hoverIcon === 'heart_active' ? 'bg-[#FFDFFC]' : 'bg-white'"
                   >
                     <Image :name="`icon_${message.hoverIcon}.svg`" alt="" class="
@@ -259,6 +260,12 @@ const sendFirstMessage = ()=>{
     newMessage.value = messageStore.firstMessage
     messageStore.firstMessage = ''
     sendMessage()
+  }
+}
+
+const hoverHeartIcon = (message:any) =>{
+  if(message.evaluateIcon !== 'heart'){
+    message.showHoverIcon = true
   }
 }
 
