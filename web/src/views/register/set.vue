@@ -244,7 +244,7 @@ const handleConfirm = () => {
       <div class="w-64.8rem max-w-648px h-100% bg-[var(--pink-01)] relative">
         <Image name="login-panel-bg.svg" :width="'100%'" :height="'100%'" />
 
-        <div
+        <!-- <div
           class="absolute right-24px top-24px cursor-pointer"
           @click="goBack"
         >
@@ -253,7 +253,7 @@ const handleConfirm = () => {
             :width="'24px'"
             :height="'24px'"
           />
-        </div>
+        </div> -->
       </div>
     </div>
     <!--用户协议-->

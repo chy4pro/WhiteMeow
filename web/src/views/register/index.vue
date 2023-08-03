@@ -293,9 +293,9 @@ const handlePsdLogin = () => {
 
           state.isLoginBool = false;
 
-          if (result && result.code === 200) {
-            storage.setItem("newUserId", result.data.user as string);
-            storage.setItem("token", result.data.token as string);
+          if (result && result.status === 1) {
+            storage.setItem("newUserId", result.user as string);
+            storage.setItem("token", result.token as string);
 
             getUserInfo();
           }
@@ -526,7 +526,7 @@ const handleBackEmit = () => {
       <div class="w-64.8rem max-w-648px h-100% bg-[var(--pink-01)] relative">
         <Image name="login-panel-bg.svg" :width="'100%'" :height="'100%'" />
 
-        <div
+        <!-- <div
           class="absolute right-24px top-24px cursor-pointer"
           @click="goBack"
         >
@@ -535,7 +535,7 @@ const handleBackEmit = () => {
             :width="'24px'"
             :height="'24px'"
           />
-        </div>
+        </div> -->
       </div>
     </div>
     <!--用户协议-->
