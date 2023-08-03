@@ -234,7 +234,14 @@ const startLogin = async () => {
         .validate()
         .then(async () => {
           disabledCodeLogin.value = false;
-          const result = await loginByCode(params);
+          const res:any = await loginByCode(params);
+
+          if(res.code !== 0){
+            message.error(res.msg);
+            return;
+          }
+
+          let result:any = res.data;
 
           if (result && result.user) {
             newUserId.value = result.user as string;
@@ -289,7 +296,14 @@ const handlePsdLogin = () => {
           }
           state.isLoginBool = true;
 
-          const result: any = await login(params);
+          const res: any = await login(params);
+
+          if(res.code !== 0){
+            message.error(res.msg);
+            return;
+          }
+
+          let result:any = res.data;
 
           state.isLoginBool = false;
 
