@@ -129,6 +129,7 @@
               ref="inputBoxRef"
               @keyup.enter.native="sendMessage"
               @input="checkOverflow"
+              autofocus
             ></textarea>
           </div>
           <div @click="sendMessage" :disabled="!isConnect" class="cursor-pointer">
