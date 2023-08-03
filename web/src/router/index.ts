@@ -69,6 +69,16 @@ export const routes: Array<RouteRecordRaw>  = [
     path: '/privacy',
     name: 'privacy',
     component: privacy
+  },
+  {
+    path: '/set',
+    name: 'set',
+    component: () => import('@/views/register/set.vue')
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('@/views/register/profile.vue')
   }
 ]
 

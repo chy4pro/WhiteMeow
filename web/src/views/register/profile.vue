@@ -1,0 +1,597 @@
+<script setup lang="ts">
+import { ref, reactive, defineAsyncComponent } from "vue";
+import { useRouter } from "vue-router";
+
+import { storage } from "@/utils/index.ts";
+
+const DatePickerComp = defineAsyncComponent(
+  () => import("@/components/date-picker/index.vue")
+);
+
+import { updateLogin, getUser } from "@/apis/login.ts";
+import { useLoginStore } from "@/store/index.js";
+
+import boyIcon from "@/assets/images/login/boy.png";
+import girlIcon from "@/assets/images/login/girl.png";
+import dateIcon from "@/assets/images/login/date.png";
+import dateActiveIcon from "@/assets/images/login/date-active.png";
+
+const state = reactive({
+  isconfirmBool: false,
+  dateFocusBool: false,
+});
+
+const router = useRouter();
+const loginStore = useLoginStore();
+
+import type { Rule } from "ant-design-vue/es/form";
+import type { FormInstance } from "ant-design-vue";
+
+interface FormState {
+  agreementCheck: boolean;
+  name: string;
+  sex: string;
+  date: string;
+  y: string;
+  m: string;
+  d: string;
+  xz: string;
+}
+const formRef = ref<FormInstance>();
+const formState = reactive<FormState>({
+  agreementCheck: false,
+  name: "",
+  sex: "2",
+  date: "请选择你的出生年月",
+  y: "",
+  m: "",
+  d: "",
+  xz: "",
+});
+
+const validateAgreement = async (_rule: Rule, value: boolean) => {
+  if (value === false) {
+    return Promise.reject("请阅读并同意");
+  } else {
+    return Promise.resolve();
+  }
+};
+
+const nameReg = async (_rule: Rule, value: string) => {
+  if (value === "") {
+    return Promise.reject("请输入昵称");
+  }
+  return Promise.resolve();
+};
+
+const rules: Record<string, Rule[]> = {
+  agreementCheck: [
+    { required: true, validator: validateAgreement, trigger: "blur" },
+  ],
+  name: [{ required: true, validator: nameReg, trigger: "blur" }],
+};
+
+const layout = {
+  labelCol: { span: 0 },
+  wrapperCol: { span: 24 },
+};
+
+let disabledCodeLogin = ref(true);
+
+const handleFormInput = () => {
+  if (formRef && formRef.value) {
+    formRef.value
+      .validate()
+      .then(() => {
+        disabledCodeLogin.value = false;
+      })
+      .catch(() => {
+        disabledCodeLogin.value = true;
+      });
+  }
+};
+
+const goBack = () => {
+  router.back();
+};
+
+const openDialog = (theType: string) => {
+  if (theType === "1") {
+    router.push({ path: "/protocol" });
+  }
+  if (theType === "2") {
+    router.push({ path: "/privacy" });
+  }
+};
+
+const handleConfirm = () => {
+  const { isconfirmBool } = state;
+
+  try {
+    const param = {
+      user: storage.getItem("newUserId"),
+      sex: Number(formState.sex),
+      name: formState.name,
+      birthday: `${formState.y}-${formState.m}-${formState.d}`,
+      constellation: formState.xz,
+      status: 1,
+    };
+
+    if (formRef && formRef.value) {
+      formRef.value
+        .validate()
+        .then(async () => {
+          if (isconfirmBool) {
+            return;
+          }
+          state.isconfirmBool = true;
+
+          const result = await updateLogin(param);
+
+          state.isconfirmBool = false;
+
+          storage.setItem("token", result.token as string);
+
+          getUserInfo();
+        })
+        .catch(() => {
+          state.isconfirmBool = false;
+        });
+    }
+  } catch (error) {}
+};
+
+const getUserInfo = async () => {
+  try {
+    let params = {
+      Authorization: storage.getItem("token"),
+    };
+
+    const result = await getUser(params);
+
+    loginStore.userInfo = result;
+
+    if (result && Object.keys(result).length > 0) {
+      storage.setItem("userInfo", JSON.stringify(result));
+    }
+
+    router.push({ path: "/chat" });
+  } catch (err) {
+  } finally {
+  }
+};
+
+const handle = (m: string, d: string) => {
+  const day = Number(d);
+  const month = String(m);
+
+  switch (month) {
+    case "3":
+      if (day >= 21) {
+        return "白羊座";
+      } else {
+        return "双鱼座";
+      }
+      break;
+    case "4":
+      if (day >= 21) {
+        return "金牛座";
+      } else {
+        return "白羊座";
+      }
+      break;
+    case "5":
+      if (day >= 21) {
+        return "双子座";
+      } else {
+        return "金牛座";
+      }
+      break;
+    case " 6":
+      if (day >= 22) {
+        return "巨蟹座";
+      } else {
+        return "双子座";
+      }
+      break;
+    case "7":
+      if (day >= 23) {
+        return "狮子座";
+      } else {
+        return "巨蟹座";
+      }
+      break;
+    case "8":
+      if (day >= 22) {
+        return "处女座";
+      } else {
+        return "狮子座";
+      }
+      break;
+    case "9":
+      if (day >= 22) {
+        return "天平座";
+      } else {
+        return "处女座";
+      }
+      break;
+    case "10":
+      if (day >= 24) {
+        return "天蝎座";
+      } else {
+        return "天平座";
+      }
+      break;
+    case "11":
+      if (day >= 23) {
+        return "人马座";
+      } else {
+        return "天蝎座";
+      }
+      break;
+    case "12":
+      if (day >= 23) {
+        return "山羊座";
+      } else {
+        return "人马座";
+      }
+      break;
+    case "1":
+      if (day >= 20) {
+        return "水瓶座";
+      } else {
+        return "山羊座";
+      }
+      break;
+    case "2":
+      if (day >= 19) {
+        return "双鱼座";
+      } else {
+        return "水瓶座";
+      }
+      break;
+  }
+};
+
+const handleCloseEmit = ({ y, m, d }: any) => {
+  state.dateFocusBool = false;
+  formState.y = y;
+  formState.m = m;
+  formState.d = d;
+
+  formState.xz = handle(m, d) || "";
+};
+
+const handleJump = async () => {
+  try {
+    const param = {
+      user: storage.getItem("newUserId"),
+      sex: 0,
+      status: 1,
+    };
+
+    const result = await updateLogin(param);
+
+    storage.setItem("token", result.token as string);
+
+    getUserInfo();
+  } catch (error) {}
+};
+</script>
+
+<template>
+  <div
+    class="w-108rem h-72rem max-w-1080px max-h-720px z-999 bg-white rounded-24px mt-18rem sm:mt-10rem mb-18rem flex-shrink-0"
+    style="box-shadow: 0px 0px 33px 0px rgba(219, 175, 201, 0.45)"
+  >
+    <div class="flex flex-row-start wh-full">
+      <div class="w-44.3rem h-full max-w-443px bg-white">
+        <div class="mt-9rem mx-4rem">
+          <div class="text-center">
+            <Image
+              name="catpaw-logo.svg"
+              :width="'16.5rem'"
+              :height="'4.3rem'"
+              class="mb-4.2rem max-w-165px"
+            />
+          </div>
+          <div class="title">个人档案</div>
+          <a-form
+            ref="formRef"
+            name="custom-validation"
+            :model="formState"
+            :rules="rules"
+            v-bind="layout"
+            autocomplete="off"
+          >
+            <div class="ta-item">
+              <div class="item-title">昵称</div>
+              <a-form-item ref="name" name="name">
+                <a-input
+                  class="normal-input-wrap"
+                  v-model:value="formState.name"
+                  placeholder="请输入你的昵称"
+                  @input="handleFormInput()"
+                  allow-clear
+                ></a-input>
+              </a-form-item>
+            </div>
+
+            <div class="ta-item">
+              <div class="item-title">性别</div>
+              <div class="ta-btn">
+                <div
+                  :class="[
+                    'ta-btn-item',
+                    'btn-girl',
+                    formState.sex === '2' && 'girl-active',
+                  ]"
+                  @click="formState.sex = '2'"
+                >
+                  <img :src="girlIcon" width="24" height="24" alt="" />
+                  女生
+                </div>
+                <div
+                  :class="[
+                    'ta-btn-item',
+                    'btn-boy',
+                    formState.sex === '1' && 'boy-active',
+                  ]"
+                  @click="formState.sex = '1'"
+                >
+                  <img :src="boyIcon" width="24" height="24" alt="" />
+                  男生
+                </div>
+              </div>
+            </div>
+
+            <div class="ta-item" style="margin-top: 24px">
+              <div class="item-title">出生年月</div>
+              <div class="date-wrapper">
+                <div
+                  :class="['date-box', state.dateFocusBool && 'active']"
+                  @click="state.dateFocusBool = !state.dateFocusBool"
+                >
+                  {{
+                    formState.y
+                      ? `${Number(formState.y)}/${Number(formState.m)}/${Number(
+                          formState.d
+                        )}`
+                      : formState.date
+                  }}
+                  <img
+                    :src="state.dateFocusBool ? dateActiveIcon : dateIcon"
+                    width="24"
+                    height="24"
+                    alt=""
+                  />
+                </div>
+                <div class="xz">{{ formState.xz }}</div>
+                <div class="date-picker" v-if="state.dateFocusBool">
+                  <DatePickerComp
+                    @handleCloseEmit="handleCloseEmit"
+                    :isShow="state.dateFocusBool"
+                    :year="formState.y"
+                    :month="formState.m"
+                    :day="formState.d"
+                  />
+                </div>
+                <div v-if="state.dateFocusBool" @click="state.dateFocusBool = false" class="ta-cover"></div>
+              </div>
+            </div>
+
+            <a-button
+              class="w-full color-white min-h-30px h-5.6rem mt-4rem"
+              :class="disabledCodeLogin ? 'bg-[#999]' : 'bg-black'"
+              @click="handleConfirm"
+              >确认</a-button
+            >
+
+            <a-form-item ref="agreementCheck" name="agreementCheck">
+              <div class="flex-row-start">
+                <a-checkbox
+                  class="self-start pink-checkbox"
+                  v-model:checked="formState.agreementCheck"
+                  @change="handleFormInput()"
+                >
+                </a-checkbox>
+
+                <div class="ml-0.8rem">
+                  <span class="text-14px">我已阅读并同意</span>
+                  <a
+                    class="text-14px inline-block color-#374AF5"
+                    href="javascript:;"
+                    @click="openDialog('1')"
+                    >《用户协议》</a
+                  >
+                  <span class="text-14px">和</span>
+                  <a
+                    class="text-14px inline-block color-#374AF5"
+                    href="javascript:;"
+                    @click="openDialog('2')"
+                    >《隐私协议》</a
+                  >
+                </div>
+              </div>
+            </a-form-item>
+          </a-form>
+          <div class="ta-jump">
+            <span @click="handleJump">跳过</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-64.8rem max-w-648px h-100% bg-[var(--pink-01)] relative">
+        <Image name="login-panel-bg.svg" :width="'100%'" :height="'100%'" />
+
+        <div
+          class="absolute right-24px top-24px cursor-pointer"
+          @click="goBack"
+        >
+          <Image
+            name="login-panel-close.svg"
+            :width="'24px'"
+            :height="'24px'"
+          />
+        </div>
+      </div>
+    </div>
+    <!--用户协议-->
+  </div>
+</template>
+
+<style scoped lang="scss">
+.ta-cover {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  left: 0;
+  top: 0;
+  z-index: 99;
+}
+.ta-jump {
+  display: flex;
+  justify-content: flex-end;
+
+  span {
+    text-decoration: underline;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}
+.date-wrapper {
+  display: flex;
+  height: 56px;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.4);
+  position: relative;
+
+  .date-picker {
+    position: absolute;
+    top: 65px;
+    width: calc(100% - 100px - 10px);
+    left: 0;
+    z-index: 999;
+    background-color: #fff;
+    box-shadow: 0 6px 27px;
+    border-radius: 7px;
+    padding: 20px 15px;
+  }
+
+  .date-box {
+    flex: 1;
+    border-radius: 6px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(244, 245, 247, 1);
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+
+  .active {
+    border-color: rgba(255, 106, 240, 1) !important;
+    background-color: rgba(255, 223, 252, 0.2) !important;
+    color: rgba(255, 106, 240, 1) !important;
+  }
+  .xz {
+    border-radius: 6px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(244, 245, 247, 1);
+    margin-left: 10px;
+  }
+}
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 24px;
+}
+
+.item-title {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ta-btn {
+  display: flex;
+  justify-content: space-between;
+
+  .ta-btn-item {
+    flex: 1;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(244, 245, 247, 1);
+    border: 1px solid transparent;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    border-radius: 6px;
+
+    img {
+      margin-right: 6px;
+    }
+  }
+
+  .btn-girl {
+    margin-right: 16px;
+  }
+
+  .ta-btn-item:hover {
+    border: 1px solid rgba(0, 0, 0, 1) !important;
+  }
+
+  .btn-girl:active {
+    background-color: rgba(255, 223, 252, 1) !important;
+  }
+
+  .btn-boy:active {
+    background-color: rgba(223, 232, 255, 1) !important;
+  }
+
+  .girl-active {
+    background-color: rgba(255, 223, 252, 1) !important;
+  }
+
+  .boy-active {
+    background-color: rgba(223, 232, 255, 1) !important;
+  }
+}
+
+:deep .el-tabs__item.is-active {
+  color: #000;
+}
+:deep .el-tabs__active-bar {
+  background-color: #000;
+}
+:deep .el-tabs__item {
+  color: #b3b3b3;
+}
+.input-group {
+  --at-apply: flex-row-start flex-nowrap;
+}
+:deep .input-group .ant-select-selector {
+  --at-apply: bg-[#F4F5F7] border-[#F4F5F7] outline-none h-5.6rem;
+}
+:deep .input-group .ant-select-selector .ant-select-selection-item {
+  --at-apply: line-height-5.6rem;
+}
+.normal-input-wrap {
+  --at-apply: h-5.6rem min-h-30px bg-[#F4F5F7] border-[#F4F5F7] outline-none;
+}
+:deep .normal-input-wrap input {
+  --at-apply: bg-[#F4F5F7] border-[#F4F5F7] outline-none;
+}
+</style>
