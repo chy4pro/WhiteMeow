@@ -6,15 +6,20 @@
     left-0
     top-0
     box-border
-    flex-row-end
+    flex-row-between
     z-1000
+    py-1.6rem
     bg-[rgba(255,255,255,0.3)]
       backdrop-blur-37px
     "
     @mouseleave="open = false">
-    <div class="cursor-pointer mr-24px"  @click="goHome">
-      <Image name="icon40_home.svg" class="ml-64px my-8px w-4rem h-4rem"/>
+
+    <div class="ml-40px cursor-pointer" @click="goHome">
+      <Image name="catpaw-logo.svg" alt="" class="w-16.5rem h-4.3rem" />
     </div>
+    <!-- <div class="cursor-pointer mr-24px"  @click="goHome">
+      <Image name="icon40_home.svg" class="ml-64px my-8px w-4rem h-4rem"/>
+    </div> -->
     <div class="cursor-pointer relative mr-64px ">
       <Image name="personal.svg" alt="" class="w-4rem h-4rem" @mouseenter="open = true" @click="goRegister"/>
       <!-- <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/> -->
