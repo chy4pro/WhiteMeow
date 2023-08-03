@@ -53,7 +53,7 @@
 
 
           <div v-for="[date, logs] in chatLogsMap" :key="date">
-            <div class="text-center mt-17px color-#666668 text-14px">
+            <div class="text-center mt-17px color-#666668 text-14px mb-13px">
               {{ date }}
             </div>
             <div class="flex flex-items-end mb-13px flex-nowrap px-30px " v-for="(message, index) in logs" :key="index" :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
@@ -241,7 +241,7 @@ const clickTabItem = (index:number) => {
   if(status === 'disable') return
 
   for(let i = 0; i < tablist.length; i++){
-    tablist[i].status = 'normal'
+    tablist[i].status = tablistMap[i].status
   }
   tablist[index].status = 'press'
 }
