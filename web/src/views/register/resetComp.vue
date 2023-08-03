@@ -167,7 +167,7 @@ const handleNext = () => {
 
             state.isNextBool = false;
 
-            if (result && !result.data) {
+            if (result && result.data) {
               state.type = "2";
             }
 
