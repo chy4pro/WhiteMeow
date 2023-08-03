@@ -301,11 +301,13 @@ const handlePsdLogin = () => {
           }
         })
         .catch((err: any) => {
-          message.error(err.msg);
+          //message.error(err.msg);
           state.isLoginBool = false;
         });
     }
-  } catch (error) {}
+  } catch (error:any) {
+    message.error(error.msg);
+  }
 };
 
 const showBackBool = computed(() => {
