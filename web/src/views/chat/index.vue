@@ -118,14 +118,18 @@
         </div>
         </div>
         <div class="footer">
-          <div class="bg-white h-56px rounded-8px w-full mr-30px">
-            <input
-              type="text"
-              class="wh-full outline-none border-none rounded-8px indent-24px text-14px"
+          <div class="bg-white h-56px rounded-8px w-full mr-30px flex-col-center">
+            <textarea
+              cols="25"
+              rows="5"
+              resize="none"
+              class="w-full h-36px outline-none border-none rounded-8px indent-24px text-14px line-height-32px"
               placeholder="你想和我聊些什么？......"
               v-model="newMessage"
+              ref="inputBoxRef"
               @keyup.enter.native="sendMessage"
-            />
+              @input="checkOverflow"
+            ></textarea>
           </div>
           <div @click="sendMessage" :disabled="!isConnect" class="cursor-pointer">
             <Image :name="sendBtnName" class="w-24px h-24px" @mouseenter="sendBtnName = 'icon_send_active.svg'" @mouseleave="sendBtnName = 'icon24_send.svg'"  />
@@ -271,7 +275,28 @@ const clickHeart = (message:Message) => {
     message.showHoverIcon = true
   }
 }
+const inputBoxRef = ref(null);
 
+const checkOverflow = () =>{
+  const inputBox:any = inputBoxRef.value;
+  if(inputBox){
+    const lineHeight = parseInt(window.getComputedStyle(inputBox).height, 10);
+    console.log('inputBox',window.getComputedStyle(inputBox).height);
+    
+    const lines = inputBox.scrollHeight / lineHeight;
+    console.log('inputBox.scrollHeight',inputBox.scrollHeight);
+    console.log('lines',lines);
+    
+    if (lines > 1) {
+      inputBox.classList.add('h-full');
+      inputBox.classList.remove('h-36px');
+    } else {
+      inputBox.classList.add('h-36px');
+      inputBox.classList.remove('h-full');
+    }
+  }
+
+}
 // 发送消息
 const sendMessage = () => {
   if(isConnect.value === true){
