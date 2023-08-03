@@ -13,7 +13,7 @@
       flex-shrink-0
       relative
       ">
-      <div class="uno-bg-home-panel-bg.svg wh-full">
+      <div class="uno-bg-home-panel-bg wh-full">
         <Image name="catpaw-logo.svg" :width="'16.5rem'" :height="'4.3rem'" class="ml-4rem mt-4.2rem max-w-165px"/>
         <div class="
           absolute
@@ -107,5 +107,10 @@ const loadImages = ()=> {
   color: var(--green-1);
 }
 
-
+.uno-bg-home-panel-bg{
+  background: url('@/assets/images/home-panel-bg.svg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+}
 </style>
