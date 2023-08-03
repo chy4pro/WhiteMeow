@@ -175,7 +175,6 @@
 // import "element-plus/theme-chalk/el-loading.css";
 // import "element-plus/theme-chalk/el-notification.css";
 import { ref } from 'vue';
-import * as dayjs from 'dayjs'
 import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
 import { chat } from '@/apis/chat.ts'
 import Socket from "@/utils/http/websocket.js";
@@ -298,12 +297,21 @@ const checkOverflow = () =>{
   }
 
 }
+
+function getFormattedDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
+  const day = String(today.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
 // 发送消息
 const sendMessage = () => {
   if(isConnect.value === true){
     if (newMessage.value) {
       // 处理非空的 messages.value
-      const today = dayjs(new Date().getTime()).format('YYYY-MM-DD');
+      const today = getFormattedDate();
 
       messages.value.push({
         created_at: today,
@@ -397,7 +405,7 @@ onMounted(()=>{
       // 监听服务器返回信息
         console.log("received",data)
         let dataFormat = JSON.parse(data)
-        const today = dayjs(new Date().getTime()).format('YYYY-MM-DD');
+        const today = getFormattedDate();
 
         if (!chatLogsMap.has(today)) {
           chatLogsMap.set(today, []); 
