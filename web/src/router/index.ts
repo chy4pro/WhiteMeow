@@ -79,8 +79,9 @@ export const routes: Array<RouteRecordRaw>  = [
 
       if(to.path === '/set') {
         if(token){
-          next('/chat')
+          return next('/chat')
         }
+        next()
       }
     }
   },
@@ -93,8 +94,9 @@ export const routes: Array<RouteRecordRaw>  = [
 
       if(to.path === '/profile') {
         if(token){
-          next('/chat')
+          return next('/chat')
         }
+        next()
       }
     }
   }

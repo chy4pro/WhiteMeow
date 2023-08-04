@@ -84,10 +84,6 @@ const handleFormInput = () => {
   }
 };
 
-const goBack = () => {
-  router.back();
-};
-
 const openDialog = (theType: string) => {
   if (theType === "1") {
     router.push({ path: "/protocol" });
@@ -208,7 +204,7 @@ onMounted(() => {
               </a-input>
             </a-form-item>
 
-            <div class="mt-0.8rem ta-forget">
+            <div class="ta-forget">
               <a-checkbox
                 class="text-14px pink-checkbox"
                 v-model:checked="autoLoginForIdentify"
@@ -233,16 +229,16 @@ onMounted(() => {
                 </a-checkbox>
 
                 <div class="ml-0.8rem">
-                  <span class="text-14px">我已阅读并同意</span>
+                  <span class="text-12px">我已阅读并同意</span>
                   <a
-                    class="text-14px inline-block color-#374AF5"
+                    class="text-12px inline-block color-#374AF5"
                     href="javascript:;"
                     @click="openDialog('1')"
                     >《用户协议》</a
                   >
-                  <span class="text-14px">和</span>
+                  <span class="text-12px">和</span>
                   <a
-                    class="text-14px inline-block color-#374AF5"
+                    class="text-12px inline-block color-#374AF5"
                     href="javascript:;"
                     @click="openDialog('2')"
                     >《隐私协议》</a
@@ -256,29 +252,17 @@ onMounted(() => {
 
       <div class="w-64.8rem max-w-648px h-100% bg-[var(--pink-01)] relative">
         <Image name="login-panel-bg.svg" :width="'100%'" :height="'100%'" />
-
-        <!-- <div
-          class="absolute right-24px top-24px cursor-pointer"
-          @click="goBack"
-        >
-          <Image
-            name="login-panel-close.svg"
-            :width="'24px'"
-            :height="'24px'"
-          />
-        </div> -->
       </div>
     </div>
-    <!--用户协议-->
   </div>
 </template>
 
 <style scoped>
 .title {
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 600;
   color: #000;
-  margin-bottom: 24px;
+  margin-bottom: 2.4rem;
 }
 
 :deep .el-tabs__item.is-active {
@@ -300,6 +284,7 @@ onMounted(() => {
   --at-apply: line-height-5.6rem;
 }
 .normal-input-wrap {
+  
   --at-apply: h-5.6rem min-h-30px bg-[#F4F5F7] border-[#F4F5F7] outline-none;
 }
 :deep .normal-input-wrap input {

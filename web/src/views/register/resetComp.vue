@@ -132,7 +132,7 @@ const sendMsg = async () => {
             }, 1000);
 
             const res = await sendSms({ mobile: formState.mobileNumber });
-            let result:any = res.data;
+            let result: any = res.data;
             if (result?.message !== "ok") {
               reset();
             }
@@ -165,7 +165,7 @@ const handleNext = () => {
               mobile: formState.mobileNumber,
               code: formState.identifyCode,
             });
-            let result:any = res.data;
+            let result: any = res.data;
             state.isNextBool = false;
 
             if (result && result.data) {
@@ -180,7 +180,7 @@ const handleNext = () => {
               mobile: formState.mobileNumber,
               password: formState.password,
             });
-            let result:any = res.data;
+            let result: any = res.data;
             state.isNextBool = false;
 
             if (result && result.message === "ok") {
@@ -318,9 +318,9 @@ const handleBack = () => {
 .ta-wrapper {
   color: #000;
   .title {
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: 600;
-    margin-bottom: 24px;
+    margin-bottom: 2.4rem;
   }
 }
 </style>

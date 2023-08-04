@@ -284,28 +284,28 @@ onMounted(() => {
   display: flex;
 }
 .n {
-  flex: 1;
+  width: 50%;
 }
 .n1 {
-  margin-right: 10px;
+  margin-right: 1rem;
 }
 .date-picker-confirm {
   background-color: rgba(0, 0, 0, 1);
   color: #fff;
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 0.4rem;
   cursor: pointer;
-  margin-top: 30px;
-  height: 32px;
+  height: 3.2rem;
 }
 .calendar {
   width: 100%;
-  font-size: 12px;
+  font-size: 1.2rem;
   color: #000;
+  height: 20rem;
 }
 
 .week {
@@ -314,8 +314,8 @@ onMounted(() => {
 }
 
 .week li {
-  width: 30px;
-  height: 20px;
+  width: 3rem;
+  height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -330,28 +330,28 @@ onMounted(() => {
 }
 
 .days div {
-  height: 24px;
-  width: 30px;
+  height: 2.4rem;
+  width: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .days div span {
-  padding: 2px 10px;
+  padding: 0.2rem 1rem;
 }
 
 .days .wisas:hover {
   background-color: rgba(255, 106, 240, 1);
   color: #fff;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.5rem;
 }
 
 .active {
   background-color: rgba(255, 106, 240, 1);
   color: #fff;
-  border-radius: 5px;
+  border-radius: 0.5rem;
 }
 
 .days .gay {

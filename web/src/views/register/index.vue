@@ -473,7 +473,7 @@ const handleBackEmit = () => {
                 </a-form-item>
               </template>
 
-              <div class="mt-0.8rem ta-forget">
+              <div class="ta-forget">
                 <a-checkbox
                   class="text-14px pink-checkbox"
                   v-model:checked="autoLoginForIdentify"
@@ -514,16 +514,16 @@ const handleBackEmit = () => {
                   </a-checkbox>
 
                   <div class="ml-0.8rem">
-                    <span class="text-14px">我已阅读并同意</span>
+                    <span class="text-12px">我已阅读并同意</span>
                     <a
-                      class="text-14px inline-block color-#374AF5"
+                      class="text-12px inline-block color-#374AF5"
                       href="javascript:;"
                       @click="openDialog('1')"
                       >《用户协议》</a
                     >
-                    <span class="text-14px">和</span>
+                    <span class="text-12px">和</span>
                     <a
-                      class="text-14px inline-block color-#374AF5"
+                      class="text-12px inline-block color-#374AF5"
                       href="javascript:;"
                       @click="openDialog('2')"
                       >《隐私协议》</a
@@ -538,29 +538,17 @@ const handleBackEmit = () => {
 
       <div class="w-64.8rem max-w-648px h-100% bg-[var(--pink-01)] relative">
         <Image name="login-panel-bg.svg" :width="'100%'" :height="'100%'" />
-
-        <!-- <div
-          class="absolute right-24px top-24px cursor-pointer"
-          @click="goBack"
-        >
-          <Image
-            name="login-panel-close.svg"
-            :width="'24px'"
-            :height="'24px'"
-          />
-        </div> -->
       </div>
     </div>
-    <!--用户协议-->
   </div>
 </template>
 
 <style scoped lang="scss">
 .ta-back {
-  width: 24px;
-  height: 24px;
+  width: 2.4rem;
+  height: 2.4rem;
   position: absolute;
-  top: -55px;
+  top: -5.5rem;
   left: 0;
   background-image: url("@/assets/images/login/back.png");
   background-size: 100% 100%;
@@ -581,7 +569,7 @@ const handleBackEmit = () => {
 
   span {
     text-decoration: underline;
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: 500;
     color: rgba(0, 0, 0, 1);
     cursor: pointer;
@@ -589,7 +577,7 @@ const handleBackEmit = () => {
 }
 .ta-tab {
   display: flex;
-  margin-bottom: 24px;
+  margin-bottom: 2.4rem;
 
   .tab-item-active {
     border-bottom: 2px solid #000 !important;
@@ -598,14 +586,14 @@ const handleBackEmit = () => {
   }
   .tab-item {
     flex: 1;
-    height: 28px;
+    height: 2.8rem;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     border-bottom: 2px solid rgba(217, 217, 217, 1);
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: 500;
-    line-height: 18px;
+    line-height: 1.8rem;
     cursor: pointer;
     color: rgba(0, 0, 0, 0.4);
   }

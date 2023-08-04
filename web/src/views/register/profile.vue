@@ -91,10 +91,6 @@ const handleFormInput = () => {
   }
 };
 
-const goBack = () => {
-  router.back();
-};
-
 const openDialog = (theType: string) => {
   if (theType === "1") {
     router.push({ path: "/protocol" });
@@ -127,7 +123,7 @@ const handleConfirm = () => {
           state.isconfirmBool = true;
 
           const res = await updateLogin(param);
-          let result:any = res.data;
+          let result: any = res.data;
           state.isconfirmBool = false;
 
           storage.setItem("token", result.token as string);
@@ -148,7 +144,7 @@ const getUserInfo = async () => {
     };
 
     const res = await getUser(params);
-    let result:any = res.data;
+    let result: any = res.data;
     loginStore.userInfo = result;
 
     if (result && Object.keys(result).length > 0) {
@@ -271,7 +267,7 @@ const handleJump = async () => {
     };
 
     const res = await updateLogin(param);
-    let result:any = res.data;
+    let result: any = res.data;
     storage.setItem("token", result.token as string);
 
     getUserInfo();
@@ -354,7 +350,14 @@ onMounted(() => {
 
             <div class="ta-item" style="margin-top: 24px">
               <div class="item-title">出生年月</div>
-              <div class="date-wrapper">
+              <div
+                class="date-wrapper"
+                :style="{
+                  color: formState.y
+                    ? 'rgba(0, 0, 0, 1)'
+                    : 'rgba(0, 0, 0, 0.4)',
+                }"
+              >
                 <div
                   :class="['date-box', state.dateFocusBool && 'active']"
                   @click="state.dateFocusBool = !state.dateFocusBool"
@@ -408,16 +411,16 @@ onMounted(() => {
                 </a-checkbox>
 
                 <div class="ml-0.8rem">
-                  <span class="text-14px">我已阅读并同意</span>
+                  <span class="text-12px">我已阅读并同意</span>
                   <a
-                    class="text-14px inline-block color-#374AF5"
+                    class="text-12px inline-block color-#374AF5"
                     href="javascript:;"
                     @click="openDialog('1')"
                     >《用户协议》</a
                   >
-                  <span class="text-14px">和</span>
+                  <span class="text-12px">和</span>
                   <a
-                    class="text-14px inline-block color-#374AF5"
+                    class="text-12px inline-block color-#374AF5"
                     href="javascript:;"
                     @click="openDialog('2')"
                     >《隐私协议》</a
@@ -434,20 +437,8 @@ onMounted(() => {
 
       <div class="w-64.8rem max-w-648px h-100% bg-[var(--pink-01)] relative">
         <Image name="login-panel-bg.svg" :width="'100%'" :height="'100%'" />
-
-        <!-- <div
-          class="absolute right-24px top-24px cursor-pointer"
-          @click="goBack"
-        >
-          <Image
-            name="login-panel-close.svg"
-            :width="'24px'"
-            :height="'24px'"
-          />
-        </div> -->
       </div>
     </div>
-    <!--用户协议-->
   </div>
 </template>
 
@@ -468,35 +459,34 @@ onMounted(() => {
   span {
     text-decoration: underline;
     color: rgba(0, 0, 0, 0.4);
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: 500;
     cursor: pointer;
   }
 }
 .date-wrapper {
   display: flex;
-  height: 56px;
-  font-size: 16px;
+  height: 5.6rem;
+  font-size: 1.6rem;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.4);
   position: relative;
 
   .date-picker {
     position: absolute;
-    top: 65px;
-    width: calc(100% - 100px - 10px);
+    top: 6.5rem;
+    width: calc(100% - 10rem - 1rem);
     left: 0;
     z-index: 999;
     background-color: #fff;
-    box-shadow: 0 6px 27px;
-    border-radius: 7px;
-    padding: 20px 15px;
+    box-shadow: 0 0.6rem 2.7rem;
+    border-radius: 0.7rem;
+    padding: 2rem 1.5rem;
   }
 
   .date-box {
     flex: 1;
     border-radius: 6px;
-    padding: 16px;
+    padding: 1.6rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -505,32 +495,38 @@ onMounted(() => {
     border: 1px solid transparent;
   }
 
+  .date-box:hover {
+    border-color: rgba(0, 0, 0, 1) !important;
+  }
+
   .active {
-    border-color: rgba(255, 106, 240, 1) !important;
-    background-color: rgba(255, 223, 252, 0.2) !important;
-    color: rgba(255, 106, 240, 1) !important;
+    border-color: rgba(0, 0, 0, 1) !important;
+    background-color: rgba(255, 223, 252, 1) !important;
+    color: rgba(0, 0, 0, 1) !important;
   }
   .xz {
-    border-radius: 6px;
-    width: 100px;
+    border-radius: 0.6rem;
+    width: 10rem;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgba(244, 245, 247, 1);
-    margin-left: 10px;
+    margin-left: 1rem;
   }
 }
 .title {
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 600;
   color: #000;
-  margin-bottom: 24px;
+  margin-bottom: 2.4rem;
+  padding-left: 0.5rem;
 }
 
 .item-title {
   color: rgba(0, 0, 0, 0.6);
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 500;
+  padding-left: 0.5rem;
 }
 
 .ta-btn {
@@ -539,25 +535,25 @@ onMounted(() => {
 
   .ta-btn-item {
     flex: 1;
-    height: 56px;
+    height: 5.6rem;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: rgba(244, 245, 247, 1);
     border: 1px solid transparent;
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 0.6rem;
 
     img {
-      margin-right: 6px;
+      margin-right: 0.6rem;
     }
   }
 
   .btn-girl {
-    margin-right: 16px;
+    margin-right: 1.6rem;
   }
 
   .ta-btn-item:hover {
