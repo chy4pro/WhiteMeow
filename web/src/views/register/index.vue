@@ -200,8 +200,6 @@ const updateLoginStatus = async () => {
   }
 };
 
-console.log(1)
-
 const getUserInfo = async () => {
   try {
     let params = {
