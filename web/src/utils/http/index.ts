@@ -28,7 +28,7 @@ interface ResultData<T> {
 const URL: string = import.meta.env.VITE_API_BASE_URL
 enum RequestEnums {
   TIMEOUT = 20000,
-  OVERDUE = 600, // 登录失效
+  OVERDUE = 'logout', // 登录失效
   FAIL = 999, // 请求失败
   SUCCESS = 200 // 请求成功
 }
@@ -90,10 +90,12 @@ class RequestHttp {
           localStorage.setItem('token', '') // router.replace({ //   path: '/login' // })
           return Promise.reject(data)
         } // 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
-        // if (data.code && data.code !== RequestEnums.SUCCESS) {
-        //   //ElMessage.error(data) // 此处也可以使用组件提示报错信息
-        //   return Promise.reject(data)
-        // }
+        if (data.code && data.code !== RequestEnums.SUCCESS) {
+          //ElMessage.error(data) // 此处也可以使用组件提示报错信息
+          //return Promise.reject(data)
+          message.error(data.msg as string)
+          return data
+        }
         return data
       },
       (error: AxiosError) => {
