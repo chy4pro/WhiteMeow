@@ -69,22 +69,22 @@ const props = defineProps({
   }
 });
 const open = ref(false)
-const nickname:any = computed(()=>{
-  let userInfo = loginStore.userInfo
-  if(Object.keys(userInfo).length === 0){
-    return ''
-  }
+interface UserInfo {
+  nickname: string
+}
 
-  if(userInfo.nickname === ''){
-    return ''
-  }else{
-    if(nickname){
-      return nickname
-    }
-    else {
-      return '游客'
-    }
-  }
+const getNickname = (userInfo: UserInfo) => {
+  // 业务逻辑
+  if(!userInfo) return '游客'
+  
+  if(!userInfo.nickname) return '游客'
+  
+  return userInfo.nickname 
+}
+
+const nickname: any = computed(() => {
+  const userInfo = loginStore.userInfo
+  return getNickname(userInfo)
 })
 
 const goHome = () => {
