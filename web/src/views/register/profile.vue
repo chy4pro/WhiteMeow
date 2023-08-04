@@ -79,6 +79,17 @@ const layout = {
 let disabledCodeLogin = ref(true);
 
 const handleFormInput = () => {
+  if (
+    formState.name &&
+    formState.agreementCheck
+  ) {
+    disabledCodeLogin.value = false;
+  } else {
+    disabledCodeLogin.value = true;
+  }
+
+  return;
+
   if (formRef && formRef.value) {
     formRef.value
       .validate()
@@ -394,12 +405,19 @@ onMounted(() => {
               </div>
             </div>
 
-            <a-button
+            <!-- <a-button
               class="w-full color-white min-h-30px h-5.6rem mt-4rem"
               :class="disabledCodeLogin ? 'bg-[#999]' : 'bg-black'"
               @click="handleConfirm"
               >确认</a-button
+            > -->
+
+            <div
+              @click="handleConfirm"
+              :class="['ta-button', !disabledCodeLogin && 'ta-btn-active']"
             >
+              确认
+            </div>
 
             <a-form-item ref="agreementCheck" name="agreementCheck">
               <div class="flex-row-start">
@@ -443,6 +461,29 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+.ta-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 0.6rem;
+  margin-top: 4rem;
+  height: 5.6rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+.ta-btn-active:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.ta-btn-active:active {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.ta-btn-active {
+  background-color: rgba(0, 0, 0, 1);
+}
+
 .ta-cover {
   position: fixed;
   width: 100%;

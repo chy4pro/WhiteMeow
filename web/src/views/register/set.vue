@@ -72,6 +72,18 @@ const layout = {
 let disabledCodeLogin = ref(true);
 
 const handleFormInput = () => {
+  if (
+    formState.password &&
+    formState.confirmPassword &&
+    formState.agreementCheck
+  ) {
+    disabledCodeLogin.value = false;
+  } else {
+    disabledCodeLogin.value = true;
+  }
+
+  return;
+
   if (formRef && formRef.value) {
     formRef.value
       .validate()
@@ -106,7 +118,7 @@ const handleConfirm = () => {
         .validate()
         .then(async () => {
           const res = await updateLogin(param);
-          let result:any = res.data;
+          let result: any = res.data;
           router.push({
             path: "/profile",
             query: {
@@ -212,12 +224,19 @@ onMounted(() => {
               >
             </div>
 
-            <a-button
+            <!-- <a-button
               class="w-full color-white min-h-30px h-5.6rem mt-4rem"
               :class="disabledCodeLogin ? 'bg-[#999]' : 'bg-black'"
               @click="handleConfirm"
               >确认</a-button
+            > -->
+
+            <div
+              @click="handleConfirm"
+              :class="['ta-button', !disabledCodeLogin && 'ta-btn-active']"
             >
+              确认
+            </div>
 
             <a-form-item ref="agreementCheck" name="agreementCheck">
               <div class="flex-row-start">
@@ -258,6 +277,28 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.ta-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 0.6rem;
+  margin-top: 4rem;
+  height: 5.6rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+.ta-btn-active:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.ta-btn-active:active {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.ta-btn-active {
+  background-color: rgba(0, 0, 0, 1);
+}
 .title {
   font-size: 1.6rem;
   font-weight: 600;
@@ -284,7 +325,6 @@ onMounted(() => {
   --at-apply: line-height-5.6rem;
 }
 .normal-input-wrap {
-  
   --at-apply: h-5.6rem min-h-30px bg-[#F4F5F7] border-[#F4F5F7] outline-none;
 }
 :deep .normal-input-wrap input {

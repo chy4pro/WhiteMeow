@@ -111,6 +111,31 @@ let disabledCodeLogin = ref(true);
 
 // 监听表单输入事件，实时校验并更新按钮状态
 const handleFormInput = () => {
+  if (state.loginType === "code") {
+    if (
+      formState.mobileNumber &&
+      formState.identifyCode &&
+      formState.agreementCheck
+    ) {
+      disabledCodeLogin.value = false;
+    } else {
+      disabledCodeLogin.value = true;
+    }
+  }
+
+  if (state.loginType === "psd") {
+    if (
+      formState.mobileNumber &&
+      formState.password &&
+      formState.agreementCheck
+    ) {
+      disabledCodeLogin.value = false;
+    } else {
+      disabledCodeLogin.value = true;
+    }
+  }
+
+  return;
   if (formRef && formRef.value) {
     formRef.value
       .validate()
@@ -166,7 +191,7 @@ const sendMsg = async () => {
             }, 1000);
 
             const res = await sendSms({ mobile: formState.mobileNumber });
-            let result:any = res.data;
+            let result: any = res.data;
             if (result?.message !== "ok") {
               reset();
             }
@@ -191,7 +216,7 @@ const updateLoginStatus = async () => {
     };
 
     const res = await updateLogin(params);
-    let result:any = res.data;
+    let result: any = res.data;
     if (result && result.token && result.token.length > 0) {
       storage.setItem("token", result.token as string);
       getUserInfo();
@@ -209,7 +234,7 @@ const getUserInfo = async () => {
     };
 
     const res = await getUser(params);
-    let result:any = res.data;
+    let result: any = res.data;
     loginStore.userInfo = result;
     if (result && Object.keys(result).length > 0) {
       storage.setItem("userInfo", JSON.stringify(result));
@@ -237,8 +262,8 @@ const startLogin = async () => {
         .validate()
         .then(async () => {
           disabledCodeLogin.value = false;
-          const res:any = await loginByCode(params);
-          let result:any = res.data;
+          const res: any = await loginByCode(params);
+          let result: any = res.data;
 
           if (result && result.user) {
             newUserId.value = result.user as string;
@@ -254,8 +279,8 @@ const startLogin = async () => {
             router.push({
               path: "/set",
               query: {
-                auto: autoLoginForIdentify.value ? '1' : '0',
-                read: formState.agreementCheck ? '1' : '0',
+                auto: autoLoginForIdentify.value ? "1" : "0",
+                read: formState.agreementCheck ? "1" : "0",
               },
             });
           }
@@ -299,8 +324,8 @@ const handlePsdLogin = () => {
           }
           state.isLoginBool = true;
 
-          const res:any = await login(params);
-          let result:any = res.data;
+          const res: any = await login(params);
+          let result: any = res.data;
           state.isLoginBool = false;
 
           if (result && result.status === 1) {
@@ -487,21 +512,35 @@ const handleBackEmit = () => {
               </div>
 
               <template v-if="state.loginType === 'code'">
-                <a-button
+                <!-- <a-button
                   class="w-full color-white min-h-30px h-5.6rem mt-4rem"
                   :class="disabledCodeLogin ? 'bg-[#999]' : 'bg-black'"
                   @click="startLogin"
                   >登录/注册</a-button
+                > -->
+
+                <div
+                  @click="startLogin"
+                  :class="['ta-button', !disabledCodeLogin && 'ta-btn-active']"
                 >
+                登录/注册
+                </div>
               </template>
 
               <template v-if="state.loginType === 'psd'">
-                <a-button
+                <!-- <a-button
                   class="w-full color-white min-h-30px h-5.6rem mt-4rem"
                   :class="disabledCodeLogin ? 'bg-[#999]' : 'bg-black'"
                   @click="handlePsdLogin"
                   >登录</a-button
+                > -->
+
+                <div
+                  @click="handlePsdLogin"
+                  :class="['ta-button', !disabledCodeLogin && 'ta-btn-active']"
                 >
+                  登录
+                </div>
               </template>
 
               <a-form-item ref="agreementCheck" name="agreementCheck">
@@ -544,6 +583,28 @@ const handleBackEmit = () => {
 </template>
 
 <style scoped lang="scss">
+.ta-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 0.6rem;
+  margin-top: 4rem;
+  height: 5.6rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+.ta-btn-active:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.ta-btn-active:active {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.ta-btn-active {
+  background-color: rgba(0, 0, 0, 1);
+}
 .ta-back {
   width: 2.4rem;
   height: 2.4rem;

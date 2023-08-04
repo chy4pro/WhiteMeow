@@ -88,6 +88,29 @@ const layout = {
 };
 
 const handleFormInput = () => {
+  if (state.type === "1") {
+    if (
+      formState.mobileNumber &&
+      formState.identifyCode
+    ) {
+      disabledCodeLogin.value = false;
+    } else {
+      disabledCodeLogin.value = true;
+    }
+  }
+  if (state.type === "2") {
+    if (
+      formState.password &&
+      formState.confirmPassword
+    ) {
+      disabledCodeLogin.value = false;
+    } else {
+      disabledCodeLogin.value = true;
+    }
+  }
+
+  return
+
   if (formRef && formRef.value) {
     formRef.value
       .validate()
@@ -170,6 +193,7 @@ const handleNext = () => {
 
             if (result && result.data) {
               state.type = "2";
+              disabledCodeLogin.value = true;
             }
 
             return;
@@ -304,17 +328,47 @@ const handleBack = () => {
         </a-form-item>
       </template>
 
-      <a-button
+      <!-- <a-button
         class="w-full color-white min-h-30px h-5.6rem mt-4rem"
         :class="disabledCodeLogin ? 'bg-[#999]' : 'bg-black'"
         @click="handleNext"
         >{{ state.type === "1" ? "下一步" : "确认" }}</a-button
+      > -->
+
+      <div
+        @click="handleNext"
+        :class="['ta-button', !disabledCodeLogin && 'ta-btn-active']"
       >
+      {{ state.type === "1" ? "下一步" : "确认" }}
+      </div>
     </a-form>
   </div>
 </template>
   
   <style lang="scss" scoped>
+.ta-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 0.6rem;
+  margin-top: 4rem;
+  height: 5.6rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+.ta-btn-active:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.ta-btn-active:active {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.ta-btn-active {
+  background-color: rgba(0, 0, 0, 1);
+}
+
 .ta-wrapper {
   color: #000;
   .title {
