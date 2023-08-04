@@ -199,7 +199,7 @@ const scrollBottomFlag = ref(false);
 const recordList = reactive({
   page: 0,
   page_size: 10,
-  user: storage.getItem('token') ? storage.getItem('newUserId') : storage.getItem('userId') || genId('userId',1),
+  user: window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
   open_kf_id: 'wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA',
   start_created_at: '',
   end_created_at: ''
@@ -350,7 +350,7 @@ const sendMessage = () => {
         "typeStatus": 'sendMsg',
         "message_id":genId(`msg_${counter.index}`, 2 ,20),
         "message":newMessage.value,
-        "user": storage.getItem('token') ? storage.getItem('newUserId') : storage.getItem('userId') || genId('userId',1),
+        "user": window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
         "open_kf_id": "wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA"
       }
       ws.sendMsg(sendData)

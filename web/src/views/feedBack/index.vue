@@ -42,7 +42,7 @@ const router = useRouter();
 const submit = async() => {
   console.log(commentTitle.value, commentContent.value);
   let params = {
-      'user': storage.getItem('userId'),
+      'user': window.localStorage.getItem('userId'),
       'message_id': new GenId({ WorkerId: 1, SeqBitLength: 14 }).NextId().toString(),
       'open_kf_id': 'wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA',
       'title': commentTitle.value,

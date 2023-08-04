@@ -5,7 +5,7 @@ import { storage } from '@/utils/index.ts'
 
 const requireAuth: NavigationGuard = (to, from, next) => {
   // 从 localStorage 获取 token
-  const token = storage.getItem('token');
+  const token = window.localStorage.getItem('token');
 
   if(to.path === '/register') {
     // 登录过了，可以直接跳转

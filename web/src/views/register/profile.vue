@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, defineAsyncComponent, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useStorage } from '@vueuse/core'
 
 import { storage } from "@/utils/index.ts";
 
@@ -90,16 +91,16 @@ const handleFormInput = () => {
 
   return;
 
-  if (formRef && formRef.value) {
-    formRef.value
-      .validate()
-      .then(() => {
-        disabledCodeLogin.value = false;
-      })
-      .catch(() => {
-        disabledCodeLogin.value = true;
-      });
-  }
+  // if (formRef && formRef.value) {
+  //   formRef.value
+  //     .validate()
+  //     .then(() => {
+  //       disabledCodeLogin.value = false;
+  //     })
+  //     .catch(() => {
+  //       disabledCodeLogin.value = true;
+  //     });
+  // }
 };
 
 const openDialog = (theType: string) => {
@@ -116,7 +117,7 @@ const handleConfirm = () => {
 
   try {
     const param = {
-      user: storage.getItem("newUserId"),
+      user: window.localStorage.getItem("newUserId"),
       sex: Number(formState.sex),
       name: formState.name,
       birthday: `${formState.y}-${formState.m}-${formState.d}`,
@@ -137,8 +138,8 @@ const handleConfirm = () => {
           let result: any = res.data;
           state.isconfirmBool = false;
 
-          storage.setItem("token", result.token as string);
-
+          //storage.setItem("token", result.token as string);
+          loginStore.token = useStorage("token", result);
           getUserInfo();
         })
         .catch(() => {
@@ -151,7 +152,7 @@ const handleConfirm = () => {
 const getUserInfo = async () => {
   try {
     let params = {
-      Authorization: storage.getItem("token"),
+      Authorization: window.localStorage.getItem("token"),
     };
 
     const res = await getUser(params);
@@ -159,7 +160,8 @@ const getUserInfo = async () => {
     loginStore.userInfo = result;
 
     if (result && Object.keys(result).length > 0) {
-      storage.setItem("userInfo", JSON.stringify(result));
+      //storage.setItem("userInfo", JSON.stringify(result));
+      loginStore.userInfo = useStorage("userInfo", result);
     }
 
     router.push({ path: "/chat" });
@@ -272,14 +274,15 @@ const handleCloseEmit = ({ y, m, d }: any) => {
 const handleJump = async () => {
   try {
     const param = {
-      user: storage.getItem("newUserId"),
+      user: window.localStorage.getItem("newUserId"),
       sex: 0,
       status: 1,
     };
 
     const res = await updateLogin(param);
     let result: any = res.data;
-    storage.setItem("token", result.token as string);
+    //storage.setItem("token", result.token as string);
+    loginStore.token = useStorage("token", result.token as string);
 
     getUserInfo();
   } catch (error) {}

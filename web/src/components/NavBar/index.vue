@@ -33,14 +33,14 @@
               </div>
             </div>
 
-            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" @click="goRegister()" v-if="!getToken">
+            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" @click="goRegister()" v-if="!loginStore.token">
             <div class="py-12px flex-row-center ">
               <Image name="icon24_account.svg" :width="'24px'" :height="'24px'" />
               <span class="text-16px font-500 line-height-normal">注册/登录</span>
             </div>
             </div>
             
-            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" v-if="getToken" @click="startLogout">
+            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" v-if="loginStore.token" @click="startLogout">
             <div class="py-12px flex-row-center">
               <Image name="icon24_sign_out.svg" :width="'24px'" :height="'24px'" />
               <span class="text-16px font-500 line-height-normal">退出登录</span>
@@ -55,6 +55,8 @@
 </template>
 
 <script setup lang="ts">
+import { useStorage } from '@vueuse/core'
+
 import { useLoginStore } from '@/store/index.js';
 import { logout } from '@/apis/login.ts'
 import { storage } from '@/utils/index.ts'
@@ -83,9 +85,9 @@ const getNickname = (userInfo: UserInfo) => {
 }
 
 const nickname: any = computed(() => {
-  const userInfo = loginStore.userInfo
+  const name = loginStore.userInfo.nickname
   
-  return getNickname(userInfo)
+  return name;
 })
 
 const getToken: any = computed(() => {
@@ -101,7 +103,6 @@ const goFeedBack = () => {
   router.push({ path: '/feedBack' });
 };
 let token = ref('')
-token = storage.getItem('token')
 
 const goPersonal = () => {
   if(!token){
@@ -133,6 +134,7 @@ const startLogout = async() => {
         // storage.removeItem('userId')
         // storage.removeItem('newUserId')
         // storage.removeItem('token')
+        loginStore.token = null
         storage.clear()
         //router.push({ path: '/'});
         goHome()

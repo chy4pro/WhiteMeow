@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, defineAsyncComponent } from "vue";
 import { useRouter } from "vue-router";
+import { useStorage } from '@vueuse/core'
 
 const ResetComp = defineAsyncComponent(() => import("./resetComp.vue"));
 
@@ -136,18 +137,18 @@ const handleFormInput = () => {
   }
 
   return;
-  if (formRef && formRef.value) {
-    formRef.value
-      .validate()
-      .then(() => {
-        disabledCodeLogin.value = false;
-        //return false;
-      })
-      .catch((err) => {
-        disabledCodeLogin.value = true;
-        //return true
-      });
-  }
+  // if (formRef && formRef.value) {
+  //   formRef.value
+  //     .validate()
+  //     .then(() => {
+  //       disabledCodeLogin.value = false;
+  //       //return false;
+  //     })
+  //     .catch((err) => {
+  //       disabledCodeLogin.value = true;
+  //       //return true
+  //     });
+  // }
 };
 
 const goBack = () => {
@@ -218,7 +219,8 @@ const updateLoginStatus = async () => {
     const res = await updateLogin(params);
     let result: any = res.data;
     if (result && result.token && result.token.length > 0) {
-      storage.setItem("token", result.token as string);
+      //storage.setItem("token", result.token as string);
+      loginStore.token = useStorage("token", result.token as string);
       getUserInfo();
       router.push({ name: "chat" });
     }
@@ -230,14 +232,15 @@ const updateLoginStatus = async () => {
 const getUserInfo = async () => {
   try {
     let params = {
-      Authorization: storage.getItem("token"),
+      Authorization: window.localStorage.getItem("token"),
     };
 
     const res = await getUser(params);
     let result: any = res.data;
     loginStore.userInfo = result;
     if (result && Object.keys(result).length > 0) {
-      storage.setItem("userInfo", JSON.stringify(result));
+      //storage.setItem("userInfo", JSON.stringify(result));
+      loginStore.userInfo = useStorage("userInfo", result);
     }
 
     router.push({ path: "/chat" });
@@ -267,11 +270,14 @@ const startLogin = async () => {
 
           if (result && result.user) {
             newUserId.value = result.user as string;
-            storage.setItem("newUserId", result.user as string);
+            //storage.setItem("newUserId", result.user as string);
+            loginStore.newUserId = useStorage("newUserId", result.user as string);
           }
 
           if (result && result.status === 1) {
-            storage.setItem("token", result.token as string);
+            loginStore.token = useStorage("token", result.token as string);
+            
+            //storage.setItem("token", result.token as string);
             getUserInfo();
           }
 
@@ -329,9 +335,11 @@ const handlePsdLogin = () => {
           state.isLoginBool = false;
 
           if (result && result.status === 1) {
-            storage.setItem("newUserId", result.user as string);
-            storage.setItem("token", result.token as string);
-
+            //storage.setItem("newUserId", result.user as string);
+            loginStore.newUserId = useStorage("newUserId", result.user as string);
+            //storage.setItem("token", result.token as string);
+            loginStore.token = useStorage("token", result.token as string);
+            
             getUserInfo();
           }
         })

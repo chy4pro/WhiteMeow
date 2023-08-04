@@ -10,6 +10,8 @@ import {isPlainObject} from 'lodash-es'
 import {storage} from '@/utils/storage'
 import ElMessage from "element-plus"
 import { message } from 'ant-design-vue';
+import { useStorage } from '@vueuse/core'
+import { useLoginStore } from "@/store/index.js";
 
 // 定义请求响应参数，不含data
 interface Result {
@@ -57,8 +59,8 @@ class RequestHttp {
     let defaults = {};
     this.service.interceptors.request.use(
       (config:any) => {
-        const auth = storage.getItem('auth') || ''
-        const token = storage.getItem('token') || ''
+        const auth = window.localStorage.getItem('auth') || ''
+        const token = window.localStorage.getItem('token') || ''
         // get请求data转换
         if (config.method === 'get' && config.data && isPlainObject(config.data)) {
           config.data = qs.stringify(config.data)
@@ -87,7 +89,10 @@ class RequestHttp {
         const { data, config } = response // 解构
         if (data.code === RequestEnums.OVERDUE) {
           // 登录信息失效，应跳转到登录页面，并清空本地的token
-          localStorage.setItem('token', '') // router.replace({ //   path: '/login' // })
+          //localStorage.setItem('token', '') // router.replace({ //   path: '/login' // })
+          const loginStore = useLoginStore();
+
+          loginStore.token = useStorage('token', '')
           return Promise.reject(data)
         } // 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
         if (data.code && data.code !== RequestEnums.SUCCESS) {

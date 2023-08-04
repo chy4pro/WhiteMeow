@@ -1,14 +1,17 @@
 // counter.js
 import { defineStore } from 'pinia';
 import { storage } from '@/utils/index.ts';
+import { useStorage } from '@vueuse/core'
+
 export const useCounterStore = defineStore('counter', {
   state: () => ({
-    index: 0 | storage.getItem('index'),
+    index: 0 as any,
   }),
   actions: {
     add() {
-      this.index += 1;
-      storage.setItem('index', this.index);
+      let index = this.index + 1;
+      // storage.setItem('index', this.index);
+      this.index = useStorage('index', index);
     },
   },
 });
@@ -22,10 +25,10 @@ export const userMessage = defineStore('message', {
 //login
 export const useLoginStore = defineStore('login', {
   state: () => ({
-    isLogin: storage.getItem('token') ? true : false,
-    token: storage.getItem('token') || '',
-    userInfo: storage.getItem('userInfo') || {},
-    newUserId: storage.getItem('newUserId')
+    isLogin: window.localStorage.getItem('token') ? true : false as any,
+    token: window.localStorage.getItem('token') || '' as any,
+    userInfo: window.localStorage.getItem('userInfo') || {} as any,
+    newUserId: window.localStorage.getItem('newUserId') as any,
   }),
   actions: {
     login() {

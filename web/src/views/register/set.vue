@@ -84,16 +84,16 @@ const handleFormInput = () => {
 
   return;
 
-  if (formRef && formRef.value) {
-    formRef.value
-      .validate()
-      .then(() => {
-        disabledCodeLogin.value = false;
-      })
-      .catch((err) => {
-        disabledCodeLogin.value = true;
-      });
-  }
+  // if (formRef && formRef.value) {
+  //   formRef.value
+  //     .validate()
+  //     .then(() => {
+  //       disabledCodeLogin.value = false;
+  //     })
+  //     .catch((err) => {
+  //       disabledCodeLogin.value = true;
+  //     });
+  // }
 };
 
 const openDialog = (theType: string) => {
@@ -108,7 +108,7 @@ const openDialog = (theType: string) => {
 const handleConfirm = () => {
   try {
     const param = {
-      user: storage.getItem("newUserId"),
+      user: window.localStorage.getItem("newUserId"),
       password: formState.password,
       status: 3,
     };

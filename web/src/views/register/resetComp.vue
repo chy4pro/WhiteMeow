@@ -111,16 +111,16 @@ const handleFormInput = () => {
 
   return
 
-  if (formRef && formRef.value) {
-    formRef.value
-      .validate()
-      .then(() => {
-        disabledCodeLogin.value = false;
-      })
-      .catch((err) => {
-        disabledCodeLogin.value = true;
-      });
-  }
+  // if (formRef && formRef.value) {
+  //   formRef.value
+  //     .validate()
+  //     .then(() => {
+  //       disabledCodeLogin.value = false;
+  //     })
+  //     .catch((err) => {
+  //       disabledCodeLogin.value = true;
+  //     });
+  // }
 };
 
 const mobileNumber = ref<string | number>("");
