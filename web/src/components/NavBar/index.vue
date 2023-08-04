@@ -33,14 +33,14 @@
               </div>
             </div>
 
-            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" @click="goPersonal">
+            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" @click="goRegister()" v-if="!getToken">
             <div class="py-12px flex-row-center ">
               <Image name="icon24_account.svg" :width="'24px'" :height="'24px'" />
-              <span class="text-16px font-500 line-height-normal">个人中心</span>
+              <span class="text-16px font-500 line-height-normal">注册/登录</span>
             </div>
             </div>
             
-            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" v-if="token" @click="startLogout">
+            <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" v-if="getToken" @click="startLogout">
             <div class="py-12px flex-row-center">
               <Image name="icon24_sign_out.svg" :width="'24px'" :height="'24px'" />
               <span class="text-16px font-500 line-height-normal">退出登录</span>
@@ -69,22 +69,28 @@ const props = defineProps({
   }
 });
 const open = ref(false)
-const nickname:any = computed(()=>{
-  let userInfo = loginStore.userInfo
-  if(Object.keys(userInfo).length === 0){
-    return ''
-  }
+interface UserInfo {
+  nickname: string
+}
 
-  if(userInfo.nickname === ''){
-    return ''
-  }else{
-    if(nickname){
-      return nickname
-    }
-    else {
-      return '游客'
-    }
-  }
+const getNickname = (userInfo: UserInfo) => {
+  // 业务逻辑
+  if(!userInfo) return '游客'
+
+  if(userInfo.nickname!='') return '游客'
+  
+  return userInfo.nickname 
+}
+
+const nickname: any = computed(() => {
+  const userInfo = loginStore.userInfo
+  
+  return getNickname(userInfo)
+})
+
+const getToken: any = computed(() => {
+  const hasToken = loginStore.token ? true : false
+  return hasToken
 })
 
 const goHome = () => {
@@ -104,6 +110,11 @@ const goPersonal = () => {
   }
 }
 const goRegister = () => {
+  console.log(loginStore.token);
+  
+  if(loginStore.token){
+    return;
+  }
   router.push({ path: '/register' });
 }
 // 登出
@@ -115,7 +126,8 @@ const startLogout = async() => {
         "Authorization": token
       }
 
-      const result = await logout(params);
+      const res = await logout(params);
+      let result:any = res.data;
       if(result && result.message === 'ok'){
         message.success('登出成功')
         // storage.removeItem('userId')
