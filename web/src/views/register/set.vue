@@ -109,7 +109,8 @@ const handleConfirm = () => {
       formRef.value
         .validate()
         .then(async () => {
-          const result = await updateLogin(param);
+          const res = await updateLogin(param);
+          let result:any = res.data;
           router.push({
             path: "/profile",
             query: {

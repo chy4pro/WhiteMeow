@@ -533,7 +533,8 @@ const chatLogsSplit = (chatLogs: Message[]): Map<string, Message[]>=>{
 
 // 查询是否有聊天记录
 const checkChatRecord = async() => {
-  const result = await chat(recordList);
+  const res = await chat(recordList);
+  let result:any = res.data;
   recordList.page = 0;
   pageTotal.value = result.total as number;
 }
@@ -544,7 +545,8 @@ const getChatRecord = async() => {
     // loading
     //loading.value = true
 
-    const result = await chat(recordList);
+    const res = await chat(recordList);
+    let result:any = res.data;
     console.log(result)
 
     //loading.value = false

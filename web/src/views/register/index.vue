@@ -165,7 +165,8 @@ const sendMsg = async () => {
               countDown.value--;
             }, 1000);
 
-            const result = await sendSms({ mobile: formState.mobileNumber });
+            const res = await sendSms({ mobile: formState.mobileNumber });
+            let result:any = res.data;
             if (result?.message !== "ok") {
               reset();
             }
@@ -189,7 +190,8 @@ const updateLoginStatus = async () => {
       status: 1,
     };
 
-    const result = await updateLogin(params);
+    const res = await updateLogin(params);
+    let result:any = res.data;
     if (result && result.token && result.token.length > 0) {
       storage.setItem("token", result.token as string);
       getUserInfo();
@@ -208,7 +210,8 @@ const getUserInfo = async () => {
       Authorization: storage.getItem("token"),
     };
 
-    const result = await getUser(params);
+    const res = await getUser(params);
+    let result:any = res.data;
     loginStore.userInfo = result;
     if (result && Object.keys(result).length > 0) {
       storage.setItem("userInfo", JSON.stringify(result));
@@ -236,7 +239,8 @@ const startLogin = async () => {
         .validate()
         .then(async () => {
           disabledCodeLogin.value = false;
-          const result = await loginByCode(params);
+          const res:any = await loginByCode(params);
+          let result:any = res.data;
 
           if (result && result.user) {
             newUserId.value = result.user as string;
@@ -297,8 +301,8 @@ const handlePsdLogin = () => {
           }
           state.isLoginBool = true;
 
-          const result: any = await login(params);
-
+          const res:any = await login(params);
+          let result:any = res.data;
           state.isLoginBool = false;
 
           if (result && result.status === 1) {

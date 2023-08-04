@@ -126,8 +126,8 @@ const handleConfirm = () => {
           }
           state.isconfirmBool = true;
 
-          const result = await updateLogin(param);
-
+          const res = await updateLogin(param);
+          let result:any = res.data;
           state.isconfirmBool = false;
 
           storage.setItem("token", result.token as string);
@@ -147,8 +147,8 @@ const getUserInfo = async () => {
       Authorization: storage.getItem("token"),
     };
 
-    const result = await getUser(params);
-
+    const res = await getUser(params);
+    let result:any = res.data;
     loginStore.userInfo = result;
 
     if (result && Object.keys(result).length > 0) {
@@ -270,8 +270,8 @@ const handleJump = async () => {
       status: 1,
     };
 
-    const result = await updateLogin(param);
-
+    const res = await updateLogin(param);
+    let result:any = res.data;
     storage.setItem("token", result.token as string);
 
     getUserInfo();
