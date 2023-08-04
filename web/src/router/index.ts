@@ -73,12 +73,30 @@ export const routes: Array<RouteRecordRaw>  = [
   {
     path: '/set',
     name: 'set',
-    component: () => import('@/views/register/set.vue')
+    component: () => import('@/views/register/set.vue'),
+    beforeEnter: (to, from, next) => {
+      const token = window.localStorage.getItem('token');
+
+      if(to.path === '/set') {
+        if(token){
+          next('/chat')
+        }
+      }
+    }
   },
   {
     path: '/profile',
     name: 'profile',
-    component: () => import('@/views/register/profile.vue')
+    component: () => import('@/views/register/profile.vue'),
+    beforeEnter: (to, from, next) => {
+      const token = window.localStorage.getItem('token');
+
+      if(to.path === '/profile') {
+        if(token){
+          next('/chat')
+        }
+      }
+    }
   }
 ]
 

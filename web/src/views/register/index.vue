@@ -234,14 +234,7 @@ const startLogin = async () => {
         .validate()
         .then(async () => {
           disabledCodeLogin.value = false;
-          const res:any = await loginByCode(params);
-
-          if(res.code !== 0){
-            message.error(res.msg);
-            return;
-          }
-
-          let result:any = res.data;
+          const result = await loginByCode(params);
 
           if (result && result.user) {
             newUserId.value = result.user as string;
@@ -254,7 +247,13 @@ const startLogin = async () => {
           }
 
           if (result && result.status === 2) {
-            router.push({ path: "/set" });
+            router.push({
+              path: "/set",
+              query: {
+                auto: autoLoginForIdentify.value ? '1' : '0',
+                read: formState.agreementCheck ? '1' : '0',
+              },
+            });
           }
         })
         .catch((err) => {});
@@ -296,14 +295,7 @@ const handlePsdLogin = () => {
           }
           state.isLoginBool = true;
 
-          const res: any = await login(params);
-
-          if(res.code !== 0){
-            message.error(res.msg);
-            return;
-          }
-
-          let result:any = res.data;
+          const result: any = await login(params);
 
           state.isLoginBool = false;
 
@@ -315,11 +307,12 @@ const handlePsdLogin = () => {
           }
         })
         .catch((err: any) => {
-          //message.error(err.msg);
+          // message.error(err.msg);
           state.isLoginBool = false;
         });
     }
-  } catch (error:any) {
+  } catch (error: any) {
+    state.isLoginBool = false;
     message.error(error.msg);
   }
 };

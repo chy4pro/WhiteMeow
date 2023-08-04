@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, defineAsyncComponent } from "vue";
+import { ref, reactive, defineAsyncComponent, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 import { storage } from "@/utils/index.ts";
@@ -277,6 +277,13 @@ const handleJump = async () => {
     getUserInfo();
   } catch (error) {}
 };
+
+onMounted(() => {
+  if (router.currentRoute.value.query.read) {
+    formState.agreementCheck =
+      router.currentRoute.value.query.read === "1" ? true : false;
+  }
+});
 </script>
 
 <template>
@@ -376,7 +383,11 @@ const handleJump = async () => {
                     :day="formState.d"
                   />
                 </div>
-                <div v-if="state.dateFocusBool" @click="state.dateFocusBool = false" class="ta-cover"></div>
+                <div
+                  v-if="state.dateFocusBool"
+                  @click="state.dateFocusBool = false"
+                  class="ta-cover"
+                ></div>
               </div>
             </div>
 

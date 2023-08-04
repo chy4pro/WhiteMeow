@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 import { storage } from "@/utils/index.ts";
@@ -110,14 +110,26 @@ const handleConfirm = () => {
         .validate()
         .then(async () => {
           const result = await updateLogin(param);
-          router.push({ path: "/profile" });
+          router.push({
+            path: "/profile",
+            query: {
+              read: formState.agreementCheck ? "1" : "0",
+            },
+          });
         })
-        .catch(() => {
-
-        });
+        .catch(() => {});
     }
   } catch (error) {}
 };
+
+onMounted(() => {
+  if (router.currentRoute.value.query.auto) {
+    formState.agreementCheck =
+      router.currentRoute.value.query.read === "1" ? true : false;
+    autoLoginForIdentify.value =
+      router.currentRoute.value.query.auto === "1" ? true : false;
+  }
+});
 </script>
 
 <template>
