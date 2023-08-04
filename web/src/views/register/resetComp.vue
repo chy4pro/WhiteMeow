@@ -131,7 +131,8 @@ const sendMsg = async () => {
               countDown.value--;
             }, 1000);
 
-            const result = await sendSms({ mobile: formState.mobileNumber });
+            const res = await sendSms({ mobile: formState.mobileNumber });
+            let result:any = res.data;
             if (result?.message !== "ok") {
               reset();
             }
@@ -160,11 +161,11 @@ const handleNext = () => {
           state.isNextBool = true;
 
           if (state.type === "1") {
-            const result = await checkCode({
+            const res = await checkCode({
               mobile: formState.mobileNumber,
               code: formState.identifyCode,
             });
-
+            let result:any = res.data;
             state.isNextBool = false;
 
             if (result && result.data) {
@@ -175,11 +176,11 @@ const handleNext = () => {
           }
 
           if (state.type === "2") {
-            const result = await updatePassword({
+            const res = await updatePassword({
               mobile: formState.mobileNumber,
               password: formState.password,
             });
-
+            let result:any = res.data;
             state.isNextBool = false;
 
             if (result && result.message === "ok") {
