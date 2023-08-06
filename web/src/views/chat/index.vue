@@ -183,6 +183,7 @@ import { genId } from "@/utils/idGenerator.js";
 import { useCounterStore, userMessage, useLoginStore } from '@/store/index.js';
 
 const counter = useCounterStore();
+counter.init();
 const messageStore = userMessage();
 const loginStore = useLoginStore
 var chatLogsMap = reactive(new Map<string, Message[]>());

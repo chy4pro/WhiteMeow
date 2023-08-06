@@ -8,10 +8,14 @@ export const useCounterStore = defineStore('counter', {
     index: 0 as any,
   }),
   actions: {
+    init(){
+      const index = useStorage('index', 0);
+      this.index = index;
+    },
     add() {
       let index = this.index + 1;
-      // storage.setItem('index', this.index);
-      this.index = useStorage('index', index);
+      storage.setItem('index', index);
+      this.index = index;
     },
   },
 });

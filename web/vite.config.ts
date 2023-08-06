@@ -96,7 +96,7 @@ export default defineConfig({
     port: 8081,
     proxy: {
       '/api': {
-        target: 'http://43.153.76.9:8888', // 凡是遇到 /api 路径的请求，都映射到 target 属性
+        target: 'http://miaoapi.pansi.com', // 凡是遇到 /api 路径的请求，都映射到 target 属性
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, '') // 重写 api 为 空，就是去掉它
       }
