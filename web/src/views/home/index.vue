@@ -38,7 +38,13 @@
             bg-black
             color-white" @click="goToChat"
             >
-            <h1 class="text-2rem text-center line-height-5.6rem m-0 cursor-pointer">开始撸猫</h1>
+            <h1 class="
+            text-2rem
+            text-center
+            line-height-5.6rem
+            m-0
+            font-700
+            cursor-pointer">开始撸猫</h1>
           </div>
         </div>
     </div>
