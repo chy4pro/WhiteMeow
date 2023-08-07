@@ -29,23 +29,30 @@
           <div class="mt-64px xs: mt-6px">
             <Image name="slogan-text.svg" :width="'48rem'" :height="'4.3rem'"  class="max-w-480px"/>
           </div>
-          <div class="
+          <button class="
             mt-80px
             w-28rem
             h-5.6rem
             max-w-280px
             rounded-6px
+            decoration-none
+            border-none
             bg-black
-            color-white" @click="goToChat"
+            hover:bg-[rgba(0,0,0,0.8)]
+            active:bg-[rgba(0,0,0,0.6)]
+            disabled:bg-[rgba(0,0,0,0.4)]
+            line-height-28px
+            color-white"
+            @click="goToChat"
+            href="javascript:void(0)"
             >
             <h1 class="
             text-2rem
             text-center
-            line-height-5.6rem
             m-0
             font-700
             cursor-pointer">开始撸猫</h1>
-          </div>
+          </button>
         </div>
     </div>
   </div>
