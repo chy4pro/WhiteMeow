@@ -133,9 +133,24 @@
               autofocus
             ></textarea>
           </div>
-          <div @click="sendMessage" :disabled="!isConnect" class="cursor-pointer">
-            <Image :name="sendBtnName" class="w-24px h-24px" @mouseenter="sendBtnName = 'icon_send_active.svg'" @mouseleave="sendBtnName = 'icon24_send.svg'"  />
-          </div>
+
+          <button @click="sendMessage" :disabled="!isConnect" class="
+          cursor-pointer
+          outline-none
+          border-none
+          bg-transparent
+          w-24px
+          h-24px
+          bg-[url(@/assets/images/icon_send_normal.svg)]
+          bg-cover
+          bg-no-repeat
+          bg-center
+          hover:bg-[url(@/assets/images/icon_send_hover.svg)]
+          active:bg-[url(@/assets/images/icon_send_active.svg)]
+          disabled:bg-[url(@/assets/images/icon_send_active.svg)]
+          ">
+            <!-- <Image :name="sendBtnName" class="w-24px h-24px" @mouseenter="sendBtnName = 'icon_send_active.svg'" @mouseleave="sendBtnName = 'icon24_send.svg'"  /> -->
+          </button>
         </div>
       </div>
     </div>
