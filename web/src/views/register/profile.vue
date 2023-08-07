@@ -219,7 +219,7 @@ const handle = (m: string, d: string) => {
       break;
     case "9":
       if (day >= 22) {
-        return "天平座";
+        return "天秤座";
       } else {
         return "处女座";
       }
@@ -228,28 +228,28 @@ const handle = (m: string, d: string) => {
       if (day >= 24) {
         return "天蝎座";
       } else {
-        return "天平座";
+        return "天秤座";
       }
       break;
     case "11":
       if (day >= 23) {
-        return "人马座";
+        return "射手座";
       } else {
         return "天蝎座";
       }
       break;
     case "12":
       if (day >= 23) {
-        return "山羊座";
+        return "摩羯座";
       } else {
-        return "人马座";
+        return "射手座";
       }
       break;
     case "1":
       if (day >= 20) {
         return "水瓶座";
       } else {
-        return "山羊座";
+        return "摩羯座";
       }
       break;
     case "2":
