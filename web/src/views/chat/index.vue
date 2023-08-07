@@ -134,7 +134,7 @@
             ></textarea>
           </div>
 
-          <button @click="sendMessage" :disabled="!isConnect" class="
+          <button @click="sendMessage" :disabled="disabledSend" class="
           cursor-pointer
           outline-none
           border-none
@@ -147,9 +147,8 @@
           bg-center
           hover:bg-[url(@/assets/images/icon_send_hover.svg)]
           active:bg-[url(@/assets/images/icon_send_active.svg)]
-          disabled:bg-[url(@/assets/images/icon_send_active.svg)]
+          disabled:bg-[url(@/assets/images/icon_send_disable.svg)]
           ">
-            <!-- <Image :name="sendBtnName" class="w-24px h-24px" @mouseenter="sendBtnName = 'icon_send_active.svg'" @mouseleave="sendBtnName = 'icon24_send.svg'"  /> -->
           </button>
         </div>
       </div>
@@ -196,6 +195,7 @@ import { chat } from '@/apis/chat.ts'
 import Socket from "@/utils/http/websocket.js";
 import { genId } from "@/utils/idGenerator.js";
 import { useCounterStore, userMessage, useLoginStore } from '@/store/index.js';
+import { message } from 'ant-design-vue';
 
 const counter = useCounterStore();
 counter.init();
@@ -206,6 +206,10 @@ const loading = ref(false);
 const messageList = ref<any>(null);
 let ws:any = null
 
+let isEnd = ref(true);
+let disabledSend = computed(() => {
+  return !isConnect.value || !isEnd.value
+})
 
 const newMessage = ref('');
 const pageTotal = ref(0);
@@ -243,7 +247,6 @@ const tablist = reactive(JSON.parse(JSON.stringify(tablistMap)))
 
 const hoverTabItem = (index:number) =>{
   let status = tablist[index].status
-  console.log(status)
   if(status === 'disable' || status === 'press') return
 
   tablist[index].status = 'hover'
@@ -303,12 +306,8 @@ const inputBoxRef = ref(null);
 const checkOverflow = () =>{
   const inputBox:any = inputBoxRef.value;
   if(inputBox){
-    const lineHeight = parseInt(window.getComputedStyle(inputBox).height, 10);
-    console.log('inputBox',window.getComputedStyle(inputBox).height);
-    
+    const lineHeight = parseInt(window.getComputedStyle(inputBox).height, 10);    
     const lines = inputBox.scrollHeight / lineHeight;
-    console.log('inputBox.scrollHeight',inputBox.scrollHeight);
-    console.log('lines',lines);
     
     if (lines > 1) {
       inputBox.classList.add('h-full');
@@ -361,6 +360,13 @@ const sendMessage = () => {
       };
       addIndex();
       
+      if(!isConnect.value){
+        message.info('白小喵正在上线中...')
+      }
+
+      if(!isEnd.value){
+        message.info('请等等哦~')
+      }
       // 发送消息
       let sendData = {
         "typeStatus": 'sendMsg',
@@ -375,13 +381,9 @@ const sendMessage = () => {
       scrollToBottom();
     }
     else{
-      ElMessage('请输入点什么吧~')
+      message.info('请输入点什么吧~')
     }
   }
-  else{
-    ElMessage('白小喵正在上线中...')
-  }
-
 };
 
 const scrollToBottom = async() => {
@@ -476,6 +478,8 @@ onMounted(()=>{
                 currentMessage.emoji = dataFormat.emoji
               }
             }
+
+            isEnd.value = dataFormat.is_end
           }
         }
 
