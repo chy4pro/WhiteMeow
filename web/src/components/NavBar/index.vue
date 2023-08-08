@@ -8,20 +8,20 @@
     box-border
     flex-row-between
     z-1000
-    py-1.6rem
+    py-8px
     bg-[rgba(255,255,255,0.3)]
       backdrop-blur-37px
     "
     @mouseleave="open = false">
 
     <div class="ml-40px cursor-pointer" @click="goHome">
-      <SvgImage name="catpaw-logo.svg" class="w-16.5rem h-4.3rem" />
+      <SvgImage name="catpaw-logo.svg" class="w-165px h-43px" />
     </div>
     <!-- <div class="cursor-pointer mr-24px"  @click="goHome">
       <Image name="icon40_home.svg" class="ml-64px my-8px w-4rem h-4rem"/>
     </div> -->
     <div class="cursor-pointer relative mr-64px " @mouseenter="open = true" @click="goRegister">
-      <SvgImage name="personal.svg" class="w-4rem h-4rem" />
+      <SvgImage name="personal.svg" class="w-40px h-40px" />
       <!-- <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/> -->
       <transition name="fade">
         <div v-if="open" class="absolute left-50% transform
