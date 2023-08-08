@@ -1,25 +1,4 @@
 <template>
-  <div class="bg-box wh-full">
-    <NavBar showLogo />
-    <div class="
-      fixed
-      w-111rem
-      h-111rem
-      rounded-50%
-      bottom--60rem
-      left--35rem
-      bg-[rgba(241,143,219,0.21)]">
-    </div>
-
-    <div class="
-      fixed
-      w-42rem
-      h-42rem
-      rounded-50%
-      top--12rem
-      right-15.9rem
-      bg-[rgba(241,143,219,0.21)]">
-    </div>
     <div class="
       w-108rem
       h-72rem
@@ -27,15 +6,13 @@
       max-h-720px
       bg-white
       rounded-24px
-      mt-18rem
-      sm:mt-10rem
-      mb-18rem
+      mt-4.8rem
       shadow-lg 
       shadow-[rgba(219,175,201,0.45)]
       overflow-hidden
       flex-shrink-0
       ">
-      <div class="flex flex-col-start wh-full relative bg-white">
+      <div class="flex flex-col-start wh-full relative bg-white rounded-24px overflow-hidden">
         <div class="text-2.4rem font-600 mt-2.4rem line-height-normal">隐私协议</div>
         <div class="absolute right-4rem top-4rem z-999 cursor-pointer" @click="goBack">
           <SvgImage name="icon24_close.svg" class="w-2.4rem h-2.4rem" />
@@ -45,7 +22,7 @@
         </div>
 
         <div class="overflow-auto mx-4rem mt-3.2rem rounded-8px bg-#F5F5F5">
-          <article class="px-2.4rem py-2.4rem font-400 text-14px">
+          <article class="article">
             <h3>引言</h3>
 
             <p>白小喵AI（以下简称“本软件”）是由深圳光启计算科技有限公司（以下简称“我们”或“光启计算”）为用户（以下或简称“您”）提供的产品及服务。我们重视用户个人信息的保护，根据《中华人民共和国网络安全法》等相关法律法规制定本政策并保护您的个人信息安全。我们希望通过本政策向您说明您的哪些信息可能会被收集、收集这些信息的目的、我们及您如何保护这些信息的安全。</p>
@@ -113,7 +90,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -123,3 +99,12 @@ const goBack = () => {
   router.go(-1);
 }
 </script>
+
+<style scoped>
+.article{
+  --at-apply: px-2.4rem py-2.4rem font-400 text-12px line-height-16px;
+}
+.article > h3 {
+  --at-apply: font-600 text-14px line-height-16px;
+}
+</style>
