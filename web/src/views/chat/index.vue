@@ -440,10 +440,13 @@ onMounted(()=>{
           if(chatLogs){
             if(dataFormat.message_id !== '' && dataFormat.is_end === false && dataFormat.message !== ''){
               if(dataFormat.message_id === current_message_id){
-                const index = messages.value.findIndex((item:any) => item.message_id === current_message_id);
-                const currentMessage = messages.value[index];
+                const index = chatLogs.findIndex((item:any) => item.message_id === current_message_id);
+                const currentMessage = chatLogs[index];
+                console.log('currentMessage',currentMessage);
+                
                 currentMessage.content += dataFormat.message
-                chatLogs[chatLogs.length - 1].content += dataFormat.message
+                //chatLogs[chatLogs.length - 1].content += dataFormat.message
+                
               }
               else{
                 messages.value.push({
@@ -543,10 +546,18 @@ const chatLogsSplit = (chatLogs: Message[]): Map<string, Message[]>=>{
     }
     
     const logs = chatLogsMap.get(date);
-    if (logs) {
+    let sameArr = logs?.filter(item => item.created_at === log.created_at)
+    if (logs && sameArr && sameArr.length === 0) {
       logs.push(log); 
     }
   })
+  
+  //按照key值排序，按照日期 yyyy-mm-dd 正序排列
+  let chatLogsMapSort = new Map([...chatLogsMap.entries()].sort((a, b) => {
+    return Date.parse(a[0]) - Date.parse(b[0])
+  }))
+  chatLogsMap = chatLogsMapSort;
+
   return chatLogsMap;
 
 }
@@ -594,6 +605,8 @@ const getChatRecord = async() => {
           }
         })
       }
+      console.log('real-----',messages.value);
+      
       chatLogsSplit(messages.value);
       pageTotal.value = result.total as number;
 
