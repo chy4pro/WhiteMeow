@@ -1,5 +1,5 @@
 <template>
-  <object type="image/svg+xml" :data="getImageUrl(props.name)"></object>
+  <object type="image/svg+xml" :data="getImageUrl(props.name)" style="pointer-events:none"></object>
 </template>
 
 <script setup lang="ts">
