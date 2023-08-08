@@ -29,6 +29,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./components/date-picker/select.vue')['default']
     SmartForm: typeof import('./components/SmartForm/index.vue')['default']
+    SvgImage: typeof import('./components/SvgImage/index.vue')['default']
     WeChatCode: typeof import('./components/WeChatCode/index.vue')['default']
   }
 }
