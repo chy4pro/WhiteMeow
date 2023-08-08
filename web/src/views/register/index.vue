@@ -365,7 +365,7 @@ const handleBackEmit = () => {
 
 <template>
   <div
-    class="w-108rem h-72rem max-w-1080px max-h-720px z-999 bg-white rounded-24px mt-18rem sm:mt-10rem mb-18rem overflow-hidden flex-shrink-0"
+    class="w-108rem h-72rem max-w-1080px max-h-720px z-999 bg-white rounded-24px mt-48px overflow-hidden flex-shrink-0"
     style="box-shadow: 0px 0px 33px 0px rgba(219, 175, 201, 0.45)"
   >
     <div class="flex flex-row-start wh-full">
