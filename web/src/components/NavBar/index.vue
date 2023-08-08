@@ -1,27 +1,26 @@
 <template>
   <div class="
     w-full
-    h-auto
     fixed
     left-0
     top-0
     box-border
     flex-row-between
     z-1000
-    py-8px
+    h-56px
     bg-[rgba(255,255,255,0.3)]
       backdrop-blur-37px
     "
     @mouseleave="open = false">
 
-    <div class="ml-40px cursor-pointer" @click="goHome">
-      <SvgImage name="catpaw-logo.svg" class="w-165px h-43px" />
+    <div class="ml-40px cursor-pointer w-165px h-43px" @click="goHome">
+      <SvgImage name="catpaw-logo.svg" class="wh-full" />
     </div>
     <!-- <div class="cursor-pointer mr-24px"  @click="goHome">
       <Image name="icon40_home.svg" class="ml-64px my-8px w-4rem h-4rem"/>
     </div> -->
-    <div class="cursor-pointer relative mr-64px " @mouseenter="open = true" @click="goRegister">
-      <SvgImage name="personal.svg" class="w-40px h-40px" />
+    <div class="cursor-pointer relative mr-64px w-40px h-40px" @mouseenter="open = true" @click="goRegister">
+      <SvgImage name="personal.svg" class="wh-full" />
       <!-- <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/> -->
       <transition name="fade">
         <div v-if="open" class="absolute left-50% transform
