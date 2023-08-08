@@ -44,7 +44,7 @@
           ">
             <div class="mt-9rem mx-4rem">
               <div class="text-center">
-                <Image name="catpaw-logo.svg" :width="'16.5rem'" :height="'4.3rem'" class="mb-4.2rem max-w-165px"/>
+                <SvgImage name="catpaw-logo.svg" class="w-16.5rem h-4.3rem mb-4.2rem max-w-165px"/>
               </div>
               <a-tabs v-model:activeKey="activeKey" centered>
                 <a-tab-pane key="1" tab="验证码登录" class="h-35rem overflow-auto">
@@ -99,7 +99,7 @@
                   <a-input-password class="normal-input-wrap">
                     <template #suffix>
                       <div class="cursor-pointer">
-                        <Image name="icon24_close.svg" class="w-2.4rem h-2.4rem"/>
+                        <SvgImage name="icon24_close.svg" class="w-2.4rem h-2.4rem"/>
                       </div>
                     </template>
                   </a-input-password>
@@ -130,7 +130,7 @@
             h-100%
             bg-[var(--pink-01)]
           ">
-            <Image name="login-panel-bg.svg" :width="'100%'" :height="'100%'"/>
+            <SvgImage name="login-panel-bg.svg" class="wh-full"/>
             
           </div>
         </div>

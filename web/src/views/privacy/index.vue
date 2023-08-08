@@ -38,10 +38,10 @@
       <div class="flex flex-col-start wh-full relative bg-white">
         <div class="text-2.4rem font-600 mt-2.4rem line-height-normal">隐私协议</div>
         <div class="absolute right-4rem top-4rem z-999 cursor-pointer" @click="goBack">
-          <Image name="icon24_close.svg" class="w-2.4rem h-2.4rem" />
+          <SvgImage name="icon24_close.svg" class="w-2.4rem h-2.4rem" />
         </div>
         <div class="absolute left-4rem top-4rem z-999 cursor-pointer" @click="goBack">
-          <Image name="icon24_arrow_left.svg" class="w-2.4rem h-2.4rem" />
+          <SvgImage name="icon24_arrow_left.svg" class="w-2.4rem h-2.4rem" />
         </div>
 
         <div class="overflow-auto mx-4rem mt-3.2rem rounded-8px bg-#F5F5F5">

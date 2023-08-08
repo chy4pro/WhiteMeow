@@ -305,11 +305,9 @@ onMounted(() => {
       <div class="w-44.3rem h-full max-w-443px bg-white">
         <div class="mt-9rem mx-4rem">
           <div class="text-center">
-            <Image
+            <SvgImage
               name="catpaw-logo.svg"
-              :width="'16.5rem'"
-              :height="'4.3rem'"
-              class="mb-4.2rem max-w-165px"
+              class="w-16.5rem h-4.3rem mb-4.2rem max-w-165px"
             />
           </div>
           <div class="title">个人档案</div>
@@ -457,7 +455,7 @@ onMounted(() => {
       </div>
 
       <div class="w-64.8rem max-w-648px h-100% bg-[var(--pink-01)] relative">
-        <Image name="login-panel-bg.svg" :width="'100%'" :height="'100%'" />
+        <SvgImage name="login-panel-bg.svg" class="wh-full"/>
       </div>
     </div>
   </div>

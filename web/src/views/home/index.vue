@@ -14,7 +14,7 @@
       relative
       ">
       <div class="uno-bg-home-panel-bg wh-full">
-        <Image name="catpaw-logo.svg" :width="'16.5rem'" :height="'4.3rem'" class="ml-4rem mt-4.2rem max-w-165px"/>
+        <SvgImage name="catpaw-logo.svg" class="w-16.5rem h-4.3rem ml-4rem mt-4.2rem max-w-165px"/>
         <div class="
           absolute
           top-11.6rem
@@ -24,10 +24,10 @@
           flex
           flex-col-center">
           <div>
-            <Image name="catpaw-rounded-icon.svg" :width="'20rem'" :height="'20rem'" class="max-w-200px max-h-200px"/>
+            <SvgImage name="catpaw-rounded-icon.svg" class="w-20rem h-20rem max-w-200px max-h-200px"/>
           </div>
           <div class="mt-64px xs: mt-6px">
-            <Image name="slogan-text.svg" :width="'48rem'" :height="'4.3rem'"  class="max-w-480px"/>
+            <SvgImage name="slogan-text.svg" class="w-48rem h-4.3rem max-w-480px"/>
           </div>
           <button class="
             mt-80px

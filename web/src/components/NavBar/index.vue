@@ -15,13 +15,13 @@
     @mouseleave="open = false">
 
     <div class="ml-40px cursor-pointer" @click="goHome">
-      <Image name="catpaw-logo.svg" alt="" class="w-16.5rem h-4.3rem" />
+      <SvgImage name="catpaw-logo.svg" class="w-16.5rem h-4.3rem" />
     </div>
     <!-- <div class="cursor-pointer mr-24px"  @click="goHome">
       <Image name="icon40_home.svg" class="ml-64px my-8px w-4rem h-4rem"/>
     </div> -->
     <div class="cursor-pointer relative mr-64px ">
-      <Image name="personal.svg" alt="" class="w-4rem h-4rem" @mouseenter="open = true" @click="goRegister"/>
+      <SvgImage name="personal.svg" class="w-4rem h-4rem" @mouseenter="open = true" @click="goRegister"/>
       <!-- <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/> -->
       <transition name="fade">
         <div v-if="open" class="absolute left-50% transform
@@ -35,14 +35,14 @@
 
             <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" @click="goRegister()" v-if="!loginStore.token">
             <div class="py-12px flex-row-center ">
-              <Image name="icon24_account.svg" :width="'24px'" :height="'24px'" />
+              <SvgImage name="icon24_account.svg" class="w-24px h-24px" />
               <span class="text-16px font-500 line-height-normal">注册/登录</span>
             </div>
             </div>
             
             <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" v-if="loginStore.token" @click="startLogout">
             <div class="py-12px flex-row-center">
-              <Image name="icon24_sign_out.svg" :width="'24px'" :height="'24px'" />
+              <SvgImage name="icon24_sign_out.svg"  class="w-24px h-24px"  />
               <span class="text-16px font-500 line-height-normal">退出登录</span>
             </div>
             </div>

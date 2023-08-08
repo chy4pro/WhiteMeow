@@ -44,7 +44,7 @@
           ">
             <div class="mt-9rem mx-4rem">
               <div class="text-center">
-                <Image name="catpaw-logo.svg" :width="'16.5rem'" :height="'4.3rem'" class="my-4.2rem max-w-165px"/>
+                <SvgImage name="catpaw-logo.svg" class="w-16.5rem h-4.3rem my-4.2rem max-w-165px"/>
               </div>
 
               <div class="text-1.6rem font-600 mb-2.4rem">设置密码</div>
@@ -52,7 +52,7 @@
               <a-input-password class="normal-input-wrap mb-1.6rem" placeholder="请输入你的密码">
                 <template #suffix>
                   <div class="cursor-pointer">
-                    <Image name="icon24_close.svg" class="w-2.4rem h-2.4rem"/>
+                    <SvgImage name="icon24_close.svg" class="w-2.4rem h-2.4rem"/>
                   </div>
                 </template>
               </a-input-password>
@@ -60,7 +60,7 @@
               <a-input-password class="normal-input-wrap mb-1.6rem" placeholder="请输入你的密码">
                 <template #prefix>
                   <div class="cursor-pointer">
-                    <Image name="icon24_close.svg" class="w-2.4rem h-2.4rem"/>
+                    <SvgImage name="icon24_close.svg" class="w-2.4rem h-2.4rem"/>
                   </div>
                 </template>
               </a-input-password>
@@ -92,7 +92,7 @@
             h-100%
             bg-[var(--pink-01)]
           ">
-            <Image name="login-panel-bg.svg" :width="'100%'" :height="'100%'"/>
+            <SvgImage name="login-panel-bg.svg" class="wh-full"/>
             
           </div>
         </div>

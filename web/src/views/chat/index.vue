@@ -4,15 +4,16 @@
   <div class="chat-panel-container">
     <div class="chat-panel">
       <div class="nav-part">
-        <Image name="catpaw-logo.svg" alt="" class="w-143px h-40px mt-16px"/>
+        <SvgImage name="catpaw-logo.svg" class="w-143px h-40px mt-16px"/>
         <ul class="nav-part-tablist">
           <li @mouseenter="hoverTabItem(index)" @mouseleave="leaveTabItem(index)" @click="clickTabItem(index)" v-for="(tabItem, index) in tablist" :key="index" :class="tabItem.status">
             <div>
-              <Image :name="tabItemMap(tabItem)" alt="" class="w-24px h-24px inline-block vertical-middle mr-8px"/>
+              <SvgImage :name="tabItemMap(tabItem)" class="w-24px h-24px inline-block vertical-middle mr-8px"/>
+
               <span class="inline-block vertical-middle">{{ tabItem.label }}</span>
             </div>
             <div v-if="tabItem.status === 'disable'">
-              <Image name="icon24_lock_on.svg" alt="" class="w-16px h-16px"/>
+              <SvgImage name="icon24_lock_on.svg" class="w-16px h-16px"/>
             </div>
           </li>
           <!-- <li>
@@ -37,7 +38,7 @@
       </div>
       <div class="main-part">
         <div class="header">
-          <Image name="Avatar.svg" alt="" class="w-40px h-40px mr-16px"/>
+          <SvgImage name="Avatar.svg" class="w-40px h-40px mr-16px"/>
           <div class="font-600 text-16px line-height-20px">白小喵</div>
         </div>
         <div class="main">
@@ -45,7 +46,7 @@
 
           <div class="text-center mt-16px cursor-pointer" @click="showMore" v-if="recordList.page*recordList.page_size < pageTotal">
             <div class="w-24px h-24px flex-col-center mx-a">
-              <Image name="icon_more.svg" alt="" class="w-14px h-12.6px"/>
+              <SvgImage name="icon_more.svg" class="w-14px h-12.6px"/>
             </div>
             <div class="color-#666668 text-14px">查看历史聊天记录</div>
           </div>
@@ -78,7 +79,7 @@
                   
                   <div>{{ message.content }}</div>
                   <div class="text-right" v-show="!message.showHoverIcon">
-                    <Image :name="`icon_${message.evaluateIcon}.svg`" alt="" class="w-16px h-16px" v-show="message.evaluateIcon" @click="clickHeart(message)"/>
+                    <SvgImage :name="`icon_${message.evaluateIcon}.svg`"  class="w-16px h-16px" v-show="message.evaluateIcon" @click="clickHeart(message)"/>
                   </div>
                   <div 
                   class="
@@ -93,7 +94,7 @@
                     v-show="message.showHoverIcon && !message.isUser"
                     :class="message.hoverIcon === 'heart_active' ? 'bg-[#FFDFFC]' : 'bg-white'"
                   >
-                    <Image :name="`icon_${message.hoverIcon}.svg`" alt="" class="
+                    <SvgImage :name="`icon_${message.hoverIcon}.svg`" class="
                     w-16px
                     h-16px
                     mx-8px
@@ -102,8 +103,8 @@
                 </div>
 
                 <div class="absolute bottom-0" :class="message.isUser === true ? ' right--9px' : 'left--9px'" >
-                  <Image name="chat-triangle-pink.svg" alt="" class="w-19px h-15px" v-if="message.isUser === true"/>
-                  <Image name="chat-triangle-white.svg" alt="" class="w-19px h-15px" v-else/>
+                  <SvgImage name="chat-triangle-pink.svg" class="w-19px h-15px" v-if="message.isUser === true"/>
+                  <SvgImage name="chat-triangle-white.svg" class="w-19px h-15px" v-else/>
                 </div>
               </div>
 
@@ -154,7 +155,7 @@
       </div>
     </div>
     <div class="absolute left--33.8rem top-43.2rem">
-      <Image name="animation-cat.svg" class="w-49.6rem h-38rem" />
+      <SvgImage name="animation-cat.svg" class="w-49.6rem h-38rem" />
     </div>    
   </div>
 
