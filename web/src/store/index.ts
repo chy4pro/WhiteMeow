@@ -1,21 +1,30 @@
 // counter.js
 import { defineStore } from 'pinia';
-import { storage } from '@/utils/index.ts';
+import { storage, checkIsNaN } from '@/utils/index.ts';
 import { useStorage } from '@vueuse/core'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
-    index: 0 as any,
+    index: useStorage('index', 0),
   }),
   actions: {
     init(){
-      const index = useStorage('index', 0);
-      this.index = index;
+      const index = this.index;
+      if(checkIsNaN(index as any)){
+        this.index = 0;
+      }
     },
     add() {
-      let index = this.index + 1;
-      storage.setItem('index', index);
-      this.index = index;
+      let index:any = this.index;
+      
+      if(checkIsNaN(index as any)){
+        this.index = 0;
+      }
+      else{
+        let addIndex = index + 1;
+        this.index = addIndex;
+      }
+
     },
   },
 });

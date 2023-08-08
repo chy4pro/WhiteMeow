@@ -2,7 +2,7 @@
 import { storage } from '@/utils/index.ts'
 import GenId from 'cherry-id';
 import { useStorage } from '@vueuse/core'
-
+import { useCounterStore } from '@/store/index.ts';
 /**
  *Creates an instance of Genid.
   * @param {{
@@ -27,6 +27,15 @@ export function genId(name = 'userId', workerId = 1, seqBitLength = 14) {
     //storage.setItem(name, resultId);
     useStorage(name, resultId);
   }
+
+  return resultId;
+}
+
+export function genIdForMsg(workerId = 1, seqBitLength = 14) {
+  let generatedId = null;
+
+  generatedId = new GenId({ WorkerId: workerId, SeqBitLength: seqBitLength })
+  let resultId = generatedId.NextId().toString();
 
   return resultId;
 }

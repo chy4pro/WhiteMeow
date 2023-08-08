@@ -193,12 +193,12 @@ import { ref } from 'vue';
 import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
 import { chat } from '@/apis/chat.ts'
 import Socket from "@/utils/http/websocket.js";
-import { genId } from "@/utils/idGenerator.js";
-import { useCounterStore, userMessage, useLoginStore } from '@/store/index.js';
+import { genId,genIdForMsg } from "@/utils/idGenerator.js";
+import { userMessage, useLoginStore } from '@/store/index.ts';
 import { message } from 'ant-design-vue';
 
-const counter = useCounterStore();
-counter.init();
+
+// counter.init();
 const messageStore = userMessage();
 const loginStore = useLoginStore
 var chatLogsMap = reactive(new Map<string, Message[]>());
@@ -355,10 +355,10 @@ const sendMessage = () => {
           })
         }
 
-      const addIndex = () => {
-        counter.add();
-      };
-      addIndex();
+      // const addIndex = () => {
+      //   counter.add();
+      // };
+      // addIndex();
       
       if(!isConnect.value){
         message.info('白小喵正在上线中...')
@@ -370,7 +370,7 @@ const sendMessage = () => {
       // 发送消息
       let sendData = {
         "typeStatus": 'sendMsg',
-        "message_id":genId(`msg_${counter.index}`, 2 ,20),
+        "message_id":genIdForMsg(2 ,20),
         "message":newMessage.value,
         "user": window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
         "open_kf_id": "wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA"
@@ -649,10 +649,17 @@ bg-[rgba(255,255,255,0.7)]
   overflow-hidden;
 }
 .chat-panel > .nav-part {
-  --at-apply: self-start px-16px;
+  --at-apply: self-start px-16px h-full;
 }
 .chat-panel  .nav-part-tablist {
-  --at-apply: p-0 mb-0 w-full list-none mt-32px;
+  --at-apply: 
+  p-0
+  mb-0
+  w-full
+  list-none
+  overflow-y-auto
+  h-[calc(100%-88px)]
+  mt-32px;
 }
 .chat-panel  .nav-part-tablist > li {
   --at-apply: rounded-6px text-14px py-16px px-8px flex-row-between cursor-pointer;
