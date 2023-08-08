@@ -20,8 +20,8 @@
     <!-- <div class="cursor-pointer mr-24px"  @click="goHome">
       <Image name="icon40_home.svg" class="ml-64px my-8px w-4rem h-4rem"/>
     </div> -->
-    <div class="cursor-pointer relative mr-64px ">
-      <SvgImage name="personal.svg" class="w-4rem h-4rem" @mouseenter="open = true" @click="goRegister"/>
+    <div class="cursor-pointer relative mr-64px " @mouseenter="open = true" @click="goRegister">
+      <SvgImage name="personal.svg" class="w-4rem h-4rem" />
       <!-- <Image name="comment.svg" alt="" :width="'40px'" :height="'40px'" class="mr-40px cursor-pointer" @click="goFeedBack"/> -->
       <transition name="fade">
         <div v-if="open" class="absolute left-50% transform
