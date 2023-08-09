@@ -1,7 +1,17 @@
 <template>
   <div class="
-  w-108rem h-72rem max-w-1080px max-h-720px bg-white rounded-24px mt-4.8rem shadow-lg shadow-[rgba(219,175,201,0.45)] overflow-hidden flex-shrink-0
-    ">
+  w-108rem
+  max-w-1080px
+  max-h-72rem
+  h-[calc(100%-88px)]
+bg-white
+  rounded-24px
+  mt-56px
+shadow-lg
+shadow-[rgba(219,175,201,0.45)]
+  overflow-hidden
+  flex-shrink-0
+  ">
     <div class="flex flex-col-start wh-full relative bg-white rounded-24px overflow-hidden">
       <div class="text-2.4rem font-600 mt-2.4rem line-height-normal">用户协议</div>
       <div class="w-24px h-24px absolute right-4rem top-4rem z-999 cursor-pointer" @click="goBack">

@@ -36,7 +36,7 @@
           </li> -->
         </ul>
       </div>
-      <div class="main-part">
+      <div class="main-part" ref="targetDiv">
         <div class="header">
           <SvgImage name="Avatar.svg" class="w-40px h-40px mr-16px"/>
           <div class="font-600 text-16px line-height-20px">白小喵</div>
@@ -154,7 +154,7 @@
         </div>
       </div>
     </div>
-    <div class="absolute left--33.8rem top-43.2rem">
+    <div class="absolute left--33.8rem bottom--9.1rem">
       <SvgImage name="animation-cat.svg" class="w-49.6rem h-38rem" />
     </div>    
   </div>
@@ -206,6 +206,7 @@ var chatLogsMap = reactive(new Map<string, Message[]>());
 const loading = ref(false);
 const messageList = ref<any>(null);
 let ws:any = null
+const targetDiv = ref(null); // 创建 ref 来引用目标 <div> 元素
 
 let isEnd = ref(true);
 let disabledSend = computed(() => {
@@ -413,6 +414,16 @@ const showMore = () => {
 };
 
 
+// const topDistance = () =>{
+//   if (targetDiv.value) {
+//     const rect = targetDiv.value.getBoundingClientRect();
+//     const distanceToTop = rect.top;
+//     console.log('距离顶部的像素距离：', distanceToTop);
+//     if(distanceToTop < 66){
+
+//     }
+//   }
+// }
 
 onMounted(()=>{
   let current_message_id:string = ''
@@ -420,6 +431,8 @@ onMounted(()=>{
   checkChatRecord();
   storage.setItem('auth', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyNDg2NTUsImlhdCI6MTY4MjMyODY1NSwidXNlcklkIjoyfQ.c54BKBpqCYhnnZU6LEsP04th9VUZ2q2jXEYmtu2k38U');
   scrollBottomFlag.value = true;
+
+  // topDistance();
 
   // scoket连接
   ws = reactive(new Socket({
@@ -648,10 +661,11 @@ const getChatRecord = async() => {
 .chat-panel-container{
   --at-apply: 
   w-108rem
-  h-72rem
+  max-h-72rem
+  h-[calc(100%-88px)]
   relative
   z-999
-  mt-48px
+  mt-56px
 }
 .chat-panel{
   --at-apply: 

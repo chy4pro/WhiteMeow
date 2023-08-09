@@ -1,7 +1,8 @@
 <template>
     <div class="
       w-108rem
-      h-72rem
+      max-h-72rem
+      h-[calc(100%-88px)]
       max-w-1080px
       max-h-720px
       bg-[rgba(255,255,255,0.7)]
@@ -12,6 +13,7 @@
       shadow-[rgba(209,126,201,0.45)]
       flex-shrink-0
       relative
+      overflow-hidden
       ">
       <div class="uno-bg-home-panel-bg wh-full">
         <SvgImage name="catpaw-logo.svg" class="w-16.5rem h-4.3rem ml-4rem mt-4.2rem max-w-165px"/>
@@ -122,7 +124,7 @@ const loadImages = ()=> {
 
 .uno-bg-home-panel-bg{
   background: url('@/assets/images/home-panel-bg.svg');
-  background-size: 100% 100%;
+  background-size: 100%;
   background-repeat: no-repeat;
   box-sizing: border-box;
 }

@@ -365,7 +365,19 @@ const handleBackEmit = () => {
 
 <template>
   <div
-    class="w-108rem h-72rem max-w-1080px max-h-720px z-999 bg-white rounded-24px mt-48px overflow-hidden flex-shrink-0"
+    class="
+    w-108rem
+    max-h-72rem
+    h-[calc(100%-88px)]
+    max-w-1080px
+    max-h-720px
+    z-999
+    bg-white
+    rounded-24px
+    mt-48px
+    overflow-hidden
+    flex-shrink-0
+    overflow-hidden "
     style="box-shadow: 0px 0px 33px 0px rgba(219, 175, 201, 0.45)"
   >
     <div class="flex flex-row-start wh-full">
@@ -418,6 +430,7 @@ const handleBackEmit = () => {
               v-bind="layout"
               autocomplete="off"
               @finish="handleFinish"
+              class="h-[calc(100%-30rem)] overflow-y-auto"
             >
               <template v-if="state.loginType === 'code'">
                 <div class="mb-16px">
