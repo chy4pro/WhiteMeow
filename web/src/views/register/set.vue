@@ -185,59 +185,61 @@ onMounted(() => {
             v-bind="layout"
             autocomplete="off"
           >
-            <a-form-item ref="password" name="password">
-              <a-input
-                class="normal-input-wrap"
-                v-model:value="formState.password"
-                placeholder="请输入你的密码"
-                @input="handleFormInput()"
-                allow-clear
-                :type="state.eyeBool ? 'text' : 'password'"
-              >
-                <template #suffix>
-                  <div
-                    class="cursor-pointer"
-                    @click="state.eyeBool = !state.eyeBool"
-                  >
-                    <img
-                      width="24"
-                      height="24"
-                      :src="state.eyeBool ? eyeActIcon : eyeIcon"
-                      alt=""
-                    />
-                  </div>
-                </template>
-              </a-input>
-            </a-form-item>
-
-            <a-form-item ref="confirmPassword" name="confirmPassword">
-              <a-input
-                class="normal-input-wrap"
-                v-model:value="formState.confirmPassword"
-                placeholder="请再次输入以确认"
-                @input="handleFormInput()"
-                allow-clear
-                :type="state.eyeBool2 ? 'text' : 'password'"
-              >
-                <template #suffix>
-                  <div
-                    class="cursor-pointer"
-                    @click="state.eyeBool2 = !state.eyeBool2"
-                  >
-                    <img
-                      width="24"
-                      height="24"
-                      :src="state.eyeBool2 ? eyeActIcon : eyeIcon"
-                      alt=""
-                    />
-                  </div>
-                </template>
-              </a-input>
-            </a-form-item>
-
+            <div class="mb-16px">
+              <a-form-item ref="password" name="password">
+                <a-input
+                  class="normal-input-wrap"
+                  v-model:value="formState.password"
+                  placeholder="请输入你的密码"
+                  @input="handleFormInput()"
+                  allow-clear
+                  :type="state.eyeBool ? 'text' : 'password'"
+                >
+                  <template #suffix>
+                    <div
+                      class="cursor-pointer"
+                      @click="state.eyeBool = !state.eyeBool"
+                    >
+                      <img
+                        width="24"
+                        height="24"
+                        :src="state.eyeBool ? eyeActIcon : eyeIcon"
+                        alt=""
+                      />
+                    </div>
+                  </template>
+                </a-input>
+              </a-form-item>
+            </div>
+            <div class="">
+              <a-form-item ref="confirmPassword" name="confirmPassword">
+                <a-input
+                  class="normal-input-wrap"
+                  v-model:value="formState.confirmPassword"
+                  placeholder="请再次输入以确认"
+                  @input="handleFormInput()"
+                  allow-clear
+                  :type="state.eyeBool2 ? 'text' : 'password'"
+                >
+                  <template #suffix>
+                    <div
+                      class="cursor-pointer"
+                      @click="state.eyeBool2 = !state.eyeBool2"
+                    >
+                      <img
+                        width="24"
+                        height="24"
+                        :src="state.eyeBool2 ? eyeActIcon : eyeIcon"
+                        alt=""
+                      />
+                    </div>
+                  </template>
+                </a-input>
+              </a-form-item>
+            </div>
             <div class="ta-forget">
               <a-checkbox
-                class="text-14px pink-checkbox"
+                class="text-12px pink-checkbox"
                 v-model:checked="autoLoginForIdentify"
                 >自动登录</a-checkbox
               >
@@ -353,5 +355,27 @@ onMounted(() => {
 }
 :deep .normal-input-wrap input {
   --at-apply: bg-[#F4F5F7] border-[#F4F5F7] outline-none;
+}
+.ta-forget {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  span{
+    text-decoration: underline;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 1);
+    cursor: pointer;
+  }
+}
+:deep .ant-checkbox+span{
+  line-height: normal;
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+}
+.ant-form-item{
+  margin-bottom: 0;
 }
 </style>

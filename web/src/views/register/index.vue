@@ -590,16 +590,16 @@ const handleBackEmit = () => {
                   </a-checkbox>
 
                   <div class="ml-8px">
-                    <span class="text-1.2rem">我已阅读并同意</span>
+                    <span class="text-12px">我已阅读并同意</span>
                     <a
-                      class="text-1.2rem inline-block color-#374AF5"
+                      class="text-12px inline-block color-#374AF5"
                       href="javascript:;"
                       @click="openDialog('1')"
                       >《用户协议》</a
                     >
-                    <span class="text-1.2rem">和</span>
+                    <span class="text-12px">和</span>
                     <a
-                      class="text-1.2rem inline-block color-#374AF5"
+                      class="text-12px inline-block color-#374AF5"
                       href="javascript:;"
                       @click="openDialog('2')"
                       >《隐私协议》</a
