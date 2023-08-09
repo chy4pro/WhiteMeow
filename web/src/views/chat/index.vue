@@ -78,8 +78,8 @@
                 ">
                   
                   <div>{{ message.content }}</div>
-                  <div class="text-right" v-show="!message.showHoverIcon">
-                    <SvgImage :name="`icon_${message.evaluateIcon}.svg`"  class="w-16px h-16px" v-show="message.evaluateIcon" @click="clickHeart(message)"/>
+                  <div class="text-right" v-show="!message.showHoverIcon" @click="clickHeart(message)">
+                    <SvgImage :name="`icon_${message.evaluateIcon}.svg`"  class="w-16px h-16px" v-show="message.evaluateIcon"/>
                   </div>
                   <div 
                   class="
@@ -222,7 +222,7 @@ const recordList = reactive({
   page: 0,
   page_size: 10,
   user: window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
-  open_kf_id: 'wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA',
+  open_kf_id: 'wkWpQ2GQAAZgrSsvcgtaV-kOVfhsIERw',
   start_created_at: '',
   end_created_at: ''
 });
@@ -375,7 +375,7 @@ const sendMessage = () => {
         "message_id":genIdForMsg(2 ,20),
         "message":newMessage.value,
         "user": window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
-        "open_kf_id": "wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA"
+        "open_kf_id": 'wkWpQ2GQAAZgrSsvcgtaV-kOVfhsIERw'//"wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA"
       }
       ws.sendMsg(sendData)
       newMessage.value = ''
