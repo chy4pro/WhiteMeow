@@ -48,7 +48,7 @@
             <div class="w-24px h-24px flex-col-center mx-a">
               <SvgImage name="icon_more.svg" class="w-14px h-12.6px"/>
             </div>
-            <div class="color-#666668 text-14px">查看历史聊天记录</div>
+            <div class="color-[rgba(0,0,0,0.4)] text-14px">查看历史聊天记录</div>
           </div>
 
 
