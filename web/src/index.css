@@ -196,6 +196,12 @@ body{
 .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover{
   border-color: #FF6AF0;
 }
+.ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox-inner, .ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
+  border-color: #FF6AF0;
+}
+.ant-checkbox-checked:after{
+  border:none;
+}
 /*reset ant design*/
 
 /*reset safari*/
