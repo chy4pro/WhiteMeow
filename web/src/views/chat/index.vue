@@ -197,7 +197,7 @@ import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
 import { userMessage, useLoginStore } from '@/store/index.ts';
 import { message } from 'ant-design-vue';
-
+import { isEqual, uniqWith, uniqBy } from 'lodash-es'
 
 // counter.init();
 const messageStore = userMessage();
@@ -322,13 +322,28 @@ const checkOverflow = () =>{
 
 }
 
-function getFormattedDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
-  const day = String(today.getDate()).padStart(2, '0');
+function getFormattedDate(format = 'date') {
+  const formatNumber = (number: any) => {
+    return number < 10 ? '0' + number : number;
+  }
+  const now = new Date();
 
-  return `${year}-${month}-${day}`;
+  const year = now.getFullYear();
+  const month = formatNumber(now.getMonth() + 1); // Month is zero-based
+  const day = formatNumber(now.getDate());
+  const hours = formatNumber(now.getHours());
+  const minutes = formatNumber(now.getMinutes());
+  const seconds = formatNumber(now.getSeconds());
+
+  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  const formattedDate= `${year}-${month}-${day}`;
+
+  if(format === 'time'){
+    return formattedDateTime;
+  }
+  else{
+    return formattedDate;
+  }
 }
 // 发送消息
 const sendMessage = () => {
@@ -336,12 +351,13 @@ const sendMessage = () => {
     if (newMessage.value) {
       // 处理非空的 messages.value
       const today = getFormattedDate();
-
+      let messageId = genIdForMsg(2 ,20);
       messages.value.push({
-        created_at: today,
+        created_at: getFormattedDate('time'),
         content: newMessage.value,
         emoji: 0,
-        isUser: true
+        isUser: true,
+        message_id: messageId
       });
       if (!chatLogsMap.has(today)) {
         chatLogsMap.set(today, []); 
@@ -350,10 +366,11 @@ const sendMessage = () => {
       let getToday = chatLogsMap.get(today)
         if(getToday){
           getToday.push({
-            created_at: today,
+            created_at: getFormattedDate('time'),
             content: newMessage.value,
             emoji: 0,
-            isUser: true
+            isUser: true,
+            message_id: messageId
           })
         }
 
@@ -372,7 +389,7 @@ const sendMessage = () => {
       // 发送消息
       let sendData = {
         "typeStatus": 'sendMsg',
-        "message_id":genIdForMsg(2 ,20),
+        "message_id": messageId,
         "message":newMessage.value,
         "user": window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
         "open_kf_id": 'wkWpQ2GQAAZgrSsvcgtaV-kOVfhsIERw'//"wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA"
@@ -454,24 +471,14 @@ onMounted(()=>{
           if(chatLogs){
             if(dataFormat.message_id !== '' && dataFormat.is_end === false && dataFormat.message !== ''){
               if(dataFormat.message_id === current_message_id){
-                const index = chatLogs.findIndex((item:any) => item.message_id === current_message_id);
+                const index = chatLogs.findIndex((item:any) => item.message_id === current_message_id && item.isUser === false);
                 const currentMessage = chatLogs[index];
-                console.log('currentMessage',currentMessage);
                 
                 currentMessage.content += dataFormat.message
                 //chatLogs[chatLogs.length - 1].content += dataFormat.message
                 
               }
               else{
-                messages.value.push({
-                  content: dataFormat.error_message.length>0 ? dataFormat.error_message : dataFormat.message,
-                  evaluateIcon: '',
-                  hoverIcon: 'heart',
-                  showHoverIcon: false,
-                  emoji: dataFormat.emoji,
-                  message_id: dataFormat.message_id,
-                  isUser: false
-                });
                 chatLogs.push({
                   content: dataFormat.error_message.length>0 ? dataFormat.error_message : dataFormat.message,
                   evaluateIcon: '',
@@ -499,7 +506,14 @@ onMounted(()=>{
             isEnd.value = dataFormat.is_end
           }
         }
-
+        
+        //循环map并且根据message_id和created_at判断是否有重复的消息
+        for (let [key, value] of chatLogsMap) {
+          chatLogsMap.set(key, uniqWith(value, (obj1, obj2) => {
+            return obj1.content === obj2.content && obj1.message_id === obj2.message_id;
+          }))
+          chatLogsMap.set(key, sortChatLogs(value))
+        }
     }
   }));
   ws.connect();
@@ -575,7 +589,12 @@ const chatLogsSplit = (chatLogs: Message[]): Map<string, Message[]>=>{
   return chatLogsMap;
 
 }
-
+const sortChatLogs = (chatLogs: Message[]): Message[] => {
+  let chatLogsSort = chatLogs.sort((a, b) => {
+    return Date.parse(a.created_at as string) - Date.parse(b.created_at as string)
+  })
+  return chatLogsSort;
+}
 // 查询是否有聊天记录
 const checkChatRecord = async() => {
   const res = await chat(recordList);
