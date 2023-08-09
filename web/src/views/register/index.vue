@@ -430,7 +430,7 @@ const handleBackEmit = () => {
               v-bind="layout"
               autocomplete="off"
               @finish="handleFinish"
-              class="h-[calc(100%-30rem)] overflow-y-auto"
+              class="h-[calc(100%-300px)] overflow-y-auto"
             >
               <template v-if="state.loginType === 'code'">
                 <div class="mb-16px">
@@ -441,6 +441,7 @@ const handleBackEmit = () => {
                         placeholder="请输入电话号码"
                         class="normal-input-wrap"
                         style="width: 100%"
+                        allow-clear
                       />
                     </a-input-group>
                   </a-form-item>
@@ -486,6 +487,7 @@ const handleBackEmit = () => {
                         placeholder="请输入电话号码"
                         class="normal-input-wrap"
                         style="width: 100%"
+                        allow-clear
                       />
                     </a-input-group>
                   </a-form-item>
