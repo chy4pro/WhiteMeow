@@ -375,7 +375,7 @@ const sendMessage = () => {
         "message_id":genIdForMsg(2 ,20),
         "message":newMessage.value,
         "user": window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
-        "open_kf_id": "wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA"
+        "open_kf_id": 'wkWpQ2GQAAZgrSsvcgtaV-kOVfhsIERw'//"wkWpQ2GQAAPtHdT-Jdk4ltXYZKlnHoSA"
       }
       ws.sendMsg(sendData)
       newMessage.value = ''
