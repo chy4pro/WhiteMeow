@@ -420,7 +420,7 @@ const handleBackEmit = () => {
               @finish="handleFinish"
             >
               <template v-if="state.loginType === 'code'">
-                <div class="mb-1.6rem">
+                <div class="mb-16px">
                   <a-form-item ref="mobileNumber" name="mobileNumber">
                     <a-input-group compact class="input-group">
                       <a-input
@@ -430,12 +430,12 @@ const handleBackEmit = () => {
                         style="width: 100%"
                       />
                     </a-input-group>
-                    <div
-                      class="text-12px font-500 color-#E2E2E2 line-height-1.8rem mt-0.4rem"
+                  </a-form-item>
+                  <div
+                      class="text-12px font-500 color-#E2E2E2 line-height-1.8rem mt-4px"
                     >
                       未注册的手机号将自动注册并登录
                     </div>
-                  </a-form-item>
                 </div>
 
                 <a-form-item ref="identifyCode" name="identifyCode">
@@ -465,7 +465,7 @@ const handleBackEmit = () => {
               </template>
 
               <template v-if="state.loginType === 'psd'">
-                <div class="mb-1.6rem">
+                <div class="mb-16px">
                   <a-form-item ref="mobileNumber" name="mobileNumber">
                     <a-input-group compact class="input-group">
                       <a-input
@@ -506,7 +506,7 @@ const handleBackEmit = () => {
 
               <div class="ta-forget">
                 <a-checkbox
-                  class="text-14px pink-checkbox"
+                  class="pink-checkbox"
                   v-model:checked="autoLoginForIdentify"
                   >自动登录</a-checkbox
                 >
@@ -558,17 +558,17 @@ const handleBackEmit = () => {
                   >
                   </a-checkbox>
 
-                  <div class="ml-0.8rem">
-                    <span class="text-12px">我已阅读并同意</span>
+                  <div class="ml-8px">
+                    <span class="text-1.2rem">我已阅读并同意</span>
                     <a
-                      class="text-12px inline-block color-#374AF5"
+                      class="text-1.2rem inline-block color-#374AF5"
                       href="javascript:;"
                       @click="openDialog('1')"
                       >《用户协议》</a
                     >
-                    <span class="text-12px">和</span>
+                    <span class="text-1.2rem">和</span>
                     <a
-                      class="text-12px inline-block color-#374AF5"
+                      class="text-1.2rem inline-block color-#374AF5"
                       href="javascript:;"
                       @click="openDialog('2')"
                       >《隐私协议》</a
@@ -633,13 +633,19 @@ const handleBackEmit = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  span {
+  margin-top: 8px;
+  span{
     text-decoration: underline;
     font-size: 1.4rem;
     font-weight: 500;
     color: rgba(0, 0, 0, 1);
     cursor: pointer;
+  }
+  :deep .ant-checkbox+span{
+    line-height: normal;
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 500;
   }
 }
 .ta-tab {
@@ -691,5 +697,8 @@ const handleBackEmit = () => {
 }
 :deep .normal-input-wrap input {
   --at-apply: bg-[#F4F5F7] border-[#F4F5F7] outline-none;
+}
+.ant-form-item{
+  margin-bottom: 0;
 }
 </style>
