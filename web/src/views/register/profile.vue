@@ -338,6 +338,7 @@ onMounted(() => {
             :rules="rules"
             v-bind="layout"
             autocomplete="off"
+            class="h-[calc(100%-250px)] overflow-y-auto"
           >
             <div class="ta-item">
               <div class="item-title">昵称</div>
@@ -408,7 +409,7 @@ onMounted(() => {
                     alt=""
                   />
                 </div>
-                <div class="xz">{{ formState.xz }}</div>
+                <div class="xz">{{ formState.xz || '星座' }}</div>
                 <div class="date-picker" v-if="state.dateFocusBool">
                   <DatePickerComp
                     @handleCloseEmit="handleCloseEmit"
@@ -563,7 +564,7 @@ onMounted(() => {
   }
 
   .date-box:hover {
-    border-color: rgba(0, 0, 0, 1) !important;
+    border-color: #FF6AF0 !important;
   }
 
   .active {
@@ -624,7 +625,7 @@ onMounted(() => {
   }
 
   .ta-btn-item:hover {
-    border: 1px solid rgba(0, 0, 0, 1) !important;
+    border: 1px solid #FF6AF0 !important;
   }
 
   .btn-girl:active {
