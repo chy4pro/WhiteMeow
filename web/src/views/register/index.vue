@@ -94,7 +94,7 @@ const rules: Record<string, Rule[]> = {
   ],
   identifyCode: [{ required: true, validator: validatePass, trigger: "blur" }],
   agreementCheck: [
-    { required: true, validator: validateAgreement, trigger: "blur" },
+    { required: true, validator: validateAgreement, trigger: "change" },
   ],
   password: [{ required: true, validator: passwordReg, trigger: "blur" }],
 };
@@ -291,11 +291,21 @@ const startLogin = async () => {
             });
           }
         })
-        .catch((err) => {});
+        .catch((err) => {
+          messageAgreement(err)
+        });
     }
   } catch (err) {
   } finally {
   }
+};
+
+const messageAgreement = (err: any) => {
+  err['errorFields'].forEach((field:any) => {
+    if(field['name'][0] === 'agreementCheck'){
+      message.error(field['errors'][0]);
+    }
+  });
 };
 
 const openDialog = (theType: string) => {
@@ -346,6 +356,7 @@ const handlePsdLogin = () => {
         .catch((err: any) => {
           // message.error(err.msg);
           state.isLoginBool = false;
+          messageAgreement(err)
         });
     }
   } catch (error: any) {
@@ -564,7 +575,12 @@ const handleBackEmit = () => {
                 </div>
               </template>
 
-              <a-form-item ref="agreementCheck" name="agreementCheck">
+              <a-form-item
+              ref="agreementCheck"
+              name="agreementCheck"
+              validateStatus=""
+              help=""
+              >
                 <div class="flex-row-start">
                   <a-checkbox
                     class="self-start pink-checkbox"

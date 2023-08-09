@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import { useStorage } from '@vueuse/core'
 
 import { storage } from "@/utils/index.ts";
+import { message } from "ant-design-vue";
 
 const DatePickerComp = defineAsyncComponent(
   () => import("@/components/date-picker/index.vue")
@@ -112,6 +113,14 @@ const openDialog = (theType: string) => {
   }
 };
 
+const messageAgreement = (err: any) => {
+  err['errorFields'].forEach((field:any) => {
+    if(field['name'][0] === 'agreementCheck'){
+      message.error(field['errors'][0]);
+    }
+  });
+};
+
 const handleConfirm = () => {
   const { isconfirmBool } = state;
 
@@ -142,8 +151,9 @@ const handleConfirm = () => {
           loginStore.token = useStorage("token", result);
           getUserInfo();
         })
-        .catch(() => {
+        .catch((err) => {
           state.isconfirmBool = false;
+          messageAgreement(err);
         });
     }
   } catch (error) {}
@@ -430,12 +440,17 @@ onMounted(() => {
               确认
             </div>
 
-            <a-form-item ref="agreementCheck" name="agreementCheck">
+            <a-form-item
+            ref="agreementCheck"
+            name="agreementCheck"
+            validateStatus=""
+            help=""
+            >
               <div class="flex-row-start">
                 <a-checkbox
                   class="self-start pink-checkbox"
                   v-model:checked="formState.agreementCheck"
-                  @change="handleFormInput()"
+                  @change="handleFormInput()"                  
                 >
                 </a-checkbox>
 
