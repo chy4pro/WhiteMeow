@@ -86,8 +86,8 @@ const getName = (userInfo: UserInfo) => {
 }
 
 const name: any = computed(() => {
-  if(loginStore && loginStore.userInfo && typeof loginStore.userInfo === 'string'){
-    const name = getName(JSON.parse(loginStore.userInfo))
+  if(loginStore && loginStore.userInfo){
+    const name = getName(loginStore.userInfo)
     return name;
   }
 })
@@ -137,6 +137,7 @@ const startLogout = async() => {
         // storage.removeItem('newUserId')
         // storage.removeItem('token')
         loginStore.token = null
+        loginStore.userInfo = null
         storage.clear()
         //router.push({ path: '/'});
         goHome()
