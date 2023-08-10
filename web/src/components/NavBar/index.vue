@@ -29,7 +29,7 @@
             <div class="flex-col-center">
               <div class="px-12px w-full">
                 <div class="w-full text-center pb-12px color-#666 text-16px mt-20px border-b border-b-solid border-b-[#E7E7E7]">
-                  <span>{{ nickname }}</span>
+                  <span>{{ name }}</span>
                 </div>
               </div>
 
@@ -73,21 +73,20 @@ const props = defineProps({
 });
 let open = ref(false)
 interface UserInfo {
-  nickname: string
+  name: string
 }
 
-const getNickname = (userInfo: UserInfo) => {
+const getName = (userInfo: UserInfo) => {
   // 业务逻辑
   if(!userInfo) return '游客'
 
-  if(userInfo.nickname!='') return '游客'
+  if(userInfo.name==='') return '游客'
   
-  return userInfo.nickname 
+  return userInfo.name 
 }
 
-const nickname: any = computed(() => {
-  const name = loginStore.userInfo.nickname
-  
+const name: any = computed(() => {
+  const name = getName(JSON.parse(loginStore.userInfo))
   return name;
 })
 
