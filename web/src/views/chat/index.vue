@@ -481,6 +481,7 @@ onMounted(()=>{
               else{
                 chatLogs.push({
                   content: dataFormat.error_message.length>0 ? dataFormat.error_message : dataFormat.message,
+                  created_at: getFormattedDate('time'),
                   evaluateIcon: '',
                   hoverIcon: 'heart',
                   showHoverIcon: false,
@@ -512,6 +513,9 @@ onMounted(()=>{
           chatLogsMap.set(key, uniqWith(value, (obj1, obj2) => {
             return obj1.content === obj2.content && obj1.message_id === obj2.message_id;
           }))
+        }
+        
+        for (let [key, value] of chatLogsMap) {
           chatLogsMap.set(key, sortChatLogs(value))
         }
     }
