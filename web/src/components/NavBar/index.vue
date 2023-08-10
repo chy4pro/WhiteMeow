@@ -86,8 +86,10 @@ const getName = (userInfo: UserInfo) => {
 }
 
 const name: any = computed(() => {
-  const name = getName(JSON.parse(loginStore.userInfo))
-  return name;
+  if(loginStore && loginStore.userInfo && typeof loginStore.userInfo === 'string'){
+    const name = getName(JSON.parse(loginStore.userInfo))
+    return name;
+  }
 })
 
 const getToken: any = computed(() => {
