@@ -26,7 +26,7 @@
         <div class="pt-8px" v-if="open"  @mouseleave="open = false">
           <div class="absolute left-50% transform
             translate-x--50% w-128px h-a bg-white rounded-8px overflow-hidden" style="box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);">
-            <div class="flex-col-center">
+            <div class="flex-col-center pb-12px">
               <div class="px-12px w-full">
                 <div class="w-full text-center pb-12px color-#666 text-16px mt-20px border-b border-b-solid border-b-[#E7E7E7]">
                   <span>{{ name }}</span>
