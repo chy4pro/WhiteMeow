@@ -39,6 +39,13 @@
                 <span class="text-16px font-500 line-height-normal">注册/登录</span>
               </div>
               </div>
+
+              <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" @click="goRouter('/profileCenter/editProfile')" v-if="loginStore.token">
+              <div class="py-12px flex-row-center ">
+                <SvgImage name="icon24_account.svg" class="w-24px h-24px" />
+                <span class="text-16px font-500 line-height-normal">个人中心</span>
+              </div>
+              </div>
               
               <div class="px-12px w-full bg-white hover:bg-[var(--pink-01)] cursor-pointer" v-if="loginStore.token" @click="startLogout">
               <div class="py-12px flex-row-center">
@@ -119,6 +126,10 @@ const goRegister = () => {
     return;
   }
   router.push({ path: '/register' });
+}
+
+const goRouter = (path: string) => {
+  router.push({ path: path });
 }
 // 登出
 const startLogout = async() => {
