@@ -16,4 +16,4 @@ node_modules
 dist
 logs
 
-*.env_production
+*.env.production
