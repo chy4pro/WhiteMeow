@@ -8,6 +8,10 @@
   --green-1: #156669;
   --white-1: #EEECDE;
   --pink-01: #FFDFFC;
+  --text-01: rgba(0, 0, 0, 1);
+  --text-02: rgba(0, 0, 0, 0.80);
+  --text-03: rgba(0, 0, 0, 0.60);
+  --text-04: rgba(0, 0, 0, 0.40);
 }
 @font-face {
   font-family: 'RedHatDisplay';
@@ -51,7 +55,7 @@ body{
   --at-apply: overflow-hidden wh-full flex-col-center box-border;
 }
 .bg-box {
-  --at-apply: wh-full flex-col-center overflow-auto;
+  --at-apply: wh-full flex-col-center overflow-hidden;
   background: #FFDFFC;
   /* background: linear-gradient(130deg, rgba(255,164,237,1) 0%, rgba(255,221,236,1) 100%); */
 }
@@ -213,3 +217,63 @@ input::-webkit-contacts-auto-fill-button {
   right: 0;
 }
 /*reset safari*/
+
+/*chat && profileCenter*/
+.chat-panel-container{
+  --at-apply: 
+  w-108rem
+  max-h-72rem
+  h-[calc(100%-88px)]
+  relative
+  z-999
+  mt-56px
+}
+.chat-panel{
+  --at-apply: 
+  wh-full
+  flex-row-start
+  rounded-24px
+bg-[rgba(255,255,255,0.7)]
+  backdrop-blur-11.5px
+  overflow-hidden;
+}
+.chat-panel > .nav-part {
+  --at-apply: min-w-200px self-start px-16px h-full;
+}
+.chat-panel  .nav-part-tablist {
+  --at-apply: 
+  p-0
+  mb-0
+  w-full
+  list-none
+  overflow-y-auto
+  h-[calc(100%-88px)]
+  mt-32px;
+}
+.chat-panel  .nav-part-tablist > li {
+  --at-apply: rounded-6px text-14px py-16px px-8px flex-row-between cursor-pointer;
+}
+.chat-panel  .nav-part-tablist > li.press {
+  background: linear-gradient(90deg, #FCD3FF 22.92%, rgba(255, 255, 255, 0.00) 100%);
+}
+.chat-panel  .nav-part-tablist > li:hover:not(.press, .disable) {
+  background: linear-gradient(90deg, #FDE9FF 22.92%, rgba(255, 255, 255, 0.00) 100%);
+}
+.chat-panel  .nav-part-tablist > li.disable {
+  --at-apply: color-#BABABA bg-none cursor-not-allowed;
+}
+.chat-panel > .main-part {
+  --at-apply: self-start wh-full flex-col-start;
+}
+
+.chat-panel > .main-part > .header {
+  --at-apply: w-full py-12px px-24px flex-row-start bg-white;
+}
+.chat-panel > .main-part > .main {
+  --at-apply: w-full h-55.1rem bg-#f2f2f2;
+}
+.chat-panel > .main-part > .footer {
+  --at-apply: w-full h-104px bg-#F8F8F8 shadow-0px-4px-12px-0px flex-row-start px-24px;
+  /* background: #F8F8F8;
+box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.02); */
+}
