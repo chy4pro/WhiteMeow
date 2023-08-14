@@ -65,6 +65,18 @@ class RequestHttp {
         if (config.method === 'get' && config.data && isPlainObject(config.data)) {
           config.data = qs.stringify(config.data)
         }
+
+        if(config.url === '/upload'){
+          config.headers['Content-Type'] = 'multipart/form-data';
+          return {
+            ...config,
+            headers: {
+              'X-Token': auth || '',
+              'Authorization': token, // 请求头中携带token信息
+              'Content-Type': 'multipart/form-data',
+            }
+          }
+        }
         return {
           ...config,
           headers: {
@@ -134,8 +146,8 @@ class RequestHttp {
   get<T>(url: string, params?: object): Promise<ResultData<T>> {
     return this.service.get(url, { params })
   }
-  post<T>(url: string, params?: object): Promise<ResultData<T>> {
-    return this.service.post(url, params)
+  post<T>(url: string, params?: object, config?: AxiosRequestConfig): Promise<ResultData<T>> {
+    return this.service.post(url, params, config)
   }
   put<T>(url: string, params?: object): Promise<ResultData<T>> {
     return this.service.put(url, params)
