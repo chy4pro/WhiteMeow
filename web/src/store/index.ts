@@ -40,7 +40,7 @@ export const useLoginStore = defineStore('login', {
   state: () => ({
     isLogin: window.localStorage.getItem('token') ? true : false as any,
     token: window.localStorage.getItem('token') || '' as any,
-    userInfo: window.localStorage.getItem('userInfo') as any,
+    userInfo: {} as any,
     newUserId: window.localStorage.getItem('newUserId') as any,
   }),
   actions: {
