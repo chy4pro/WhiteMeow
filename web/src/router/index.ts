@@ -2,13 +2,14 @@ import { createRouter, RouteRecordRaw, createWebHashHistory } from 'vue-router'
 import home from '@/views/home/index.vue';
 import chat from '@/views/chat/index.vue';
 import feedbackSuccess from '@/views/feedbackSuccess/index.vue';
-import feedBack from '@/views/feedBack/index.vue';
 import register from '@/views/register/index.vue';
 import setPassword from '@/views/setPassword/index.vue';
 import setProfile from '@/views/setProfile/index.vue';
 import login from '@/views/login/index.vue';
 import protocol from '@/views/protocol/index.vue';
 import privacy from '@/views/privacy/index.vue';
+import profileCenter from '@/views/profileCenter/index.vue';
+import { useLoginStore } from "@/store";
 // import intro from '@/views/intro/index.vue';
 // import smartForm from '../components/SmartForm/index.vue';
 import requireAuth from './routerGuard'; // 导入路由守卫
@@ -29,9 +30,46 @@ export const routes: Array<RouteRecordRaw>  = [
     component: chat
   },
   {
-    path: '/feedBack',
-    name: 'feedBack',
-    component: feedBack
+    path: '/profileCenter',
+    name: 'profileCenter',
+    component: profileCenter,
+    beforeEnter: (to, from, next) => {
+      const loginStore = useLoginStore();
+
+      const token = loginStore.token
+
+      if(token){
+        next()
+      }
+      else{
+        next('/register')
+      }
+    },
+    children: 
+    [
+      {
+        path: "editProfile",
+        name: "editProfile",
+        component: () => import('@/views/profileCenter/editProfile.vue'),
+        props: true,
+        meta: { title: "个人信息" },
+      },
+      {
+        path: "editPassword",
+        name: "editPassword",
+        component: () => import('@/views/profileCenter/editPassword.vue'),
+        props: true,
+        meta: { title: "修改密码" },
+      },
+      {
+        path: "feedBack",
+        name: "feedBack",
+        component: () => import('@/views/profileCenter/feedBack.vue'),
+        props: true,
+        meta: { title: "帮助与反馈" },
+      }
+    ],
+    redirect: '/profileCenter/editProfile',
   },
   {
     path: '/feedbackSuccess',
