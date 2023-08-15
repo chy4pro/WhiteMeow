@@ -104,6 +104,8 @@ const messageAgreement = (err: any) => {
   });
 };
 
+loginStore.init()
+
 const handleConfirm = () => {
   const { isconfirmBool } = state;
 
@@ -130,10 +132,22 @@ const handleConfirm = () => {
           if(res.code === 200){
             message.success("修改成功");
             state.isconfirmBool = false;
-            loginStore.userInfo = {
-              ...param,
-              gender: param.sex
-            };
+            loginStore.userInfo.user = param.user;
+            loginStore.userInfo.sex = param.sex;
+            loginStore.userInfo.name = param.name;
+            loginStore.userInfo.birthday = param.birthday;
+            loginStore.userInfo.constellation = param.constellation;
+            if(loginStore.userInfo.gender){
+              loginStore.userInfo.gender = param.sex
+            }
+            else{
+              const userInfoState = useStorage(
+                'userInfo',
+                { gender: param.sex},
+                localStorage,
+                { mergeDefaults: true } // <--
+              )
+            }
           }
           
 

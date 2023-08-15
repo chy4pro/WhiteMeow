@@ -46,6 +46,10 @@ export const useLoginStore = defineStore('login', {
   actions: {
     login() {
       this.isLogin = true;
+    },
+    init(){
+      let result = JSON.parse(window.localStorage.getItem('userInfo') as any);
+      this.userInfo = useStorage('userInfo', result);
     }
   }
 })
