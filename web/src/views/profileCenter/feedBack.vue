@@ -289,6 +289,7 @@ onMounted(()=>{
                   placeholder="您的意见很重要！请畅所欲言～"
                   class="customer-textarea"
                   :autoSize="false"
+                  :maxlength="200"
                   @input="handleFormInput()"
                 />
             </a-form-item>
