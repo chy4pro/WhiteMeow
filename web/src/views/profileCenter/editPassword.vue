@@ -205,7 +205,7 @@ onMounted(()=>{
 
 <template>
   <div class="w-full h-full overflow-y-scroll">
-    <div class="h-full ml-40px mt-72px ">
+    <div class="h-full ml-4rem mt-72px ">
       <a-form
         ref="formRef"
         name="custom-validation"
@@ -215,7 +215,7 @@ onMounted(()=>{
         autocomplete="off"
       >
         
-          <div class="mb-24px">
+          <div class="mb-2.4rem">
             <div class="form-item-title">手机号</div>
             <a-form-item ref="mobileNumber" name="mobileNumber">
               <a-input-group compact class="input-group">
@@ -228,7 +228,7 @@ onMounted(()=>{
             </a-form-item>
           </div>
 
-          <div class="mb-24px">
+          <div class="mb-2.4rem">
             <div class="form-item-title">短信验证码</div>
             <a-form-item ref="identifyCode" name="identifyCode">
               <a-input
@@ -254,9 +254,9 @@ onMounted(()=>{
             </a-form-item>
           </div>
 
-          <div class="mb-40px">
+          <div class="mb-4rem">
             <div class="form-item-title">新密码</div>
-            <a-form-item ref="password" name="password" style="margin-bottom: 16px;">
+            <a-form-item ref="password" name="password" style="margin-bottom: 1.6rem;">
               <div class="flex-row-start">
                 <a-input
                   class="normal-input-wrap"
@@ -280,7 +280,7 @@ onMounted(()=>{
                     </div>
                   </template>
                 </a-input>
-                <div class="text-12px font-400 line-height-24px color-[rgba(0,0,0,0.4)]">（6-16位密码、数字或字母）</div>
+                <div class="text-1.2rem font-400 line-height-2.4rem color-[rgba(0,0,0,0.4)]">（6-16位密码、数字或字母）</div>
               </div>
             </a-form-item>
 
@@ -334,7 +334,7 @@ onMounted(()=>{
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #fff;
   border-radius: 6px;
@@ -382,14 +382,14 @@ onMounted(()=>{
   --at-apply: line-height-5.6rem;
 }
 .normal-input-wrap {
-  --at-apply: w-35.2rem h-40px min-h-30px bg-[#F4F5F7] border-[#F4F5F7] outline-none;
+  --at-apply: w-35.2rem h-4rem min-h-30px bg-[#F4F5F7] border-[#F4F5F7] outline-none;
 }
 :deep .normal-input-wrap input {
   --at-apply: bg-[#F4F5F7] border-[#F4F5F7] outline-none;
 }
 
 .form-item-title{
-  --at-apply: text-14px font-500 line-height-24px color-[var(--text-02)] mb-8px;
+  --at-apply: text-1.4rem font-500 line-height-2.4rem color-[var(--text-02)] mb-8px;
 }
 .ant-form-item{
   margin-bottom: 0;

@@ -271,7 +271,7 @@ onMounted(()=>{
 
 <template>
   <div class="w-full h-full overflow-y-scroll">
-    <div class="h-full ml-40px mt-72px ">
+    <div class="h-full ml-4rem mt-7.2rem ">
       <a-form
         ref="formRef"
         name="custom-validation"
@@ -281,7 +281,7 @@ onMounted(()=>{
         autocomplete="off"
       >
         
-          <div class="mb-24px">
+          <div class="mb-2.4rem">
             <div class="form-item-title">问题描述</div>
             <a-form-item ref="content" name="content">
               <a-textarea
@@ -295,7 +295,7 @@ onMounted(()=>{
             </a-form-item>
           </div>
 
-          <div class="mb-24px">
+          <div class="mb-2.4rem">
             <div class="form-item-title">添加图片说明（{{formState.fileList.length}}/3）</div>
             <a-form-item ref="identifyCode" name="identifyCode">
               <div class="clearfix">
@@ -348,9 +348,9 @@ onMounted(()=>{
             </a-form-item>
           </div>
 
-          <div class="mb-40px">
+          <div class="mb-4rem">
             <div class="form-item-title">联系方式</div>
-            <a-form-item ref="contact" name="contact" style="margin-bottom: 16px;">
+            <a-form-item ref="contact" name="contact" style="margin-bottom: 1.6rem;">
               <div class="flex-row-start">
                 <a-input
                   class="normal-input-wrap"
@@ -388,7 +388,7 @@ onMounted(()=>{
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #fff;
   border-radius: 6px;
@@ -436,14 +436,14 @@ onMounted(()=>{
   --at-apply: line-height-5.6rem;
 }
 .normal-input-wrap {
-  --at-apply: w-35.2rem h-40px min-h-30px bg-[#F4F5F7] border-[#F4F5F7] outline-none;
+  --at-apply: w-35.2rem h-4rem min-h-30px bg-[#F4F5F7] border-[#F4F5F7] outline-none;
 }
 :deep .normal-input-wrap input {
   --at-apply: bg-[#F4F5F7] border-[#F4F5F7] outline-none;
 }
 
 .form-item-title{
-  --at-apply: text-14px font-500 line-height-24px color-[var(--text-02)] mb-8px;
+  --at-apply: text-1.4rem font-500 line-height-2.4rem color-[var(--text-02)] mb-0.8rem;
 }
 .ant-form-item{
   margin-bottom: 0;

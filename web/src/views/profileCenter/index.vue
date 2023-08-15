@@ -4,39 +4,21 @@
     <div class="chat-panel">
       <div class="nav-part">
         <div @click="goChat" class="mt-3.5rem flex-row-start cursor-pointer">
-          <SvgImage name="icon_arrow_left.svg" class="w-16px h-16px mr-16px"/>
-          <span class="font-500 text-14px color-[var(--text-01)]">主页</span>
+          <SvgImage name="icon_arrow_left.svg" class="w-1.6rem h-1.6rem mr-1.6rem"/>
+          <span class="font-500 text-1.4rem color-[var(--text-01)]">主页</span>
         </div>
         <ul class="nav-part-tablist">
           <li @mouseenter="hoverTabItem(index)" @mouseleave="leaveTabItem(index)" @click="clickTabItem(index)"
             v-for="(tabItem, index) in tablist" :key="index" :class="tabItem.status">
             <div>
-              <SvgImage :name="tabItemMap(tabItem)" class="w-24px h-24px inline-block vertical-middle mr-8px" />
+              <SvgImage :name="tabItemMap(tabItem)" class="w-2.4rem h-2.4rem inline-block vertical-middle mr-8px" />
 
               <span class="inline-block vertical-middle">{{ tabItem.label }}</span>
             </div>
             <div v-if="tabItem.status === 'disable'">
-              <SvgImage name="icon24_lock_on.svg" class="w-16px h-16px" />
+              <SvgImage name="icon24_lock_on.svg" class="w-1.6rem h-1.6rem" />
             </div>
           </li>
-          <!-- <li>
-        <div>
-          <Image name="icon24_ceshi_miao.svg" alt="" class="w-24px h-24px inline-block vertical-middle mr-8px"/>
-          <span class="inline-block vertical-middle">测试喵</span>
-        </div>
-        <div>
-          <Image name="icon24_lock_on.svg" alt="" class="w-16px h-16px"/>
-        </div>
-      </li>
-      <li>
-        <div>
-          <Image name="icon24_wode_miao.svg" alt="" class="w-24px h-24px inline-block vertical-middle mr-8px"/>
-          <span class="inline-block vertical-middle">我的喵</span>
-        </div>
-        <div>
-          <Image name="icon24_lock_on.svg" alt="" class="w-16px h-16px"/>
-        </div>
-      </li> -->
         </ul>
       </div>
       <div class="main-part" ref="targetDiv">
@@ -50,31 +32,6 @@
     </div>
   </div>
 
-
-
-  <!-- <div class="
-    w-full
-    fixed
-    bottom-0
-    left-0
-    z-1000
-    p-30
-    flex-center
-    box-border">
-    <div class="input-container w-full mr-30px">
-      <input
-        type="text"
-        class="chat-input"
-        placeholder="点击聊天"
-        v-model="newMessage"
-        @keyup.enter.native="sendMessage"
-      />
-      <div class="send-button" @click="sendMessage" :disabled="!isConnect">
-        <Image name="airplant.svg" class="fly-icon" />
-      </div>
-    </div>
-    <Image name="111.gif" class="self-start" alt="" :width="'80px'" :height="'80px'"/>
-  </div> -->
 </template>
 
 <script setup lang="ts">
@@ -173,19 +130,19 @@ const tabItemMap = (item:any) =>{
 }
 
 .chat-panel>.nav-part {
-  --at-apply: self-start px-16px h-full;
+  --at-apply: self-start px-1.6rem h-full;
 }
 
 .chat-panel .nav-part-tablist {
   --at-apply:
-    p-0 mb-0 w-full list-none overflow-y-auto h-[calc(100%-88px)] mt-32px;
+    p-0 mb-0 w-full list-none overflow-y-auto h-[calc(100%-88px)] mt-3.2rem;
 }
 
 .chat-panel .nav-part-tablist>li {
-  --at-apply: rounded-6px text-14px py-16px px-8px flex-row-between cursor-pointer;
+  --at-apply: rounded-6px text-1.4rem py-1.6rem px-0.8rem flex-row-between cursor-pointer;
 }
 .chat-panel .nav-part-tablist>li.normal {
-  --at-apply: rounded-6px text-14px py-16px px-8px flex-row-between cursor-pointer;
+  --at-apply: rounded-6px text-1.4rem py-1.6rem px-0.8rem flex-row-between cursor-pointer;
   opacity: 0.5;
 }
 .chat-panel .nav-part-tablist>li.press {
@@ -208,7 +165,7 @@ const tabItemMap = (item:any) =>{
 }
 
 .chat-panel>.main-part>.header {
-  --at-apply: w-full py-12px px-24px flex-row-start bg-white;
+  --at-apply: w-full py-1.2rem px-2.4rem flex-row-start bg-white;
 }
 
 .chat-panel>.main-part>.main {
@@ -216,7 +173,7 @@ const tabItemMap = (item:any) =>{
 }
 
 .chat-panel>.main-part>.footer {
-  --at-apply: w-full h-104px bg-#F8F8F8 shadow-0px-4px-12px-0px flex-row-start px-24px;
+  --at-apply: w-full h-104px bg-#F8F8F8 shadow-0px-4px-12px-0px flex-row-start px-2.4rem;
   /* background: #F8F8F8;
 box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.02); */
 }

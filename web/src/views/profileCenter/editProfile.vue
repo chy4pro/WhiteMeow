@@ -310,20 +310,20 @@ onMounted(() => {
 
 <template>
   <div class="w-full h-full overflow-y-scroll">
-    <div class="h-full ml-40px mt-72px ">
+    <div class="h-full ml-4rem mt-72px ">
       <a-form ref="formRef" name="custom-validation" :model="formState" :rules="rules" v-bind="layout" autocomplete="off">
-        <div class="mb-24px">
+        <div class="mb-2.4rem">
           <div class="item-title">昵称</div>
           <a-form-item ref="name" name="name">
             <div class="flex-row-start">
-              <a-input class="normal-input-wrap w-35.2rem mr-8px" v-model:value="formState.name" placeholder="请输入你的昵称" @input="handleFormInput()"
+              <a-input class="normal-input-wrap w-35.2rem mr-0.8rem" v-model:value="formState.name" placeholder="请输入你的昵称" @input="handleFormInput()"
                 allow-clear></a-input>
-              <div class="text-12px font-400 line-height-24px color-[rgba(0,0,0,0.4)]">(长度2-20，支持中英文、数字以及不在首尾的下划线)</div>
+              <div class="text-1.2rem font-400 line-height-2.4rem color-[rgba(0,0,0,0.4)]">(长度2-20，支持中英文、数字以及不在首尾的下划线)</div>
             </div>
           </a-form-item>
         </div>
 
-        <div class="mb-24px">
+        <div class="mb-2.4rem">
           <div class="item-title">性别</div>
           <div class="ta-btn w-35.2rem">
             <div :class="[
@@ -345,7 +345,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="w-35.2rem " style="margin-top: 24px">
+        <div class="w-35.2rem " style="margin-top: 2.4rem">
           <div class="item-title">出生年月</div>
           <div class="date-wrapper" :style="{
             color: formState.y
@@ -372,7 +372,7 @@ onMounted(() => {
         </div>
 
         <!-- <a-button
-                  class="w-full color-white min-h-30px h-40px mt-4rem"
+                  class="w-full color-white min-h-30px h-4rem mt-4rem"
                   :class="disabledCodeLogin ? 'bg-[#999]' : 'bg-black'"
                   @click="handleConfirm"
                   >确认</a-button
@@ -390,13 +390,13 @@ onMounted(() => {
 <style scoped lang="scss">
 .ta-button {
   text-align: center;
-  line-height: 40px;
-  font-size: 14px;
+  line-height: 4rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #fff;
   border-radius: 0.6rem;
   margin-top: 4rem;
-  height: 40px;
+  height: 4rem;
   background-color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
 }
@@ -438,7 +438,7 @@ onMounted(() => {
 
 .date-wrapper {
   display: flex;
-  height: 40px;
+  height: 4rem;
   font-size: 1.6rem;
   font-weight: 500;
   position: relative;
@@ -498,7 +498,7 @@ onMounted(() => {
 
 .item-title {
   color: rgba(0, 0, 0, 0.6);
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 500;
   padding-left: 0.5rem;
   margin-bottom: 8px;
@@ -510,7 +510,7 @@ onMounted(() => {
 
   .ta-btn-item {
     flex: 1;
-    height: 40px;
+    height: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -569,15 +569,15 @@ onMounted(() => {
 }
 
 :deep .input-group .ant-select-selector {
-  --at-apply: bg-[#F4F5F7] border-[#F4F5F7] outline-none h-40px;
+  --at-apply: bg-[#F4F5F7] border-[#F4F5F7] outline-none h-4rem;
 }
 
 :deep .input-group .ant-select-selector .ant-select-selection-item {
-  --at-apply: line-height-40px;
+  --at-apply: line-height-4rem;
 }
 
 .normal-input-wrap {
-  --at-apply: h-40px bg-[#F4F5F7] border-[#F4F5F7] outline-none;
+  --at-apply: h-4rem bg-[#F4F5F7] border-[#F4F5F7] outline-none;
 }
 
 :deep .normal-input-wrap input {
