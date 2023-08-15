@@ -136,13 +136,13 @@ const handleSubmit = () => {
           }
           console.log('------',params);
           
-          // const res = await feedbackSave(params);
-          // let result: any = res.data;
+          const res = await feedbackSave(params);
+          let result: any = res.data;
 
-          // if (res && res.code === 200) {
-          //   // disabledCodeLogin.value = true;
-          //   message.success("收到您的反馈了～");
-          // }
+          if (res && res.code === 200) {
+            // disabledCodeLogin.value = true;
+            message.success("提交成功");
+          }
         })
         .catch((err) => {
           disabledCodeLogin.value = true;
