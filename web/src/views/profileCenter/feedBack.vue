@@ -301,6 +301,7 @@ onMounted(()=>{
               <div class="clearfix">
                 <a-upload
                   v-model:file-list="formState.fileList"
+                  accept="image/*"
                   name="file"
                   :custom-request="customUpload"
                   class="customer-upload"
