@@ -629,7 +629,7 @@ const getChatRecord = async() => {
             ...item,
             isUser: item.answer_or_question === 1 ? true : false,
             evaluateIcon: '',
-            hoverIcon: '',
+            hoverIcon: item.answer_or_question === 1 ? '' : 'heart',
           }
         })
         messages.value = resultList.concat(messages.value);
