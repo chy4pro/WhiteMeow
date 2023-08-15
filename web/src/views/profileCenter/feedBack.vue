@@ -33,7 +33,7 @@ const formState = reactive({
   content: '',	
   contact: '',
   images: '',
-  fileList: ref([])
+  fileList: ref([]) as any
 });
 
 const validatePass = async (_rule: Rule, value: string) => {
@@ -217,7 +217,7 @@ const customUpload = (e:any) => {
   })
     .then((res) => {
       console.log('上传成功', res.data);
-      const fileList = formState.fileList.value;
+      const fileList = formState.fileList.value as any;
 
       if(fileList){
         fileList.push({
