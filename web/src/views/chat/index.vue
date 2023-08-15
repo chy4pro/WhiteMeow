@@ -347,10 +347,17 @@ function getFormattedDate(format = 'date') {
     return formattedDate;
   }
 }
+
+const isValidText = (text:string) => {
+  const regex = /^\S+$/;
+  let str = text.trim()
+
+  return regex.test(str); 
+}
 // 发送消息
 const sendMessage = () => {
   if(isConnect.value === true){
-    if (newMessage.value) {
+    if (isValidText(newMessage.value)) {
       // 处理非空的 messages.value
       const today = getFormattedDate();
       let messageId = genIdForMsg(2 ,20);
