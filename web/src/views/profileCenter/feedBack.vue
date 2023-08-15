@@ -33,28 +33,7 @@ const formState = reactive({
   content: '',	
   contact: '',
   images: '',
-  fileList: ref([
-  //   {
-  //   uid: '-1',
-  //   name: 'image.png',
-  //   status: 'done',
-  //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  // },
-  {
-    uid: '-xxx',
-    percent: 50,
-    name: 'image.png',
-    status: 'uploading',
-    response: {
-      file: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-  },
-  {
-    uid: '-5',
-    name: 'image.png',
-    status: 'error',
-  },]) as any
+  fileList: ref([])
 });
 
 const validatePass = async (_rule: Rule, value: string) => {
@@ -310,6 +289,7 @@ onMounted(()=>{
                   placeholder="您的意见很重要！请畅所欲言～"
                   class="customer-textarea"
                   :autoSize="false"
+                  @input="handleFormInput()"
                 />
             </a-form-item>
           </div>
