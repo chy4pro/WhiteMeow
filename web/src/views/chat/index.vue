@@ -443,15 +443,14 @@ const showMore = () => {
 //     }
 //   }
 // }
-
-onMounted(()=>{
-  let current_message_id:string = ''
+const initData = () => {
   recordList.page += 1;
-  checkChatRecord();
   storage.setItem('auth', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyNDg2NTUsImlhdCI6MTY4MjMyODY1NSwidXNlcklkIjoyfQ.c54BKBpqCYhnnZU6LEsP04th9VUZ2q2jXEYmtu2k38U');
   scrollBottomFlag.value = true;
+}
 
-  // topDistance();
+const initWebSocket = () => {
+  let current_message_id:string = ''
 
   // scoket连接
   ws = reactive(new Socket({
@@ -523,6 +522,12 @@ onMounted(()=>{
     }
   }));
   ws.connect();
+}
+
+onMounted(()=>{
+  initData();
+  initWebSocket();
+  checkChatRecord();
 
   // 监听连接状态变化
   watch(()=> ws.status, async(newValue, oldValue) => {
