@@ -117,6 +117,8 @@
                 </div>
             </div>
           </div>
+          <div class="w-full h-10.4rem"></div>
+
         </div>
         </div>
         <div class="footer">

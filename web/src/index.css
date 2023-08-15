@@ -263,17 +263,26 @@ bg-[rgba(255,255,255,0.7)]
   --at-apply: color-#BABABA bg-none cursor-not-allowed;
 }
 .chat-panel > .main-part {
-  --at-apply: self-start wh-full flex-col-start;
+  --at-apply: self-start wh-full flex-col-start relative;
 }
 
 .chat-panel > .main-part > .header {
   --at-apply: w-full py-12px px-24px flex-row-start bg-white;
 }
 .chat-panel > .main-part > .main {
-  --at-apply: w-full h-55.1rem bg-#f2f2f2;
+  --at-apply: w-full h-[calc(100%-64px)] bg-#f2f2f2;
 }
 .chat-panel > .main-part > .footer {
-  --at-apply: w-full h-104px bg-#F8F8F8 shadow-0px-4px-12px-0px flex-row-start px-24px;
+  --at-apply: 
+  w-full
+  h-10.4rem
+  bg-#F8F8F8
+  shadow-0px-4px-12px-0px
+  flex-row-start
+  absolute
+  bottom-0
+  right-0
+  px-24px;
   /* background: #F8F8F8;
 box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.02); */
 }
