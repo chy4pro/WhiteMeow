@@ -16,6 +16,7 @@ declare module 'vue' {
     AInputGroup: typeof import('ant-design-vue/es')['InputGroup']
     AInputPassword: typeof import('ant-design-vue/es')['InputPassword']
     AModal: typeof import('ant-design-vue/es')['Modal']
+    AProgress: typeof import('ant-design-vue/es')['Progress']
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASpace: typeof import('ant-design-vue/es')['Space']
