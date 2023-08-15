@@ -137,6 +137,8 @@ const clickTabItem = (index:number) => {
       break;
   }
 }
+provide('clickTabItem', clickTabItem)
+
 
 const tabItemMap = (item:any) =>{
   if(item.status === 'hover' || item.status === 'disable'){

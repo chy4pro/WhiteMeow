@@ -192,6 +192,15 @@ const handleSubmit = () => {
 const handleBack = () => {
   emit("handleBackEmit");
 };
+
+const navbarActive = () =>{
+  const clickTabItem:any = inject('clickTabItem')
+  clickTabItem(1)
+}
+
+onMounted(()=>{
+  navbarActive()
+})
 </script>
 
 <template>

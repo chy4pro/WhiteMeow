@@ -11,6 +11,7 @@ import { message, type FormInstance } from "ant-design-vue";
 const emit = defineEmits(["handleBackEmit"]);
 import { updateUserPassword, uploadApi, feedbackSave} from "@/apis/profileCenter.ts";
 import { useLoginStore } from "@/store";
+import router from "@/router";
 const loginStore = useLoginStore();
 
 const state = reactive({
@@ -32,7 +33,28 @@ const formState = reactive({
   content: '',	
   contact: '',
   images: '',
-  fileList: ref([]) as any
+  fileList: ref([
+  //   {
+  //   uid: '-1',
+  //   name: 'image.png',
+  //   status: 'done',
+  //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+  // },
+  {
+    uid: '-xxx',
+    percent: 50,
+    name: 'image.png',
+    status: 'uploading',
+    response: {
+      file: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    },
+    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+  },
+  {
+    uid: '-5',
+    name: 'image.png',
+    status: 'error',
+  },]) as any
 });
 
 const validatePass = async (_rule: Rule, value: string) => {
@@ -190,8 +212,15 @@ const fileList = ref<UploadProps['fileList']>([
 ]);
 const controller = new AbortController()
 
+const cancelUpload = (file:any) => {
+  controller.abort()
+
+  let result = formState.fileList.filter((item:any) => item.uid !== file.uid)
+  formState.fileList = result
+}
 // 自定义文件上传公共函数
 // e.onProgress(event)  event的格式为 {percent:xxx}
+let percent = ref(0);
 const customUpload = (e:any) => {
   console.log(e);
   // 上传接口  e.file 就是接口所用的 file
@@ -201,7 +230,7 @@ const customUpload = (e:any) => {
       // ev - axios 上传进度实例，上传过程触发多次
       // ev.loaded 当前已上传内容的大小，ev.total - 本次上传请求内容总大小
       console.log(ev);
-      const percent = (ev.loaded / ev.total) * 100;
+      percent.value = (ev.loaded / ev.total) * 100;
       // // 计算出上传进度，调用组件进度条方法
       e.onProgress({ percent });
     },
@@ -250,6 +279,15 @@ const progress: UploadProps['progress'] = {
   // format: percent => `${parseFloat(percent.toFixed(2))}%`,
   class: 'customer-upload-progress',
 };
+
+const navbarActive = () =>{
+  const clickTabItem:any = inject('clickTabItem')
+  clickTabItem(2)
+}
+
+onMounted(()=>{
+  navbarActive()
+})
 </script>
 
 <template>
@@ -265,38 +303,61 @@ const progress: UploadProps['progress'] = {
       >
         
           <div class="mb-24px">
-            <div class="form-item-title">问题描述（必填）</div>
+            <div class="form-item-title">问题描述</div>
             <a-form-item ref="content" name="content">
               <a-textarea
                   v-model:value="formState.content"
                   placeholder="您的意见很重要！请畅所欲言～"
                   class="customer-textarea"
-                  :autosize="false"
+                  :autoSize="false"
                 />
             </a-form-item>
           </div>
 
           <div class="mb-24px">
-            <div class="form-item-title">添加图片（选填）</div>
+            <div class="form-item-title">添加图片说明（{{formState.fileList.length}}/3）</div>
             <a-form-item ref="identifyCode" name="identifyCode">
               <div class="clearfix">
                 <a-upload
                   v-model:file-list="formState.fileList"
                   name="file"
                   :custom-request="customUpload"
-                  list-type="picture-card"
                   class="customer-upload"
+                  :max-count="3"
                   :progress="progress"
-                  :showUploadList="{showPreviewIcon: false, showRemoveIcon: false}"
+                  :showUploadList="{showPreviewIcon: false}"
                   @preview="handlePreview"
                 >
-                  <div v-if="formState.fileList.length < 8">
-                    <SvgImage name="icon_plus.svg" class="w-2.4rem h-2.4rem" />
-                    <div class="text-1.4rem color-[var(--text-04)] font-400 line-height-2.4rem">上传图片</div>
+                <div v-if="formState.fileList.length < 8" class="flex-col-center">
+                  <SvgImage name="icon_plus.svg" class="w-2.4rem h-2.4rem" />
+                  <div class="text-1.4rem color-[var(--text-04)] font-400 line-height-2.4rem">上传图片</div>
+                </div>
+
+                <template #itemRender="{ file, actions }">
+                  <div class="relative w-a">
+                    <div class="preview-image-wrap" :class="file.status">
+                      <img :src="file?.response?.file" class="wh-full cursor-pointer" v-show="file.status === 'done'" @click="handlePreview(file)"/>
+                      
+                      <div class="">
+                        <!-- <SvgImage name="icon_loading.svg" class="w-2.4rem h-2.4rem" v-show="file.status === 'uploading'"/> -->
+                        <div v-show="file.status === 'uploading'" class="w-6.4rem flex-col-center">
+                          <a-progress :percent="file.percent" size="small" :show-info="false" strokeColor="#ff98f5" class="m-0"/>
+                          <div class="text-[var(--text-04)] text-1.2rem font-400 line-height-2.4rem mt-0.7rem cursor-pointer" @click="cancelUpload(file)">取消</div>
+                        </div>
+
+                        <div v-show="file.status === 'error'" class="flex-col-center">
+                          <SvgImage name="icon_delete.svg" class="w-2.4rem h-2.4rem"/>
+                          <div class="text-[#ff0909] text-1.2rem font-400 line-height-2.4rem mt-0.7rem">上传失败</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="absolute top--1rem right--0.7rem cursor-pointer" @click="actions.remove" v-if="file.status === 'done'">
+                      <SvgImage name="icon_black_delete.svg" class="w-1.6rem h-1.6rem" />
+                    </div>
                   </div>
-                  <div v-else>
-                    123
-                  </div>
+                </template>
+
                 </a-upload>
                 <a-modal :open="previewVisible" :title="previewTitle" :footer="null" @cancel="handleCancel">
                   <img alt="example" style="width: 100%" :src="previewImage" />
@@ -306,7 +367,7 @@ const progress: UploadProps['progress'] = {
           </div>
 
           <div class="mb-40px">
-            <div class="form-item-title">联系方式（选填）</div>
+            <div class="form-item-title">联系方式</div>
             <a-form-item ref="contact" name="contact" style="margin-bottom: 16px;">
               <div class="flex-row-start">
                 <a-input
@@ -331,7 +392,7 @@ const progress: UploadProps['progress'] = {
           @click="handleSubmit"
           :class="['ta-button', !disabledCodeLogin && 'ta-btn-active']"
         >
-        保存
+        提交
         </div>
         </div>
 
@@ -421,10 +482,10 @@ const progress: UploadProps['progress'] = {
   --at-apply: w-35.2rem h-18.3rem min-h-30px bg-[#F4F5F7] border-[#F4F5F7] outline-none resize-none;
 }
 :deep .customer-upload.ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select{
-  --at-apply: w-80px h-80px border-[var(--text-04)] bg-[#F4F5F7];
+  --at-apply: w-8rem h-8rem border-[var(--text-04)] bg-[#F4F5F7];
 }
 :deep .customer-upload.ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-container{
-  --at-apply: w-80px h-80px;
+  --at-apply: w-8rem h-8rem;
 }
 :deep .customer-upload-progress.ant-progress .ant-progress-text  {
   display: none;
@@ -458,4 +519,65 @@ const progress: UploadProps['progress'] = {
 :deep .ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item::before{
   display: none;
 }
+
+/*自定义上传*/
+.customer-upload{
+  --at-apply: 
+  flex-row-start;
+}
+:deep .ant-upload-wrapper .ant-upload.ant-upload-select.ant-upload-select-text{
+  --at-apply: 
+  w-8rem
+  h-8rem
+  border-1px
+  border-dashed
+  rounded-6px
+  mr-0.8rem
+  flex-col-center
+  border-[var(--text-04)]
+  cursor-pointer
+  overflow-hidden
+  bg-[#F4F5F7];
+}
+.preview-image-wrap{
+  --at-apply: 
+  w-8rem
+  h-8rem
+  relative
+  rounded-6px
+  overflow-hidden
+  flex-col-center
+  bg-[#F4F5F7];
+}
+.preview-image-wrap.error{
+  --at-apply: 
+  border-1px
+  border-dashed
+  rounded-6px
+  flex-col-center
+  border-[#d10000]
+  overflow-hidden
+  bg-[#fff];
+}
+.preview-image-wrap.uploading{
+  --at-apply: 
+  border-1px
+  border-dashed
+  rounded-6px
+  flex-col-center
+  border-[var(--pink-04)]
+  overflow-hidden
+  bg-[#fff];
+}
+:deep .ant-upload-wrapper .ant-upload-list{
+  --at-apply: 
+  flex-row-start;
+}
+:deep .ant-upload-wrapper .ant-upload-list .ant-upload-list-item-container{
+  --at-apply: mr-0.8rem;
+}
+:deep .ant-form .ant-motion-collapse{
+  overflow: visible;
+}
+/*自定义上传*/
 </style>

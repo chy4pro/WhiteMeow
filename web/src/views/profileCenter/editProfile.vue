@@ -142,7 +142,7 @@ const handleConfirm = () => {
         })
         .catch((err) => {
           state.isconfirmBool = false;
-          messageAgreement(err);
+          //messageAgreement(err);
         });
     }
   } catch (error) { }
@@ -282,9 +282,15 @@ const setProfile = () => {
     handleFormInput();
   }
 }
+const navbarActive = () =>{
+  const clickTabItem:any = inject('clickTabItem')
+  clickTabItem(0)
+}
+
 
 onMounted(() => {
   setProfile()
+  navbarActive()
 });
 </script>
 
