@@ -4,60 +4,60 @@
   <div class="chat-panel-container">
     <div class="chat-panel">
       <div class="nav-part">
-        <SvgImage name="catpaw-logo.svg" class="w-143px h-40px mt-16px"/>
+        <SvgImage name="catpaw-logo.svg" class="w-14.3rem h-4rem mt-1.6rem"/>
         <ul class="nav-part-tablist">
           <li @mouseenter="hoverTabItem(index)" @mouseleave="leaveTabItem(index)" @click="clickTabItem(index)" v-for="(tabItem, index) in tablist" :key="index" :class="tabItem.status">
             <div>
-              <SvgImage :name="tabItemMap(tabItem)" class="w-24px h-24px inline-block vertical-middle mr-8px"/>
+              <SvgImage :name="tabItemMap(tabItem)" class="w-2.4rem h-2.4rem inline-block vertical-middle mr-8px"/>
 
               <span class="inline-block vertical-middle">{{ tabItem.label }}</span>
             </div>
             <div v-if="tabItem.status === 'disable'">
-              <SvgImage name="icon24_lock_on.svg" class="w-16px h-16px"/>
+              <SvgImage name="icon24_lock_on.svg" class="w-1.6rem h-1.6rem"/>
             </div>
           </li>
           <!-- <li>
             <div>
-              <Image name="icon24_ceshi_miao.svg" alt="" class="w-24px h-24px inline-block vertical-middle mr-8px"/>
+              <Image name="icon24_ceshi_miao.svg" alt="" class="w-2.4rem h-2.4rem inline-block vertical-middle mr-8px"/>
               <span class="inline-block vertical-middle">测试喵</span>
             </div>
             <div>
-              <Image name="icon24_lock_on.svg" alt="" class="w-16px h-16px"/>
+              <Image name="icon24_lock_on.svg" alt="" class="w-1.6rem h-1.6rem"/>
             </div>
           </li>
           <li>
             <div>
-              <Image name="icon24_wode_miao.svg" alt="" class="w-24px h-24px inline-block vertical-middle mr-8px"/>
+              <Image name="icon24_wode_miao.svg" alt="" class="w-2.4rem h-2.4rem inline-block vertical-middle mr-8px"/>
               <span class="inline-block vertical-middle">我的喵</span>
             </div>
             <div>
-              <Image name="icon24_lock_on.svg" alt="" class="w-16px h-16px"/>
+              <Image name="icon24_lock_on.svg" alt="" class="w-1.6rem h-1.6rem"/>
             </div>
           </li> -->
         </ul>
       </div>
       <div class="main-part" ref="targetDiv">
         <div class="header">
-          <SvgImage name="Avatar.svg" class="w-40px h-40px mr-16px"/>
-          <div class="font-600 text-16px line-height-20px">白小喵</div>
+          <SvgImage name="Avatar.svg" class="w-4rem h-4rem mr-1.6rem"/>
+          <div class="font-600 text-1.6rem line-height-2rem">白小喵</div>
         </div>
         <div class="main">
           <div class="wh-full box-border overflow-y-auto relative" ref="messageList">
 
-          <div class="text-center mt-16px cursor-pointer" @click="showMore" v-if="recordList.page*recordList.page_size < pageTotal">
-            <div class="w-24px h-24px flex-col-center mx-a">
-              <SvgImage name="icon_more.svg" class="w-14px h-12.6px"/>
+          <div class="text-center mt-1.6rem cursor-pointer" @click="showMore" v-if="recordList.page*recordList.page_size < pageTotal">
+            <div class="w-2.4rem h-2.4rem flex-col-center mx-a">
+              <SvgImage name="icon_more.svg" class="w-1.4rem h-12.6px"/>
             </div>
-            <div class="color-[rgba(0,0,0,0.4)] text-14px">查看历史聊天记录</div>
+            <div class="color-[rgba(0,0,0,0.4)] text-1.4rem">查看历史聊天记录</div>
           </div>
 
 
 
           <div v-for="[date, logs] in chatLogsMap" :key="date">
-            <div class="text-center mt-17px color-#666668 text-14px mb-13px">
+            <div class="text-center mt-1.7rem color-#666668 text-1.4rem mb-1.3rem">
               {{ date }}
             </div>
-            <div class="flex flex-items-end mb-13px flex-nowrap px-30px " v-for="(message, index) in logs" :key="index" :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
+            <div class="flex flex-items-end mb-1.3rem flex-nowrap px-3rem " v-for="(message, index) in logs" :key="index" :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
               <div class="
                 flex-self-start
                 color-[#000c]
@@ -70,16 +70,16 @@
                 >
                 <div class="
                   whitespace-pre-line
-                  text-14px
+                  text-1.4rem
                   font-400
-                  px-16px
-                  py-8px
-                  line-height-24px
+                  px-1.6rem
+                  py-0.8rem
+                  line-height-2.4rem
                 ">
                   
                   <div>{{ message.content }}</div>
                   <div class="text-right" v-show="!message.showHoverIcon" @click="clickHeart(message)">
-                    <SvgImage :name="`icon_${message.evaluateIcon}.svg`"  class="w-16px h-16px" v-show="message.evaluateIcon"/>
+                    <SvgImage :name="`icon_${message.evaluateIcon}.svg`"  class="w-1.6rem h-1.6rem" v-show="message.evaluateIcon"/>
                   </div>
                   <div 
                   class="
@@ -95,8 +95,8 @@
                     :class="message.hoverIcon === 'heart_active' ? 'bg-[#FFDFFC]' : 'bg-white'"
                   >
                     <SvgImage :name="`icon_${message.hoverIcon}.svg`" class="
-                    w-16px
-                    h-16px
+                    w-1.6rem
+                    h-1.6rem
                     mx-8px
                     my-4px"/>
                   </div>
@@ -122,12 +122,12 @@
         </div>
         </div>
         <div class="footer">
-          <div class="bg-white h-56px rounded-8px w-full mr-30px flex-col-center">
+          <div class="bg-white h-56px rounded-8px w-full mr-3rem flex-col-center">
             <textarea
               cols="25"
               rows="5"
               resize="none"
-              class="w-full h-36px outline-none border-none rounded-8px indent-24px text-14px line-height-32px"
+              class="w-full h-36px outline-none border-none rounded-8px indent-2.4rem text-1.4rem line-height-32px"
               placeholder="你想和我聊些什么？......"
               v-model="newMessage"
               ref="inputBoxRef"
@@ -142,8 +142,8 @@
           outline-none
           border-none
           bg-transparent
-          w-24px
-          h-24px
+          w-2.4rem
+          h-2.4rem
           bg-[url(@/assets/images/icon_send_normal.svg)]
           bg-cover
           bg-no-repeat
@@ -172,7 +172,7 @@
         p-30
         flex-center
         box-border">
-        <div class="input-container w-full mr-30px">
+        <div class="input-container w-full mr-3rem">
           <input
             type="text"
             class="chat-input"
@@ -685,7 +685,7 @@ const getChatRecord = async() => {
   z-index: 1000;
   transform: translateX(-50%);
   color: #fff;
-  font-size: 20px;
+  font-size: 2rem;
   cursor: pointer;
 }
 
