@@ -107,16 +107,14 @@ const countDown = ref<number>(60);
 const identifyCode = ref<string | number>("");
 
 const getImageListPath = (fileList:any) => {
-  console.log(fileList);
-  console.log(fileList[0]);
   let result = ''
   let tempArr = []
-  for(let i = 0; i < fileList.length; i++){
-    if(fileList[i].response && fileList[i].response.url){
-      tempArr.push(fileList[i].response.url)
-    }
-    
+  for(let i in fileList){    
+    if(fileList[i].response && fileList[i].response.file){
+      tempArr.push(fileList[i].response.file)
+    }    
   }  
+  
   result = tempArr.join(',')
   return result;
 }
@@ -136,13 +134,15 @@ const handleSubmit = () => {
             contact:formState.contact,
             images: getImageListPath(formState.fileList),
           }
-          const res = await feedbackSave(params);
-          let result: any = res.data;
+          console.log('------',params);
+          
+          // const res = await feedbackSave(params);
+          // let result: any = res.data;
 
-          if (res && res.code === 200) {
-            // disabledCodeLogin.value = true;
-            message.success("收到您的反馈了～");
-          }
+          // if (res && res.code === 200) {
+          //   // disabledCodeLogin.value = true;
+          //   message.success("收到您的反馈了～");
+          // }
         })
         .catch((err) => {
           disabledCodeLogin.value = true;
