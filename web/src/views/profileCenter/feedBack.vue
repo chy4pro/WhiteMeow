@@ -519,6 +519,10 @@ onMounted(()=>{
   overflow-hidden
   bg-[#F4F5F7];
 }
+:deep .ant-upload-wrapper .ant-upload.ant-upload-select.ant-upload-select-text:hover{
+  --at-apply: 
+  bg-[#d8d8d8];
+}
 .preview-image-wrap{
   --at-apply: 
   w-8rem
