@@ -9,7 +9,7 @@ import login from '@/views/login/index.vue';
 import protocol from '@/views/protocol/index.vue';
 import privacy from '@/views/privacy/index.vue';
 import profileCenter from '@/views/profileCenter/index.vue';
-import { useLoginStore } from "@/store";
+import { useLoginStore, useChatStore } from "@/store";
 // import intro from '@/views/intro/index.vue';
 // import smartForm from '../components/SmartForm/index.vue';
 import requireAuth from './routerGuard'; // 导入路由守卫
@@ -27,7 +27,58 @@ export const routes: Array<RouteRecordRaw>  = [
   {
     path: '/chat',
     name: 'chat',
-    component: chat
+    component: chat,
+    children: 
+    [
+      {
+        path: "freeChat",
+        name: "freeChat",
+        component: () => import('@/views/chat/freeChat.vue'),
+        props: true,
+        meta: { title: "聊愈喵" },
+      },
+      {
+        path: "testChat",
+        name: "testChat",
+        component: () => import('@/views/chat/testChat.vue'),
+        props: true,
+        meta: { title: "测试喵" },
+        beforeEnter: (to, from, next) => {
+          const loginStore = useLoginStore();
+          const chatStore = useChatStore()
+          const token = loginStore.token
+    
+          if(token){
+            next()
+          }
+          else{
+            chatStore.showLoginModal = true
+            next('/chat/freeChat')
+          }
+        },
+      },
+      {
+        path: "myCat",
+        name: "myCat",
+        component: () => import('@/views/chat/myCat.vue'),
+        props: true,
+        meta: { title: "我的喵" },
+        beforeEnter: (to, from, next) => {
+          const loginStore = useLoginStore();
+          const chatStore = useChatStore()
+          const token = loginStore.token
+          
+          if(token){
+            next()
+          }
+          else{
+            chatStore.showLoginModal = true
+            next('/chat/freeChat')
+          }
+        },
+      }
+    ],
+    redirect: '/chat/freeChat',
   },
   {
     path: '/profileCenter',
