@@ -540,7 +540,9 @@ const sayHello = () =>{
         content: helloWord,
         emoji: 0,
         isUser: false,
-        message_id: messageId
+        message_id: messageId,
+        evaluateIcon: '',
+        hoverIcon: 'heart',
       });
       if (!chatLogsMap.has(today)) {
         chatLogsMap.set(today, []); 
@@ -553,7 +555,9 @@ const sayHello = () =>{
           content: helloWord,
           emoji: 0,
           isUser: false,
-          message_id: messageId
+          message_id: messageId,
+          evaluateIcon: '',
+          hoverIcon: 'heart',
         })
       }
 }
