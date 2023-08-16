@@ -531,11 +531,37 @@ const initWebSocket = () => {
   ws.connect();
 }
 
+const sayHello = () =>{
+  const today = getFormattedDate();
+      let messageId = genIdForMsg(2 ,20);
+      let helloWord = '吃了吗，朋友'
+      messages.value.push({
+        created_at: getFormattedDate('time'),
+        content: helloWord,
+        emoji: 0,
+        isUser: false,
+        message_id: messageId
+      });
+      if (!chatLogsMap.has(today)) {
+        chatLogsMap.set(today, []); 
+      }
+
+      let getToday = chatLogsMap.get(today)
+      if(getToday){
+        getToday.push({
+          created_at: getFormattedDate('time'),
+          content: helloWord,
+          emoji: 0,
+          isUser: false,
+          message_id: messageId
+        })
+      }
+}
 onMounted(()=>{
   initData();
   initWebSocket();
   checkChatRecord();
-
+  sayHello();
   // 监听连接状态变化
   watch(()=> ws.status, async(newValue, oldValue) => {
     console.log('myVariable 变化了:', newValue);
