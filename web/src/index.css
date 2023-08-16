@@ -233,12 +233,53 @@ input::-webkit-contacts-auto-fill-button {
   wh-full
   flex-row-start
   rounded-24px
-bg-[rgba(255,255,255,0.7)]
-  backdrop-blur-11.5px
   overflow-hidden;
 }
+.chat-panel.jal-modal-bg{
+  --at-apply:
+  wh-full
+  filter-blur-8px
+  bg-[rgba(0,0,0,0.3)]
+  absolute
+  left-0
+  top-0
+  z-888;
+}
+.jal-modal{
+  --at-apply:
+  w-43.2rem
+  bg-white
+  absolute
+  left-50%
+  top-50%
+  translate-x--50%
+  translate-y--50%
+  overflow-hidden
+  rounded-12px
+  z-999;
+}
+.jal-modal-main{
+  --at-apply:
+  w-full
+  h-21.6rem
+  flex-col-start
+  pt-4.8rem;
+}
+
+.jal-modal-footer{
+  --at-apply:
+  w-full
+  h-6.4rem;
+}
 .chat-panel > .nav-part {
-  --at-apply: min-w-200px self-start px-16px h-full;
+  --at-apply: 
+  bg-[rgba(255,255,255,0.75)]
+  min-w-200px
+  self-start
+  px-16px
+  h-full
+  backdrop-blur-11.5px
+  ;
 }
 .chat-panel  .nav-part-tablist {
   --at-apply: 
@@ -260,7 +301,7 @@ bg-[rgba(255,255,255,0.7)]
   background: linear-gradient(90deg, #FDE9FF 22.92%, rgba(255, 255, 255, 0.00) 100%);
 }
 .chat-panel  .nav-part-tablist > li.disable {
-  --at-apply: color-#BABABA bg-none cursor-not-allowed;
+  --at-apply: color-#BABABA bg-none;
 }
 .chat-panel > .main-part {
   --at-apply: self-start wh-full flex-col-start relative;
