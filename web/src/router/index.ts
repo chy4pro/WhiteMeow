@@ -55,7 +55,23 @@ export const routes: Array<RouteRecordRaw>  = [
             chatStore.showLoginModal = true
             next('/chat/freeChat')
           }
-        }
+        },
+        children: [
+          {
+            path: "dailyHome",
+            name: "dailyHome",
+            component: () => import('@/views/chat/testChat/dailyHome/index.vue'),
+            props: true,
+            meta: { title: "jin日" },
+          },
+          {
+            path: "tarot",
+            name: "tarot",
+            component: () => import('@/views/chat/testChat/tarot/index.vue'),
+            props: true,
+            meta: { title: "塔罗牌" },
+          }
+        ]
       },
       {
         path: "myCat",
@@ -76,13 +92,6 @@ export const routes: Array<RouteRecordRaw>  = [
             next('/chat/freeChat')
           }
         },
-      },
-      {
-        path: "tarot",
-        name: "tarot",
-        component: () => import('@/views/chat/tarot/index.vue'),
-        props: true,
-        meta: { title: "塔罗牌" },
       },
     ],
     redirect: '/chat/freeChat',
