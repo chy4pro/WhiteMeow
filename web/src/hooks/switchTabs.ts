@@ -16,7 +16,7 @@ export function useTabs(initialTabs: TabItem[]) {
   const tabs = ref<TabItem[]>(initialTabs)
   const currentTab = ref(0)
 
-  function setTab(index: number) {
+  function setTab(index: number, isChildRouter:boolean = false) {
     if (tabs.value[index].status !== 'disable' && index !== currentTab.value) {
       tabs.value.forEach(tab => {
         tab.status = 'normal' 
@@ -26,7 +26,9 @@ export function useTabs(initialTabs: TabItem[]) {
     }
 
     currentTab.value = index;
-    router.push(tabs.value[index].path);
+    if(!isChildRouter){
+      router.push(tabs.value[index].path);
+    }
   }
 
 

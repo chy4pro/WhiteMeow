@@ -137,8 +137,22 @@ const unlockTabItem = () =>{
 }
 
 const activeTab = (path:string) =>{
-  const index = tabs.value.findIndex((item:any) => item.path === path)
-  setTab(index)
+  const index = tabs.value.findIndex((item:any) => {
+    if(path.indexOf(item.path) != -1){
+      return true
+    }
+    else{
+      return false
+    }
+  })
+  let isChildRouter = path.split('/')
+  // 子路由不需要
+  if(isChildRouter.length < 3){
+    setTab(index)
+  }
+  else{
+    setTab(index,true)
+  }
 }
 
 //监听路由变化
