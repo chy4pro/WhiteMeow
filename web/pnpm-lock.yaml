@@ -28,6 +28,9 @@ dependencies:
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
+  lunisolar:
+    specifier: ^2.2.2
+    version: 2.2.2
   pinia:
     specifier: ^2.1.0
     version: 2.1.4(typescript@5.0.2)(vue@3.3.0)
@@ -1857,6 +1860,10 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
+
+  /lunisolar@2.2.2:
+    resolution: {integrity: sha512-R3JBd4HZI2sU3VV/S5T6t/UdvCKKbLEScMVMc4FzeETomVIOpzfic18vcqA3GDkKMynBUoYtKy1DMefImkKV3A==}
+    dev: false
 
   /magic-string@0.30.0:
     resolution: {integrity: sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==}

@@ -17,6 +17,7 @@
     "dayjs": "^1.11.9",
     "element-plus": "^2.3.6",
     "lodash-es": "^4.17.21",
+    "lunisolar": "^2.2.2",
     "pinia": "^2.1.0",
     "qs": "^6.11.2",
     "socket.io-client": "^4.6.2",
