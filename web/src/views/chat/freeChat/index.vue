@@ -109,7 +109,7 @@
 // import "element-plus/theme-chalk/el-loading.css";
 // import "element-plus/theme-chalk/el-notification.css";
 import { useTabs } from '@/hooks/switchTabs'
-import { tablistMap } from './tablistMap'
+import { tablistMap } from '../tablistMap'
 const tablist = JSON.parse(JSON.stringify(tablistMap))
 const { tabs, currentTab, setTab, hoverTabItem, leaveTabItem, tabItemMap } = useTabs(tablist)
 
