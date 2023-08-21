@@ -290,7 +290,7 @@ input::-webkit-contacts-auto-fill-button {
 .chat-panel > .nav-part {
   --at-apply: 
   bg-[rgba(255,255,255,0.75)]
-  min-w-200px
+  w-20rem
   self-start
   px-16px
   h-full
@@ -320,7 +320,7 @@ input::-webkit-contacts-auto-fill-button {
   --at-apply: color-#BABABA bg-none;
 }
 .chat-panel > .main-part {
-  --at-apply: self-start wh-full flex-col-start relative;
+  --at-apply: self-start w-88rem h-full flex-col-start relative;
 }
 
 .chat-panel > .main-part > .header {
