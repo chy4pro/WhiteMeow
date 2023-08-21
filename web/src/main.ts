@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import router from './router'
 import '@unocss/reset/normalize.css'
 import 'uno.css'
+import 'animate.css';
+
 // import '@/utils/rem.js';
 import 'ant-design-vue/dist/reset.css';
 import "@/index.css";
