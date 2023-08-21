@@ -2,7 +2,7 @@
   /*color*/
   --gray-1: #C0C0C0;
   --pink-1: #EAD3DE;
-  --pink-2: #FF6AF0;
+  --pink-02: #FF6AF0;
   --pink-3: #FF98F5;
   --pink-04: #F18FDB;
   --green-1: #156669;
@@ -206,6 +206,22 @@ body{
 .ant-checkbox-checked:after{
   border:none;
 }
+/*loading影响到布局*/
+.ant-spin-nested-loading{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.ant-spin-nested-loading .ant-spin-container{
+  width: 100%;
+  height: 100%;
+}
+.ant-spin-nested-loading >div>.ant-spin{
+  max-height: none;
+}
+/*loading影响到布局*/
 /*reset ant design*/
 
 /*reset safari*/
