@@ -224,7 +224,8 @@ function getFormattedDate(format = 'date') {
 }
 
 const isValidText = (text:string) => {
-  const regex = /^\S+$/;
+  //只做非空判断
+  const regex = /\S/;
   let str = text.trim()
 
   return regex.test(str); 
