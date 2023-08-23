@@ -70,6 +70,13 @@ export const routes: Array<RouteRecordRaw>  = [
             component: () => import('@/views/chat/testChat/tarot/index.vue'),
             props: true,
             meta: { title: "塔罗牌" },
+          },
+          {
+            path: "interpretationDream",
+            name: "interpretationDream",
+            component: () => import('@/views/chat/testChat/interpretationDream/index.vue'),
+            props: true,
+            meta: { title: "ai解梦" },
           }
         ]
       },
