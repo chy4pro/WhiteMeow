@@ -29,7 +29,7 @@ interface ResultData<T> {
 }
 const URL: string = import.meta.env.VITE_API_BASE_URL
 enum RequestEnums {
-  TIMEOUT = 20000,
+  TIMEOUT = 200000,
   OVERDUE = 'logout', // 登录失效
   FAIL = 999, // 请求失败
   SUCCESS = 200 // 请求成功
