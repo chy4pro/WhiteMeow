@@ -30,6 +30,7 @@ declare module 'vue' {
     Image: typeof import('./components/Image/index.vue')['default']
     NavBar: typeof import('./components/NavBar/index.vue')['default']
     Protocol: typeof import('./components/Protocol/index.vue')['default']
+    ResultDialog: typeof import('./components/PAGES/ResultDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./components/date-picker/select.vue')['default']
