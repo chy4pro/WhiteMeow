@@ -395,7 +395,7 @@ const initWebSocket = () => {
         //循环map并且根据message_id和created_at判断是否有重复的消息
         for (let [key, value] of chatLogsMap) {
           chatLogsMap.set(key, uniqWith(value, (obj1, obj2) => {
-            return obj1.content === obj2.content && obj1.message_id === obj2.message_id;
+            return obj1.created_at === obj2.created_at && obj1.message_id === obj2.message_id;
           }))
         }
         
