@@ -3,11 +3,11 @@
     <div class="card" :class="{flipped: isFlipped}" @click="isFlipped = !isFlipped">
     <div class="card-inner">
       <div class="card-front">
-        <img src="./card-front.png">
-      </div>
-      <div class="card-back">
         <img src="./card-back.png">
       </div>
+      <!-- <div class="card-back">
+        <img src="./card-back.png">
+      </div> -->
     </div>
   </div>
   </div>
@@ -30,7 +30,7 @@ const lsr = lunisolar('2018-10-04')
 // 取神煞
 console.log(lsr.theGods.query('good act 1'));
 console.log(lsr.theGods.query('good act 2'));
-console.log(lsr.theGods.query('good act 3'));
+console.log(lsr.theGods.query('bad act 3'));
 console.log(lsr.theGods.query('bad act 3'));
 
 
@@ -66,5 +66,25 @@ const isFlipped = ref(false)
   
   .card.flipped .card-inner {
     transform: rotateY(180deg);
+  }
+
+  .card.flippedTwice {
+    animation-duration: 3s;
+    animation-name: flipped;
+    animation-iteration-count:infinite;
+  }
+  @keyframes flipped {
+    0% {
+      transform: rotateY(90deg);
+    }
+    33%{
+      transform: rotateY(180deg);
+    }
+    66%{
+      transform: rotateY(270deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
   }
   </style>
