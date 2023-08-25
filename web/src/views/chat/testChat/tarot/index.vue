@@ -17,8 +17,7 @@
         翻牌中...
       </div>
     </div>
-    <a-spin :spinning="spinning">
-      <div class="wh-full flex-row-center relative" v-show="!loadingFlipped && (formState.status === 1 || formState.status === 3)">
+    <div class="wh-full flex-row-center relative" v-show="!loadingFlipped && (formState.status === 1 || formState.status === 3)">
         <div class="absolute top-4rem right-4rem cursor-pointer" @click="router.push('/chat/testChat')">
           <SvgImage name="icon_close_white.svg" class="w-2.4rem h-2.4rem"/>
         </div>
@@ -58,28 +57,37 @@
           </div>
         </div>
       </div>
-    </a-spin>
-    <div class="wh-full relative px-3.6rem" v-show="!loadingFlipped && formState.status === 2">
+    <div v-show="!loadingFlipped && formState.status === 2">
+
       <div class="
         w-full
-        h-285px
+        h-19rem
+        relative
         mb-5.4rem
-        pb-28px
-        flex-col-end
-        bg-[url(@/assets/images/dialog_cat_box.svg)]
+        mt-12.1rem
+        flex-col-center
+        bg-[url(@/assets/images/dialog_box2.svg)]
         bg-contain
         bg-no-repeat
         bg-bottom">
-        <div class="pl-7.3rem pr-9.3rem text-2rem font-600 color-[var(--pink-02)] line-height-normal">{{ formState.question }}</div>
+        <SvgImage name="cat_red3.svg" class="
+          w-full
+          h-12.1rem
+          absolute
+          right--4rem
+          top--9.5rem
+        "></SvgImage>
+        <div class="pl-7.3rem pr-9.3rem text-2rem font-600 color-black line-height-normal">{{ formState.question }}</div>
       </div>
 
         <div class="
         text-2rem
         font-600
         mb-1.4rem
+        px-6.4rem
         color-#FFDFFC">我的回答:</div>
 
-        <div class="">
+        <div class="px-6.4rem">
           <a-form
             ref="formRef"
             name="custom-validation"
@@ -93,23 +101,13 @@
             name="content" 
             validateStatus=""
             help="">
-              <div class="
-                w-full
-                h-19.3rem
-                px-2.4rem
-                py-3.8rem
-                bg-[url(@/assets/images/dialog_box.svg)]
-                bg-contain
-                bg-no-repeat
-                bg-center">
-                <a-textarea
-                  v-model:value="formState.content"
-                  placeholder="请输入您的答案..."
-                  class="customer-textarea"
-                  :autoSize="false"
-                  :maxlength="200"
-                />
-              </div>
+            <a-textarea
+              v-model:value="formState.content"
+              placeholder="请输入您的答案..."
+              class="customer-textarea"
+              :autoSize="false"
+              :maxlength="200"
+            />
             </a-form-item>
           </a-form>
 
@@ -213,10 +211,10 @@ const sendEvaluation = async(status:number) => {
     
     const result= await evaluation(params);
     console.log('evaluation:',result)
-    // if(result && result.code === 200){
-    //   formState.status = status //如果状态为0，设置状态为1，表示第一次抽牌
-    //   return resolve(result.data)
-    // }
+    if(result && result.code === 200){
+      formState.status = status //如果状态为0，设置状态为1，表示第一次抽牌
+      return resolve(result.data)
+    }
   })
   } catch (error) {
     console.log('error',error);
@@ -253,7 +251,7 @@ const setEvaluationStatus = async(result:any = null) =>{
         formState.tarot_image = result.tarot_image
         formState.tarot_name = result.tarot_name
         formState.tarot_info = result.tarot_info
-        formState.question = result.question
+        formState.question = result.question || result.message
         formState.message = result.message
         formState.relation_id = result.relation_id
       }
@@ -266,7 +264,7 @@ const setEvaluationStatus = async(result:any = null) =>{
         formState.status = 3
         formState.tarot_image = result.tarot_image
         formState.tarot_name = result.tarot_name
-        formState.tarot_info = result.tarot_info
+        formState.tarot_info = result.message
         formState.question = result.question
         formState.message = result.message
         formState.relation_id = result.relation_id
@@ -281,9 +279,9 @@ const setEvaluationStatus = async(result:any = null) =>{
 const getQuestion = async() => {
   // spinning.value = true
   loadingFlipped.value = true
-  let {data,code} = await sendEvaluation(2) as any
-  if(code===200){
-    setEvaluationStatus(data)
+  let newResult = await sendEvaluation(2) as any
+  if(newResult){
+    setEvaluationStatus(newResult)
   }
 }
 
@@ -294,9 +292,9 @@ const handleSubmit = ()=>{
       .validate()
       .then(async() => {
         loadingFlipped.value = true
-        let {data,code} = await sendEvaluation(2) as any
-        if(code===200){
-          setEvaluationStatus(data)
+        let newResult = await sendEvaluation(2) as any
+        if(newResult){
+          setEvaluationStatus(newResult)
         }
       })
       .catch((err) => {
@@ -313,7 +311,9 @@ const initStatus = async() =>{
   console.log(result);
   if(result && result.status === 0){
     let newResult = await sendEvaluation(1) as any
-    setEvaluationStatus(newResult)
+    if(newResult){
+      setEvaluationStatus(newResult)
+    }
   }
   else{
     setEvaluationStatus(result)
@@ -386,7 +386,7 @@ onMounted(() => {
     } */
 }
 textarea.ant-input.customer-textarea{
-  --at-apply: w-full h-full bg-[#fff] outline-none resize-none border-none;
+  --at-apply: w-full h-21rem bg-[#fff] outline-none resize-none border-none;
 }
 </style>
 
