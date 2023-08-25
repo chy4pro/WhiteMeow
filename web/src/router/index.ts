@@ -43,26 +43,27 @@ export const routes: Array<RouteRecordRaw>  = [
         component: () => import('@/views/chat/testChat/index.vue'),
         props: true,
         meta: { title: "测试喵" },
-        beforeEnter: (to, from, next) => {
-          const loginStore = useLoginStore();
-          const chatStore = useChatStore()
-          const token = loginStore.token
+        redirect: '/chat/testChat/dailyHome',
+        // beforeEnter: (to, from, next) => {
+        //   const loginStore = useLoginStore();
+        //   const chatStore = useChatStore()
+        //   const token = loginStore.token
     
-          if(token){
-            next()
-          }
-          else{
-            chatStore.showLoginModal = true
-            next('/chat/freeChat')
-          }
-        },
+        //   if(token){
+        //     next()
+        //   }
+        //   else{
+        //     chatStore.showLoginModal = true
+        //     next('/chat/freeChat')
+        //   }
+        // },
         children: [
           {
             path: "dailyHome",
             name: "dailyHome",
             component: () => import('@/views/chat/testChat/dailyHome/index.vue'),
             props: true,
-            meta: { title: "jin日" },
+            meta: { title: "今日运势" },
           },
           {
             path: "tarot",
@@ -77,6 +78,13 @@ export const routes: Array<RouteRecordRaw>  = [
             component: () => import('@/views/chat/testChat/interpretationDream/index.vue'),
             props: true,
             meta: { title: "ai解梦" },
+          },
+          {
+            path: "sandPlay",
+            name: "sandPlay",
+            component: () => import('@/views/chat/testChat/sandPlay/index.vue'),
+            props: true,
+            meta: { title: "心理沙盘" },
           }
         ]
       },
