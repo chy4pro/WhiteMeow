@@ -18,7 +18,7 @@
             w-full
             h-12.1rem
             absolute
-            right--4rem
+            left-0
             top--9.5rem
           "></SvgImage>
           <div class="
@@ -126,7 +126,7 @@
             w-full
             h-12.1rem
             absolute
-            right--4rem
+            left-0rem
             top--9.5rem
           "></SvgImage>
           <div class="
