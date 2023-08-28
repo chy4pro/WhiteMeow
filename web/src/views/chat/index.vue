@@ -94,19 +94,18 @@
 <script setup lang="ts">
 import { useChatStore, useLoginStore } from "@/store";
 import { useTabs } from '@/hooks/switchTabs'
-import { tablistMap } from './tablistMap'
+import { tablistMap, loginTablistMap } from './tablistMap'
 
 const chatStore = useChatStore();
 const loginStore = useLoginStore()
 const router = useRouter();
 
 
-const tablist = JSON.parse(JSON.stringify(tablistMap))
+const tablist = loginStore.token ? JSON.parse(JSON.stringify(loginTablistMap)) : JSON.parse(JSON.stringify(tablistMap))
 const { tabs, currentTab, setTab, hoverTabItem, leaveTabItem, tabItemMap } = useTabs(tablist)
 
 const handleTabClick = (index:number) =>{
-  setTab(index)
-  unlockTabItem()
+  router.push(tabs.value[index].path)
 }
 
 const closeLoginModal = () =>{
@@ -126,12 +125,8 @@ const unlockTabItem = () =>{
     chatStore.showLoginModal = false
   }
   else{
-    tabs.value.forEach((item:any, index:number) =>{
-      if(index === 0){
-        tabs.value[index].status  = 'press'
-      }else{
-        tabs.value[index].status  = 'disable'
-      }
+    tablistMap.forEach((item:any, index:number) =>{
+      tabs.value[index].status  = item.status
     })
   }
 }
@@ -153,6 +148,7 @@ const activeTab = (path:string) =>{
   else{
     setTab(index,true)
   }
+  unlockTabItem()
 }
 
 //监听路由变化

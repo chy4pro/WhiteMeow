@@ -108,10 +108,6 @@
 // element-plus
 // import "element-plus/theme-chalk/el-loading.css";
 // import "element-plus/theme-chalk/el-notification.css";
-import { useTabs } from '@/hooks/switchTabs'
-import { tablistMap } from '../tablistMap'
-const tablist = JSON.parse(JSON.stringify(tablistMap))
-const { tabs, currentTab, setTab, hoverTabItem, leaveTabItem, tabItemMap } = useTabs(tablist)
 
 import { ref } from 'vue';
 import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
@@ -442,7 +438,6 @@ onMounted(()=>{
   initWebSocket();
   checkChatRecord();
   sayHello();
-  setTab(0)
   // 监听连接状态变化
   watch(()=> ws.status, async(newValue, oldValue) => {
     console.log('myVariable 变化了:', newValue);
