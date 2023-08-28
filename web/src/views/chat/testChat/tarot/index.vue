@@ -76,7 +76,19 @@
           absolute
           right--4rem
           top--9.5rem
+          z-777
         "></SvgImage>
+        <div class="
+          absolute
+          left-0rem
+          top--2rem
+          text-2rem
+          font-600
+          mb-1.4rem
+          px-6.4rem
+          z-888
+          color-#FFDFFC
+          ">请认真回答以下问题：</div>
         <div class="pl-7.3rem pr-9.3rem text-2rem font-600 color-black line-height-normal">{{ formState.question }}</div>
       </div>
 
@@ -119,7 +131,8 @@
             bg-cover
             bg-no-repeat
             bg-center
-            flex-col-center
+            line-height-5rem
+            text-center
             text-2rem
             font-600
             color-white
