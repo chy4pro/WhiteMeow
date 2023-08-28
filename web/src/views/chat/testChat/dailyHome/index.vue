@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="w-56.2rem">
-        <div class="text-2rem font-600 line-height-normal mb-0.8rem">每次测测</div>
+        <div class="text-2rem font-600 line-height-normal mb-0.8rem">每日测测</div>
         <div class="
           bg-white
             w-full
