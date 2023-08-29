@@ -5,13 +5,12 @@
       <div class="px-6.4rem">
         <div class="
           w-full
-          min-h-20rem
           relative
           mb-5.4rem
           mt-12.1rem
-          bg-[url(@/assets/images/dialog_box2.svg)]
           bg-no-repeat
           bg-bottom"
+          :class="{'bg-[url(@/assets/images/dialog_box_small.svg)] h-20rem': formState.status === 0, 'bg-[url(@/assets/images/dialog_box_middle.svg)] h-28rem': formState.status === 1}"
           style="background-size: 100% 100%;"
           >
           <SvgImage name="cat_red3.svg" class="
@@ -22,7 +21,6 @@
             top--9.5rem
           "></SvgImage>
           <div class="
-          h-100px
           absolute
           bottom-2rem
           overflow-auto
@@ -32,7 +30,9 @@
           font-500
           color-black
           z-666
-          line-height-normal">{{ formState.message }}</div>
+          line-height-normal"
+          :class="{'h-10rem': formState.status === 0,'h-20rem': formState.status === 1}"
+          >{{ formState.message }}</div>
         </div>
       </div>
       <div class="
@@ -63,7 +63,7 @@
           <a-textarea
             v-model:value="formState.content"
             placeholder="eg：我梦到了一个深井冰追着我跑"
-            class="customer-textarea"
+            :class="{'customer-textarea': formState.status === 0,'customer-textarea-small': formState.status === 1}"
             :autoSize="false"
             :maxlength="200"
           />
@@ -117,7 +117,7 @@
           relative
           mb-5.4rem
           mt-12.1rem
-          bg-[url(@/assets/images/dialog_box3.svg)]
+          bg-[url(@/assets/images/dialog_box_large.svg)]
           bg-no-repeat
           bg-bottom"
           style="background-size: 100% 100%;"
@@ -140,6 +140,7 @@
           font-500
           color-black
           z-666
+          whitespace-pre-line
           line-height-normal">{{ formState.message }}</div>
         </div>
       
@@ -390,6 +391,9 @@ onMounted(() => {
 }
 textarea.ant-input.customer-textarea{
   --at-apply: w-full h-21rem bg-[#fff] outline-none resize-none border-none;
+}
+textarea.ant-input.customer-textarea-small{
+  --at-apply: w-full h-10rem bg-[#fff] outline-none resize-none border-none;
 }
 </style>
 

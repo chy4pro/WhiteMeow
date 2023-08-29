@@ -66,7 +66,7 @@
         mb-5.4rem
         mt-12.1rem
         flex-col-center
-        bg-[url(@/assets/images/dialog_box2.svg)]
+        bg-[url(@/assets/images/dialog_box_small.svg)]
         bg-contain
         bg-no-repeat
         bg-bottom">

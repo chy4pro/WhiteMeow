@@ -6,7 +6,7 @@
         relative
         mb-5.4rem
         mt-12.1rem
-        bg-[url(@/assets/images/dialog_box3.svg)]
+        bg-[url(@/assets/images/dialog_box_large.svg)]
         bg-no-repeat
         bg-bottom"
         style="background-size: 100% 100%;"
