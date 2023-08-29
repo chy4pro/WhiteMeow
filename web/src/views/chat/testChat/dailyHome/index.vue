@@ -1,7 +1,7 @@
 <template>
   <div class="wh-full">
     <div class="w-full box-border flex flex-items-start px-1.6rem mt-2.4rem">
-      <div class="w-27rem flex-shrink-0 mr-1.6rem">
+      <div class="w-28rem flex-shrink-0 mr-1.6rem">
         <div class="text-2rem font-600 line-height-normal mb-0.8rem">今日运势</div>
         <div class="
           flex
@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <div class="w-56.2rem">
+      <div class="w-55.2rem">
         <div class="text-2rem font-600 line-height-normal mb-0.8rem">每日测测</div>
         <div class="
           bg-white
