@@ -240,15 +240,19 @@ const sendMessage = () => {
           })
 
           if(getToday.length  === 2){
-            stepStatus.value = 1
+            stepStatus.value = 0
           }
           else if(getToday.length  === 4){
-            stepStatus.value = 2
+            stepStatus.value = 1
             relationId.value = getToday[2].relation_id || 0
           }
           else if(getToday.length  === 6){
-            stepStatus.value = 3
+            stepStatus.value = 2
             relationId.value = getToday[4].relation_id || 0
+          }
+          else if(getToday.length  === 8){
+            stepStatus.value = 3
+            relationId.value = getToday[6].relation_id || 0
             showDialog.value = true
           }
         }
@@ -434,12 +438,11 @@ const sayHello = () =>{
       }
 }
 onMounted(()=>{
+  initData();
   getButtons()
   getChatRecord()
-  initData();
   initWebSocket();
-  // checkChatRecord();
-  //setTab(1)
+
   // 监听连接状态变化
   watch(()=> ws.status, async(newValue, oldValue) => {
     console.log('myVariable 变化了:', newValue);
@@ -464,8 +467,9 @@ onMounted(()=>{
       showButtons.value = true
     }
 
-    if(newValue === 7){
+    if(newValue === 9){
       showDialog.value = true
+      currentMessage = messages.value[8]
     }
   });
 }) 
@@ -524,18 +528,6 @@ const chatLogsSplit = (chatLogs: Message[]): Map<string, Message[]>=>{
 
   return chatLogsMap;
 
-}
-const sortChatLogs = (chatLogs: Message[]): Message[] => {
-  let chatLogsSort = chatLogs.sort((a, b) => {
-    return Date.parse(a.created_at as string) - Date.parse(b.created_at as string)
-  })
-  return chatLogsSort;
-}
-// 查询是否有聊天记录
-const checkChatRecord = async() => {
-  const res = await chat(recordList);
-  let result:any = res.data;
-  pageTotal.value = result.total as number;
 }
 
 const getButtons = async() => {
