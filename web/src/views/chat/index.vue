@@ -51,7 +51,7 @@
         </div>
         <div class="text-1.6rem font-500 line-height-2.4rem text-center mt-1.6rem">
           <div>请先登录</div>
-          <div>解锁{{ tabs[currentTab].label }}</div>
+          <div>解锁{{ currentLabel }}</div>
         </div>
       </main>
       <footer class="jal-modal-footer">
@@ -103,8 +103,9 @@ const router = useRouter();
 
 const tablist = loginStore.token ? JSON.parse(JSON.stringify(loginTablistMap)) : JSON.parse(JSON.stringify(tablistMap))
 const { tabs, currentTab, setTab, hoverTabItem, leaveTabItem, tabItemMap } = useTabs(tablist)
-
+let currentLabel = ref('')
 const handleTabClick = (index:number) =>{
+  currentLabel.value = tabs.value[index].label
   router.push(tabs.value[index].path)
 }
 
