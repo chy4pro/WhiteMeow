@@ -44,19 +44,19 @@ export const routes: Array<RouteRecordRaw>  = [
         props: true,
         meta: { title: "测试喵" },
         redirect: '/chat/testChat/dailyHome',
-        // beforeEnter: (to, from, next) => {
-        //   const loginStore = useLoginStore();
-        //   const chatStore = useChatStore()
-        //   const token = loginStore.token
+        beforeEnter: (to, from, next) => {
+          const loginStore = useLoginStore();
+          const chatStore = useChatStore()
+          const token = loginStore.token
     
-        //   if(token){
-        //     next()
-        //   }
-        //   else{
-        //     chatStore.showLoginModal = true
-        //     next('/chat/freeChat')
-        //   }
-        // },
+          if(token){
+            next()
+          }
+          else{
+            chatStore.showLoginModal = true
+            next('/chat/freeChat')
+          }
+        },
         children: [
           {
             path: "dailyHome",
@@ -88,6 +88,36 @@ export const routes: Array<RouteRecordRaw>  = [
           }
         ]
       },
+      // {
+      //   path: "game",
+      //   name: "game",
+      //   component: () => import('@/views/chat/game/index.vue'),
+      //   props: true,
+      //   meta: { title: "冒险喵" },
+      //   beforeEnter: (to, from, next) => {
+      //     const loginStore = useLoginStore();
+      //     const chatStore = useChatStore()
+      //     const token = loginStore.token
+          
+      //     if(token){
+      //       next()
+      //     }
+      //     else{
+      //       chatStore.showLoginModal = true
+      //       next('/chat/freeChat')
+      //     }
+      //   },
+      //   children: [
+      //     {
+      //       path: "textAdventure",
+      //       name: "textAdventure",
+      //       component: () => import('@/views/chat/game/textAdventure/index.vue'),
+      //       props: true,
+      //       meta: { title: "文字冒险游戏" },
+      //     },
+      //   ],
+      //   redirect: '/chat/game/textAdventure',
+      // },
       {
         path: "myCat",
         name: "myCat",
