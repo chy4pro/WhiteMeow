@@ -206,6 +206,29 @@ body{
 .ant-checkbox-checked:after{
   border:none;
 }
+
+/*message*/
+.customer-message{
+  --at-apply: text-14px font-700;
+}
+.my-message-custom-content{
+  --at-apply: flex-row-center;
+}
+.customer-message-info {
+  color: #2F80ED;
+}
+.customer-message-success {
+  color: #00B071;
+}
+.customer-message-warning {
+  color: #F78D2C;
+}
+.customer-message-error {
+  color: #FB2121;
+}
+/*message*/
+
+
 /*loading影响到布局*/
 
 /*loading影响到布局*/
