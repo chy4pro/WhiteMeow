@@ -93,10 +93,8 @@ const getName = (userInfo: UserInfo) => {
 }
 
 const name: any = computed(() => {
-  if(loginStore && loginStore.userInfo){
-    const name = getName(loginStore.userInfo)
-    return name;
-  }
+  const name = getName(loginStore.userInfo)
+  return name;
 })
 
 const getToken: any = computed(() => {
