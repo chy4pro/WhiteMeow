@@ -159,7 +159,10 @@ import messageBox from '@/components/MessageBox/index.ts';
 let ws:any = null
 
 const newMessage = ref('');
-const relationId = ref(0);
+let isEnd = ref(true);
+let disabledSend = computed(() => {
+  return !isConnect.value || !isEnd.value
+})
 const isConnect = ref(false);//是否连接websocket
 const recordList = reactive({
   user: window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
@@ -255,10 +258,6 @@ const sendMessage = () => {
   //   return
   // }
 
-  // if(!isEnd.value){
-  //   messageBox.info('请等等哦~')
-  //   return
-  // }
 
   if(isConnect.value === true){
     // 处理非空的 messages.value
@@ -275,6 +274,7 @@ const sendMessage = () => {
     }
     ws.sendMsg(sendData)
     newMessage.value = ''
+    isEnd.value = false;
   }
 };
 
@@ -327,10 +327,15 @@ const setEvaluationStatus = async(result:any = null) =>{
 // 深入了解，进入步骤2，获取问题
 const getQuestion = async() => {
   // spinning.value = true
-  loadingFlipped.value = true
-  formState.message = ''
-  formState.status = 2
-  sendMessage()
+  if(isEnd.value === true){
+    loadingFlipped.value = true
+    formState.message = ''
+    formState.status = 2
+    sendMessage()
+  }
+  else{
+    messageBox.info('请等待分析结果')
+  }
 }
 
 // 发送问题，进入步骤3，得出最终结果
@@ -394,6 +399,7 @@ const initWebSocket = () => {
           }
           else{
             formState.relation_id = dataFormat.relation_id
+            isEnd.value = dataFormat.is_end
           }
         }
     }

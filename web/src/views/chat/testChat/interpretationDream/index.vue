@@ -176,7 +176,10 @@ import messageBox from '@/components/MessageBox/index.ts';
 
 const spinning = ref<boolean>(false);
 let ws:any = null
-
+let isEnd = ref(true);
+let disabledSend = computed(() => {
+  return !isConnect.value || !isEnd.value
+})
 const formRef = ref<FormInstance>();
 const newMessage = ref('');
 const relationId = ref(0);
@@ -308,10 +311,16 @@ const handleSubmit = (status:number)=>{
     formRef.value
       .validate()
       .then(async() => {
-        spinning.value = true
-        formState.status = status
-        formState.message = ''
-        sendMessage()
+        if(isEnd.value === true){
+          spinning.value = true
+          formState.status = status
+          formState.message = ''
+          sendMessage()
+        }
+        else{
+          messageBox.info('请等待分析结果')
+        }
+
         // let evaluation = await sendEvaluation(status) as any
         // setEvaluationStatus(evaluation)
       })
@@ -338,6 +347,7 @@ const sendMessage = () => {
     }
     ws.sendMsg(sendData)
     formState.content = ''
+    isEnd.value = false;
   }
 };
 
@@ -377,6 +387,7 @@ const initWebSocket = () => {
           }
           else{
             formState.relation_id = dataFormat.relation_id
+            isEnd.value = dataFormat.is_end
           }
         }
     }
