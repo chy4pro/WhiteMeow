@@ -53,7 +53,7 @@
 
           <div class="w-35.2rem color-white flex-self-start">
             <h1 class="mb-0.8rem font-700 text-4rem">{{ formState.tarot_name }}</h1>
-            <p class="text-1.2rem font-400 line-height-normal">{{ formState.tarot_info }}</p>
+            <p class="text-1.2rem font-400 line-height-normal">{{ formState.message }}</p>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
           z-888
           color-#FFDFFC
           ">请认真回答以下问题：</div>
-        <div class="pl-7.3rem pr-9.3rem text-2rem font-600 color-black line-height-normal">{{ formState.question }}</div>
+        <div class="pl-7.3rem pr-9.3rem text-2rem font-600 color-black line-height-normal">{{ formState.message }}</div>
       </div>
 
         <div class="
@@ -150,25 +150,28 @@
 
 <script setup lang="ts">
 import type { Rule } from "ant-design-vue/es/form";
-import { getEvaluation, evaluation } from "@/apis/testChat.ts";
-import { useLoginStore } from '@/store/index.js';
-import { login } from "@/apis/login";
-import { message, type FormInstance } from "ant-design-vue";
-import { promiseTimeout } from "@vueuse/core";
-const loginStore = useLoginStore();
-import { genId } from "@/utils/idGenerator.js";
+import { evaluationGetSocket, getEvaluation, evaluation } from "@/apis/testChat.ts";
+import Socket from "@/utils/http/websocket.js";
+import {  type FormInstance } from "ant-design-vue";
+import { genId,genIdForMsg } from "@/utils/idGenerator.js";
 import messageBox from '@/components/MessageBox/index.ts';
 
+let ws:any = null
+
+const newMessage = ref('');
+const relationId = ref(0);
+const isConnect = ref(false);//是否连接websocket
+const recordList = reactive({
+  user: window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
+  open_kf_id: 'oLet5ixVLgOqflofOJqjXqSJg0zYlF7U',
+});
 const router = useRouter();
 const isFlipped = ref(false)
-const status = ref(0)
 const loadingFlipped = ref<boolean>(false)
-const noLoadingFlipped = ref<boolean>(false)
-  const spinning = ref<boolean>(false);
 
 const formRef = ref<FormInstance>();
 
-const formState = reactive({
+let formState = reactive({
   user: '',
   content: '',	
   relation_id: 0,
@@ -212,7 +215,6 @@ const getEvaluationInfo = async() => {
 // 发送测评
 const sendEvaluation = async(status:number) => {
   try {
-    return new Promise(async(resolve, reject) => {
     let params = {
       user: genId("userId", 1),
       'open_kf_id': 'oLet5ixVLgOqflofOJqjXqSJg0zYlF7U',
@@ -221,21 +223,60 @@ const sendEvaluation = async(status:number) => {
       'status': status
     }
 
+
+    console.log(params);
+    
+    
     console.log(params);
     
     const result= await evaluation(params);
-    console.log('evaluation:',result)
     if(result && result.code === 200){
       formState.status = status //如果状态为0，设置状态为1，表示第一次抽牌
-      return resolve(result.data)
+      return result.data
     }
-  })
   } catch (error) {
     console.log('error',error);
     
   }
 
 }
+const isValidText = (text:string) => {
+  //只做非空判断
+  const regex = /\S/;
+  let str = text.trim()
+
+  return regex.test(str); 
+}
+
+// 发送消息
+const sendMessage = () => {  
+  // if(!isConnect.value){
+  //   messageBox.info('白小喵正在上线中...')
+  //   return
+  // }
+
+  // if(!isEnd.value){
+  //   messageBox.info('请等等哦~')
+  //   return
+  // }
+
+  if(isConnect.value === true){
+    // 处理非空的 messages.value
+    let messageId = genIdForMsg(2 ,20);
+
+    // 发送消息
+    let sendData = {
+      'message_id': messageId,
+      'message': formState.content,
+      'status': formState.status,
+      'relation_id': formState.relation_id,
+      'user': window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
+      'open_kf_id': 'oLet5ixVLgOqflofOJqjXqSJg0zYlF7U'
+    }
+    ws.sendMsg(sendData)
+    newMessage.value = ''
+  }
+};
 
 // 设置信息
 const setEvaluationStatus = async(result:any = null) =>{
@@ -249,8 +290,6 @@ const setEvaluationStatus = async(result:any = null) =>{
         formState.status = 1
         formState.tarot_image = result.tarot_image
         formState.tarot_name = result.tarot_name
-        formState.tarot_info = result.tarot_info
-        formState.question = result.question
         formState.message = result.message
         formState.relation_id = result.relation_id
       }
@@ -264,8 +303,6 @@ const setEvaluationStatus = async(result:any = null) =>{
         formState.status = 2
         formState.tarot_image = result.tarot_image
         formState.tarot_name = result.tarot_name
-        formState.tarot_info = result.tarot_info
-        formState.question = result.question || result.message
         formState.message = result.message
         formState.relation_id = result.relation_id
       }
@@ -278,8 +315,6 @@ const setEvaluationStatus = async(result:any = null) =>{
         formState.status = 3
         formState.tarot_image = result.tarot_image
         formState.tarot_name = result.tarot_name
-        formState.tarot_info = result.message
-        formState.question = result.question
         formState.message = result.message
         formState.relation_id = result.relation_id
       }
@@ -293,10 +328,9 @@ const setEvaluationStatus = async(result:any = null) =>{
 const getQuestion = async() => {
   // spinning.value = true
   loadingFlipped.value = true
-  let newResult = await sendEvaluation(2) as any
-  if(newResult){
-    setEvaluationStatus(newResult)
-  }
+  formState.message = ''
+  formState.status = 2
+  sendMessage()
 }
 
 // 发送问题，进入步骤3，得出最终结果
@@ -306,10 +340,8 @@ const handleSubmit = ()=>{
       .validate()
       .then(async() => {
         loadingFlipped.value = true
-        let newResult = await sendEvaluation(2) as any
-        if(newResult){
-          setEvaluationStatus(newResult)
-        }
+        formState.status = 3
+        sendMessage()
       })
       .catch((err) => {
         messageBox.info('请填写您的回答')
@@ -319,23 +351,110 @@ const handleSubmit = ()=>{
 }
 
 const initStatus = async() =>{
-  loadingFlipped.value = true
-
   let result:any = await getEvaluationInfo()
   console.log(result);
   if(result && result.status === 0){
-    let newResult = await sendEvaluation(1) as any
-    if(newResult){
-      setEvaluationStatus(newResult)
-    }
+    formState.status = 1
+    sendMessage()
+    // if(newResult){
+    //   setEvaluationStatus(newResult)
+    // }
   }
   else{
     setEvaluationStatus(result)
   }
 }
 
+const initWebSocket = () => {
+  loadingFlipped.value = true
+  let current_message_id:string = ''
+
+  // scoket连接
+  ws = reactive(new Socket({
+    url: import.meta.env.VITE_API_WEBSOCKET_URL + '/evaluation/socket',//'ws://43.153.76.9:8888/customer/chat',
+    name: '',			// name
+    isHeart:true,			// 是否心跳
+    isReconnection:true,		// 是否断开重连
+    received: function(data:any){
+      // 监听服务器返回信息
+        console.log("received",data)
+        loadingFlipped.value = false
+
+        let dataFormat = JSON.parse(data)
+        if(dataFormat.message_id !== '' && dataFormat.is_end === false && dataFormat.message !== ''){
+          formState.message += dataFormat.message
+          formState.tarot_image = dataFormat.tarot_image
+          formState.tarot_name = dataFormat.tarot_name
+        }
+
+        // update emoji
+        if(dataFormat.is_end === true){
+          if(dataFormat.error_message.length > 0){
+            messageBox.error(dataFormat.error_message)
+          }
+          else{
+            formState.relation_id = dataFormat.relation_id
+          }
+        }
+    }
+  }));
+  ws.connect();
+}
+
+// 获取聊天记录
+const getChatRecord = async() => {
+  try {
+    const result:any = await evaluationGetSocket(recordList);
+
+    if(result && result.list && result.list.length > 0){
+      formState = result.list.map((item: any) => {
+        return {
+          ...item,
+        }
+      })
+    }
+    
+    return result;
+  } catch (err) {
+    // loading.value = false
+    // messages[messages.length - 1].content = err.message
+  } finally {
+    // loader hide
+    // closeToast();
+  }
+
+}
+
 onMounted(() => {
-  initStatus()
+  initWebSocket()
+
+    //监听连接状态变化
+    watch(()=> ws.status, async(newValue, oldValue) => {
+    console.log('myVariable 变化了:', newValue);
+    if(newValue === 'open'){
+      isConnect.value = true;
+      initStatus()
+    }
+    else{
+      isConnect.value = false;
+    }
+  });
+
+  //根据messages的长度是否为大于1来判断showButtons是否为true
+  // watch(()=> messages.value.length, async(newValue, oldValue) => {
+  //   if(newValue > 1){
+  //     showButtons.value = false
+  //   }
+  //   else{
+  //     showButtons.value = true
+  //   }
+
+  //   if(newValue === 9){
+  //     showDialog.value = true
+  //     currentMessage = messages.value[8]
+  //   }
+  // });
+
 })
 </script>
 
