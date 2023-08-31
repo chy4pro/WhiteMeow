@@ -4,7 +4,7 @@
     <div class="font-600 text-1.6rem line-height-2rem">白小喵</div>
   </div>
   <div class="main">
-    <div class="wh-full box-border overflow-y-auto relative" ref="messageList">
+    <div class="w-full h-[calc(100%-10.4rem)] box-border overflow-y-auto relative" ref="messageList">
 
       <div class="text-center mt-1.6rem cursor-pointer" @click="showMore"
         v-if="recordList.page * recordList.page_size < pageTotal">
@@ -77,7 +77,7 @@
           </div>
         </div>
       </div>
-      <div class="w-full h-10.4rem"></div>
+      <!-- <div class="w-full h-10.4rem"></div> -->
 
     </div>
   </div>

@@ -338,7 +338,7 @@ input::-webkit-contacts-auto-fill-button {
   --at-apply: w-full py-12px px-24px flex-row-start bg-white;
 }
 .chat-panel > .main-part .main {
-  --at-apply: w-full h-[calc(100%-64px)] bg-#f2f2f2;
+  --at-apply: w-full h-[calc(100%-56px)] bg-#f2f2f2;
 }
 .chat-panel > .main-part .footer {
   --at-apply: 
