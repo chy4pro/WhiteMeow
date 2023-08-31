@@ -261,10 +261,11 @@ input::-webkit-contacts-auto-fill-button {
   rounded-24px
   overflow-hidden;
 }
-.chat-panel.jal-modal-bg{
+.jal-modal-bg{
   --at-apply:
   wh-full
-  filter-blur-8px
+  rounded-24px
+  backdrop-blur-8px
   bg-[rgba(0,0,0,0.3)]
   absolute
   left-0

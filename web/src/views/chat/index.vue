@@ -2,7 +2,7 @@
 
       <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
   <div class="chat-panel-container">
-    <div class="chat-panel" :class="{'jal-modal-bg':chatStore.showLoginModal}">
+    <div class="chat-panel">
       <div class="nav-part">
         <SvgImage name="catpaw-logo.svg" class="w-14.3rem h-4rem mt-1.6rem"/>
         <ul class="nav-part-tablist">
@@ -40,7 +40,9 @@
           <router-view></router-view>
       </div>
     </div>
-    <div class="jal-modal" v-show="chatStore.showLoginModal">
+
+    <div class="jal-modal-bg" v-show="chatStore.showLoginModal">
+      <div class="jal-modal">
       <div class="absolute top-1.6rem right-1.6rem cursor-pointer" @click="closeLoginModal">
         <SvgImage name="icon24_close.svg" class="w-2.4rem h-2.4rem" />
       </div>
@@ -57,6 +59,7 @@
       <footer class="jal-modal-footer">
         <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="router.push('/register')">点击跳转</div>
       </footer>
+      </div>
     </div>
 
     <div class="absolute left--33.8rem bottom--9.1rem z-999">
