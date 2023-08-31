@@ -117,6 +117,7 @@ import { genId,genIdForMsg } from "@/utils/idGenerator.js";
 import { userMessage, useLoginStore, useChatStore } from '@/store/index.ts';
 import { message } from 'ant-design-vue';
 import { isEqual, uniqWith, uniqBy } from 'lodash-es'
+import messageBox from '@/components/MessageBox/index.ts';
 
 // counter.init();
 const messageStore = userMessage();
@@ -261,11 +262,11 @@ const sendMessage = () => {
       // addIndex();
       
       if(!isConnect.value){
-        message.info('白小喵正在上线中...')
+        messageBox.info('白小喵正在上线中...')
       }
 
       if(!isEnd.value){
-        message.info('请等等哦~')
+        messageBox.info('请等等哦~')
       }
       // 发送消息
       let sendData = {
@@ -281,7 +282,7 @@ const sendMessage = () => {
       scrollToBottom();
     }
     else{
-      message.info('请输入点什么吧~')
+      messageBox.info('请输入点什么吧~')
     }
   }
 };

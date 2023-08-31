@@ -173,6 +173,7 @@ import { useLoginStore } from '@/store/index.js';
 import { message, type FormInstance } from "ant-design-vue";
 const loginStore = useLoginStore();
 import { genId } from "@/utils/idGenerator.js";
+import messageBox from '@/components/MessageBox/index.ts';
 
 const router = useRouter();
 const isFlipped = ref(false)
@@ -309,7 +310,7 @@ const handleSubmit = (status:number)=>{
         setEvaluationStatus(evaluation)
       })
       .catch((err) => {
-        message.info('请填写您的回答')
+        messageBox.info('请填写您的回答')
       });
   }
 

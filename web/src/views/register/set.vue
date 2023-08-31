@@ -7,7 +7,7 @@ import { updateLogin } from "@/apis/login.ts";
 
 import eyeIcon from "@/assets/images/login/eye.png";
 import eyeActIcon from "@/assets/images/login/eye-act.png";
-import { message } from "ant-design-vue";
+import messageBox from '@/components/MessageBox/index.ts';
 
 const state = reactive({
   eyeBool: false,
@@ -109,7 +109,7 @@ const openDialog = (theType: string) => {
 const messageAgreement = (err: any) => {
   err['errorFields'].forEach((field:any) => {
     if(field['name'][0] === 'agreementCheck'){
-      message.error(field['errors'][0]);
+      messageBox.error(field['errors'][0]);
     }
   });
 };

@@ -157,6 +157,7 @@ import { message, type FormInstance } from "ant-design-vue";
 import { promiseTimeout } from "@vueuse/core";
 const loginStore = useLoginStore();
 import { genId } from "@/utils/idGenerator.js";
+import messageBox from '@/components/MessageBox/index.ts';
 
 const router = useRouter();
 const isFlipped = ref(false)
@@ -311,7 +312,7 @@ const handleSubmit = ()=>{
         }
       })
       .catch((err) => {
-        message.info('请填写您的回答')
+        messageBox.info('请填写您的回答')
       });
   }
 

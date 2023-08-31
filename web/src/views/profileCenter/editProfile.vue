@@ -3,6 +3,7 @@ import { ref, reactive, defineAsyncComponent, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStorage } from '@vueuse/core'
 import { message } from "ant-design-vue";
+import messageBox from '@/components/MessageBox/index.ts';
 
 const DatePickerComp = defineAsyncComponent(
   () => import("@/components/date-picker/index.vue")
@@ -99,7 +100,7 @@ const openDialog = (theType: string) => {
 const messageAgreement = (err: any) => {
   err['errorFields'].forEach((field: any) => {
     if (field['name'][0] === 'agreementCheck') {
-      message.error(field['errors'][0]);
+      messageBox.error(field['errors'][0]);
     }
   });
 };
@@ -130,7 +131,7 @@ const handleConfirm = () => {
           const res = await updateUser(param);
           let result: any = res.data;
           if(res.code === 200){
-            message.success("修改成功");
+            messageBox.success('修改成功');
             state.isconfirmBool = false;
             loginStore.userInfo.user = param.user;
             loginStore.userInfo.sex = param.sex;

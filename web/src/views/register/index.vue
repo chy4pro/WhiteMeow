@@ -18,7 +18,7 @@ import {
 } from "@/apis/login.ts";
 import { genId } from "@/utils/idGenerator.js";
 import { storage } from "@/utils/index.ts";
-
+import messageBox from '@/components/MessageBox/index.ts';
 const state = reactive({
   loginType: "code",
   eyeBool: false,
@@ -303,7 +303,7 @@ const startLogin = async () => {
 const messageAgreement = (err: any) => {
   err['errorFields'].forEach((field:any) => {
     if(field['name'][0] === 'agreementCheck'){
-      message.error(field['errors'][0]);
+      messageBox.error(field['errors'][0]);
     }
   });
 };
@@ -354,14 +354,14 @@ const handlePsdLogin = () => {
           }
         })
         .catch((err: any) => {
-          // message.error(err.msg);
+          // messageBox.error(err.msg);
           state.isLoginBool = false;
           messageAgreement(err)
         });
     }
   } catch (error: any) {
     state.isLoginBool = false;
-    message.error(error.msg);
+    messageBox.error(error.msg);
   }
 };
 
