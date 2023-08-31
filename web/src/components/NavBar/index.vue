@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core'
-
+import messageBox from '@/components/MessageBox/index.ts';
 import { useLoginStore } from '@/store/index.js';
 import { logout } from '@/apis/login.ts'
 import { storage } from '@/utils/index.ts'
@@ -141,7 +141,7 @@ const startLogout = async() => {
       const res = await logout(params);
       let result:any = res.data;
       if(result && result.message === 'ok'){
-        message.success('登出成功')
+        messageBox.success('登出成功')
         // storage.removeItem('userId')
         // storage.removeItem('newUserId')
         // storage.removeItem('token')
