@@ -60,7 +60,7 @@
                 <div class="wh-full flex-row-between">
                   <div class="relative px-5rem">
                     <div @click="$router.push('/chat/testChat/tarot')">
-                      <Image name="card_back.png" class="w-12.3rem h-21.3rem hover:scale-110 transition-transform ease-in-out cursor-pointer duration-1000 relative"/>
+                      <Image name="card_back.png" class="w-14.1rem h-23.1rem mt-1rem hover:scale-105 transition-transform ease-in-out cursor-pointer duration-1000 relative"/>
                     </div>
 
                     <div class="absolute right-0 top-1.2rem">
@@ -69,7 +69,7 @@
                     <div class="absolute left-2rem top-3rem">
                       <SvgImage name="star.svg" class="w-2rem"/>
                     </div>
-                    <div class="absolute right-2rem top-7.4rem">
+                    <div class="absolute right-4rem top-7.4rem">
                       <SvgImage name="star.svg" class="w-1rem"/>
                     </div>
                     <div class="absolute left-2rem bottom-4.6rem">
