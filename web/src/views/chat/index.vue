@@ -51,7 +51,7 @@
         <div class="w-8rem h-8rem border-0.4rem border-solid border-#ff6bf0 rounded-50%">
           <SvgImage name="personal.svg" class="wh-full" />
         </div>
-        <div class="text-1.6rem font-500 line-height-2.4rem text-center mt-1.6rem">
+        <div class="text-1.6rem font-400 line-height-2.4rem text-center mt-1.6rem">
           <div>请先登录</div>
           <div>解锁{{ currentLabel }}</div>
         </div>
