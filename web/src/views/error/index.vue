@@ -6,7 +6,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const handleLinkHome = () => {
-  router.push({ path: "chat" });
+  router.push({ path: "/chat" });
 };
 </script>
 
