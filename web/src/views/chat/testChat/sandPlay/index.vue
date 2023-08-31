@@ -99,13 +99,9 @@
 // import "element-plus/theme-chalk/el-notification.css";
 
 import { ref } from 'vue';
-import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
-import { chat } from '@/apis/chat.ts'
+import { storage} from '@/utils/index.ts'
 import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
-import { userMessage, useLoginStore, useChatStore } from '@/store/index.ts';
-import { message } from 'ant-design-vue';
-import { isEqual, uniqWith, uniqBy } from 'lodash-es'
 import {useToggleButtons} from '@/hooks/toggleButtons'
 import { evaluationGetSocket, getConfig } from "@/apis/testChat.ts";
 import messageBox from '@/components/MessageBox/index.ts';
@@ -118,8 +114,7 @@ let { buttons,current,handleButtonClick} = useToggleButtons(buttonMap.value)
 // let handleButtonClick = ref(null)
 const showButtons = ref(true)
 // counter.init();
-const messageStore = userMessage();
-const loginStore = useLoginStore
+
 var chatLogsMap = reactive(new Map<string, Message[]>());
 const loading = ref(false);
 const messageList = ref<any>(null);
