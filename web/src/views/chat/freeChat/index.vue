@@ -38,24 +38,27 @@
                 ">
 
               <div>{{ message.content }}</div>
-              <div class="text-right" v-show="!message.showHoverIcon" @click="clickHeart(message)">
-                <SvgImage :name="`icon_${message.evaluateIcon}.svg`" class="w-1.6rem h-1.6rem"
+              <div class="text-right cursor-pointer" v-show="!message.showHoverIcon" @click="clickHeart(message)">
+                <SvgImage :name="`icon_heart.svg`" class="w-1.6rem h-1.6rem"
                   v-show="message.evaluateIcon" />
               </div>
               <div class="
-                  hover:bg-[#FFDFFC]
-                    rounded-4px
-                    uno-shadow-[0px,4px,4px,0px]+[rgba(0,0,0,0.1)]
-                    absolute
-                    top--12px
-                    right-11px
-                  " @click="clickHeart(message)" v-show="message.showHoverIcon && !message.isUser"
+                w-3.2rem
+                h-2.4rem
+              hover:bg-[#FFDFFC]
+                rounded-4px
+                uno-shadow-[0px,4px,4px,0px]+[rgba(0,0,0,0.1)]
+                absolute
+                top--12px
+                right-11px
+                cursor-pointer
+              " @click="clickHeart(message)" v-show="message.showHoverIcon && !message.isUser"
                 :class="message.hoverIcon === 'heart_active' ? 'bg-[#FFDFFC]' : 'bg-white'">
                 <SvgImage :name="`icon_${message.hoverIcon}.svg`" class="
                     w-1.6rem
                     h-1.6rem
-                    mx-8px
-                    my-4px" />
+                    mx-0.8rem
+                    my-0.4rem" />
               </div>
             </div>
 
