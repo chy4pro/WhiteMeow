@@ -44,19 +44,19 @@ export const routes: Array<RouteRecordRaw>  = [
         props: true,
         meta: { title: "测试喵" },
         redirect: '/chat/testChat/dailyHome',
-        beforeEnter: (to, from, next) => {
-          const loginStore = useLoginStore();
-          const chatStore = useChatStore()
-          const token = loginStore.token
+        // beforeEnter: (to, from, next) => {
+        //   const loginStore = useLoginStore();
+        //   const chatStore = useChatStore()
+        //   const token = loginStore.token
     
-          if(token){
-            next()
-          }
-          else{
-            chatStore.showLoginModal = true
-            next('/chat/freeChat')
-          }
-        },
+        //   if(token){
+        //     next()
+        //   }
+        //   else{
+        //     chatStore.showLoginModal = true
+        //     next('/chat/freeChat')
+        //   }
+        // },
         children: [
           {
             path: "dailyHome",
