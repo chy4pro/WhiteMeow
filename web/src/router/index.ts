@@ -249,6 +249,11 @@ export const routes: Array<RouteRecordRaw>  = [
         next()
       }
     }
+  },
+  {
+    path: '/:pathMatch(.*)',
+    name: 'error',
+    component: () => import('@/views/error/index.vue')
   }
 ]
 
