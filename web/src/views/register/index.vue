@@ -404,7 +404,7 @@ const handleBackEmit = () => {
 };
 
 const fetchPicCode = async () => {
-  const { code, data, msg } = await getPicCode();
+  const { code, data, msg }:any = await getPicCode();
 
   if (code !== 200) {
     messageBox.error(msg);
