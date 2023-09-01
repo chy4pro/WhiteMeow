@@ -6,7 +6,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const handleLinkHome = () => {
-  router.push({ path: "/chat" });
+  router.push({ path: "/" });
 };
 </script>
 
@@ -57,6 +57,7 @@ const handleLinkHome = () => {
     .normal {
       font-size: 2.5rem;
       margin-bottom: 6rem;
+      color: rgba(0, 0, 0, 0.8);
     }
 
     .link {

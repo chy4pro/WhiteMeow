@@ -39,3 +39,8 @@ export const updatePassword = (params:object) => {
 export const checkCode = (params:object) => {
   return axios.get('/login/check-code', params)
 }
+
+// 获取图片验证码
+export const getPicCode = () => {
+  return axios.get('/login/get-captcha')
+}
