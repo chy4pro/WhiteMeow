@@ -111,9 +111,9 @@
             ">{{ item.content }}</div>
           </div>
 
-          <div class="w-full h-4.8rem bg-black color-white flex-col-center cursor-pointer" @click="$router.push(item.path)">
-            点击解梦
-          </div>
+          <button class="l-btn-black w-full text-1.4rem line-height-4.8rem" @click="$router.push(item.path)">
+            {{ item.btnLabel }}
+          </button>
         </div>
       </div>
     </div>
@@ -180,13 +180,15 @@ const testList = reactive([
     'imgPath': 'test_preview1.png',
     'title': '小喵解梦',
     'content': '好梦还是恶兆？',
-    'path': '/chat/testChat/interpretationDream'
+    'path': '/chat/testChat/interpretationDream',
+    'btnLabel': '点击解梦'
   },
   {
     'imgPath': 'test_preview1.png',
     'title': '心理沙盘',
     'content': '感应性的治愈机制',
-    'path': '/chat/testChat/sandPlay'
+    'path': '/chat/testChat/sandPlay',
+    'btnLabel': '点击测试'
   },
   // {
   //   'imgPath': 'test_preview1.png',
