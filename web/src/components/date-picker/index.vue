@@ -61,7 +61,9 @@ const initDatePicker = () => {
   const m = props.month ? Number(props.month - 1) : new Date().getMonth();
   const d = props.day ? props.day : new Date().getDate();
 
-  for (let i = y - 40; i <= y; i++) {
+  const thisYear = new Date().getFullYear();
+  
+  for (let i = thisYear - 100; i <= thisYear; i++) {
     yearArr.push(i);
   }
 
