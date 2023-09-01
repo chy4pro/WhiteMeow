@@ -52,12 +52,14 @@
           <SvgImage name="personal.svg" class="wh-full" />
         </div>
         <div class="text-1.6rem font-400 line-height-2.4rem text-center mt-1.6rem">
-          <div>请先登录</div>
-          <div>解锁{{ currentLabel }}</div>
+          <!-- <div>请先登录</div>
+          <div>解锁{{ currentLabel }}</div> -->
+          <div class="whitespace-pre-line">{{ currentLabel }}</div>
         </div>
       </main>
       <footer class="jal-modal-footer">
-        <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="router.push('/register')">点击跳转</div>
+        <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="router.push('/register')" v-if="!loginStore.token">点击跳转</div>
+        <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="closeLoginModal" v-if="loginStore.token">点击关闭</div>
       </footer>
       </div>
     </div>
@@ -108,7 +110,7 @@ const tablist = loginStore.token ? JSON.parse(JSON.stringify(loginTablistMap)) :
 const { tabs, currentTab, setTab, hoverTabItem, leaveTabItem, tabItemMap } = useTabs(tablist)
 let currentLabel = ref('')
 const handleTabClick = (index:number) =>{
-  currentLabel.value = tabs.value[index].label
+  currentLabel.value = tabs.value[index].tipText
   router.push(tabs.value[index].path)
 }
 
@@ -122,10 +124,10 @@ const unlockTabItem = () =>{
   const chatStore = useChatStore();
 
   if(loginStore.token){
-    tabs.value.forEach((item:any, index:number) =>{
-      tabs.value[index].status  = 'normal'
+    loginTablistMap.forEach((item:any, index:number) =>{
+      tabs.value[index].status  = item.status
     })
-    tabs.value[currentTab.value].status  = 'press'
+    // tabs.value[currentTab.value].status  = 'press'
     chatStore.showLoginModal = false
   }
   else{
