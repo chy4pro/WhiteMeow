@@ -143,6 +143,14 @@ const unlockTabItem = () =>{
     tablistMap.forEach((item:any, index:number) =>{
       tabs.value[index].status  = item.status
     })
+    //将所有press > normal
+    tabs.value.forEach((item:any, index:number) =>{
+      if(item.status != 'disable'){
+        tabs.value[index].status  = 'normal'
+      }
+    })
+    tabs.value[currentTab.value].status  = 'press'
+
   }
 }
 
