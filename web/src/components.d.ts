@@ -23,6 +23,7 @@ declare module 'vue' {
     ATabPane: typeof import('ant-design-vue/es')['TabPane']
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     AUpload: typeof import('ant-design-vue/es')['Upload']
     BgBox: typeof import('./components/BgBox/index.vue')['default']
     DatePicker: typeof import('./components/date-picker/index.vue')['default']
