@@ -17,14 +17,28 @@ const tabListAuth: NavigationGuard = (to, from, next) => {
         }
         else{
           chatStore.showLoginModal = true
+          alert(item.tipText)
+          alert(to.meta)
+          //chatStore.currentTipText = 
           next('/chat/freeChat')
         }
       }
     })
   }
   else{
-    chatStore.showLoginModal = true
-    next('/chat/freeChat')
+    tablistMap.forEach((item:any) =>{
+      if(to.path.indexOf(item.path)!=-1){
+        if(item.status != 'disable'){
+          next()
+        }
+        else{
+          chatStore.showLoginModal = true
+          chatStore.currentTipText = item.tipText
+          next('/chat/freeChat')
+        }
+      }
+    })
+    
   }
 };
 

@@ -54,12 +54,12 @@
         <div class="text-1.6rem font-400 line-height-2.4rem text-center mt-1.6rem">
           <!-- <div>请先登录</div>
           <div>解锁{{ currentLabel }}</div> -->
-          <div class="whitespace-pre-line">{{ currentLabel }}</div>
+          <div class="whitespace-pre-line">{{ chatStore.currentTipText }}</div>
         </div>
       </main>
       <footer class="jal-modal-footer">
-        <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="router.push('/register')" v-if="!loginStore.token">点击跳转</div>
-        <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="closeLoginModal" v-if="loginStore.token">点击关闭</div>
+        <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="router.push('/register')" v-if="chatStore.currentTipText.indexOf('登录')!=-1">点击跳转</div>
+        <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="closeLoginModal" v-if="chatStore.currentTipText.indexOf('开发中')!=-1">点击关闭</div>
       </footer>
       </div>
     </div>
@@ -124,10 +124,19 @@ const unlockTabItem = () =>{
   const chatStore = useChatStore();
 
   if(loginStore.token){
+    //先disable项目
     loginTablistMap.forEach((item:any, index:number) =>{
-      tabs.value[index].status  = item.status
+      if(item.status != 'press'){
+        tabs.value[index].status  = item.status
+      }
     })
-    // tabs.value[currentTab.value].status  = 'press'
+    //将所有press > normal
+    tabs.value.forEach((item:any, index:number) =>{
+      if(item.status != 'disable'){
+        tabs.value[index].status  = 'normal'
+      }
+    })
+    tabs.value[currentTab.value].status  = 'press'
     chatStore.showLoginModal = false
   }
   else{

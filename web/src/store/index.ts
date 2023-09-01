@@ -57,5 +57,6 @@ export const useLoginStore = defineStore('login', {
 export const useChatStore = defineStore('chat', {
   state: () => ({
     showLoginModal: false,
+    currentTipText: ''
   })
 });

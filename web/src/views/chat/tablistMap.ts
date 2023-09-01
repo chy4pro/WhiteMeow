@@ -18,14 +18,14 @@ export const tablistMap = [
     path: '/chat/game',
     label: '冒险喵',
     status: 'disable',
-    tipText: '请先登录 \n 解锁冒险喵'
+    tipText: '冒险喵开发中 \n 敬请期待'
   },
   {
     iconName: 'icon_wd_',
     path: '/chat/myCat',
     label: '我的喵',
     status: 'disable',
-    tipText: '请先登录 \n 解锁我的喵'
+    tipText: '我的喵开发中 \n 敬请期待'
   }
 ]
 
