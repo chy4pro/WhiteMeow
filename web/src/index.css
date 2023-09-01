@@ -138,6 +138,22 @@ body{
     background-position: 100% 50%;
   }
 }
+
+/*自定义组件*/
+/*按钮*/
+.l-btn-black{
+  --at-apply: 
+  decoration-none
+  border-none
+  cursor-pointer
+  bg-black
+  hover:bg-[rgba(0,0,0,0.8)]
+  active:bg-[rgba(0,0,0,0.6)]
+  disabled:bg-[rgba(0,0,0,0.4)]
+  color-white;
+}
+
+/*居中图片盒子*/
 .center-box {
   --at-apply: relative hidden;
 }
@@ -147,6 +163,8 @@ body{
   --un-translate-y: '-50%';
   --at-apply: wh-full absolute left-50% top-50% transform-gpu;
 }
+/*自定义组件*/
+
 
 .input-container{
   --at-apply: h-5.7rem b-rounded-15px box-border relative  overflow-hidden max-w-500 border-solid border-2 border-[--gray-1];
