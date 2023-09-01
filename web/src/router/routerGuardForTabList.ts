@@ -17,7 +17,7 @@ const tabListAuth: NavigationGuard = (to, from, next) => {
         }
         else{
           chatStore.showLoginModal = true
-          //chatStore.currentTipText = 
+          chatStore.currentTipText = item.tipText
           next('/chat/freeChat')
         }
       }
