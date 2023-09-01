@@ -134,8 +134,9 @@
           absolute
           bottom-2rem
           overflow-auto
-          pl-9.8rem
-          pr-9.9rem
+          ml-8.8rem
+          mr-8.9rem
+          px-1rem
           text-2rem
           font-500
           color-black
