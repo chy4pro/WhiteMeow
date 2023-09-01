@@ -2,7 +2,7 @@
 
       <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
   <div class="chat-panel-container">
-    <div class="chat-panel" :class="{'jal-modal-bg':chatStore.showLoginModal}">
+    <div class="chat-panel">
       <div class="nav-part">
         <SvgImage name="catpaw-logo.svg" class="w-14.3rem h-4rem mt-1.6rem"/>
         <ul class="nav-part-tablist">
@@ -40,7 +40,9 @@
           <router-view></router-view>
       </div>
     </div>
-    <div class="jal-modal" v-show="chatStore.showLoginModal">
+
+    <div class="jal-modal-bg" v-show="chatStore.showLoginModal">
+      <div class="jal-modal">
       <div class="absolute top-1.6rem right-1.6rem cursor-pointer" @click="closeLoginModal">
         <SvgImage name="icon24_close.svg" class="w-2.4rem h-2.4rem" />
       </div>
@@ -49,14 +51,17 @@
         <div class="w-8rem h-8rem border-0.4rem border-solid border-#ff6bf0 rounded-50%">
           <SvgImage name="personal.svg" class="wh-full" />
         </div>
-        <div class="text-1.6rem font-500 line-height-2.4rem text-center mt-1.6rem">
-          <div>请先登录</div>
-          <div>解锁{{ currentLabel }}</div>
+        <div class="text-1.6rem font-400 line-height-2.4rem text-center mt-1.6rem">
+          <!-- <div>请先登录</div>
+          <div>解锁{{ currentLabel }}</div> -->
+          <div class="whitespace-pre-line">{{ chatStore.currentTipText }}</div>
         </div>
       </main>
       <footer class="jal-modal-footer">
-        <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="router.push('/register')">点击跳转</div>
+        <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="router.push('/register')" v-if="chatStore.currentTipText.indexOf('登录')!=-1">点击跳转</div>
+        <div class="bg-black w-full h-6.4rem color-white text-center text-2rem font-700 py-2rem cursor-pointer" @click="closeLoginModal" v-if="chatStore.currentTipText.indexOf('开发中')!=-1">点击关闭</div>
       </footer>
+      </div>
     </div>
 
     <div class="absolute left--33.8rem bottom--9.1rem z-999">
@@ -105,7 +110,7 @@ const tablist = loginStore.token ? JSON.parse(JSON.stringify(loginTablistMap)) :
 const { tabs, currentTab, setTab, hoverTabItem, leaveTabItem, tabItemMap } = useTabs(tablist)
 let currentLabel = ref('')
 const handleTabClick = (index:number) =>{
-  currentLabel.value = tabs.value[index].label
+  currentLabel.value = tabs.value[index].tipText
   router.push(tabs.value[index].path)
 }
 
@@ -119,8 +124,17 @@ const unlockTabItem = () =>{
   const chatStore = useChatStore();
 
   if(loginStore.token){
+    //先disable项目
+    loginTablistMap.forEach((item:any, index:number) =>{
+      if(item.status != 'press'){
+        tabs.value[index].status  = item.status
+      }
+    })
+    //将所有press > normal
     tabs.value.forEach((item:any, index:number) =>{
-      tabs.value[index].status  = 'normal'
+      if(item.status != 'disable'){
+        tabs.value[index].status  = 'normal'
+      }
     })
     tabs.value[currentTab.value].status  = 'press'
     chatStore.showLoginModal = false
@@ -129,6 +143,14 @@ const unlockTabItem = () =>{
     tablistMap.forEach((item:any, index:number) =>{
       tabs.value[index].status  = item.status
     })
+    //将所有press > normal
+    tabs.value.forEach((item:any, index:number) =>{
+      if(item.status != 'disable'){
+        tabs.value[index].status  = 'normal'
+      }
+    })
+    tabs.value[currentTab.value].status  = 'press'
+
   }
 }
 

@@ -6,7 +6,8 @@ import eyeIcon from "@/assets/images/login/eye.png";
 import eyeActIcon from "@/assets/images/login/eye-act.png";
 
 import type { Rule } from "ant-design-vue/es/form";
-import { message, type FormInstance } from "ant-design-vue";
+import { type FormInstance } from "ant-design-vue";
+import messageBox from '@/components/MessageBox/index.ts';
 
 const emit = defineEmits(["handleBackEmit"]);
 import { updateUserPassword } from "@/apis/profileCenter.ts";
@@ -178,7 +179,7 @@ const handleSubmit = () => {
 
             if (res && res.code === 200) {
               // disabledCodeLogin.value = true;
-              message.success("修改成功");
+              messageBox.success('修改成功');
             }
           }
         })

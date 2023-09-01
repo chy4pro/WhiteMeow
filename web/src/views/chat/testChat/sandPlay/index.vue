@@ -99,15 +99,12 @@
 // import "element-plus/theme-chalk/el-notification.css";
 
 import { ref } from 'vue';
-import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
-import { chat } from '@/apis/chat.ts'
+import { storage} from '@/utils/index.ts'
 import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
-import { userMessage, useLoginStore, useChatStore } from '@/store/index.ts';
-import { message } from 'ant-design-vue';
-import { isEqual, uniqWith, uniqBy } from 'lodash-es'
 import {useToggleButtons} from '@/hooks/toggleButtons'
 import { evaluationGetSocket, getConfig } from "@/apis/testChat.ts";
+import messageBox from '@/components/MessageBox/index.ts';
 
 const showDialog = ref(false)
 const buttonMap = ref([])//['亲密关系','人格','事业','爱情','友情']
@@ -117,8 +114,7 @@ let { buttons,current,handleButtonClick} = useToggleButtons(buttonMap.value)
 // let handleButtonClick = ref(null)
 const showButtons = ref(true)
 // counter.init();
-const messageStore = userMessage();
-const loginStore = useLoginStore
+
 var chatLogsMap = reactive(new Map<string, Message[]>());
 const loading = ref(false);
 const messageList = ref<any>(null);
@@ -204,12 +200,12 @@ const isValidText = (text:string) => {
 // 发送消息
 const sendMessage = () => {  
   if(!isConnect.value){
-    message.info('白小喵正在上线中...')
+    messageBox.info('白小喵正在上线中...')
     return
   }
 
   if(!isEnd.value){
-    message.info('请等等哦~')
+    messageBox.info('请等等哦~')
     return
   }
 
@@ -282,7 +278,7 @@ const sendMessage = () => {
       
     }
     else{
-      message.info('请输入点什么吧~')
+      messageBox.info('请输入点什么吧~')
     }
   }
 };
@@ -382,7 +378,7 @@ const initWebSocket = () => {
             // update emoji
             if(dataFormat.is_end === true){
               if(dataFormat.error_message.length > 0){
-                message.error(dataFormat.error_message)
+                messageBox.error(dataFormat.error_message)
               }
               else{
                 if(dataFormat.message_id === current_message_id){

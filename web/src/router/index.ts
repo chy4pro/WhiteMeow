@@ -12,7 +12,9 @@ import profileCenter from '@/views/profileCenter/index.vue';
 import { useLoginStore, useChatStore } from "@/store";
 // import intro from '@/views/intro/index.vue';
 // import smartForm from '../components/SmartForm/index.vue';
-import requireAuth from './routerGuard'; // 导入路由守卫
+import requireAuth from './routerGuard.ts'; // 导入路由守卫
+import tabListAuth from './routerGuardForTabList.ts'; // 导入路由守卫
+import { tablistMap, loginTablistMap } from '@/views/chat/tablistMap'
 
 export const routes: Array<RouteRecordRaw>  = [
   { 
@@ -44,19 +46,7 @@ export const routes: Array<RouteRecordRaw>  = [
         props: true,
         meta: { title: "测试喵" },
         redirect: '/chat/testChat/dailyHome',
-        beforeEnter: (to, from, next) => {
-          const loginStore = useLoginStore();
-          const chatStore = useChatStore()
-          const token = loginStore.token
-    
-          if(token){
-            next()
-          }
-          else{
-            chatStore.showLoginModal = true
-            next('/chat/freeChat')
-          }
-        },
+        beforeEnter: tabListAuth,
         children: [
           {
             path: "dailyHome",
@@ -88,55 +78,31 @@ export const routes: Array<RouteRecordRaw>  = [
           }
         ]
       },
-      // {
-      //   path: "game",
-      //   name: "game",
-      //   component: () => import('@/views/chat/game/index.vue'),
-      //   props: true,
-      //   meta: { title: "冒险喵" },
-      //   beforeEnter: (to, from, next) => {
-      //     const loginStore = useLoginStore();
-      //     const chatStore = useChatStore()
-      //     const token = loginStore.token
-          
-      //     if(token){
-      //       next()
-      //     }
-      //     else{
-      //       chatStore.showLoginModal = true
-      //       next('/chat/freeChat')
-      //     }
-      //   },
-      //   children: [
-      //     {
-      //       path: "textAdventure",
-      //       name: "textAdventure",
-      //       component: () => import('@/views/chat/game/textAdventure/index.vue'),
-      //       props: true,
-      //       meta: { title: "文字冒险游戏" },
-      //     },
-      //   ],
-      //   redirect: '/chat/game/textAdventure',
-      // },
+      {
+        path: "game",
+        name: "game",
+        component: () => import('@/views/chat/game/index.vue'),
+        props: true,
+        meta: { title: "冒险喵" },
+        beforeEnter: tabListAuth,
+        children: [
+          {
+            path: "textAdventure",
+            name: "textAdventure",
+            component: () => import('@/views/chat/game/textAdventure/index.vue'),
+            props: true,
+            meta: { title: "文字冒险游戏" },
+          },
+        ],
+        redirect: '/chat/game/textAdventure',
+      },
       {
         path: "myCat",
         name: "myCat",
         component: () => import('@/views/chat/myCat/index.vue'),
         props: true,
         meta: { title: "我的喵" },
-        beforeEnter: (to, from, next) => {
-          const loginStore = useLoginStore();
-          const chatStore = useChatStore()
-          const token = loginStore.token
-          
-          if(token){
-            next()
-          }
-          else{
-            chatStore.showLoginModal = true
-            next('/chat/freeChat')
-          }
-        },
+        beforeEnter: tabListAuth,
       },
     ],
     redirect: '/chat/freeChat',
@@ -249,6 +215,11 @@ export const routes: Array<RouteRecordRaw>  = [
         next()
       }
     }
+  },
+  {
+    path: '/:pathMatch(.*)',
+    name: 'error',
+    component: () => import('@/views/error/index.vue')
   }
 ]
 

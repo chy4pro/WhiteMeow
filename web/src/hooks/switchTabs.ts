@@ -8,6 +8,7 @@ interface TabItem {
   path: string;
   label: string;
   status: 'press' | 'disable' | 'hover' | 'normal';
+  tipText: string
 }
 
 export function useTabs(initialTabs: TabItem[]) {

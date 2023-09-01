@@ -168,19 +168,26 @@
 
 <script setup lang="ts">
 import type { Rule } from "ant-design-vue/es/form";
+import { type FormInstance } from "ant-design-vue";
 import { getEvaluation, evaluation } from "@/apis/testChat.ts";
-import { useLoginStore } from '@/store/index.js';
-import { message, type FormInstance } from "ant-design-vue";
-const loginStore = useLoginStore();
-import { genId } from "@/utils/idGenerator.js";
+import Socket from "@/utils/http/websocket.js";
+import { genId,genIdForMsg } from "@/utils/idGenerator.js";
+import messageBox from '@/components/MessageBox/index.ts';
 
-const router = useRouter();
-const isFlipped = ref(false)
-const status = ref(0)
 const spinning = ref<boolean>(false);
-
+let ws:any = null
+let isEnd = ref(true);
+let disabledSend = computed(() => {
+  return !isConnect.value || !isEnd.value
+})
 const formRef = ref<FormInstance>();
-
+const newMessage = ref('');
+const relationId = ref(0);
+const isConnect = ref(false);//是否连接websocket
+const recordList = reactive({
+  user: window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
+  open_kf_id: 'uIcMlmqSXJQ6259n6I3QMfSODVeFOwk5',
+});
 const formState = reactive({
   user: '',
   content: '',	
@@ -304,16 +311,45 @@ const handleSubmit = (status:number)=>{
     formRef.value
       .validate()
       .then(async() => {
-        spinning.value = true
-        let evaluation = await sendEvaluation(status) as any
-        setEvaluationStatus(evaluation)
+        if(isEnd.value === true){
+          spinning.value = true
+          formState.status = status
+          formState.message = ''
+          sendMessage()
+        }
+        else{
+          messageBox.info('请等待分析结果')
+        }
+
+        // let evaluation = await sendEvaluation(status) as any
+        // setEvaluationStatus(evaluation)
       })
       .catch((err) => {
-        message.info('请填写您的回答')
+        messageBox.info('请填写您的回答')
       });
   }
 
 }
+// 发送消息
+const sendMessage = () => {  
+  if(isConnect.value === true){
+    // 处理非空的 messages.value
+    let messageId = genIdForMsg(2 ,20);
+
+    // 发送消息
+    let sendData = {
+      'message_id': messageId,
+      'message': formState.content,
+      'status': formState.status,
+      'relation_id': relationId.value,
+      'user': window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
+      'open_kf_id': 'uIcMlmqSXJQ6259n6I3QMfSODVeFOwk5'
+    }
+    ws.sendMsg(sendData)
+    formState.content = ''
+    isEnd.value = false;
+  }
+};
 
 const initStatus = async() =>{
   spinning.value = true
@@ -322,8 +358,57 @@ const initStatus = async() =>{
   setEvaluationStatus(result)
 }
 
+const initWebSocket = () => {
+  spinning.value = true
+  let current_message_id:string = ''
+
+  // scoket连接
+  ws = reactive(new Socket({
+    url: import.meta.env.VITE_API_WEBSOCKET_URL + '/evaluation/socket',//'ws://43.153.76.9:8888/customer/chat',
+    name: '',			// name
+    isHeart:true,			// 是否心跳
+    isReconnection:true,		// 是否断开重连
+    received: function(data:any){
+      // 监听服务器返回信息
+        console.log("received",data)
+        spinning.value = false
+
+        let dataFormat = JSON.parse(data)
+        if(dataFormat.message_id !== '' && dataFormat.is_end === false && dataFormat.message !== ''){
+          formState.message += dataFormat.message
+          formState.tarot_image = dataFormat.tarot_image
+          formState.tarot_name = dataFormat.tarot_name
+        }
+
+        // update emoji
+        if(dataFormat.is_end === true){
+          if(dataFormat.error_message.length > 0){
+            messageBox.error(dataFormat.error_message)
+          }
+          else{
+            formState.relation_id = dataFormat.relation_id
+            isEnd.value = dataFormat.is_end
+          }
+        }
+    }
+  }));
+  ws.connect();
+}
+
 onMounted(() => {
+  initWebSocket()
   initStatus()
+
+  //监听连接状态变化
+  watch(()=> ws.status, async(newValue, oldValue) => {
+    console.log('myVariable 变化了:', newValue);
+    if(newValue === 'open'){
+      isConnect.value = true;
+    }
+    else{
+      isConnect.value = false;
+    }
+  });
 })
 
 

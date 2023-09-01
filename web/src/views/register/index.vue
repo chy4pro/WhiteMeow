@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, reactive, computed, defineAsyncComponent } from "vue";
+import { ref, reactive, computed, defineAsyncComponent, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useStorage } from '@vueuse/core'
+import { useStorage } from "@vueuse/core";
 
 const ResetComp = defineAsyncComponent(() => import("./resetComp.vue"));
 
@@ -15,15 +15,20 @@ import {
   updateLogin,
   getUser,
   login,
+  getPicCode,
 } from "@/apis/login.ts";
 import { genId } from "@/utils/idGenerator.js";
 import { storage } from "@/utils/index.ts";
+import messageBox from "@/components/MessageBox/index.ts";
 
 const state = reactive({
   loginType: "code",
   eyeBool: false,
   isLoginBool: false,
   type: "login",
+  captcha: "",
+  captcha_id: "",
+  captcha_length: 0,
 });
 
 const loginStore = useLoginStore();
@@ -41,6 +46,7 @@ interface FormState {
   identifyCode: number | string;
   agreementCheck: boolean;
   password: number | string;
+  picCode: number | string;
 }
 const formRef = ref<FormInstance>();
 const formState = reactive<FormState>({
@@ -48,6 +54,7 @@ const formState = reactive<FormState>({
   identifyCode: "",
   agreementCheck: false,
   password: "",
+  picCode: "",
 });
 
 let validatePass = async (_rule: Rule, value: string) => {
@@ -88,6 +95,16 @@ let passwordReg = async (_rule: Rule, value: string) => {
   return Promise.resolve();
 };
 
+let picCodeReg = async (_rule: Rule, value: string) => {
+  if (value === "") {
+    return Promise.reject("请输入图片验证码");
+  }
+  if (value.length !== state.captcha_length) {
+    return Promise.reject(`图片验证码长度为${state.captcha_length}`);
+  }
+  return Promise.resolve();
+};
+
 const rules: Record<string, Rule[]> = {
   mobileNumber: [
     { required: true, validator: validateMobilePhone, trigger: "blur" },
@@ -97,6 +114,7 @@ const rules: Record<string, Rule[]> = {
     { required: true, validator: validateAgreement, trigger: "change" },
   ],
   password: [{ required: true, validator: passwordReg, trigger: "blur" }],
+  picCode: [{ required: true, validator: picCodeReg, trigger: "blur" }],
 };
 
 const layout = {
@@ -178,7 +196,7 @@ const sendMsg = async () => {
   try {
     if (formRef && formRef.value) {
       formRef.value
-        .validateFields(["mobileNumber"])
+        .validateFields(["mobileNumber", "picCode"])
         .then(async () => {
           if (!disableSendMsg.value) {
             disableSendMsg.value = true;
@@ -191,7 +209,11 @@ const sendMsg = async () => {
               countDown.value--;
             }, 1000);
 
-            const res = await sendSms({ mobile: formState.mobileNumber });
+            const res = await sendSms({
+              mobile: formState.mobileNumber,
+              captcha_id: state.captcha_id,
+              captcha: formState.picCode,
+            });
             let result: any = res.data;
             if (result?.message !== "ok") {
               reset();
@@ -271,12 +293,15 @@ const startLogin = async () => {
           if (result && result.user) {
             newUserId.value = result.user as string;
             //storage.setItem("newUserId", result.user as string);
-            loginStore.newUserId = useStorage("newUserId", result.user as string);
+            loginStore.newUserId = useStorage(
+              "newUserId",
+              result.user as string
+            );
           }
 
           if (result && result.status === 1) {
             loginStore.token = useStorage("token", result.token as string);
-            
+
             //storage.setItem("token", result.token as string);
             getUserInfo();
           }
@@ -292,7 +317,7 @@ const startLogin = async () => {
           }
         })
         .catch((err) => {
-          messageAgreement(err)
+          messageAgreement(err);
         });
     }
   } catch (err) {
@@ -301,9 +326,9 @@ const startLogin = async () => {
 };
 
 const messageAgreement = (err: any) => {
-  err['errorFields'].forEach((field:any) => {
-    if(field['name'][0] === 'agreementCheck'){
-      message.error(field['errors'][0]);
+  err["errorFields"].forEach((field: any) => {
+    if (field["name"][0] === "agreementCheck") {
+      messageBox.error(field["errors"][0]);
     }
   });
 };
@@ -329,6 +354,8 @@ const handlePsdLogin = () => {
       mobile: formState.mobileNumber,
       password: formState.password,
       is_login_free: autoLoginForIdentify.value ? 1 : 0,
+      captcha_id: state.captcha_id,
+      captcha: formState.picCode,
     };
 
     if (formRef && formRef.value) {
@@ -346,22 +373,25 @@ const handlePsdLogin = () => {
 
           if (result && result.status === 1) {
             //storage.setItem("newUserId", result.user as string);
-            loginStore.newUserId = useStorage("newUserId", result.user as string);
+            loginStore.newUserId = useStorage(
+              "newUserId",
+              result.user as string
+            );
             //storage.setItem("token", result.token as string);
             loginStore.token = useStorage("token", result.token as string);
-            
+
             getUserInfo();
           }
         })
         .catch((err: any) => {
-          // message.error(err.msg);
+          // messageBox.error(err.msg);
           state.isLoginBool = false;
-          messageAgreement(err)
+          messageAgreement(err);
         });
     }
   } catch (error: any) {
     state.isLoginBool = false;
-    message.error(error.msg);
+    messageBox.error(error.msg);
   }
 };
 
@@ -372,23 +402,28 @@ const showBackBool = computed(() => {
 const handleBackEmit = () => {
   state.type = "login";
 };
+
+const fetchPicCode = async () => {
+  const { code, data, msg }:any = await getPicCode();
+
+  if (code !== 200) {
+    messageBox.error(msg);
+    return;
+  }
+
+  state.captcha = data.captcha;
+  state.captcha_id = data.captcha_id;
+  state.captcha_length = data.captcha_length;
+};
+
+onMounted(() => {
+  fetchPicCode();
+});
 </script>
 
 <template>
   <div
-    class="
-    w-108rem
-    max-h-72rem
-    h-[calc(100%-88px)]
-    max-w-1080px
-    max-h-720px
-    z-999
-    bg-white
-    rounded-24px
-    mt-48px
-    overflow-hidden
-    flex-shrink-0
-    overflow-hidden "
+    class="w-108rem max-h-72rem h-[calc(100%-88px)] max-w-1080px max-h-720px z-999 bg-white rounded-24px mt-48px overflow-hidden flex-shrink-0 overflow-hidden"
     style="box-shadow: 0px 0px 33px 0px rgba(219, 175, 201, 0.45)"
   >
     <div class="flex flex-row-start wh-full">
@@ -457,10 +492,47 @@ const handleBackEmit = () => {
                     </a-input-group>
                   </a-form-item>
                   <div
-                      class="text-12px font-500 color-#E2E2E2 line-height-1.8rem mt-4px"
-                    >
-                      未注册的手机号将自动注册并登录
-                    </div>
+                    class="text-12px font-500 color-#E2E2E2 line-height-1.8rem mt-4px"
+                  >
+                    未注册的手机号将自动注册并登录
+                  </div>
+                </div>
+
+                <div class="mb-16px" style="display: flex">
+                  <div>
+                    <a-form-item ref="picCode" name="picCode">
+                      <a-input-group compact class="input-group">
+                        <a-input
+                          v-model:value="formState.picCode"
+                          placeholder="图片验证码"
+                          class="normal-input-wrap"
+                          style="width: 100%"
+                          allow-clear
+                        />
+                      </a-input-group>
+                    </a-form-item>
+                  </div>
+
+                  <div
+                    @click="fetchPicCode"
+                    style="
+                      flex: 1;
+                      margin-left: 15px;
+                      background-color: rgba(244, 245, 247, 1);
+                      height: 5.6rem;
+                      border-radius: 6px;
+                      cursor: pointer;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <img
+                      style="max-width: 100%; max-height: 100%"
+                      :src="state.captcha"
+                      alt=""
+                    />
+                  </div>
                 </div>
 
                 <a-form-item ref="identifyCode" name="identifyCode">
@@ -528,6 +600,43 @@ const handleBackEmit = () => {
                     </template>
                   </a-input>
                 </a-form-item>
+
+                <div class="mb-16px" style="display: flex; margin-top: 16px">
+                  <div>
+                    <a-form-item ref="picCode" name="picCode">
+                      <a-input-group compact class="input-group">
+                        <a-input
+                          v-model:value="formState.picCode"
+                          placeholder="图片验证码"
+                          class="normal-input-wrap"
+                          style="width: 100%"
+                          allow-clear
+                        />
+                      </a-input-group>
+                    </a-form-item>
+                  </div>
+
+                  <div
+                    @click="fetchPicCode"
+                    style="
+                      flex: 1;
+                      margin-left: 15px;
+                      background-color: rgba(244, 245, 247, 1);
+                      height: 5.6rem;
+                      border-radius: 6px;
+                      cursor: pointer;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <img
+                      style="max-width: 100%; max-height: 100%"
+                      :src="state.captcha"
+                      alt=""
+                    />
+                  </div>
+                </div>
               </template>
 
               <div class="ta-forget">
@@ -555,7 +664,7 @@ const handleBackEmit = () => {
                   @click="startLogin"
                   :class="['ta-button', !disabledCodeLogin && 'ta-btn-active']"
                 >
-                登录/注册
+                  登录/注册
                 </div>
               </template>
 
@@ -576,10 +685,10 @@ const handleBackEmit = () => {
               </template>
 
               <a-form-item
-              ref="agreementCheck"
-              name="agreementCheck"
-              validateStatus=""
-              help=""
+                ref="agreementCheck"
+                name="agreementCheck"
+                validateStatus=""
+                help=""
               >
                 <div class="flex-row-start">
                   <a-checkbox
@@ -613,7 +722,7 @@ const handleBackEmit = () => {
       </div>
 
       <div class="w-64.8rem max-w-648px h-100% bg-[var(--pink-01)] relative">
-        <SvgImage name="login-panel-bg.svg" class="wh-full"/>
+        <SvgImage name="login-panel-bg.svg" class="wh-full" />
       </div>
     </div>
   </div>
@@ -665,14 +774,14 @@ const handleBackEmit = () => {
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
-  span{
+  span {
     text-decoration: underline;
     font-size: 1.4rem;
     font-weight: 500;
     color: rgba(0, 0, 0, 1);
     cursor: pointer;
   }
-  :deep .ant-checkbox+span{
+  :deep .ant-checkbox + span {
     line-height: normal;
     display: block;
     font-size: 1.4rem;
@@ -729,7 +838,7 @@ const handleBackEmit = () => {
 :deep .normal-input-wrap input {
   --at-apply: bg-[#F4F5F7] border-[#F4F5F7] outline-none;
 }
-.ant-form-item{
+.ant-form-item {
   margin-bottom: 0;
 }
 </style>

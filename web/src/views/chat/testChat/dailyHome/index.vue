@@ -60,7 +60,7 @@
                 <div class="wh-full flex-row-between">
                   <div class="relative px-5rem">
                     <div @click="$router.push('/chat/testChat/tarot')">
-                      <Image name="card_back.png" class="w-12.3rem h-21.3rem hover:scale-110 transition-transform ease-in-out cursor-pointer duration-1000 relative"/>
+                      <Image name="card_back.png" class="w-14.1rem h-23.1rem mt-1rem hover:scale-105 transition-transform ease-in-out cursor-pointer duration-1000 relative"/>
                     </div>
 
                     <div class="absolute right-0 top-1.2rem">
@@ -69,7 +69,7 @@
                     <div class="absolute left-2rem top-3rem">
                       <SvgImage name="star.svg" class="w-2rem"/>
                     </div>
-                    <div class="absolute right-2rem top-7.4rem">
+                    <div class="absolute right-4rem top-7.4rem">
                       <SvgImage name="star.svg" class="w-1rem"/>
                     </div>
                     <div class="absolute left-2rem bottom-4.6rem">
@@ -111,9 +111,9 @@
             ">{{ item.content }}</div>
           </div>
 
-          <div class="w-full h-4.8rem bg-black color-white flex-col-center cursor-pointer" @click="$router.push(item.path)">
-            点击解梦
-          </div>
+          <button class="l-btn-black w-full text-1.4rem line-height-4.8rem" @click="$router.push(item.path)">
+            {{ item.btnLabel }}
+          </button>
         </div>
       </div>
     </div>
@@ -180,13 +180,15 @@ const testList = reactive([
     'imgPath': 'test_preview1.png',
     'title': '小喵解梦',
     'content': '好梦还是恶兆？',
-    'path': '/chat/testChat/interpretationDream'
+    'path': '/chat/testChat/interpretationDream',
+    'btnLabel': '点击解梦'
   },
   {
     'imgPath': 'test_preview1.png',
     'title': '心理沙盘',
     'content': '感应性的治愈机制',
-    'path': '/chat/testChat/sandPlay'
+    'path': '/chat/testChat/sandPlay',
+    'btnLabel': '点击测试'
   },
   // {
   //   'imgPath': 'test_preview1.png',

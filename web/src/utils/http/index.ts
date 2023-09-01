@@ -7,11 +7,10 @@ import axios, {
 } from 'axios'
 import qs from 'qs';
 import {isPlainObject} from 'lodash-es'
-import {storage} from '@/utils/storage'
-import ElMessage from "element-plus"
 import { message } from 'ant-design-vue';
 import { useStorage } from '@vueuse/core'
 import { useLoginStore } from "@/store/index.js";
+import messageBox from '@/components/MessageBox/index.ts';
 
 // 定义请求响应参数，不含data
 interface Result {
@@ -108,9 +107,8 @@ class RequestHttp {
           return Promise.reject(data)
         } // 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
         if (data.code && data.code !== RequestEnums.SUCCESS) {
-          //ElMessage.error(data) // 此处也可以使用组件提示报错信息
           //return Promise.reject(data)
-          message.error(data.msg as string)
+          messageBox.error(data.msg as string)
           return data
         }
         return data
@@ -119,14 +117,12 @@ class RequestHttp {
         const { response } = error
         
         if (response && response.data) {
-          message.error(response.data as string)
+          messageBox.error(response.data as string)
           return Promise.reject(response.data)
         }
-        // if (response) {
-        //   this.handleCode(response.status)
-        // }
+
         if (!window.navigator.onLine) {
-          //ElMessage.error('网络连接失败') // 可以跳转到错误页面，也可以不做操作 // return router.replace({ //   path: '/404' // });
+          messageBox.error('请检查您的网络~')
         }
       }
     )
@@ -134,10 +130,10 @@ class RequestHttp {
   handleCode(code: number): void {
     switch (code) {
       case 401:
-        //ElMessage.error('登录失败，请重新登录')
+        //ElmessageBox.error('登录失败，请重新登录')
         break
       default:
-        //ElMessage.error('请求失败')
+        //ElmessageBox.error('请求失败')
         break
     }
   }

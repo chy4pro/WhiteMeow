@@ -2,6 +2,7 @@
 import { ref, reactive, defineAsyncComponent, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStorage } from '@vueuse/core'
+import messageBox from '@/components/MessageBox/index.ts';
 
 import { storage } from "@/utils/index.ts";
 import { message } from "ant-design-vue";
@@ -116,7 +117,7 @@ const openDialog = (theType: string) => {
 const messageAgreement = (err: any) => {
   err['errorFields'].forEach((field:any) => {
     if(field['name'][0] === 'agreementCheck'){
-      message.error(field['errors'][0]);
+      messageBox.error(field['errors'][0]);
     }
   });
 };

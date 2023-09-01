@@ -138,6 +138,22 @@ body{
     background-position: 100% 50%;
   }
 }
+
+/*自定义组件*/
+/*按钮*/
+.l-btn-black{
+  --at-apply: 
+  decoration-none
+  border-none
+  cursor-pointer
+  bg-black
+  hover:bg-[rgba(0,0,0,0.8)]
+  active:bg-[rgba(0,0,0,0.6)]
+  disabled:bg-[rgba(0,0,0,0.4)]
+  color-white;
+}
+
+/*居中图片盒子*/
 .center-box {
   --at-apply: relative hidden;
 }
@@ -147,6 +163,8 @@ body{
   --un-translate-y: '-50%';
   --at-apply: wh-full absolute left-50% top-50% transform-gpu;
 }
+/*自定义组件*/
+
 
 .input-container{
   --at-apply: h-5.7rem b-rounded-15px box-border relative  overflow-hidden max-w-500 border-solid border-2 border-[--gray-1];
@@ -206,6 +224,29 @@ body{
 .ant-checkbox-checked:after{
   border:none;
 }
+
+/*message*/
+.customer-message{
+  --at-apply: text-14px font-700;
+}
+.my-message-custom-content{
+  --at-apply: flex-row-center;
+}
+.customer-message-info {
+  color: #2F80ED;
+}
+.customer-message-success {
+  color: #00B071;
+}
+.customer-message-warning {
+  color: #F78D2C;
+}
+.customer-message-error {
+  color: #FB2121;
+}
+/*message*/
+
+
 /*loading影响到布局*/
 
 /*loading影响到布局*/
@@ -238,10 +279,11 @@ input::-webkit-contacts-auto-fill-button {
   rounded-24px
   overflow-hidden;
 }
-.chat-panel.jal-modal-bg{
+.jal-modal-bg{
   --at-apply:
   wh-full
-  filter-blur-8px
+  rounded-24px
+  backdrop-blur-8px
   bg-[rgba(0,0,0,0.3)]
   absolute
   left-0
@@ -314,7 +356,7 @@ input::-webkit-contacts-auto-fill-button {
   --at-apply: w-full py-12px px-24px flex-row-start bg-white;
 }
 .chat-panel > .main-part .main {
-  --at-apply: w-full h-[calc(100%-64px)] bg-#f2f2f2;
+  --at-apply: w-full h-[calc(100%-56px)] bg-#f2f2f2;
 }
 .chat-panel > .main-part .footer {
   --at-apply: 
