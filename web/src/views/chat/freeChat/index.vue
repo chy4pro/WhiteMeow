@@ -117,7 +117,11 @@ import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
 import { chat } from '@/apis/chat.ts'
 import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
-import { userMessage, useLoginStore, useChatStore } from '@/store/index.ts';
+import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@/store/index.ts';
+const countStore = useCounterStore()
+const chatStore = useChatStore()
+import * as dayjs from 'dayjs'
+
 import { message } from 'ant-design-vue';
 import { isEqual, uniqWith, uniqBy } from 'lodash-es'
 import messageBox from '@/components/MessageBox/index.ts';
@@ -232,6 +236,11 @@ const isValidText = (text:string) => {
 }
 // 发送消息
 const sendMessage = () => {
+  if(countStore.index === 25){
+    messageBox.info('25次数已用完，请明天再来哟')
+    return
+  }
+
   if(isConnect.value === true){
     if (isValidText(newMessage.value)) {
       // 处理非空的 messages.value
@@ -281,6 +290,7 @@ const sendMessage = () => {
       }
       ws.sendMsg(sendData)
       newMessage.value = ''
+      countStore.add();
       scrollBottomFlag.value = true;
       scrollToBottom();
     }
@@ -328,8 +338,22 @@ const showMore = () => {
 // }
 const initData = () => {
   recordList.page += 1;
+  countStore.init();
   storage.setItem('auth', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyNDg2NTUsImlhdCI6MTY4MjMyODY1NSwidXNlcklkIjoyfQ.c54BKBpqCYhnnZU6LEsP04th9VUZ2q2jXEYmtu2k38U');
   scrollBottomFlag.value = true;
+
+  //每日25条限制，根据用户上次进入的时间来判断
+  if(chatStore.enterStartDate){
+    const today = getFormattedDate()
+    let enterStartDate = dayjs(chatStore.enterStartDate).format('YYYY-MM-DD') 
+    
+    if(enterStartDate !== today){
+      countStore.index = 0
+    }
+  }
+  else{
+    chatStore.initEnterStartDate();
+  }
 }
 
 const initWebSocket = () => {
