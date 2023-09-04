@@ -101,6 +101,7 @@
         w-24rem
         text-center
         mr-1.6rem
+        last:mr-0
         uno-shadow-[0px,0px,8px,0px]+[rgba(164,164,164,0.50)]
         rounded-10.8px
         overflow-hidden
