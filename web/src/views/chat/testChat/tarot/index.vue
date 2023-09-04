@@ -351,6 +351,7 @@ const handleSubmit = ()=>{
       .validate()
       .then(async() => {
         loadingFlipped.value = true
+        formState.message = ''
         formState.status = 3
         sendMessage()
       })
