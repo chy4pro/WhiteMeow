@@ -85,10 +85,18 @@
       </div>
     </div>
 
-    <div class="mt-1.6rem">
-      <div class="text-2rem px-1.6rem font-600 line-height-normal mb-0.8rem">更多测试</div>
+    <div class="mt-1.6rem px-1.6rem ">
+      <div class="text-2rem font-600 line-height-normal mb-0.8rem">更多测试</div>
 
-      <div class="flex-row-start overflow-auto px-1.6rem py-1.6rem">
+      <div class="
+      flex-row-start
+      overflow-auto
+      px-1.6rem
+      py-1.6rem
+    bg-[rgba(0,0,0,0.08)]
+      mb-1.6rem
+      rounded-8px
+      ">
         <div v-for="item in testList" class="
         w-24rem
         text-center
@@ -97,9 +105,12 @@
         rounded-10.8px
         overflow-hidden
         flex-shrink-0
+        bg-white
         ">
           <div class="px-1.6rem py-1.6rem">
-            <Image :name="item.imgPath" class="w-20.8rem h-18.2rem "/>
+            <div class="overflow-hidden rounded-8px">
+              <Image :name="item.imgPath" class="w-20.8rem h-18.2rem "/>
+            </div>
 
             <div class="text-1.6rem font-600 line-height-2.4rem mt-1.6rem">{{ item.title }}</div>
             <div class="
@@ -111,7 +122,7 @@
             ">{{ item.content }}</div>
           </div>
 
-          <button class="l-btn-black w-full text-1.4rem line-height-4.8rem" @click="$router.push(item.path)">
+          <button class="l-btn-black w-full text-1.4rem line-height-4.8rem" @click="$router.push(item.path)" :disabled="item.status === 'disable'">
             {{ item.btnLabel }}
           </button>
         </div>
@@ -181,21 +192,33 @@ const testList = reactive([
     'title': '小喵解梦',
     'content': '好梦还是恶兆？',
     'path': '/chat/testChat/interpretationDream',
-    'btnLabel': '点击解梦'
+    'btnLabel': '点击解梦',
+    'status': 'normal'
   },
   {
     'imgPath': 'test_preview1.png',
     'title': '心理沙盘',
     'content': '感应性的治愈机制',
     'path': '/chat/testChat/sandPlay',
-    'btnLabel': '点击测试'
+    'btnLabel': '点击测试',
+    'status': 'normal'
   },
-  // {
-  //   'imgPath': 'test_preview1.png',
-  //   'title': '肠道健康测试',
-  //   'content': '肥胖、抑郁、慢性病等风险评估',
-  //   'path': '/chat/testChat/interpretationDream'
-  // }
+  {
+    'imgPath': 'test_preview1.png',
+    'title': '肠道健康测试',
+    'content': '肥胖、抑郁、慢性病等风险评估',
+    'path': '/chat/testChat/interpretationDream',
+    'btnLabel': '敬请期待',
+    'status': 'disable'
+  },
+  {
+    'imgPath': 'test_preview1.png',
+    'title': 'MBTI',
+    'content': '16型人格测试',
+    'path': '/chat/testChat/interpretationDream',
+    'btnLabel': '敬请期待',
+    'status': 'disable'
+  }
 ])
 
 </script>
