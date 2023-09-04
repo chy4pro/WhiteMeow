@@ -263,6 +263,7 @@ body{
 }
 .ant-tooltip .ant-tooltip-inner{
   background-color: rgba(0, 0, 0, 0.6);
+  padding: 8px;
 }
 .ant-tooltip-placement-bottomLeft .ant-tooltip-arrow{
   top: 0.5px;
