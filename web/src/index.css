@@ -247,9 +247,17 @@ body{
 /*message*/
 
 
-/*loading影响到布局*/
-
-/*loading影响到布局*/
+/*input*/
+.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:focus{
+  box-shadow: none;
+}
+.ant-input-affix-wrapper:focus, .ant-input-affix-wrapper-focused{
+  box-shadow: none;
+}
+.ant-input-affix-wrapper:focus{
+  box-shadow: none;
+}
+/*input*/
 /*reset ant design*/
 
 /*reset safari*/
