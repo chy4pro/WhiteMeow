@@ -785,7 +785,7 @@ onMounted(() => {
     line-height: normal;
     display: block;
     font-size: 1.4rem;
-    font-weight: 500;
+    font-weight: 400;
   }
 }
 .ta-tab {

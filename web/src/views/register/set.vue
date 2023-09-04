@@ -364,7 +364,7 @@ onMounted(() => {
   span{
     text-decoration: underline;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 400;
     color: rgba(0, 0, 0, 1);
     cursor: pointer;
   }
@@ -373,7 +373,7 @@ onMounted(() => {
   line-height: normal;
   display: block;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 400;
 }
 .ant-form-item{
   margin-bottom: 0;
