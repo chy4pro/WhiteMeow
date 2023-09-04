@@ -248,6 +248,7 @@ const sendMessage = () => {
           }
           else if(getToday.length  === 8){
             stepStatus.value = 3
+            currentMessage.content = ''
             relationId.value = getToday[6].relation_id || 0
             showDialog.value = true
           }
