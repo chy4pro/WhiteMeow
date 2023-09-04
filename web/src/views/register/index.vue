@@ -39,8 +39,11 @@ const router = useRouter();
 import type { Rule } from "ant-design-vue/es/form";
 import type { FormInstance } from "ant-design-vue";
 
-import { message } from "ant-design-vue";
-
+const showAgreementTip = ref(false)
+const agreementText = ref('')
+const getPopupContainer = (trigger: HTMLElement) => {
+  return trigger.parentElement || document.body;
+};
 interface FormState {
   mobileNumber: number | string;
   identifyCode: number | string;
@@ -328,7 +331,9 @@ const startLogin = async () => {
 const messageAgreement = (err: any) => {
   err["errorFields"].forEach((field: any) => {
     if (field["name"][0] === "agreementCheck") {
-      messageBox.error(field["errors"][0]);
+      //messageBox.error(field["errors"][0]);
+      agreementText.value = field['errors'][0];
+      showAgreementTip.value = true
     }
   });
 };
@@ -428,7 +433,7 @@ onMounted(() => {
   >
     <div class="flex flex-row-start wh-full">
       <div class="w-44.3rem h-full max-w-443px bg-white">
-        <div class="mt-9rem mx-4rem" style="position: relative">
+        <div class="pt-9rem mx-4rem h-full box-border" style="position: relative">
           <div
             class="ta-back"
             v-if="showBackBool"
@@ -476,7 +481,7 @@ onMounted(() => {
               v-bind="layout"
               autocomplete="off"
               @finish="handleFinish"
-              class="h-[calc(100%-300px)] overflow-y-auto"
+              class="h-[calc(100%-14rem)] overflow-y-auto"
             >
               <template v-if="state.loginType === 'code'">
                 <div class="mb-16px">
@@ -690,13 +695,22 @@ onMounted(() => {
                 validateStatus=""
                 help=""
               >
-                <div class="flex-row-start">
-                  <a-checkbox
-                    class="self-start pink-checkbox"
-                    v-model:checked="formState.agreementCheck"
-                    @change="handleFormInput()"
-                  >
-                  </a-checkbox>
+                <div class="flex-row-start mb-10.6rem">
+                  <a-tooltip 
+                  placement="bottomLeft" 
+                  :open="showAgreementTip" 
+                  :arrowPointAtCenter="false" :get-popup-container="getPopupContainer">
+                    <a-checkbox
+                      class="self-start pink-checkbox"
+                      v-model:checked="formState.agreementCheck"
+                      @change="handleFormInput()"
+                    >
+                    </a-checkbox>
+
+                    <template #title>
+                      <span>{{ agreementText }}</span>
+                    </template>
+                  </a-tooltip>
 
                   <div class="ml-8px">
                     <span class="text-12px">我已阅读并同意</span>
