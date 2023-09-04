@@ -157,6 +157,8 @@
 <script setup lang="ts">
 import type { Rule } from "ant-design-vue/es/form";
 import { evaluationGetSocket, getEvaluation, evaluation } from "@/apis/testChat.ts";
+import { useLoginStore } from '@/store/index.js';
+const loginStore = useLoginStore();
 import Socket from "@/utils/http/websocket.js";
 import {  type FormInstance } from "ant-design-vue";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
@@ -204,7 +206,7 @@ const getEvaluationInfo = async() => {
   try {
     return new Promise(async(resolve, reject) => {
       let params = {
-        user: genId("userId", 1),
+        user: loginStore.newUserId ? loginStore.newUserId : loginStore.userId,
         'open_kf_id': 'oLet5ixVLgOqflofOJqjXqSJg0zYlF7U'
       }
       loadingFlipped.value = true
@@ -221,34 +223,7 @@ const getEvaluationInfo = async() => {
   }
 }
 
-// 发送测评
-const sendEvaluation = async(status:number) => {
-  try {
-    let params = {
-      user: genId("userId", 1),
-      'open_kf_id': 'oLet5ixVLgOqflofOJqjXqSJg0zYlF7U',
-      'message': formState.content,
-      'relation_id': formState.relation_id.toString(),
-      'status': status
-    }
 
-
-    console.log(params);
-    
-    
-    console.log(params);
-    
-    const result= await evaluation(params);
-    if(result && result.code === 200){
-      formState.status = status //如果状态为0，设置状态为1，表示第一次抽牌
-      return result.data
-    }
-  } catch (error) {
-    console.log('error',error);
-    
-  }
-
-}
 const isValidText = (text:string) => {
   //只做非空判断
   const regex = /\S/;

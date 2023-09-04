@@ -250,6 +250,9 @@
 <script setup lang="ts">
 import type { Rule } from "ant-design-vue/es/form";
 import { type FormInstance } from "ant-design-vue";
+import { useLoginStore } from '@/store/index.js';
+const loginStore = useLoginStore();
+
 import { getEvaluation, evaluation } from "@/apis/testChat.ts";
 import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
@@ -295,7 +298,7 @@ const getEvaluationInfo = async() => {
   try {
     return new Promise(async(resolve, reject) => {
       let params = {
-        user: genId("userId", 1),
+        user: loginStore.newUserId ? loginStore.newUserId : loginStore.userId,
         'open_kf_id': 'uIcMlmqSXJQ6259n6I3QMfSODVeFOwk5'
       }
       spinning.value = true
@@ -315,34 +318,6 @@ const getEvaluationInfo = async() => {
   }
 }
 
-// 发送测评
-const sendEvaluation = async(status:number) => {
-  try {
-    return new Promise(async(resolve, reject) => {
-    let params = {
-      user: genId("userId", 1),
-      'open_kf_id': 'uIcMlmqSXJQ6259n6I3QMfSODVeFOwk5',
-      'message': formState.content,
-      'relation_id': formState.relation_id.toString(),
-      'status': status
-    }
-
-    const {data, code}= await evaluation(params);
-    console.log('evaluation:',data)
-    if(code === 200){
-      formState.status = status //如果状态为0，设置状态为1，表示第一次抽牌
-      return resolve(data)
-    }
-    else{
-      return resolve(null)
-    }
-  })
-  } catch (error) {
-    console.log('error',error);
-    
-  }
-
-}
 
 // 设置信息
 const setEvaluationStatus = async(result:any = null) =>{
