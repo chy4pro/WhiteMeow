@@ -258,6 +258,15 @@ body{
   box-shadow: none;
 }
 /*input*/
+.ant-tooltip .ant-tooltip-arrow::before{
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.ant-tooltip .ant-tooltip-inner{
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.ant-tooltip-placement-bottomLeft .ant-tooltip-arrow{
+  top: 0.5px;
+}
 /*reset ant design*/
 
 /*reset safari*/
