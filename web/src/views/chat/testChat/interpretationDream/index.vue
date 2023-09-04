@@ -1,6 +1,6 @@
 <template>
   <div class="wh-full box-border overflow-y-auto relative bg-[url(@/assets/images/tarot-bg.png)]">
-    <div v-show="formState.status === 0 || formState.status === 1">
+    <div v-show="formState.status === 0">
 
       <div class="px-6.4rem">
         <div class="
@@ -9,29 +9,32 @@
           mb-5.4rem
           mt-12.1rem
           bg-no-repeat
+          bg-[url(@/assets/images/dialog_box_small.svg)]
+          h-20rem
           bg-bottom"
-          :class="{'bg-[url(@/assets/images/dialog_box_small.svg)] h-20rem': formState.status === 0, 'bg-[url(@/assets/images/dialog_box_middle.svg)] h-28rem': formState.status === 1}"
-          style="background-size: 100% 100%;"
+          style="background-size: 100%"
           >
-          <SvgImage name="cat_red3.svg" class="
+          <Image name="cat_red3.png" class="
             w-full
-            h-12.1rem
+            h-14rem
             absolute
             left-0
-            top--9.5rem
-          "></SvgImage>
+            top--10.6rem
+          "></Image>
           <div class="
           absolute
           bottom-2rem
           overflow-auto
-          pl-9.8rem
-          pr-9.9rem
+          pl-1.6rem
+          pr-2.5rem
+          mr-2rem
+          whitespace-pre-line
           text-2rem
           font-500
           color-black
           z-666
+          h-100px
           line-height-normal"
-          :class="{'h-10rem': formState.status === 0,'h-20rem': formState.status === 1}"
           >{{ formState.message }}</div>
         </div>
       </div>
@@ -42,7 +45,6 @@
       px-6.4rem
       color-#FFDFFC">
         <span v-show="formState.status === 0">我的回答：（尽可能详细的描述你的梦境）</span>
-        <span v-show="formState.status === 1">再次补充：（只有一次补充机会，请尽可能的补充梦境的所有内容）</span>
       </div>
       
 
@@ -63,7 +65,7 @@
           <a-textarea
             v-model:value="formState.content"
             placeholder="eg：我梦到了一个深井冰追着我跑"
-            :class="{'customer-textarea': formState.status === 0,'customer-textarea-small': formState.status === 1}"
+            class="customer-textarea"
             :autoSize="false"
             :maxlength="200"
           />
@@ -75,6 +77,7 @@
           <a-button :loading="spinning" class="
           w-14.9rem
           h-6.4rem
+          mb-5.6rem
           flex-row-center
           text-1.9rem
           font-800
@@ -85,13 +88,90 @@
           border-none
           "
           @click="handleSubmit(1)"
-          v-if="formState.status === 0"
           >
             查看解析
           </a-button>
+        </div>
+      </div>
+    </div>
+
+    <div v-show="formState.status === 1">
+      <div class="px-6.4rem">
+        <div class="
+          w-full
+          relative
+          mb-5.4rem
+          mt-12.1rem
+          bg-no-repeat
+          bg-[url(@/assets/images/dialog_box_middle.svg)] 
+          h-29rem
+          bg-bottom"
+          style="background-size: 100%"
+          >
+          <Image name="cat_red3.png" class="
+            w-full
+            h-14rem
+            absolute
+            left-0
+            top--10.7rem
+          "></Image>
+          <div class="
+          absolute
+          bottom-2rem
+          overflow-auto
+          pl-1.6rem
+          pr-2.5rem
+          mr-2rem
+          whitespace-pre-line
+          text-2rem
+          font-500
+          color-black
+          z-666
+          h-20rem
+          line-height-normal"
+          
+          >{{ formState.message }}</div>
+        </div>
+      </div>
+      <div class="
+      text-2rem
+      font-600
+      mb-1.4rem
+      px-6.4rem
+      color-#FFDFFC">
+        <span>再次补充：（只有一次补充机会，请尽可能的补充梦境的所有内容）</span>
+      </div>
+
+      <div class="px-6.4rem">
+        <a-form
+          ref="formRef"
+          name="custom-validation"
+          :model="formState"
+          :rules="rules"
+          layout="vertical"
+          autocomplete="off"
+        >
+        <a-form-item
+          ref="content"
+          name="content" 
+          validateStatus=""
+          help="">
+          <a-textarea
+            v-model:value="formState.content"
+            placeholder="eg：我梦到了一个深井冰追着我跑"
+            class="customer-textarea-small"
+            :autoSize="false"
+            :maxlength="200"
+          />
+          </a-form-item>
+        </a-form>
+
+        
+        <div class="flex flex-justify-center">
           <a-button :loading="spinning" class="
           w-14.9rem
           h-6.4rem
+          mb-5.6rem
           flex-row-center
           text-1.9rem
           font-800
@@ -102,7 +182,6 @@
           border-none
           "
           @click="handleSubmit(2)"
-          v-if="formState.status === 1"
           >
             查看解析
           </a-button>
@@ -110,33 +189,33 @@
       </div>
     </div>
     
-    <div v-show="formState.status === 2">
+    <div v-show="formState.status === 2" class="px-6.4rem">
       <div class="
           w-full
-          min-h-45rem
+          h-46rem
           relative
           mb-5.4rem
           mt-12.1rem
           bg-[url(@/assets/images/dialog_box_large.svg)]
           bg-no-repeat
           bg-bottom"
-          style="background-size: 100% 100%;"
+          style="background-size: 100%"
           >
-          <SvgImage name="cat_red3.svg" class="
+          <Image name="cat_red3.png" class="
             w-full
-            h-12.1rem
+            h-14rem
             absolute
             left-0rem
-            top--9.5rem
-          "></SvgImage>
+            top--11.2rem
+          "></Image>
           <div class="
           h-35rem
           absolute
-          bottom-2rem
-          overflow-auto
-          ml-8.8rem
-          mr-8.9rem
-          px-1rem
+          bottom-34px
+          overflow-y-scroll
+          pl-1.6rem
+          pr-2.5rem
+          mr-2rem
           text-2rem
           font-500
           color-black
@@ -157,6 +236,7 @@
           color-white
           rounded-6px
           border-none
+          mb-5.6rem
           "
           @click="$router.push('/chat/testChat')"
           v-if="formState.status === 2"
