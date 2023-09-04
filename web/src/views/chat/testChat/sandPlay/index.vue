@@ -28,7 +28,7 @@
                 py-0.8rem
                 line-height-2.4rem
               ">
-                <div class="font-400" v-if="index===2 || index===4">好的，让我们开始吧！</div>
+                <div class="font-400" v-if="index===2">好的，让我们开始吧！</div>
                 <div class="font-600">{{ message.content }}</div>
               </div>
 
