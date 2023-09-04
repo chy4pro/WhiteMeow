@@ -109,7 +109,7 @@ const rules: Record<string, Rule[]> = {
   mobileNumber: [
     { required: true, validator: validateMobilePhone, trigger: "blur" },
   ],
-  identifyCode: [{ required: true, validator: validatePass, trigger: "blur" }],
+  identifyCode: [{ required: true, validator: validatePass, trigger: "change" }],
   agreementCheck: [
     { required: true, validator: validateAgreement, trigger: "change" },
   ],
