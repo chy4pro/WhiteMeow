@@ -34,19 +34,25 @@
                 bg-cover
                 bg-no-repeat
                 bg-center
-                flex-col-center
+                line-height-5.1rem
+                text-center
                 text-2rem
                 font-600
                 color-white
                 cursor-pointer
+                transition-transform
+                transform-gpu
+                ease-in
+                duration-200
+                hover:scale-105
                 "
                 @click="getQuestion()"
                 >
-                  深入解析
+                深入解析
                 </div>
               </div>
               <div class="mt-1.6rem">
-                <h3 class="text-1.5rem font-500 color-white text-center">了解此牌面的今日指示</h3>
+                <h3 class="text-1.5rem font-400 color-white text-center">了解此牌面的今日指示</h3>
               </div>
             </div>
           </div>
