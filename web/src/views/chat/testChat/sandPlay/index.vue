@@ -38,7 +38,7 @@
               </div>
 
               <div class="absolute bottom--4rem left-0" v-if="index === 0 && showButtons">
-                <div class="flex-row-start w-360px">
+                <div class="flex-row-start w-66rem">
                   <div v-for="tagItem in buttons" class="
                   text-1.4rem
                   font-500
