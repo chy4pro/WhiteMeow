@@ -41,6 +41,7 @@ export const useLoginStore = defineStore('login', {
     isLogin: window.localStorage.getItem('token') ? true : false as any,
     token: window.localStorage.getItem('token') || '' as any,
     userInfo: JSON.parse(window.localStorage.getItem('userInfo') as any),
+    userId: window.localStorage.getItem('userId') as any,
     newUserId: window.localStorage.getItem('newUserId') as any,
   }),
   actions: {
