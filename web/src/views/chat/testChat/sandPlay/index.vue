@@ -39,7 +39,7 @@
 
               <div class="absolute bottom--4rem left-0" v-if="index === 0 && showButtons">
                 <div class="flex-row-start w-66rem">
-                  <div v-for="tagItem in buttons" class="
+                  <div v-for="tagItem in btns" class="
                   text-1.4rem
                   font-500
                   px-1.6rem
@@ -107,8 +107,9 @@ import { evaluationGetSocket, getConfig } from "@/apis/testChat.ts";
 import messageBox from '@/components/MessageBox/index.ts';
 
 const showDialog = ref(false)
-const buttonMap = ref([])//['亲密关系','人格','事业','爱情','友情']
+const buttonMap = ref([''])//['亲密关系','人格','事业','爱情','友情']
 let { buttons,current,handleButtonClick} = useToggleButtons(buttonMap.value)
+let btns:any = ref([])
 // let buttons = ref([])
 // let current = ref('')
 // let handleButtonClick = ref(null)
@@ -548,8 +549,10 @@ const getButtons = async() => {
   buttonMap.value = result.data.list.map((item:any) => {
     return item.value
   })
-  buttons = useToggleButtons(buttonMap.value).buttons
+  
+  btns.value = useToggleButtons(buttonMap.value).buttons
   current = useToggleButtons(buttonMap.value).current
+  
   handleButtonClick = useToggleButtons(buttonMap.value).handleButtonClick
 }
 // 获取聊天记录

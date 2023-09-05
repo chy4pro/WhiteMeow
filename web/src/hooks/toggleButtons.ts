@@ -4,7 +4,8 @@ import {useToggle} from '@vueuse/core'
 
 export function useToggleButtons(btns: string[]) {
   const current = ref('')
-  const buttons = btns.map(button => {
+  let buttons:any = reactive([])
+  buttons = btns.map(button => {
     const toggle = useToggle(button === current.value) as any
     
     return {
