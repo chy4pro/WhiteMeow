@@ -199,7 +199,12 @@ const navbarActive = () =>{
   clickTabItem(1)
 }
 
+const initData = () => {
+  formState.mobileNumber = loginStore.userInfo.mobile
+}
+
 onMounted(()=>{
+  initData()
   navbarActive()
 })
 </script>
@@ -224,6 +229,7 @@ onMounted(()=>{
                   v-model:value="formState.mobileNumber"
                   placeholder="请输入电话号码"
                   class="normal-input-wrap"
+                  :disabled="true"
                 />
               </a-input-group>
             </a-form-item>
