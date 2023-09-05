@@ -120,7 +120,6 @@ import { genId,genIdForMsg } from "@/utils/idGenerator.js";
 import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@/store/index.ts';
 const countStore = useCounterStore()
 const chatStore = useChatStore()
-import * as dayjs from 'dayjs'
 
 import { message } from 'ant-design-vue';
 import { isEqual, uniqWith, uniqBy } from 'lodash-es'
@@ -346,6 +345,13 @@ const showMore = () => {
 //     }
 //   }
 // }
+const formattedDate = (timestamp:any) => {
+  const date = new Date(timestamp)
+  const year = date.getFullYear()
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')  
+  const day = date.getDate().toString().padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
 const initData = () => {
   recordList.page += 1;
   countStore.init();
@@ -355,7 +361,7 @@ const initData = () => {
   //每日25条限制，根据用户上次进入的时间来判断
   if(chatStore.enterStartDate){
     const today = getFormattedDate()
-    let enterStartDate = dayjs(chatStore.enterStartDate).format('YYYY-MM-DD') 
+    let enterStartDate = formattedDate(chatStore.enterStartDate)
     
     if(enterStartDate !== today){
       countStore.index = 0
