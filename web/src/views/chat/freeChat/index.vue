@@ -493,7 +493,9 @@ onMounted(()=>{
 }) 
 
 onBeforeRouteLeave((to, from, next) => {
-  ws.close();
+  if(ws){
+    ws.close();
+  }
   next();
 })
 
