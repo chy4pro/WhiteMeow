@@ -98,7 +98,7 @@
 // import "element-plus/theme-chalk/el-loading.css";
 // import "element-plus/theme-chalk/el-notification.css";
 
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import { storage} from '@/utils/index.ts'
 import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
@@ -139,7 +139,7 @@ const recordList = reactive({
 
 
 
-const inputBoxRef = ref(null);
+const inputBoxRef = ref<any>();
 
 const checkOverflow = () =>{
   const inputBox:any = inputBoxRef.value;
@@ -482,6 +482,9 @@ onMounted(()=>{
   });
 }) 
 
+nextTick(() => {
+  inputBoxRef?.value.focus()
+})
 // onBeforeRouteLeave((to, from, next) => {
 //   if(ws){
 //     ws.close();

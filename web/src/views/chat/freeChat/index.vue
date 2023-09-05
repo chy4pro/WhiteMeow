@@ -112,7 +112,7 @@
 // import "element-plus/theme-chalk/el-loading.css";
 // import "element-plus/theme-chalk/el-notification.css";
 
-import { ref } from 'vue';
+import { ref, nextTick} from 'vue';
 import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
 import { chat } from '@/apis/chat.ts'
 import Socket from "@/utils/http/websocket.js";
@@ -121,7 +121,6 @@ import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@/sto
 const countStore = useCounterStore()
 const chatStore = useChatStore()
 
-import { message } from 'ant-design-vue';
 import { isEqual, uniqWith, uniqBy } from 'lodash-es'
 import messageBox from '@/components/MessageBox/index.ts';
 
@@ -183,7 +182,7 @@ const clickHeart = (message:Message) => {
     message.showHoverIcon = true
   }
 }
-const inputBoxRef = ref(null);
+const inputBoxRef = ref<any>();
 
 const checkOverflow = () =>{
   const inputBox:any = inputBoxRef.value;
@@ -498,6 +497,9 @@ onMounted(()=>{
   });
 }) 
 
+nextTick(() => {
+  inputBoxRef?.value.focus()
+})
 // onBeforeRouteLeave((to, from, next) => {
 //   if(ws){
 //     ws.close();
