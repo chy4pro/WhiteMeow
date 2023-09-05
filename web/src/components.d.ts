@@ -28,6 +28,7 @@ declare module 'vue' {
     BgBox: typeof import('./components/BgBox/index.vue')['default']
     DatePicker: typeof import('./components/date-picker/index.vue')['default']
     Image: typeof import('./components/Image/index.vue')['default']
+    JAlert: typeof import('./components/PAGES/JAlert.vue')['default']
     NavBar: typeof import('./components/NavBar/index.vue')['default']
     Protocol: typeof import('./components/Protocol/index.vue')['default']
     ResultDialog: typeof import('./components/PAGES/ResultDialog.vue')['default']

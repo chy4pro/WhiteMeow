@@ -59,7 +59,8 @@ export const useChatStore = defineStore('chat', {
   state: () => ({
     enterStartDate: window.localStorage.getItem('enterStartDate') as any,//用户上次进来的时间
     showLoginModal: false,
-    currentTipText: ''
+    currentTipText: '',
+    showOnlyOne: false
   }),
   actions: {
     initEnterStartDate(){

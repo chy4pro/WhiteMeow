@@ -1,5 +1,7 @@
 <template>
   <div class="wh-full box-border overflow-y-auto relative bg-[url(@/assets/images/tarot-bg.png)]">
+    <JAlert />
+
     <div v-show="formState.status === 0">
 
       <div class="px-6.4rem">
@@ -250,14 +252,15 @@
 <script setup lang="ts">
 import type { Rule } from "ant-design-vue/es/form";
 import { type FormInstance } from "ant-design-vue";
-import { useLoginStore } from '@/store/index.js';
+import { useLoginStore , useChatStore} from '@/store/index.js';
 const loginStore = useLoginStore();
 
 import { getEvaluation, evaluation } from "@/apis/testChat.ts";
 import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
 import messageBox from '@/components/MessageBox/index.ts';
-
+const onlyOneAlert = ref<boolean>(false)
+const chatStore = useChatStore()
 const spinning = ref<boolean>(false);
 let ws:any = null
 let isEnd = ref(true);
@@ -353,6 +356,8 @@ const setEvaluationStatus = async(result:any = null) =>{
       if(result){
         formState.status = 2
         formState.message = result.message
+        chatStore.showOnlyOne = true
+
       }
       break;
     default:

@@ -1,5 +1,7 @@
 <template>
   <ResultDialog :message="currentMessage.content" class="absolute left-0 top-0 z-999" v-show="showDialog"/>
+  <JAlert style="z-index:999"/>
+
   <div class="wh-full" v-show="!showDialog">
     <div class="header">
     <SvgImage name="Avatar2.svg" class="w-4rem h-4rem mr-1.6rem" />
@@ -100,11 +102,14 @@
 
 import { ref, nextTick } from 'vue';
 import { storage} from '@/utils/index.ts'
+import {  useChatStore} from '@/store/index.js';
+
 import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
 import {useToggleButtons} from '@/hooks/toggleButtons'
 import { evaluationGetSocket, getConfig } from "@/apis/testChat.ts";
 import messageBox from '@/components/MessageBox/index.ts';
+const chatStore = useChatStore()
 
 const showDialog = ref(false)
 const buttonMap = ref([''])//['亲密关系','人格','事业','爱情','友情']
@@ -479,6 +484,8 @@ onMounted(()=>{
     if(newValue === 9){
       showDialog.value = true
       currentMessage = messages.value[8]
+      chatStore.showOnlyOne = true
+
     }
   });
 }) 

@@ -1,5 +1,6 @@
 <template>
   <div class="wh-full box-border overflow-y-auto relative bg-[url(@/assets/images/tarot-bg.png)]">
+    <JAlert />
     <div class="wh-full flex-col-center" v-show="loadingFlipped">
       <!-- <h1 class="animate__animated animate__bounce">An animated element</h1> -->
 
@@ -157,8 +158,10 @@
 <script setup lang="ts">
 import type { Rule } from "ant-design-vue/es/form";
 import { evaluationGetSocket, getEvaluation, evaluation } from "@/apis/testChat.ts";
-import { useLoginStore } from '@/store/index.js';
+import { useLoginStore,useChatStore } from '@/store/index.js';
 const loginStore = useLoginStore();
+const chatStore = useChatStore()
+
 import Socket from "@/utils/http/websocket.js";
 import {  type FormInstance } from "ant-design-vue";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
@@ -179,7 +182,7 @@ const recordList = reactive({
 const router = useRouter();
 const isFlipped = ref(false)
 const loadingFlipped = ref<boolean>(false)
-
+const onlyOneAlert = ref<boolean>(false)
 const formRef = ref<FormInstance>();
 
 let formState = reactive({
@@ -298,6 +301,7 @@ const setEvaluationStatus = async(result:any = null) =>{
         formState.tarot_name = result.tarot_name
         formState.message = result.message
         formState.relation_id = result.relation_id
+        chatStore.showOnlyOne = true
       }
       break;
     default:
