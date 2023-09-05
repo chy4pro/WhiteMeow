@@ -70,7 +70,7 @@
       <div class="bg-white h-56px rounded-8px w-full mr-3rem flex-col-center">
         <textarea cols="25" rows="5" resize="none"
           class="w-full h-36px outline-none border-none rounded-8px indent-2.4rem text-1.4rem line-height-32px"
-          placeholder="你想和我聊些什么？......" v-model="newMessage" ref="inputBoxRef" @keyup.enter.native="sendMessage"
+          placeholder="你想和我聊些什么？......" v-model="newMessage" ref="inputBoxRef" @keydown="carriageReturn"
           @input="checkOverflow" autofocus></textarea>
       </div>
 
@@ -196,6 +196,17 @@ const isValidText = (text:string) => {
   let str = text.trim()
 
   return regex.test(str); 
+}
+const carriageReturn = (event:any) => {
+  if (event.keyCode == 13) {
+    if (!event.metaKey) {
+      event.preventDefault();
+      sendMessage();
+    }
+    else {
+      newMessage.value = newMessage.value + "\n";
+    }
+  }
 }
 // 发送消息
 const sendMessage = () => {  
