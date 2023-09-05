@@ -344,12 +344,25 @@ const showMore = () => {
 //     }
 //   }
 // }
-const formattedDate = (timestamp:any) => {
-  const date = new Date(timestamp)
-  const year = date.getFullYear()
-  const month = (date.getMonth() + 1).toString().padStart(2, '0')  
-  const day = date.getDate().toString().padStart(2, '0')
-  return `${year}-${month}-${day}`
+// const formattedDate = (timestamp:any) => {
+//   const date = new Date(timestamp)
+//   const year = date.getFullYear()
+//   const month = (date.getMonth() + 1).toString().padStart(2, '0')  
+//   const day = date.getDate().toString().padStart(2, '0')
+//   return `${year}-${month}-${day}`
+// }
+function formattedDate(timestamp:any) {
+  const formatNumber = (number: any) => {
+    return number < 10 ? '0' + number : number;
+  }
+  const now = new Date(parseInt(timestamp));
+
+  const year = now.getFullYear();
+  const month = formatNumber(now.getMonth() + 1); // Month is zero-based
+  const day = formatNumber(now.getDate());
+
+  const formattedDate= `${year}-${month}-${day}`;
+  return formattedDate;
 }
 const initData = () => {
   recordList.page += 1;
@@ -358,13 +371,15 @@ const initData = () => {
   scrollBottomFlag.value = true;
 
   //每日25条限制，根据用户上次进入的时间来判断
-  if(chatStore.enterStartDate){
+  if(chatStore.enterStartDate){    
     const today = getFormattedDate()
     let enterStartDate = formattedDate(chatStore.enterStartDate)
-    
+
     if(enterStartDate !== today){
       countStore.index = 0
     }
+
+    chatStore.initEnterStartDate();
   }
   else{
     chatStore.initEnterStartDate();
