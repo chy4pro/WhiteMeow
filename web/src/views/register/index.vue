@@ -606,7 +606,7 @@ onMounted(() => {
                   </a-input>
                 </a-form-item>
 
-                <div class="mb-16px" style="display: flex; margin-top: 16px">
+                <!-- <div class="mb-16px" style="display: flex; margin-top: 16px">
                   <div>
                     <a-form-item ref="picCode" name="picCode">
                       <a-input-group compact class="input-group">
@@ -641,7 +641,7 @@ onMounted(() => {
                       alt=""
                     />
                   </div>
-                </div>
+                </div> -->
               </template>
 
               <div class="ta-forget">
