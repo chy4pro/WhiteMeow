@@ -492,12 +492,12 @@ onMounted(()=>{
   });
 }) 
 
-onBeforeRouteLeave((to, from, next) => {
-  if(ws){
-    ws.close();
-  }
-  next();
-})
+// onBeforeRouteLeave((to, from, next) => {
+//   if(ws){
+//     ws.close();
+//   }
+//   next();
+// })
 
 interface Message {
   id?: number,
