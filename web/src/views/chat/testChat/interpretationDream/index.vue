@@ -301,7 +301,7 @@ const getEvaluationInfo = async() => {
   try {
     return new Promise(async(resolve, reject) => {
       let params = {
-        user: loginStore.newUserId ? loginStore.newUserId : loginStore.userId,
+        user: recordList.user,
         'open_kf_id': 'uIcMlmqSXJQ6259n6I3QMfSODVeFOwk5'
       }
       spinning.value = true
