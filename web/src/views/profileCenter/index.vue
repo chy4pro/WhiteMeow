@@ -119,10 +119,10 @@ const tabItemMap = (item:any) =>{
   cursor: pointer;
 }
 
-.panel-container {
+/* .panel-container {
   --at-apply:
     w-108rem max-h-72rem h-[calc(100%-88px)] relative z-999 mt-56px
-}
+} */
 
 .chat-panel {
   --at-apply:
