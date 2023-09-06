@@ -250,7 +250,7 @@ const sendMessage = () => {
   }
 
   if(isConnect.value === true){
-    if(!disabledSend){
+    if(disabledSend.value){
       return
     }
 
