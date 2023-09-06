@@ -250,6 +250,10 @@ const sendMessage = () => {
   }
 
   if(isConnect.value === true){
+    if(!disabledSend){
+      return
+    }
+
     if (isValidText(newMessage.value)) {
       // 处理非空的 messages.value
       const today = getFormattedDate();

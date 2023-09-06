@@ -209,7 +209,7 @@ const getEvaluationInfo = async() => {
   try {
     return new Promise(async(resolve, reject) => {
       let params = {
-        user: loginStore.newUserId ? loginStore.newUserId : loginStore.userId,
+        user: recordList.user,
         'open_kf_id': 'oLet5ixVLgOqflofOJqjXqSJg0zYlF7U'
       }
       loadingFlipped.value = true
