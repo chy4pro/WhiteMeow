@@ -256,11 +256,11 @@ const updateLoginStatus = async () => {
 
 const getUserInfo = async () => {
   try {
-    let params = {
-      Authorization: window.localStorage.getItem("token"),
-    };
+    // let params = {
+    //   Authorization: window.localStorage.getItem("token"),
+    // };
 
-    const res = await getUser(params);
+    const res = await getUser();
     let result: any = res.data;
     //loginStore.userInfo = result;
     if (result && Object.keys(result).length > 0) {

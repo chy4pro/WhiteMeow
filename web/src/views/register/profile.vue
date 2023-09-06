@@ -149,7 +149,7 @@ const handleConfirm = () => {
           state.isconfirmBool = false;
 
           //storage.setItem("token", result.token as string);
-          loginStore.token = useStorage("token", result);
+          loginStore.token = useStorage("token", result.token as string);
           getUserInfo();
         })
         .catch((err) => {
@@ -162,11 +162,7 @@ const handleConfirm = () => {
 
 const getUserInfo = async () => {
   try {
-    let params = {
-      Authorization: window.localStorage.getItem("token"),
-    };
-
-    const res = await getUser(params);
+    const res = await getUser();
     let result: any = res.data;
     //loginStore.userInfo = result;
 
