@@ -1,21 +1,7 @@
 <template>
-    <div class="
-      w-108rem
-      max-h-72rem
-      h-[calc(100%-88px)]
-      max-w-1080px
-      max-h-720px
-      bg-[rgba(255,255,255,0.7)]
-      backdrop-blur-11.5px
-      rounded-24px
-      mt-48px
-      shadow-lg 
-      shadow-[rgba(209,126,201,0.45)]
-      flex-shrink-0
+      <div class="uno-bg-home-panel-bg wh-full rounded-24px
       relative
-      overflow-hidden
-      ">
-      <div class="uno-bg-home-panel-bg wh-full">
+      overflow-hidden">
         <SvgImage name="catpaw-logo.svg" class="w-16.5rem h-4.3rem ml-4rem mt-4.2rem max-w-165px"/>
         <div class="
           absolute
@@ -57,7 +43,6 @@
           </button>
         </div>
     </div>
-  </div>
 </template>
 
 <script setup lang="ts">

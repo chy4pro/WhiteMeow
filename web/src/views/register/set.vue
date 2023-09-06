@@ -155,16 +155,9 @@ onMounted(() => {
 <template>
   <div
     class="
-    w-108rem
-    max-w-1080px
-    max-h-72rem
-    h-[calc(100%-88px)]
-    z-999
-    bg-white
-    mt-48px
+    wh-full
     overflow-hidden
-    rounded-24px
-    flex-shrink-0"
+    rounded-24px"
     style="box-shadow: 0px 0px 33px 0px rgba(219, 175, 201, 0.45)"
   >
     <div class="flex flex-row-start wh-full">
@@ -296,7 +289,14 @@ onMounted(() => {
       </div>
 
       <div class="w-64.8rem max-w-648px h-100% bg-[var(--pink-01)] relative">
-        <SvgImage name="login-panel-bg.svg" class="wh-full"/>
+        <div class="
+          wh-full
+          bg-no-repeat
+          bg-[url(@/assets/images/login-panel-bg.svg)]
+          bg-bottom
+        "
+        style="background-size: 100%;"
+        ></div>
       </div>
     </div>
   </div>

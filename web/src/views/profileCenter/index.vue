@@ -1,6 +1,6 @@
 <template>
   <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
-  <div class="chat-panel-container">
+  <div class="panel-container">
     <div class="chat-panel">
       <div class="nav-part">
         <div @click="goChat" class="mt-3.5rem flex-row-start cursor-pointer">
@@ -119,7 +119,7 @@ const tabItemMap = (item:any) =>{
   cursor: pointer;
 }
 
-.chat-panel-container {
+.panel-container {
   --at-apply:
     w-108rem max-h-72rem h-[calc(100%-88px)] relative z-999 mt-56px
 }

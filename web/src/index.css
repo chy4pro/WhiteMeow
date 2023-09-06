@@ -55,8 +55,7 @@ body{
   --at-apply: overflow-hidden wh-full flex-col-center box-border;
 }
 .bg-box {
-  --at-apply: wh-full flex-col-center overflow-hidden;
-  background: #FFDFFC;
+  --at-apply: wh-full bg-#FFDFFC;
   /* background: linear-gradient(130deg, rgba(255,164,237,1) 0%, rgba(255,221,236,1) 100%); */
 }
 
@@ -281,14 +280,13 @@ input::-webkit-contacts-auto-fill-button {
 /*reset safari*/
 
 /*chat && profileCenter*/
-.chat-panel-container{
+.panel-container{
   --at-apply: 
   w-108rem
-  max-h-72rem
-  h-[calc(100%-88px)]
-  relative
-  z-999
-  mt-56px
+  h-72rem
+  absolute
+  left-50%
+  translate-x--50%
 }
 .chat-panel{
   --at-apply: 
@@ -340,7 +338,7 @@ input::-webkit-contacts-auto-fill-button {
   w-20rem
   self-start
   px-16px
-  h-full
+  h-72rem
   backdrop-blur-11.5px
   ;
 }

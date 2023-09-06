@@ -1,7 +1,7 @@
 <template>
 
       <!-- <div class="arrow-left" @click="router.go(-1)"></div> -->
-  <div class="chat-panel-container">
+  <div class="wh-full">
     <div class="chat-panel">
       <div class="nav-part">
         <SvgImage name="catpaw-logo.svg" class="w-14.3rem h-4rem mt-1.6rem"/>
@@ -66,7 +66,7 @@
 
     <div class="absolute left--33.8rem bottom--9.1rem z-999">
       <SvgImage name="animation-cat.svg" class="w-49.6rem h-38rem" />
-    </div>    
+    </div>
   </div>
 
 

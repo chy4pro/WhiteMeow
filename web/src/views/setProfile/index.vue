@@ -88,7 +88,14 @@
             h-100%
             bg-[var(--pink-01)]
           ">
-            <SvgImage name="login-panel-bg.svg" class="wh-full"/>
+            <div class="
+          wh-full
+          bg-no-repeat
+          bg-[url(@/assets/images/login-panel-bg.svg)]
+          bg-bottom
+        "
+        style="background-size: 100%;"
+        ></div>
             
           </div>
         </div>
