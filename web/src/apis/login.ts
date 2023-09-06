@@ -11,8 +11,8 @@ export const loginByCode = (params:object) => {
 }
 
 // 获取用户信息
-export const getUser = (params:object) => {
-  return axios.get('/login/get-user', params)
+export const getUser = () => {
+  return axios.get('/login/get-user')
 }
 
 // 登出
