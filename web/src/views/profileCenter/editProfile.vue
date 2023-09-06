@@ -138,7 +138,7 @@ const handleConfirm = () => {
             loginStore.userInfo.name = param.name;
             loginStore.userInfo.birthday = param.birthday;
             loginStore.userInfo.constellation = param.constellation;
-            if(loginStore.userInfo.gender){
+            if(typeof loginStore.userInfo.gender === 'number' || typeof loginStore.userInfo.gender === 'string'){
               loginStore.userInfo.gender = param.sex
             }
             else{
