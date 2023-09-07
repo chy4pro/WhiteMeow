@@ -30,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+import { throttle } from 'lodash-es'
 const divTop = ref(0)
 
 function handleResize() {
@@ -57,13 +58,11 @@ function handleResize() {
 
   //divTop.value = height / 2 - 200 // center a 200px tall div
 }
-const observer = new MutationObserver(() => {
-  handleResize()
-})
+
 
 onMounted(()=>{
   handleResize()
-  window.addEventListener('resize', handleResize)
+  window.addEventListener('resize', throttle(handleResize, 500))
 })
 </script>
 <script lang='ts'>
