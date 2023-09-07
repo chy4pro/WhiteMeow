@@ -45,7 +45,7 @@ function handleResize() {
       divTop.value = 66
     }
     else{
-      minTopDistance = (height - targetHeight) / 2
+      minTopDistance = (height - targetHeight) / 2 + 28
       // 如果居中top过小就设置为66
       if(minTopDistance < 66){
         divTop.value = 66
