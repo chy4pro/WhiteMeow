@@ -2,9 +2,6 @@
   <div class="wh-full flex flex-col-center">
     <div class="relative">
       <Star :status="stepStatus"/>
-      <div class="absolute top--10rem left-50% translate-x--50% z-666">
-        <SvgImage name="cat_white.svg" class="w-26.1rem h-30.8rem"></SvgImage>
-      </div>
 
       <div class="
         relative
@@ -17,6 +14,10 @@
       bg-[rgba(255,255,255,0.4)]
       ">
         <div class="overflow-auto">
+          <div class="absolute right-1.6rem top-1.6rem cursor-pointer" @click="$router.push('createRoom')">
+            <SvgImage name="icon_close.svg" class="w-2.4rem h-2.4rem"></SvgImage>
+          </div>
+
           <div class="
             mt-4rem
             text-2.4rem
@@ -26,7 +27,8 @@
           ">
             房间号：123456
           </div>
-          <div class="flex-row-start mt-5.6rem">
+
+          <div class="flex-row-start mt-9.6rem">
             <div class="
             relative
             w-16.4rem

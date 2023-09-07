@@ -87,14 +87,21 @@ export const routes: Array<RouteRecordRaw>  = [
         beforeEnter: tabListAuth,
         children: [
           {
-            path: "textAdventure",
-            name: "textAdventure",
-            component: () => import('@/views/chat/game/textAdventure/index.vue'),
+            path: "createRoom",
+            name: "createRoom",
+            component: () => import('@/views/chat/game/textAdventure/createRoom.vue'),
             props: true,
-            meta: { title: "文字冒险游戏" },
+            meta: { title: "创建房间-文字冒险游戏" },
+          },
+          {
+            path: "adtRoom",
+            name: "adtRoom",
+            component: () => import('@/views/chat/game/textAdventure/adtRoom.vue'),
+            props: true,
+            meta: { title: "房间-文字冒险游戏" },
           },
         ],
-        redirect: '/chat/game/textAdventure',
+        redirect: '/chat/game/adtRoom',
       },
       {
         path: "myCat",
