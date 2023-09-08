@@ -66,7 +66,7 @@
 import { useStorage } from '@vueuse/core'
 import messageBox from '@/components/MessageBox/index.ts';
 import { useLoginStore } from '@/store/index.js';
-import { logout } from '@manage/shared/apis/login.ts'
+import { logout } from '@/apis/login.ts'
 import { storage } from '@/utils/index.ts'
 import { message } from 'ant-design-vue';
 const router = useRouter();

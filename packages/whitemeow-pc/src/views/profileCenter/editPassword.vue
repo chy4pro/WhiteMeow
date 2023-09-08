@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { sendSms, checkCode, updatePassword } from "@manage/shared/apis/login.ts";
+import { sendSms, checkCode, updatePassword } from "@/apis/login.ts";
 
 import eyeIcon from "@/assets/images/login/eye.png";
 import eyeActIcon from "@/assets/images/login/eye-act.png";
@@ -10,7 +10,7 @@ import { type FormInstance } from "ant-design-vue";
 import messageBox from '@/components/MessageBox/index.ts';
 
 const emit = defineEmits(["handleBackEmit"]);
-import { updateUserPassword } from "@manage/shared/apis/profileCenter.ts";
+import { updateUserPassword } from "@/apis/profileCenter.ts";
 import { useLoginStore } from "@/store";
 const loginStore = useLoginStore();
 

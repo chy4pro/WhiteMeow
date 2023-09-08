@@ -11,7 +11,7 @@ const DatePickerComp = defineAsyncComponent(
   () => import("@/components/date-picker/index.vue")
 );
 
-import { updateLogin, getUser } from "@manage/shared/apis/login.ts";
+import { updateLogin, getUser } from "@/apis/login.ts";
 import { useLoginStore } from "@/store/index.js";
 
 import boyIcon from "@/assets/images/login/boy.png";

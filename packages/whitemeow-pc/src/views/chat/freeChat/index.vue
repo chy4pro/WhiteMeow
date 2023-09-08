@@ -114,7 +114,7 @@
 
 import { ref, nextTick} from 'vue';
 import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
-import { chat } from '@manage/shared/apis/chat.ts'
+import { chat } from '@/apis/chat.ts'
 import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
 import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@/store/index.ts';

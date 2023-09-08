@@ -157,7 +157,7 @@
 
 <script setup lang="ts">
 import type { Rule } from "ant-design-vue/es/form";
-import { evaluationGetSocket, getEvaluation, evaluation } from "@manage/shared/apis/testChat.ts";
+import { evaluationGetSocket, getEvaluation, evaluation } from "@/apis/testChat.ts";
 import { useLoginStore,useChatStore } from '@/store/index.js';
 const loginStore = useLoginStore();
 const chatStore = useChatStore()

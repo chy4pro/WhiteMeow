@@ -16,7 +16,7 @@ import {
   getUser,
   login,
   getPicCode,
-} from "@manage/shared/apis/login.ts";
+} from "@/apis/login.ts";
 import { genId } from "@/utils/idGenerator.js";
 import { storage } from "@/utils/index.ts";
 import messageBox from "@/components/MessageBox/index.ts";

@@ -134,7 +134,7 @@
 </template>
 
 <script setup lang="ts">
-import { getEvaluation } from '@manage/shared/apis/testChat.ts';
+import { getEvaluation } from '@/apis/testChat.ts';
 import { useLoginStore } from '@/store/index.js';
 
 import lunisolar from 'lunisolar'
