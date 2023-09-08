@@ -7,7 +7,8 @@
     "dev": "vite",
     "dev:pc": "vite packages/whitemeow-pc",
     "dev:mb": "vite packages/whitemeow-mobile",
-    "build": "vue-tsc && vite build --mode production",
+    "build:pc": "pnpm -r --filter=./packages/whitemeow-pc run build",
+    "build:mb": "pnpm -r --filter=./packages/whitemeow-mobile run build",
     "preview": "vite preview"
   },
   "dependencies": {
