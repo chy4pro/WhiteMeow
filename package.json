@@ -1,10 +1,12 @@
 {
   "name": "white-meow",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:pc": "vite packages/whitemeow-pc",
+    "dev:mb": "vite packages/whitemeow-mobile",
     "build": "vue-tsc && vite build --mode production",
     "preview": "vite preview"
   },
