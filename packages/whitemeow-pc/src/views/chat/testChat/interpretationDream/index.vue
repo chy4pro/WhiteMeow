@@ -255,7 +255,7 @@ import { type FormInstance } from "ant-design-vue";
 import { useLoginStore , useChatStore} from '@/store/index.js';
 const loginStore = useLoginStore();
 
-import { getEvaluation, evaluation } from "@/apis/testChat.ts";
+import { getEvaluation, evaluation } from "@manage/shared/apis/testChat.ts";
 import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
 import messageBox from '@/components/MessageBox/index.ts';

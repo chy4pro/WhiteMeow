@@ -3,7 +3,7 @@ import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 import { storage } from "@/utils/index.ts";
-import { updateLogin } from "@/apis/login.ts";
+import { updateLogin } from "@manage/shared/apis/login.ts";
 
 import eyeIcon from "@/assets/images/login/eye.png";
 import eyeActIcon from "@/assets/images/login/eye-act.png";

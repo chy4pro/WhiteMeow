@@ -107,7 +107,7 @@ import {  useChatStore} from '@/store/index.js';
 import Socket from "@/utils/http/websocket.js";
 import { genId,genIdForMsg } from "@/utils/idGenerator.js";
 import {useToggleButtons} from '@/hooks/toggleButtons'
-import { evaluationGetSocket, getConfig } from "@/apis/testChat.ts";
+import { evaluationGetSocket, getConfig } from "@manage/shared/apis/testChat.ts";
 import messageBox from '@/components/MessageBox/index.ts';
 const chatStore = useChatStore()
 
