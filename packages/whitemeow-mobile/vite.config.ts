@@ -92,7 +92,7 @@ export default defineConfig({
   base: './',
   server: {
     host: '0.0.0.0',
-    // open: false,
+    open: true,
     port: 8081,
     proxy: {
       '/api': {
