@@ -42,7 +42,7 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
       imports: ['vue', 'vue-router'],
       // 设置为在'src/'目录下生成解决ts报错，默认是当前目录('./'，即根目录)
-      dts: 'src/auto-import.d.ts',
+      dts: './src/auto-import.d.ts',
       // 自动生成'eslintrc-auto-import.json'文件，在'.eslintrc.cjs'的'extends'中引入解决报错
       // 'vue-global-api'这个插件仅仅解决vue3 hook报错
       eslintrc: {
@@ -54,12 +54,12 @@ export default defineConfig({
         importStyle: false, // css in js
       })],
       // 指定组件位置，默认是src/components
-      dirs: ['src/components'],
+      dirs: ['../shared/components'],
       // ui库解析器
       // resolvers: [ElementPlusResolver()],
       extensions: ['vue'],
       // 配置文件生成位置
-      dts: 'src/components.d.ts'
+      dts: './src/components.d.ts'
     }),
     // viteImagemin({
     //   gifsicle: {
@@ -86,6 +86,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'src/assets/images'),
+      'shared/~': path.resolve(__dirname, '../shared/assets/images'),
       '@': path.resolve(__dirname, 'src')
     },
   },
