@@ -183,7 +183,7 @@
 
 <script setup lang="ts">
 import Star from './components/Star.vue'
-import messageBox from '@/components/MessageBox/index.ts';
+import messageBox from '@manage/shared/components/MessageBox/index.ts';
 
 const stepStatus = ref(2)
 

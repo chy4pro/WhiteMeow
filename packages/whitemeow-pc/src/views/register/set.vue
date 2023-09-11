@@ -2,12 +2,12 @@
 import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
-import { storage } from "@/utils/index.ts";
-import { updateLogin } from "@/apis/login.ts";
+import { storage } from "@manage/shared/utils/index.ts";
+import { updateLogin } from "@manage/shared/apis/login.ts";
 
-import eyeIcon from "@/assets/images/login/eye.png";
-import eyeActIcon from "@/assets/images/login/eye-act.png";
-import messageBox from '@/components/MessageBox/index.ts';
+import eyeIcon from "@manage/shared/assets/images/login/eye.png";
+import eyeActIcon from "@manage/shared/assets/images/login/eye-act.png";
+import messageBox from '@manage/shared/components/MessageBox/index.ts';
 
 const state = reactive({
   eyeBool: false,
@@ -292,7 +292,7 @@ onMounted(() => {
         <div class="
           wh-full
           bg-no-repeat
-          bg-[url(@/assets/images/login-panel-bg.svg)]
+          bg-[url(@manage/shared/assets/images/login-panel-bg.svg)]
           bg-bottom
         "
         style="background-size: 100%;"

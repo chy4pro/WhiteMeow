@@ -83,13 +83,13 @@
             bg-transparent
             w-2.4rem
             h-2.4rem
-            bg-[url(@/assets/images/icon_send_normal.svg)]
+            bg-[url(@manage/shared/assets/images/icon_send_normal.svg)]
             bg-cover
             bg-no-repeat
             bg-center
-            hover:bg-[url(@/assets/images/icon_send_hover.svg)]
-            active:bg-[url(@/assets/images/icon_send_active.svg)]
-            disabled:bg-[url(@/assets/images/icon_send_disable.svg)]
+            hover:bg-[url(@manage/shared/assets/images/icon_send_hover.svg)]
+            active:bg-[url(@manage/shared/assets/images/icon_send_active.svg)]
+            disabled:bg-[url(@manage/shared/assets/images/icon_send_disable.svg)]
             ">
       </button>
     </div>
@@ -101,14 +101,14 @@
 // import "element-plus/theme-chalk/el-notification.css";
 
 import { ref, nextTick } from 'vue';
-import { storage} from '@/utils/index.ts'
-import {  useChatStore} from '@/store/index.js';
+import { storage} from '@manage/shared/utils/index.ts'
+import {  useChatStore} from '@manage/shared/store/index.js';
 
-import Socket from "@/utils/http/websocket.js";
-import { genId,genIdForMsg } from "@/utils/idGenerator.js";
-import {useToggleButtons} from '@/hooks/toggleButtons'
-import { evaluationGetSocket, getConfig } from "@/apis/testChat.ts";
-import messageBox from '@/components/MessageBox/index.ts';
+import Socket from "@manage/shared/utils/http/websocket.js";
+import { genId,genIdForMsg } from "@manage/shared/utils/idGenerator.js";
+import {useToggleButtons} from '@manage/shared/hooks/toggleButtons'
+import { evaluationGetSocket, getConfig } from "@manage/shared/apis/testChat.ts";
+import messageBox from '@manage/shared/components/MessageBox/index.ts';
 const chatStore = useChatStore()
 
 const showDialog = ref(false)

@@ -1,5 +1,5 @@
 <template>
-  <div class="wh-full box-border overflow-y-auto relative bg-[url(@/assets/images/tarot-bg.png)]">
+  <div class="wh-full box-border overflow-y-auto relative bg-[url(@manage/shared/assets/images/tarot-bg.png)]">
     <JAlert />
     <div class="wh-full flex-col-center" v-show="loadingFlipped">
       <!-- <h1 class="animate__animated animate__bounce">An animated element</h1> -->
@@ -31,7 +31,7 @@
                 <div class="
                 w-20rem
                 h-5.4rem
-                bg-[url(@/assets/images/btn_confirm.svg)]
+                bg-[url(@manage/shared/assets/images/btn_confirm.svg)]
                 bg-cover
                 bg-no-repeat
                 bg-center
@@ -73,7 +73,7 @@
         mb-5.4rem
         mt-12.1rem
         flex-col-center
-        bg-[url(@/assets/images/dialog_box_small.svg)]
+        bg-[url(@manage/shared/assets/images/dialog_box_small.svg)]
         bg-contain
         bg-no-repeat
         bg-bottom">
@@ -134,7 +134,7 @@
           <div class="
             w-20rem
             h-5.4rem
-            bg-[url(@/assets/images/btn_confirm.svg)]
+            bg-[url(@manage/shared/assets/images/btn_confirm.svg)]
             bg-cover
             bg-no-repeat
             bg-center
@@ -157,15 +157,15 @@
 
 <script setup lang="ts">
 import type { Rule } from "ant-design-vue/es/form";
-import { evaluationGetSocket, getEvaluation, evaluation } from "@/apis/testChat.ts";
-import { useLoginStore,useChatStore } from '@/store/index.js';
+import { evaluationGetSocket, getEvaluation, evaluation } from "@manage/shared/apis/testChat.ts";
+import { useLoginStore,useChatStore } from '@manage/shared/store/index.js';
 const loginStore = useLoginStore();
 const chatStore = useChatStore()
 
-import Socket from "@/utils/http/websocket.js";
+import Socket from "@manage/shared/utils/http/websocket.js";
 import {  type FormInstance } from "ant-design-vue";
-import { genId,genIdForMsg } from "@/utils/idGenerator.js";
-import messageBox from '@/components/MessageBox/index.ts';
+import { genId,genIdForMsg } from "@manage/shared/utils/idGenerator.js";
+import messageBox from '@manage/shared/components/MessageBox/index.ts';
 
 let ws:any = null
 

@@ -96,13 +96,13 @@
           bg-transparent
           w-2.4rem
           h-2.4rem
-          bg-[url(@/assets/images/icon_send_normal.svg)]
+          bg-[url(@manage/shared/assets/images/icon_send_normal.svg)]
           bg-cover
           bg-no-repeat
           bg-center
-          hover:bg-[url(@/assets/images/icon_send_hover.svg)]
-          active:bg-[url(@/assets/images/icon_send_active.svg)]
-          disabled:bg-[url(@/assets/images/icon_send_disable.svg)]
+          hover:bg-[url(@manage/shared/assets/images/icon_send_hover.svg)]
+          active:bg-[url(@manage/shared/assets/images/icon_send_active.svg)]
+          disabled:bg-[url(@manage/shared/assets/images/icon_send_disable.svg)]
           ">
     </button>
   </div>
@@ -113,16 +113,16 @@
 // import "element-plus/theme-chalk/el-notification.css";
 
 import { ref, nextTick} from 'vue';
-import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@/utils/index.ts'
-import { chat } from '@/apis/chat.ts'
-import Socket from "@/utils/http/websocket.js";
-import { genId,genIdForMsg } from "@/utils/idGenerator.js";
-import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@/store/index.ts';
+import { storage, scrollTo, getImageUrl, getEmojiUrl } from '@manage/shared/utils/index.ts'
+import { chat } from '@manage/shared/apis/chat.ts'
+import Socket from "@manage/shared/utils/http/websocket.js";
+import { genId,genIdForMsg } from "@manage/shared/utils/idGenerator.js";
+import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@manage/shared/store/index.ts';
 const countStore = useCounterStore()
 const chatStore = useChatStore()
 
 import { isEqual, uniqWith, uniqBy } from 'lodash-es'
-import messageBox from '@/components/MessageBox/index.ts';
+import messageBox from '@manage/shared/components/MessageBox/index.ts';
 
 // counter.init();
 const messageStore = userMessage();

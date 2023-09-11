@@ -1,6 +1,6 @@
 <script setup>
-import arrow from "@/assets/images/back-arrow.png";
-import error from "@/assets/images/error-show.png";
+import arrow from "@manage/shared/assets/images/back-arrow.png";
+import error from "@manage/shared/assets/images/error-show.png";
 import { useRouter } from "vue-router";
 
 const router = useRouter();

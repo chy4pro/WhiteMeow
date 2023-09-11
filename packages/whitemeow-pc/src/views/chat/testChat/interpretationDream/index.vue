@@ -1,5 +1,5 @@
 <template>
-  <div class="wh-full box-border overflow-y-auto relative bg-[url(@/assets/images/tarot-bg.png)]">
+  <div class="wh-full box-border overflow-y-auto relative bg-[url(@manage/shared/assets/images/tarot-bg.png)]">
     <JAlert />
 
     <div v-show="formState.status === 0">
@@ -11,7 +11,7 @@
           mb-5.4rem
           mt-12.1rem
           bg-no-repeat
-          bg-[url(@/assets/images/dialog_box_small.svg)]
+          bg-[url(@manage/shared/assets/images/dialog_box_small.svg)]
           h-20rem
           bg-bottom"
           style="background-size: 100%"
@@ -105,7 +105,7 @@
           mb-5.4rem
           mt-12.1rem
           bg-no-repeat
-          bg-[url(@/assets/images/dialog_box_middle.svg)] 
+          bg-[url(@manage/shared/assets/images/dialog_box_middle.svg)] 
           h-29rem
           bg-bottom"
           style="background-size: 100%"
@@ -198,7 +198,7 @@
           relative
           mb-5.4rem
           mt-12.1rem
-          bg-[url(@/assets/images/dialog_box_large.svg)]
+          bg-[url(@manage/shared/assets/images/dialog_box_large.svg)]
           bg-no-repeat
           bg-bottom"
           style="background-size: 100%"
@@ -252,13 +252,13 @@
 <script setup lang="ts">
 import type { Rule } from "ant-design-vue/es/form";
 import { type FormInstance } from "ant-design-vue";
-import { useLoginStore , useChatStore} from '@/store/index.js';
+import { useLoginStore , useChatStore} from '@manage/shared/store/index.js';
 const loginStore = useLoginStore();
 
-import { getEvaluation, evaluation } from "@/apis/testChat.ts";
-import Socket from "@/utils/http/websocket.js";
-import { genId,genIdForMsg } from "@/utils/idGenerator.js";
-import messageBox from '@/components/MessageBox/index.ts';
+import { getEvaluation, evaluation } from "@manage/shared/apis/testChat.ts";
+import Socket from "@manage/shared/utils/http/websocket.js";
+import { genId,genIdForMsg } from "@manage/shared/utils/idGenerator.js";
+import messageBox from '@manage/shared/components/MessageBox/index.ts';
 const onlyOneAlert = ref<boolean>(false)
 const chatStore = useChatStore()
 const spinning = ref<boolean>(false);

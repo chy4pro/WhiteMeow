@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { sendSms, checkCode, updatePassword } from "@/apis/login.ts";
+import { sendSms, checkCode, updatePassword } from "@manage/shared/apis/login.ts";
 import type { UploadProps } from 'ant-design-vue';
 // import { PlusOutlined } from '@ant-design/icons-vue';
-import { genIdForMsg } from "@/utils/idGenerator.js";
+import { genIdForMsg } from "@manage/shared/utils/idGenerator.js";
 
 import type { Rule } from "ant-design-vue/es/form";
 import { type FormInstance } from "ant-design-vue";
-import messageBox from '@/components/MessageBox/index.ts';
+import messageBox from '@manage/shared/components/MessageBox/index.ts';
 const emit = defineEmits(["handleBackEmit"]);
-import { updateUserPassword, uploadApi, feedbackSave} from "@/apis/profileCenter.ts";
-import { useLoginStore } from "@/store";
+import { updateUserPassword, uploadApi, feedbackSave} from "@manage/shared/apis/profileCenter.ts";
+import { useLoginStore } from "@manage/shared/store/index.ts";
 import router from "@/router";
 const loginStore = useLoginStore();
 

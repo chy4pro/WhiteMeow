@@ -1,7 +1,7 @@
 // routerGuard.ts
 
 import { NavigationGuard } from 'vue-router';
-import { useLoginStore, useChatStore } from "@/store";
+import { useLoginStore, useChatStore } from "@manage/shared/store/index.ts";
 import { tablistMap, loginTablistMap } from '@/views/chat/tablistMap'
 
 const tabListAuth: NavigationGuard = (to, from, next) => {

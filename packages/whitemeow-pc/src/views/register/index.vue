@@ -5,10 +5,10 @@ import { useStorage } from "@vueuse/core";
 
 const ResetComp = defineAsyncComponent(() => import("./resetComp.vue"));
 
-import eyeIcon from "@/assets/images/login/eye.png";
-import eyeActIcon from "@/assets/images/login/eye-act.png";
+import eyeIcon from "@manage/shared/assets/images/login/eye.png";
+import eyeActIcon from "@manage/shared/assets/images/login/eye-act.png";
 
-import { useLoginStore, userMessage } from "@/store/index.js";
+import { useLoginStore, userMessage } from "@manage/shared/store/index.js";
 import {
   sendSms,
   loginByCode,
@@ -16,10 +16,10 @@ import {
   getUser,
   login,
   getPicCode,
-} from "@/apis/login.ts";
-import { genId } from "@/utils/idGenerator.js";
-import { storage } from "@/utils/index.ts";
-import messageBox from "@/components/MessageBox/index.ts";
+} from "@manage/shared/apis/login.ts";
+import { genId } from "@manage/shared/utils/idGenerator.js";
+import { storage } from "@manage/shared/utils/index.ts";
+import messageBox from "@manage/shared/components/MessageBox/index.ts";
 
 const state = reactive({
   loginType: "code",
@@ -739,7 +739,7 @@ onMounted(() => {
         <div class="
           wh-full
           bg-no-repeat
-          bg-[url(@/assets/images/login-panel-bg.svg)]
+          bg-[url(@manage/shared/assets/images/login-panel-bg.svg)]
           bg-bottom
         "
         style="background-size: 100%;"
@@ -778,17 +778,17 @@ onMounted(() => {
   position: absolute;
   top: -5.5rem;
   left: 0;
-  background-image: url("@/assets/images/login/back.png");
+  background-image: url("@manage/shared/assets/images/login/back.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: 100% 100%;
   cursor: pointer;
 }
 .ta-back:hover {
-  background-image: url("@/assets/images/login/back-hor.png");
+  background-image: url("@manage/shared/assets/images/login/back-hor.png");
 }
 .ta-back:active {
-  background-image: url("@/assets/images/login/back-press.png");
+  background-image: url("@manage/shared/assets/images/login/back-press.png");
 }
 .ta-forget {
   display: flex;
