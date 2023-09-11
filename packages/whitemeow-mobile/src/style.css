@@ -6,7 +6,6 @@
 :root {
   font-family: RedHatDisplay;
   font-weight: 400;
-  font-size: calc(100vw / 37.5);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

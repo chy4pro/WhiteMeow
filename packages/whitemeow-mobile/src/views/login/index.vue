@@ -17,10 +17,15 @@ import Logo from "~/login/logo.png";
 .login-index {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
 
   .children {
     height: calc(100% - 14rem);
     padding: 0 2.4rem;
+
+    .wrapper {
+      padding-bottom: 5rem;
+    }
   }
 
   .logo-wrapper {

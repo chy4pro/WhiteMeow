@@ -18,7 +18,7 @@
     "@manage/shared/components":["packages/shared/components"],
     "@manage/shared/hooks":["packages/shared/hooks"],
     "@manage/shared/utils":["packages/shared/utils"],
-    "@manage/shared/fetch":["packages/shared/http"],
+    "@manage/shared/apis":["packages/shared/apis"],
     "@manage/shared/styles":["packages/shared/styles"],
     // 或者用*号处理匹配
     "@manage/shared/*":["packages/shared/*"]

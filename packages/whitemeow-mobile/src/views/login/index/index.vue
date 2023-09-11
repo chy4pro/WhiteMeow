@@ -1,10 +1,22 @@
 <script setup>
-import { reactive, defineAsyncComponent, watch } from "vue";
+import { reactive, defineAsyncComponent, watch, onMounted } from "vue";
 
 import CheckActive from "~/login/check-active.png";
 
+import {
+  fetchPicCode,
+  fetchCode,
+  fetchCodeLogin,
+  fetchUserInfo,
+  fetchPsdLogin,
+} from "@/api/login.js";
+import { genId } from "@/utils/index";
+
+import { useIndexStore } from "@/store/index";
+
 import { useRouter } from "vue-router";
 
+const indexStore = useIndexStore();
 const router = useRouter();
 
 const InputComp = defineAsyncComponent(() =>
@@ -39,32 +51,61 @@ const state = reactive({
   isShowXy: false,
   xyCategory: "1",
   picCode: "",
-  picCodeLength: 4,
   picCodeErrorBool: false,
   picCodeErrorText: "",
   isCanSend: false,
+  captcha: "",
+  captcha_id: "",
+  captcha_length: 4,
 });
 
 watch(
   () => [
-    [state.mobileErrorBool, state.codeErrorBool, state.picCodeErrorBool],
-    [state.mobileErrorBool, state.passwordErrorBool, state.picCodeErrorBool],
+    state.mobileErrorBool,
+    state.codeErrorBool,
+    state.picCodeErrorBool,
+    state.passwordErrorBool,
+    state.mobile,
+    state.code,
+    state.picCode,
+    state.password,
+    state.isReadBool,
   ],
-  (n) => {
+  () => {
     const { tab } = state;
     if (tab === "1") {
-      if (n[0].includes(true)) {
-        state.isSubmitBool = false;
-      } else {
+      const n = [
+        [state.mobileErrorBool, state.codeErrorBool, state.picCodeErrorBool],
+        [state.mobile, state.code, state.picCode],
+        [state.isReadBool],
+      ];
+
+      if (
+        n[0].filter((item) => !item).length === n[0].length &&
+        n[1].filter((item) => item !== "").length === n[1].length &&
+        n[2].includes(true)
+      ) {
         state.isSubmitBool = true;
+      } else {
+        state.isSubmitBool = false;
       }
       return;
     }
 
-    if (n[1].includes(true)) {
-      state.isSubmitBool = false;
-    } else {
+    const n = [
+      [state.mobileErrorBool, state.passwordErrorBool, state.picCodeErrorBool],
+      [state.mobile, state.password, state.picCode],
+      [state.isReadBool],
+    ];
+
+    if (
+      n[0].filter((item) => !item).length === n[0].length &&
+      n[1].filter((item) => item !== "").length === n[1].length &&
+      n[2].includes(true)
+    ) {
       state.isSubmitBool = true;
+    } else {
+      state.isSubmitBool = false;
     }
   }
 );
@@ -126,12 +167,75 @@ const handleCode = (str) => {
   state.codeErrorBool = false;
 };
 
-const handleCodeLogin = () => {
-  console.log("code login ...");
+const getUserInfo = async () => {
+  try {
+    const { code, data } = await fetchUserInfo();
+
+    if (code !== 200) {
+      return;
+    }
+
+    indexStore.handleSetUserInfo(data);
+    indexStore.handleSetUser("");
+
+    router.push({
+      path: "/dashboard",
+    });
+  } catch (err) {}
 };
 
-const handlePsdLogin = () => {
-  console.log("psd login ...");
+const handleCodeLogin = async () => {
+  const { code: codes, mobile, isRememberBool } = state;
+
+  try {
+    const { code, data, msg } = await fetchCodeLogin({
+      is_login_free: isRememberBool ? 1 : 0,
+      mobile,
+      code: codes,
+      user: genId("userId", 1),
+    });
+
+    if (code !== 200) {
+      return;
+    }
+
+    if (data.status === 1) {
+      indexStore.handleSetToken(data.token);
+
+      getUserInfo();
+      return;
+    }
+
+    indexStore.handleSetUser(data.user);
+
+    router.push({
+      path: "/login/setPsd",
+      query: {
+        type: "set",
+      },
+    });
+  } catch (error) {}
+};
+
+const handlePsdLogin = async () => {
+  const { captcha, captcha_id, isRememberBool, mobile, password } = state;
+
+  try {
+    const { code, data } = await fetchPsdLogin({
+      captcha,
+      captcha_id,
+      is_login_free: isRememberBool ? 1 : 0,
+      mobile,
+      password,
+    });
+
+    if (code !== 200) {
+      return;
+    }
+
+    indexStore.handleSetToken(data.token);
+    getUserInfo();
+  } catch (error) {}
 };
 
 const handleLogin = () => {
@@ -188,12 +292,24 @@ const handleLogin = () => {
   }
 };
 
-const handleSendCode = () => {
+const handleSendCode = async () => {
   if (state.mobileErrorBool || state.picCodeErrorBool) {
     return;
   }
 
-  console.log("send code...");
+  const { picCode, captcha_id, mobile } = state;
+
+  try {
+    const { code, data, msg } = await fetchCode({
+      captcha: picCode,
+      captcha_id,
+      mobile,
+    });
+
+    if (code !== 200) {
+      return;
+    }
+  } catch (error) {}
 };
 
 const handleMobileBlur = () => {
@@ -237,8 +353,18 @@ const handleXyBack = () => {
   state.isShowXy = false;
 };
 
-const handleChangePicCode = () => {
-  console.log("pic code...");
+const handleChangePicCode = async () => {
+  try {
+    const { code, data, msg } = await fetchPicCode();
+
+    if (code !== 200) {
+      return;
+    }
+
+    state.captcha = data.captcha;
+    state.captcha_id = data.captcha_id;
+    state.captcha_length = data.captcha_length;
+  } catch (error) {}
 };
 
 const handlePicCode = (str) => {
@@ -247,22 +373,13 @@ const handlePicCode = (str) => {
 };
 
 const handlePicBlur = () => {
-  if (state.picCode.length !== state.picCodeLength) {
+  if (state.picCode.length !== state.captcha_length) {
     state.picCodeErrorBool = true;
-    state.picCodeErrorText = `图片验证码长度为${state.picCodeLength}`;
+    state.picCodeErrorText = `图片验证码长度为${state.captcha_length}`;
     return;
   }
 
   state.picCodeErrorBool = false;
-};
-
-const handleDemo = (str, param) => {
-  router.push({
-    path: str,
-    query: {
-      type: param ? param : "",
-    },
-  });
 };
 
 const handleForget = () => {
@@ -270,6 +387,10 @@ const handleForget = () => {
     path: "/login/forget",
   });
 };
+
+onMounted(() => {
+  handleChangePicCode();
+});
 </script>
 
 <template>
@@ -331,7 +452,7 @@ const handleForget = () => {
             />
 
             <div class="pic-code" @click="handleChangePicCode">
-              <img :src="CheckActive" alt="" />
+              <img :src="state.captcha" alt="" />
             </div>
           </div>
         </div>
@@ -403,7 +524,7 @@ const handleForget = () => {
             />
 
             <div class="pic-code" @click="handleChangePicCode">
-              <img :src="CheckActive" alt="" />
+              <img :src="state.captcha" alt="" />
             </div>
           </div>
         </div>
@@ -447,12 +568,6 @@ const handleForget = () => {
       <span class="check" v-else />
       我已阅读并同意 <span @click.stop="handleLink('1')">《用户协议》</span> 和
       <span @click.stop="handleLink('2')">《隐私条款》</span>
-    </div>
-
-    <div style="margin-top: 3rem">
-      <p @click="handleDemo('/login/setPsd', 'set')">设置密码</p>
-      <p @click="handleDemo('/login/setProfile')">设置资料</p>
-      <p @click="handleDemo('/login/setPsd', 'reset')">重新设置密码</p>
     </div>
   </div>
 </template>

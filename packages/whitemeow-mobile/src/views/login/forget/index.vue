@@ -3,6 +3,8 @@ import { reactive, defineAsyncComponent, watch } from "vue";
 
 import { useRouter } from "vue-router";
 
+import { fetchCode, fetchCheckCode } from "@/api/login";
+
 const router = useRouter();
 
 const InputComp = defineAsyncComponent(() =>
@@ -75,8 +77,26 @@ const handleBlur = (str) => {
   state.codeErrorBool = false;
 };
 
-const handleCommit = () => {
-  console.log("commit...");
+const handleCommit = async () => {
+  const { code: codes, mobile } = state;
+
+  try {
+    const { code, data } = await fetchCheckCode({ code: codes, mobile });
+
+    if (code !== 200) {
+      return;
+    }
+
+    if (data.data) {
+      router.push({
+        path: "/login/setPsd",
+        query: {
+          type: "reset",
+          mobile,
+        },
+      });
+    }
+  } catch (error) {}
 };
 
 const handleConfirm = () => {
@@ -95,12 +115,20 @@ const handleConfirm = () => {
   }
 };
 
-const handleSendCode = () => {
+const handleSendCode = async () => {
   if (state.mobileErrorBool) {
     return;
   }
 
-  console.log("send code...");
+  const { mobile } = state;
+
+  try {
+    const { code } = await fetchCode({ mobile });
+
+    if (code !== 200) {
+      return;
+    }
+  } catch (error) {}
 };
 </script>
 

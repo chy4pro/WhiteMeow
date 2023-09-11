@@ -10,7 +10,7 @@ const router = useRouter();
 
 const handleLink = () => {
     router.push({
-      path: "/login",
+      path: "/dashboard",
     });
 };
 </script>

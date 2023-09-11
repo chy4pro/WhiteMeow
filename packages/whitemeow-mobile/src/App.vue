@@ -1,4 +1,10 @@
 <script setup>
+import { onMounted } from "vue";
+import { handleHtmlFontSize } from "@/utils/index";
+
+onMounted(() => {
+  handleHtmlFontSize()
+})
 </script>
 
 <template>

@@ -3,6 +3,8 @@ import {
     createWebHashHistory
 } from 'vue-router';
 
+import { useIndexStore } from "@/store/index";
+
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.VITE_API_BASE_URL),
     routes: [
@@ -10,6 +12,11 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: () => import('@/views/home/index.vue')
+        },
+        {
+            path: '/dashboard',
+            name: 'dashboard',
+            component: () => import('@/views/dashboard/index.vue')
         },
         {
             path: '/login',
@@ -48,6 +55,43 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     window.scrollTo(0, 0)
+
+    const store = useIndexStore()
+
+    if (to.path.indexOf('/login') > -1) {
+        if (store.state.token) {
+            return next({
+                path: '/dashboard'
+            })
+        }
+
+        if (!store.state.user && to.path === '/login') {
+            return next()
+        }
+
+        return next()
+    }
+
+    if (!store.state.token) {
+        if (to.path === '/') {
+            return next()
+        }
+
+        if (to.path === '/login') {
+            return next()
+        }
+
+        return next({
+            path: '/login'
+        })
+    }
+
+    if (to.path === '/') {
+        return next({
+            path: '/dashboard'
+        })
+    }
+
     next()
 })
 

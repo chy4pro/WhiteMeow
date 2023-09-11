@@ -1,9 +1,14 @@
 <script setup>
 import { reactive, defineAsyncComponent, watch } from "vue";
 
+import { fetchUpdatePsd, fetchSetInfo } from "@/api/login";
+
 import { useRouter } from "vue-router";
 
+import { useIndexStore } from "@/store/index";
+
 const router = useRouter();
+const indexStore = useIndexStore();
 
 const InputComp = defineAsyncComponent(() =>
   import("@/components/input/index.vue")
@@ -14,6 +19,7 @@ const ErrorTextComp = defineAsyncComponent(() =>
 );
 
 const type = router.currentRoute.value.query.type;
+const mobile = router.currentRoute.value.query.mobile;
 
 const state = reactive({
   password: "",
@@ -66,6 +72,24 @@ const handlePsd = (str, val) => {
   state.password2ErrorBool = false;
 };
 
+const handleSetPsd = async () => {
+  try {
+    const { code, data } = await fetchSetInfo({
+      user: indexStore.state.user,
+      password: state.password,
+      status: 3,
+    });
+
+    if (code !== 200) {
+      return;
+    }
+
+    router.push({
+      path: "/login/setProfile",
+    });
+  } catch (error) {}
+};
+
 const handlePsdBlur = (str) => {
   if (str === "1") {
     if (!state.password) {
@@ -85,9 +109,32 @@ const handlePsdBlur = (str) => {
   state.password2ErrorBool = false;
 };
 
-const handleCommit = () => {
-  // follow type to commit...
-  console.log("commit...");
+const handleCommit = async () => {
+  if (!type) {
+    return;
+  }
+
+  if (type === "set") {
+    handleSetPsd();
+    return;
+  }
+
+  try {
+    const { code, data } = await fetchUpdatePsd({
+      mobile,
+      password: state.password,
+    });
+
+    if (code !== 200) {
+      return;
+    }
+
+    if (data.message === "ok") {
+      router.push({
+        path: "/login",
+      });
+    }
+  } catch (error) {}
 };
 
 const handleConfirm = () => {

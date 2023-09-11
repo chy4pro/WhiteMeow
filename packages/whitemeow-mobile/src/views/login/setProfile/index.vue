@@ -3,37 +3,128 @@ import { reactive, defineAsyncComponent } from "vue";
 
 import Girl from "~/login/girl.png";
 import Boy from "~/login/boy.png";
+import Date from "~/login/date.png";
 
+import { useIndexStore } from "@/store/index";
 import { useRouter } from "vue-router";
 
+import { fetchSetInfo, fetchUserInfo } from "@/api/login";
+
+const indexStore = useIndexStore();
 const router = useRouter();
 
 const InputComp = defineAsyncComponent(() =>
   import("@/components/input/index.vue")
 );
 
+const PickerComp = defineAsyncComponent(() =>
+  import("@/components/datePicker/index.vue")
+);
+
 const state = reactive({
   name: "",
   sex: "",
+  date: "",
+  xz: "",
+  loading: false,
+  isShowDialog: false,
 });
 
 const handleInp = (str) => {
-  state.name - str;
+  state.name = str;
 };
 
-const handleJump = () => {
-    router.push({
-        path: '/'
-    })
-}
+const getUserInfo = async () => {
+  try {
+    const { code, data } = await fetchUserInfo();
 
-const handleConfirm = () => {
-    console.log('confirm...')
-}
+    if (code !== 200) {
+      return;
+    }
+
+    indexStore.handleSetUserInfo(data);
+    indexStore.handleSetUser("");
+
+    router.push({
+      path: "/dashboard",
+    });
+  } catch (err) {}
+};
+
+const handleJump = async () => {
+  return;
+
+  if (state.loading) {
+    return;
+  }
+
+  state.loading = true;
+
+  try {
+    const { code, data } = await fetchSetInfo({
+      user: indexStore.state.user,
+      status: 1,
+    });
+
+    state.loading = false;
+
+    if (code !== 200) {
+      return;
+    }
+
+    indexStore.handleSetToken(data.token);
+
+    getUserInfo();
+  } catch (error) {}
+};
+
+const handleConfirm = async () => {
+  console.log(state);
+  return;
+
+  const { name, sex, date, xz, loading } = state;
+
+  if (loading) {
+    return;
+  }
+
+  state.loading = true;
+
+  try {
+    const { code, data } = await fetchSetInfo({
+      user: indexStore.state.user,
+      sex: Number(sex),
+      name,
+      birthday: date,
+      constellation: xz,
+      status: 1,
+    });
+
+    state.loading = false;
+
+    if (code !== 200) {
+      return;
+    }
+
+    indexStore.handleSetToken(data.token);
+
+    getUserInfo();
+  } catch (error) {}
+};
+
+const handlePick = (str) => {
+  state.isShowDialog = false;
+
+  if (str) {
+    state.date = str;
+  }
+};
 </script>
 
 <template>
   <div class="wrapper">
+    <PickerComp @handleEmit="handlePick" :isShow="state.isShowDialog" />
+
     <div class="title">个人档案</div>
 
     <div class="item">
@@ -47,8 +138,8 @@ const handleConfirm = () => {
       <div class="name">性别</div>
       <div class="btn-wrapper">
         <div
-          :class="['btn', 'left', state.sex === '0' && 'girl-active']"
-          @click="state.sex = '0'"
+          :class="['btn', 'left', state.sex === '2' && 'girl-active']"
+          @click="state.sex = '2'"
         >
           <img :src="Girl" alt="" />
           女生
@@ -65,7 +156,20 @@ const handleConfirm = () => {
 
     <div class="item" style="margin-bottom: 2.4rem">
       <div class="name">出生年月</div>
-      <div>comp</div>
+      <div class="date">
+        <div
+          :class="[
+            'left',
+            state.date && 'active',
+            state.isShowDialog && 'focus',
+          ]"
+          @click="state.isShowDialog = !state.isShowDialog"
+        >
+          {{ date ? date : "请选择你的出生年月" }}
+          <img :src="Date" alt="" />
+        </div>
+        <div :class="['right', state.xz && 'active']">星座</div>
+      </div>
     </div>
 
     <div class="confirm" @click="handleConfirm">确认</div>
@@ -116,6 +220,46 @@ const handleConfirm = () => {
 
   .item {
     margin-bottom: 1.6rem;
+
+    .date {
+      display: flex;
+      justify-content: space-between;
+
+      div {
+        height: 4.8rem;
+        border-radius: 0.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(0, 0, 0, 0.4);
+        font-size: 1.6rem;
+        background-color: rgba(244, 245, 247, 1);
+        flex: 1;
+      }
+
+      .left {
+        margin-right: 1.7rem;
+        justify-content: space-between;
+        padding: 0 1.6rem;
+
+        img {
+          width: 2.4rem;
+          height: 2.4rem;
+        }
+      }
+
+      .right {
+        flex: 0.5;
+      }
+
+      .active {
+        color: rgba(0, 0, 0, 1);
+      }
+
+      .focus {
+        background-color: rgba(255, 223, 252, 1);
+      }
+    }
 
     .btn-wrapper {
       display: flex;
