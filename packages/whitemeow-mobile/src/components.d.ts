@@ -10,9 +10,7 @@ declare module 'vue' {
     ConfirmDialog: typeof import('./components/confirmDialog/index.vue')['default']
     DatePicker: typeof import('./components/datePicker/index.vue')['default']
     ErrorText: typeof import('./components/errorText/index.vue')['default']
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     Input: typeof import('./components/input/index.vue')['default']
-    InputComp: typeof import('./components/inputComp/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

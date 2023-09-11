@@ -16,7 +16,29 @@ const router = createRouter({
         {
             path: '/dashboard',
             name: 'dashboard',
-            component: () => import('@/views/dashboard/index.vue')
+            component: () => import('@/views/dashboard/index.vue'),
+            children: [
+                {
+                    path: '',
+                    name: 'test',
+                    component: () => import('@/views/dashboard/test/index.vue')
+                },
+                {
+                    path: '/dashboard/chat',
+                    name: 'chat',
+                    component: () => import('@/views/dashboard/chat/index.vue')
+                },
+                {
+                    path: '/dashboard/adventure',
+                    name: 'adventure',
+                    component: () => import('@/views/dashboard/adventure/index.vue')
+                },
+                {
+                    path: '/dashboard/my',
+                    name: 'my',
+                    component: () => import('@/views/dashboard/my/index.vue')
+                },
+            ]
         },
         {
             path: '/login',
@@ -55,6 +77,8 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     window.scrollTo(0, 0)
+
+    return next()
 
     const store = useIndexStore()
 
