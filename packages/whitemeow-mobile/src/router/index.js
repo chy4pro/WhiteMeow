@@ -78,8 +78,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     window.scrollTo(0, 0)
 
-    return next()
-
     const store = useIndexStore()
 
     if (to.path.indexOf('/login') > -1) {
