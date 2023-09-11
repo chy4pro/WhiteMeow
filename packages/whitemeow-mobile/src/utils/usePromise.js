@@ -9,7 +9,7 @@ const clearStorage = () => {
 const globalBaseUrlHandle = () => {
     // 测试环境
     if (window.location.hostname.indexOf("webtest.ashgso") > -1) {
-        return 'https://test.ashgso.com/ashleydiscount/api'
+        return 'https://miaoapi.pansi.com/api'
     }
 
     // release环境
@@ -123,8 +123,6 @@ export function usePromise(obj) {
         obj.type = obj.type ? obj.type : 'post'
 
         xhr.withCredentials = true
-
-
 
         if (obj.type.toLowerCase() === 'get') {
             let param = ''
