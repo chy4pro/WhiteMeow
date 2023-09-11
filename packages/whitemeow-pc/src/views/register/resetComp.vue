@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { sendSms, checkCode, updatePassword } from "@/apis/login.ts";
+import { sendSms, checkCode, updatePassword } from "@manage/shared/apis/login.ts";
 
-import eyeIcon from "@/assets/images/login/eye.png";
-import eyeActIcon from "@/assets/images/login/eye-act.png";
+import eyeIcon from "@manage/shared/assets/images/login/eye.png";
+import eyeActIcon from "@manage/shared/assets/images/login/eye-act.png";
 
 import type { Rule } from "ant-design-vue/es/form";
 import type { FormInstance } from "ant-design-vue";

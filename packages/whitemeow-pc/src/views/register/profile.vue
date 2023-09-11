@@ -2,22 +2,22 @@
 import { ref, reactive, defineAsyncComponent, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStorage } from '@vueuse/core'
-import messageBox from '@/components/MessageBox/index.ts';
+import messageBox from '@manage/shared/components/MessageBox/index.ts';
 
-import { storage } from "@/utils/index.ts";
+import { storage } from "@manage/shared/utils/index.ts";
 import { message } from "ant-design-vue";
 
 const DatePickerComp = defineAsyncComponent(
-  () => import("@/components/date-picker/index.vue")
+  () => import("@manage/shared/components/date-picker/index.vue")
 );
 
-import { updateLogin, getUser } from "@/apis/login.ts";
-import { useLoginStore } from "@/store/index.js";
+import { updateLogin, getUser } from "@manage/shared/apis/login.ts";
+import { useLoginStore } from "@manage/shared/store/index.js";
 
-import boyIcon from "@/assets/images/login/boy.png";
-import girlIcon from "@/assets/images/login/girl.png";
-import dateIcon from "@/assets/images/login/date.png";
-import dateActiveIcon from "@/assets/images/login/date-active.png";
+import boyIcon from "@manage/shared/assets/images/login/boy.png";
+import girlIcon from "@manage/shared/assets/images/login/girl.png";
+import dateIcon from "@manage/shared/assets/images/login/date.png";
+import dateActiveIcon from "@manage/shared/assets/images/login/date-active.png";
 
 const state = reactive({
   isconfirmBool: false,
@@ -472,7 +472,7 @@ onMounted(() => {
         <div class="
           wh-full
           bg-no-repeat
-          bg-[url(@/assets/images/login-panel-bg.svg)]
+          bg-[url(@manage/shared/assets/images/login-panel-bg.svg)]
           bg-bottom
         "
         style="background-size: 100%;"

@@ -133,7 +133,7 @@
             <div class="
           wh-full
           bg-no-repeat
-          bg-[url(@/assets/images/login-panel-bg.svg)]
+          bg-[url(@manage/shared/assets/images/login-panel-bg.svg)]
           bg-bottom
         "
         style="background-size: 100%;"
@@ -146,8 +146,8 @@
 </template>
 
 <script setup lang="ts">
-import { userMessage } from '@/store/index.js';
-import { hImage } from '@/utils/preloadImg.js';
+import { userMessage } from '@manage/shared/store/index.js';
+import { hImage } from '@manage/shared/utils/preloadImg.js';
 
 const messageStore = userMessage();
 const newMessage = ref('');

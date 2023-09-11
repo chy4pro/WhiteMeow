@@ -9,7 +9,7 @@ import login from '@/views/login/index.vue';
 import protocol from '@/views/protocol/index.vue';
 import privacy from '@/views/privacy/index.vue';
 import profileCenter from '@/views/profileCenter/index.vue';
-import { useLoginStore, useChatStore } from "@/store";
+import { useLoginStore, useChatStore } from "@manage/shared/store/index.ts";
 // import intro from '@/views/intro/index.vue';
 // import smartForm from '../components/SmartForm/index.vue';
 import requireAuth from './routerGuard.ts'; // 导入路由守卫

@@ -15,7 +15,7 @@
 }
 @font-face {
   font-family: 'RedHatDisplay';
-  src: url('@/assets/font/RedHatDisplay-VariableFont_wght.ttf');
+  src: url('@manage/shared/assets/font/RedHatDisplay-VariableFont_wght.ttf');
   font-weight: normal;
   font-style: normal;
 }

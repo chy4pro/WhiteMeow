@@ -1,3 +1,2 @@
-export const test = () => {
-  return '123'
-}
+export * from './storage';
+export * from './util';

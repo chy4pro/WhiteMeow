@@ -7,6 +7,8 @@
    "moduleResolution": "node", // 模块解析
    "strict": false, // 严格模式
    "resolveJsonModule": true, // 解析json模块
+   "allowImportingTsExtensions": true,//允许.ts
+   "noEmit": true,
    "esModuleInterop": true,// 允许通过es6语法引入commonjs模块
    "jsx":"preserve",// jsx不转义
    "lib":["esnext","dom"],// 支持的类库esnext及dom
@@ -15,6 +17,7 @@
     //  "@manage/*":[
     //   "packages/*/src",
     //  ], // 即以@manage开头的都去该路径下查找，是个数组
+    "@manage/shared/assets":["packages/shared/assets"],
     "@manage/shared/components":["packages/shared/components"],
     "@manage/shared/hooks":["packages/shared/hooks"],
     "@manage/shared/utils":["packages/shared/utils"],

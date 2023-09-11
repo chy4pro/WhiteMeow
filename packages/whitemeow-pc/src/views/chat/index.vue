@@ -97,8 +97,8 @@
 </template>
 
 <script setup lang="ts">
-import { useChatStore, useLoginStore } from "@/store";
-import { useTabs } from '@/hooks/switchTabs'
+import { useChatStore, useLoginStore } from "@manage/shared/store/index.ts";
+import { useTabs } from '@manage/shared/hooks/switchTabs.ts'
 import { tablistMap, loginTablistMap } from './tablistMap'
 
 const chatStore = useChatStore();

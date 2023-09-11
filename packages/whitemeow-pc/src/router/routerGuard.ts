@@ -1,7 +1,7 @@
 // routerGuard.ts
 
 import { NavigationGuard } from 'vue-router';
-import { storage } from '@/utils/index.ts'
+import { storage } from '@manage/shared/utils/index.ts'
 
 const requireAuth: NavigationGuard = (to, from, next) => {
   // 从 localStorage 获取 token

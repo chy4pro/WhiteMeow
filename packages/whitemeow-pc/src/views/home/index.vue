@@ -46,8 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import { userMessage } from '@/store/index.js';
-import { hImage } from '@/utils/preloadImg.js';
+import { userMessage } from '@manage/shared/store/index.js';
+import { hImage } from '@manage/shared/utils/preloadImg.js';
 const messageStore = userMessage();
 const newMessage = ref('');
 const router = useRouter();
@@ -171,7 +171,7 @@ const loadImages = ()=> {
 }
 
 .uno-bg-home-panel-bg{
-  background: url('@/assets/images/home-panel-bg.png');
+  background: url('shared/~/home-panel-bg.png');
   background-size: 100%;
   background-repeat: no-repeat;
   box-sizing: border-box;

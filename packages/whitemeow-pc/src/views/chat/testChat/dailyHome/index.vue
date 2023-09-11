@@ -23,7 +23,7 @@
             <div class="
             w-14rem
             h-14rem
-            bg-[url(@/assets/images/bg_mi.svg)]
+            bg-[url(@manage/shared/assets/images/bg_mi.svg)]
             bg-cover
             bg-no-repeat
             bg-center
@@ -134,8 +134,8 @@
 </template>
 
 <script setup lang="ts">
-import { getEvaluation } from '@/apis/testChat.ts';
-import { useLoginStore } from '@/store/index.js';
+import { getEvaluation } from '@manage/shared/apis/testChat.ts';
+import { useLoginStore } from '@manage/shared/store/index.js';
 
 import lunisolar from 'lunisolar'
 import zhCn from 'lunisolar/locale/zh-cn' 
