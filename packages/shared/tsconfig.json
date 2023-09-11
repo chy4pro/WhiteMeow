@@ -1,0 +1,22 @@
+{
+
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es2016", // 目标语法
+    "module": "esnext", // 模块格式
+    "moduleResolution": "node", // 模块解析
+    "resolveJsonModule": true, // 解析json模块
+    "allowImportingTsExtensions": true,//允许.ts
+    "noEmit": true,
+    "strict": true,
+    "noImplicitAny": true,
+  },
+
+  "include": ["."],
+
+  "paths": {
+    "@shared/*": ["./*"],
+    "@manage/shared/*":["./*"]
+  }
+
+}
