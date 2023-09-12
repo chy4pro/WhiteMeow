@@ -99,7 +99,7 @@ const loadImages = ()=> {
   'dialog_cat_box.svg',
   'home-panel-bg.svg',
   'icon24_account.svg',
-  'icon24_arrow_left.svg',
+  'icon_arrow_left.svg',
   'icon24_ceshi_miao.svg',
   'icon24_close.svg',
   'icon24_eye.svg',
