@@ -54,7 +54,7 @@ export default defineConfig({
         importStyle: false, // css in js
       })],
       // 指定组件位置，默认是src/components
-      dirs: ['../shared/components'],
+      dirs: ['../shared/components', './src/components'],
       // ui库解析器
       // resolvers: [ElementPlusResolver()],
       extensions: ['vue'],

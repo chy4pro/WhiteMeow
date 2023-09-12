@@ -18,7 +18,7 @@ shadow-[rgba(219,175,201,0.45)]
         <SvgImage name="icon24_close.svg" class="w-2.4rem h-2.4rem" />
       </div>
       <div class="w-24px h-24px absolute left-4rem top-4rem z-999 cursor-pointer" @click="goBack">
-        <SvgImage name="icon24_arrow_left.svg" class="w-2.4rem h-2.4rem" />
+        <SvgImage name="icon_arrow_left.svg" class="w-2.4rem h-2.4rem" />
       </div>
 
       <div class="overflow-auto mx-4rem mt-3.2rem rounded-8px bg-#F5F5F5">
