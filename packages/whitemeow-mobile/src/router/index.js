@@ -38,6 +38,21 @@ const router = createRouter({
                     name: 'my',
                     component: () => import('@/views/dashboard/my/index.vue')
                 },
+                {
+                    path: '/dashboard/showCard',
+                    name: 'showCard',
+                    component: () => import('@/views/dashboard/test/card/showCard.vue')
+                },
+                {
+                    path: '/dashboard/dream',
+                    name: 'dreamIndex',
+                    component: () => import('@/views/dashboard/test/dream/index.vue')
+                },
+                {
+                    path: '/dashboard/sand',
+                    name: 'sandIndex',
+                    component: () => import('@/views/dashboard/test/sand/index.vue')
+                },
             ]
         },
         {
@@ -67,16 +82,18 @@ const router = createRouter({
                 }
             ]
         },
-        // {
-        //     path: '/:pathMatch(.*)',
-        //     name: 'Error',
-        //     component: () => import('@/views/error/index.vue')
-        // }
+        {
+            path: '/:pathMatch(.*)',
+            name: 'Error',
+            component: () => import('@/views/error/index.vue')
+        }
     ]
 })
 
 router.beforeEach((to, from, next) => {
     window.scrollTo(0, 0)
+
+    // return next()
 
     const store = useIndexStore()
 

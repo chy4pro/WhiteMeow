@@ -3,10 +3,11 @@ import { reactive, defineAsyncComponent } from "vue";
 
 import Girl from "~/login/girl.png";
 import Boy from "~/login/boy.png";
-import Date from "~/login/date.png";
+import Dates from "~/login/date.png";
 
 import { useIndexStore } from "@/store/index";
 import { useRouter } from "vue-router";
+import { getZodiacSign } from "@/utils/index";
 
 import { fetchSetInfo, fetchUserInfo } from "@/api/login";
 
@@ -52,8 +53,6 @@ const getUserInfo = async () => {
 };
 
 const handleJump = async () => {
-  return;
-
   if (state.loading) {
     return;
   }
@@ -79,9 +78,6 @@ const handleJump = async () => {
 };
 
 const handleConfirm = async () => {
-  console.log(state);
-  return;
-
   const { name, sex, date, xz, loading } = state;
 
   if (loading) {
@@ -113,17 +109,24 @@ const handleConfirm = async () => {
 };
 
 const handlePick = (str) => {
-  state.isShowDialog = false;
-
   if (str) {
     state.date = str;
+    const val = str.replace(/\//g, "-");
+    state.xz = getZodiacSign(new Date(val));
+    return;
   }
+
+  state.isShowDialog = false;
 };
 </script>
 
 <template>
   <div class="wrapper">
-    <PickerComp @handleEmit="handlePick" :isShow="state.isShowDialog" />
+    <PickerComp
+      @handleEmit="handlePick"
+      :isShow="state.isShowDialog"
+      :date="state.date"
+    />
 
     <div class="title">个人档案</div>
 
@@ -165,10 +168,12 @@ const handlePick = (str) => {
           ]"
           @click="state.isShowDialog = !state.isShowDialog"
         >
-          {{ date ? date : "请选择你的出生年月" }}
-          <img :src="Date" alt="" />
+          {{ state.date ? state.date : "请选择你的出生年月" }}
+          <img :src="Dates" alt="" />
         </div>
-        <div :class="['right', state.xz && 'active']">星座</div>
+        <div :class="['right', state.xz && 'active']">
+          {{ state.xz ? state.xz : "星座" }}
+        </div>
       </div>
     </div>
 

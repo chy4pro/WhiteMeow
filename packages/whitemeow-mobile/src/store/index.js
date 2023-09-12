@@ -4,14 +4,14 @@ import { loStore } from '@/utils/index'
 
 export const useIndexStore = defineStore('index', () => {
     const state = reactive({
-        token: loStore.get('GlobalToken') ? loStore.get('GlobalToken') : '',
+        token: loStore.get('token') ? loStore.get('token') : '',
         user: loStore.get('GlobalUser') ? loStore.get('GlobalUser') : '',
-        userInfo: loStore.get('GlobalUserInfo') ? JSON.parse(loStore.get('GlobalUserInfo')) : '',
+        userInfo: loStore.get('userInfo') ? JSON.parse(loStore.get('userInfo')) : '',
     })
 
     const handleSetToken = (str) => {
         state.token = str
-        loStore.set('GlobalToken', str)
+        loStore.set('token', str)
     }
 
     const handleSetUser = (str) => {
@@ -21,7 +21,7 @@ export const useIndexStore = defineStore('index', () => {
 
     const handleSetUserInfo = (obj) => {
         state.userInfo = obj
-        loStore.set('GlobalUserInfo', obj)
+        loStore.set('userInfo', obj)
     }
 
     return { state, handleSetToken, handleSetUser, handleSetUserInfo }
