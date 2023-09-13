@@ -20,6 +20,7 @@ interface Result {
 // 请求响应参数，包含data
 interface ResultData<T> {
   data?: T;
+  code?: number;
   list?: Array<T>;
   token?: string;
   user?: string | number;
@@ -138,16 +139,16 @@ class RequestHttp {
   }
 
   // 常用方法封装
-  get<T>(url: string, params?: object): Promise<ResultData<T>> {
+  get<T = any>(url: string, params?: object): Promise<ResultData<T>> {
     return this.service.get(url, { params })
   }
-  post<T>(url: string, params?: object, config?: AxiosRequestConfig): Promise<ResultData<T>> {
+  post<T = any>(url: string, params?: object, config?: AxiosRequestConfig): Promise<ResultData<T>> {
     return this.service.post(url, params, config)
   }
-  put<T>(url: string, params?: object): Promise<ResultData<T>> {
+  put<T = any>(url: string, params?: object): Promise<ResultData<T>> {
     return this.service.put(url, params)
   }
-  delete<T>(url: string, params?: object): Promise<ResultData<T>> {
+  delete<T = any>(url: string, params?: object): Promise<ResultData<T>> {
     return this.service.delete(url, { params })
   }
 }
