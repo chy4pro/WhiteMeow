@@ -30,3 +30,27 @@ export const checkIsNaN = (str: string | number) => {
 export const test = () => {
   return '123'
 };
+
+export const getFormattedDate = (format:string = 'date') =>  {
+  const formatNumber = (number: any) => {
+    return number < 10 ? '0' + number : number;
+  }
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = formatNumber(now.getMonth() + 1); // Month is zero-based
+  const day = formatNumber(now.getDate());
+  const hours = formatNumber(now.getHours());
+  const minutes = formatNumber(now.getMinutes());
+  const seconds = formatNumber(now.getSeconds());
+
+  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  const formattedDate= `${year}-${month}-${day}`;
+
+  if(format === 'time'){
+    return formattedDateTime;
+  }
+  else{
+    return formattedDate;
+  }
+}
