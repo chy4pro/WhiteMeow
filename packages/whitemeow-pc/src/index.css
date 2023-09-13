@@ -147,9 +147,11 @@ body{
   cursor-pointer
   bg-black
   hover:bg-[rgba(0,0,0,0.8)]
-  active:bg-[rgba(0,0,0,0.6)]
-  disabled:bg-[rgba(0,0,0,0.4)]
+  active:bg-[rgba(0,0,0,0.6)]  
   color-white;
+}
+.l-btn-black:disabled{
+  --at-apply:bg-[rgba(0,0,0,0.4)] color-white;
 }
 
 /*居中图片盒子*/
