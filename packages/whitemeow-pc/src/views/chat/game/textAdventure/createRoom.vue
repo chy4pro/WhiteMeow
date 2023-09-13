@@ -22,7 +22,7 @@
           ">
             欢迎来到喵老师的文字冒险游戏，每局游戏共五个情节，邀请你的好友一起来探索你们的隐藏人格了！
           </div>
-          <div class="
+          <a-button class="
             mt-10.4rem
             rounded-6px
             bg-black
@@ -30,15 +30,15 @@
             h-5.6rem
             color-white
             text-2rem
-            line-height-5.6rem
             text-center
             font-700
             cursor-pointer
             "
-            @click="$router.push('adtRoom')"
+            :loading="loadingCreate"
+            @click="createRoom"
             >
             创建房间
-          </div>
+          </a-button>
           <div class="
             text-1.6rem
             font-500
@@ -47,7 +47,9 @@
             color-black
             pb-4rem
             cursor-pointer
-          ">已有房间，加入好友</div>
+          "
+          @click="$router.push('hasRoom')"
+          >已有房间，加入好友</div>
         </div>
       </div>
     </div>
@@ -56,8 +58,31 @@
 
 <script setup lang="ts">
 import Star from './components/Star.vue'
-const stepStatus = ref(1)
+import { chatroomAdd } from '@manage/shared/apis/game'
+import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@manage/shared/store/index.ts';
+const router = useRouter();
 
+const loginStore = useLoginStore()
+const stepStatus = ref(1)
+const loadingCreate = ref(false)
+
+//创建房间
+const createRoom = async() =>{
+  loadingCreate.value = true
+
+  let params = {
+    user: loginStore.userId,
+    open_kf_id: 'oLet5ixVLgOqflofOJqjXqSJg0zYlF7U'
+  }
+
+  loadingCreate.value = false
+
+  //let { data, code } = await chatroomAdd(params)
+  
+  // if(code === 200 && data){
+  //   router.push({ name: 'adtRoom'});
+  // }
+}
 </script>
 
 <style scoped>
