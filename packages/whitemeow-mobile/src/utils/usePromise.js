@@ -8,7 +8,7 @@ const clearStorage = () => {
 
 const globalBaseUrlHandle = () => {
     // 测试环境
-    if (window.location.hostname.indexOf("miaoapi.pansi") > -1) {
+    if (window.location.hostname.indexOf("miao.pansi") > -1) {
         return 'https://miaoapi.pansi.com/api'
     }
 
