@@ -1,8 +1,4 @@
 <script setup lang="ts">
-// element-plus
-// import "element-plus/theme-chalk/el-loading.css";
-// import "element-plus/theme-chalk/el-notification.css";
-
 import Cat from "~/chat/cat.png";
 import Send from "~/chat/send.png";
 import Heart from "~/chat/heart.png";

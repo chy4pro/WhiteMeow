@@ -1,7 +1,10 @@
 <script setup>
-import { reactive, nextTick } from "vue";
+import { reactive, nextTick, defineAsyncComponent } from "vue";
 
 import Left from "~/login/left.png";
+import Left2 from "~/login/left2.png";
+
+const SelectComp = defineAsyncComponent(() => import("./select.vue"));
 
 const emit = defineEmits(["handleEmit"]);
 
@@ -21,6 +24,7 @@ const state = reactive({
   year: "",
   day: "",
   isToday: false,
+  isShowSelBool: false,
 });
 
 const handleClose = (str) => {
@@ -241,25 +245,45 @@ const handleInit = () => {
   });
 };
 
-const handleGo = (type) => {
+const handleGo = (type, name) => {
   if (type === "+") {
-    if (state.month >= 12) {
-      state.year = Number(state.year) + 1;
-      state.month = 1;
+    if (name === "m") {
+      if (state.month >= 12) {
+        state.year = Number(state.year) + 1;
+        state.month = 1;
+      } else {
+        state.month = Number(state.month) + 1;
+      }
     } else {
-      state.month = Number(state.month) + 1;
+      state.year = Number(state.year) + 1;
     }
 
     getWeenkDays(String(state.year), state.month - 1);
     return;
   }
 
-  if (state.month <= 1) {
-    state.year = Number(state.year) - 1;
-    state.month = 12;
+  if (name === "m") {
+    if (state.month <= 1) {
+      state.year = Number(state.year) - 1;
+      state.month = 12;
+    } else {
+      state.month = Number(state.month) - 1;
+    }
   } else {
-    state.month = Number(state.month) - 1;
+    state.year = Number(state.year) - 1;
   }
+
+  getWeenkDays(String(state.year), state.month - 1);
+};
+
+const handleSel = () => {
+  state.isShowSelBool = true;
+};
+
+const handleSelEmit = (obj) => {
+  state.isShowSelBool = false;
+  state.year = obj.y;
+  state.month = Number(obj.m);
 
   getWeenkDays(String(state.year), state.month - 1);
 };
@@ -269,6 +293,8 @@ watch(
   (n) => {
     if (n) {
       nextTick(() => {
+        state.isShowSelBool = false;
+
         handleInit();
       });
     }
@@ -278,14 +304,28 @@ watch(
 
 <template>
   <div class="ta-picker" v-if="props.isShow" @click="handleClose(false)">
-    <div class="main" @click.stop>
+    <div class="main" @click.stop v-if="state.isShowSelBool">
+      <SelectComp
+        @handleEmit="handleSelEmit"
+        :year="String(state.year)"
+        :month="String(state.month)"
+      />
+    </div>
+
+    <div class="main" @click.stop v-show="!state.isShowSelBool">
       <div class="sel-top">
-        <img @click="handleGo('-')" :src="Left" alt="" />
-        <div>
+        <div class="left">
+          <img @click.stop="handleGo('-', 'y')" :src="Left2" alt="" />
+          <img @click.stop="handleGo('-', 'm')" :src="Left" alt="" />
+        </div>
+        <div @click="handleSel">
           <span>{{ state.year }} 年 </span>
           <span>{{ state.month }} 月</span>
         </div>
-        <img @click="handleGo('+')" class="right" :src="Left" alt="" />
+        <div class="right">
+          <img @click.stop="handleGo('+', 'y')" :src="Left2" alt="" />
+          <img @click.stop="handleGo('+', 'm')" :src="Left" alt="" />
+        </div>
       </div>
 
       <div class="calendar">
@@ -363,7 +403,7 @@ watch(
         height: 2.4rem;
       }
 
-      img.right {
+      .right {
         transform: rotate(180deg);
       }
     }

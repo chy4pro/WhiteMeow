@@ -46,9 +46,9 @@ const tab = ref([
 ]);
 
 const handleLink = (path, idx) => {
-  if (tab.value[idx].active) {
-    return;
-  }
+  // if (tab.value[idx].active) {
+  //   return;
+  // }
 
   for (const item of tab.value) {
     item.active = false;
