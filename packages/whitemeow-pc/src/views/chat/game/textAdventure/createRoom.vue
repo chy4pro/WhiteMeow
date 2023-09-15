@@ -65,23 +65,29 @@ const router = useRouter();
 const loginStore = useLoginStore()
 const stepStatus = ref(1)
 const loadingCreate = ref(false)
+const realUserId = computed(()=>{
+  let result = ''
+  result = loginStore.token ? loginStore.newUserId : loginStore.userId;
+
+  return result;
+})
 
 //创建房间
 const createRoom = async() =>{
   loadingCreate.value = true
 
   let params = {
-    user: loginStore.userId,
-    open_kf_id: 'oLet5ixVLgOqflofOJqjXqSJg0zYlF7U'
+    user: realUserId.value,
+    open_kf_id: 'uqTIN13j6HKg2nYSyuTay6mHRQULNRSU'
   }
 
   loadingCreate.value = false
 
-  //let { data, code } = await chatroomAdd(params)
+  let { data, code } = await chatroomAdd(params)
   
-  // if(code === 200 && data){
-  //   router.push({ name: 'adtRoom'});
-  // }
+  if(code === 200 && data){
+    router.push({ name: 'waitingRoom', query: {'channel_id': data.channel_id, 'id': data.id}});
+  }
 }
 </script>
 
