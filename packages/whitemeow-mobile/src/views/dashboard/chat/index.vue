@@ -10,19 +10,14 @@ import { getEmojiUrl } from "@manage/shared/utils/index.ts";
 import { chat } from "@manage/shared/apis/chat.ts";
 import Socket from "@manage/shared/utils/http/websocket.js";
 import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
-import {
-  userMessage,
-  useChatStore,
-  useCounterStore,
-} from "@manage/shared/store/index.ts";
+import { useChatStore, useCounterStore } from "@manage/shared/store/index.ts";
 const countStore = useCounterStore();
 const chatStore = useChatStore();
 
 import { uniqWith } from "lodash-es";
-import messageBox from "@manage/shared/components/MessageBox/index.ts";
 
-// counter.init();
-const messageStore = userMessage();
+import { message } from "@/utils/index";
+
 var chatLogsMap = reactive(new Map<string, Message[]>());
 const messageList = ref<any>(null);
 let ws: any = null;
@@ -48,12 +43,6 @@ const recordList = reactive({
   end_created_at: "",
 });
 
-const hoverHeartIcon = (message: any) => {
-  if (message.evaluateIcon !== "heart") {
-    message.showHoverIcon = true;
-  }
-};
-
 const clickHeart = (message: Message) => {
   let old = message.evaluateIcon;
   if (old === "") {
@@ -67,23 +56,6 @@ const clickHeart = (message: Message) => {
   }
 };
 const inputBoxRef = ref<any>();
-
-// const checkOverflow = () =>{
-//   const inputBox:any = inputBoxRef.value;
-//   if(inputBox){
-//     const lineHeight = parseInt(window.getComputedStyle(inputBox).height, 10);
-//     const lines = inputBox.scrollHeight / lineHeight;
-
-//     if (lines > 1) {
-//       inputBox.classList.add('h-full');
-//       inputBox.classList.remove('h-36px');
-//     } else {
-//       inputBox.classList.add('h-36px');
-//       inputBox.classList.remove('h-full');
-//     }
-//   }
-
-// }
 
 function getFormattedDate(format = "date") {
   const formatNumber = (number: any) => {
@@ -128,7 +100,10 @@ const carriageReturn = (event: any) => {
 // 发送消息
 const sendMessage = () => {
   if (countStore.index === 25) {
-    messageBox.info("25次数已用完，请明天再来哟");
+    message({
+      type: "info",
+      text: "25次数已用完，请明天再来哟",
+    });
     return;
   }
 
@@ -163,17 +138,18 @@ const sendMessage = () => {
         });
       }
 
-      // const addIndex = () => {
-      //   counter.add();
-      // };
-      // addIndex();
-
       if (!isConnect.value) {
-        messageBox.info("白小喵正在上线中...");
+        message({
+          type: "info",
+          text: "白小喵正在上线中...",
+        });
       }
 
       if (!isEnd.value) {
-        messageBox.info("请等等哦~");
+        message({
+          type: "info",
+          text: "请等等哦~",
+        });
       }
       // 发送消息
       let sendData = {
@@ -191,7 +167,10 @@ const sendMessage = () => {
       scrollBottomFlag.value = true;
       scrollToBottom();
     } else {
-      messageBox.info("请输入点什么吧~");
+      message({
+        type: "info",
+        text: "请输入点什么吧~",
+      });
     }
   }
 };
@@ -217,14 +196,8 @@ const scrollToTop = async () => {
 // 获取聊天记录
 const getChatRecord = async () => {
   try {
-    // loading
-    //loading.value = true
-
     const res = await chat(recordList);
     let result: any = res.data;
-    // console.log(result);
-
-    //loading.value = false
 
     if (result && result.list && result.list.length > 0) {
       result.list.reverse();
@@ -248,7 +221,6 @@ const getChatRecord = async () => {
           };
         });
       }
-      // console.log("real-----", messages.value);
 
       chatLogsSplit(messages.value);
       pageTotal.value = result.total as number;
@@ -259,16 +231,11 @@ const getChatRecord = async () => {
         scrollToTop();
       }
     } else {
-      //messages.push({ content: result.message, isUser: false })
     }
 
     return result;
   } catch (err) {
-    // loading.value = false
-    // messages[messages.length - 1].content = err.message
   } finally {
-    // loader hide
-    // closeToast();
   }
 };
 
@@ -279,23 +246,6 @@ const showMore = () => {
   getChatRecord();
 };
 
-// const topDistance = () => {
-//   if (targetDiv.value) {
-//     const rect = targetDiv.value.getBoundingClientRect();
-//     const distanceToTop = rect.top;
-//     console.log("距离顶部的像素距离：", distanceToTop);
-//     if (distanceToTop < 66) {
-//     }
-//   }
-// };
-
-// const formattedDate = (timestamp:any) => {
-//   const date = new Date(timestamp)
-//   const year = date.getFullYear()
-//   const month = (date.getMonth() + 1).toString().padStart(2, '0')
-//   const day = date.getDate().toString().padStart(2, '0')
-//   return `${year}-${month}-${day}`
-// }
 function formattedDate(timestamp: any) {
   const formatNumber = (number: any) => {
     return number < 10 ? "0" + number : number;
@@ -312,7 +262,6 @@ function formattedDate(timestamp: any) {
 const initData = () => {
   recordList.page += 1;
   countStore.init();
-  // storage.setItem('auth', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgyNDg2NTUsImlhdCI6MTY4MjMyODY1NSwidXNlcklkIjoyfQ.c54BKBpqCYhnnZU6LEsP04th9VUZ2q2jXEYmtu2k38U');
   scrollBottomFlag.value = true;
 
   //每日25条限制，根据用户上次进入的时间来判断
@@ -341,8 +290,6 @@ const initWebSocket = () => {
       isHeart: true, // 是否心跳
       isReconnection: true, // 是否断开重连
       received: function (data: any) {
-        // 监听服务器返回信息
-        // console.log("received", data);
         let dataFormat = JSON.parse(data);
         const today = getFormattedDate();
 
@@ -365,7 +312,6 @@ const initWebSocket = () => {
                 const currentMessage = chatLogs[index];
 
                 currentMessage.content += dataFormat.message;
-                //chatLogs[chatLogs.length - 1].content += dataFormat.message
               } else {
                 chatLogs.push({
                   content:
@@ -464,13 +410,8 @@ onMounted(() => {
   watch(
     () => ws.status,
     async (newValue) => {
-      // console.log("myVariable 变化了:", newValue);
       if (newValue === "open") {
         isConnect.value = true;
-        // let result = await getChatRecord();
-        // if(Object.keys(result as object).length > 0){
-        //   sendFirstMessage();
-        // }
       } else {
         isConnect.value = false;
       }
@@ -481,12 +422,6 @@ onMounted(() => {
 nextTick(() => {
   inputBoxRef?.value.focus();
 });
-// onBeforeRouteLeave((to, from, next) => {
-//   if(ws){
-//     ws.close();
-//   }
-//   next();
-// })
 
 interface Message {
   id?: number;

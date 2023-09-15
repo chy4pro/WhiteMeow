@@ -14,7 +14,6 @@ declare module 'vue' {
     DatePicker: typeof import('./components/datePicker/index.vue')['default']
     ErrorText: typeof import('./components/errorText/index.vue')['default']
     Input: typeof import('./components/input/index.vue')['default']
-    Message: typeof import('./components/message/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./components/datePicker/select.vue')['default']

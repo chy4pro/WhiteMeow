@@ -1,5 +1,6 @@
 <template>
   <div class="card-index">
+    <TipDialog :isShow="formState.status === 3 && chatStore.showOnlyOne" />
     <div class="box1 comm" v-show="loadingFlipped">
       <div class="card" @click="isFlipped = !isFlipped">
         <div class="card-inner">
@@ -19,9 +20,15 @@
     >
       <div>
         <div class="close">
-          <img :src="Close" alt="" @click="router.push({
-            path: '/dashboard'
-          })" />
+          <img
+            :src="Close"
+            alt=""
+            @click="
+              router.push({
+                path: '/dashboard',
+              })
+            "
+          />
         </div>
         <div class="img-wrapper">
           <img :src="formState.tarot_image" />
@@ -107,6 +114,7 @@ import Chat2 from "~/test/chat2.png";
 import Close from "~/test/close.png";
 
 import { message } from "@/utils/index";
+import TipDialog from "../comp/tipDialog.vue";
 
 let ws: any = null;
 
