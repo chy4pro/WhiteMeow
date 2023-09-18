@@ -1,13 +1,13 @@
 <template>
   <div class="w-full flex-col-start h-[calc(100%-10.4rem)] overflow-y-auto">
     <div class="relative mt-130px">
-      <div class="absolute top--100px left-0 z-666">
+      <div class="absolute top--100px z-666" :class="{'left-50% translate-x--50%':textAdventureStore.pageIndex === 5, 'left-0':textAdventureStore.pageIndex < 5}">
         <SvgImage name="cat_white.svg" class="w-26.1rem h-30.8rem"></SvgImage>
       </div>
-      <div class="absolute top--100px left-0 z-666">
+      <div class="absolute top--100px z-666" :class="{'left-50% translate-x--50%':textAdventureStore.pageIndex === 5, 'left-0':textAdventureStore.pageIndex < 5}">
         <SvgImage name="star_group.svg" class="w-23rem h-9rem"></SvgImage>
       </div>
-      <div class="absolute top--114px right-48px z-666" v-if="textAdventureStore.pageIndex < 6">
+      <div class="absolute top--114px right-48px z-666" v-if="textAdventureStore.pageIndex < 5">
         <div class="flex-row-start">
           <div class="
             mr-16px
@@ -59,9 +59,9 @@
       ref="messageList"
       >
         <div class="px-2.4rem py-2.4rem">
-          <div class="text-2.8rem font-700 mb-1.6rem" v-if="textAdventureStore.pageIndex < 6">情节{{ chinaNumber }}</div>
-          <div class="text-center" v-if="textAdventureStore.pageIndex === 5">
-            <div class="text-2.8rem font-700">游戏总结</div>
+          <div class="text-2.8rem font-700 mb-1.6rem" v-if="textAdventureStore.pageIndex < 5">情节{{ chinaNumber }}</div>
+          <div class="text-center mb-2.4rem" v-if="textAdventureStore.pageIndex === 5">
+            <div class="text-2.8rem font-700 line-height-normal">游戏总结</div>
             <div class="text-2rem font-700 color-#FF6AF0">未来的职业发展预测</div>
           </div>
           
@@ -386,6 +386,7 @@ const startAgain = () =>{
   clearInterval(countdownInterval)
   countdownValue.value = 60
   newMessage.value = ''
+  chatLog = []
   isEnd.value = false
   tempLock.value = false
 }
@@ -396,7 +397,7 @@ function onReceived2(data:any) {
   // 监听服务器返回信息
   if(data){    
     let dataFormat = JSON.parse(data)
-    console.log('onReceived2',dataFormat);
+    // console.log('onReceived2',dataFormat);
     let type = dataFormat.type
 
     if(dataFormat&& dataFormat.is_end === false && dataFormat.is_stream_end === false){
@@ -523,6 +524,12 @@ function onReceived2(data:any) {
             })
           }
 
+          //这个时机代表接收到对方输入了，准备进入下一轮
+          if(userName.value != dataFormat.user_name){
+            clearInterval(countdownInterval); // 清除之前的倒计时
+            countdownValue.value = 60; // 重置倒计时值
+          }
+
           chatLog[textAdventureStore.pageIndex] = messages.value
         }
         
@@ -532,12 +539,19 @@ function onReceived2(data:any) {
     }
 
     if(dataFormat.is_stream_end === true){
-      if(dataFormat.type === 1 && dataFormat.is_kf === true){
-        clearInterval(countdownInterval); // 清除之前的倒计时
-        countdownValue.value = 60; // 重置倒计时值
-        countdownInterval = setInterval(updateCountdown, 1000); // 以1秒间隔更新倒计时
-        tempLock.value = false //解锁
-        messages.value = []//清空临时
+      if(dataFormat.type === 1){
+        if(dataFormat.is_kf === true){
+          console.log('dataFormat',dataFormat);
+          
+          clearInterval(countdownInterval); // 清除之前的倒计时
+          countdownValue.value = 60; // 重置倒计时值
+          countdownInterval = setInterval(updateCountdown, 1000); // 以1秒间隔更新倒计时
+          tempLock.value = false //解锁
+          isEnd.value = true
+        }
+        else{
+          messages.value = []//清空临时
+        }
       }
     }
 
@@ -587,7 +601,7 @@ const goRight = () =>{
 }
 
 let disabledSend = computed(() => {
-  return tempLock.value
+  return tempLock.value || !isEnd.value
 })
 
 // let disabledSend = computed(() => {
