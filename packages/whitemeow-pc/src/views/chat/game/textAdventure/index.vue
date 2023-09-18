@@ -525,7 +525,7 @@ function onReceived2(data:any) {
           }
 
           //这个时机代表接收到对方输入了，准备进入下一轮
-          if(userName.value != dataFormat.user_name){
+          if(userName.value != dataFormat.user_name && isSend.value === true){
             clearInterval(countdownInterval); // 清除之前的倒计时
             countdownValue.value = 60; // 重置倒计时值
           }
@@ -548,6 +548,7 @@ function onReceived2(data:any) {
           countdownInterval = setInterval(updateCountdown, 1000); // 以1秒间隔更新倒计时
           tempLock.value = false //解锁
           isEnd.value = true
+          isSend.value = false
         }
         else{
           messages.value = []//清空临时
