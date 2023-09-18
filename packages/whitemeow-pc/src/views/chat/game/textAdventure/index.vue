@@ -1,5 +1,5 @@
 <template>
-  <div class="wh-full flex-col-start">
+  <div class="w-full flex-col-start h-[calc(100%-10.4rem)] overflow-y-auto">
     <div class="relative mt-130px">
       <div class="absolute top--100px left-0 z-666">
         <SvgImage name="cat_white.svg" class="w-26.1rem h-30.8rem"></SvgImage>
@@ -7,7 +7,7 @@
       <div class="absolute top--100px left-0 z-666">
         <SvgImage name="star_group.svg" class="w-23rem h-9rem"></SvgImage>
       </div>
-      <div class="absolute top--114px right-48px z-666" v-if="textAdventureStore.pageIndex === 5">
+      <div class="absolute top--114px right-48px z-666" v-if="textAdventureStore.pageIndex < 6">
         <div class="flex-row-start">
           <div class="
             mr-16px
@@ -73,7 +73,8 @@
     </div>
 
     <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex < 6">
-      <div
+      <!-- <div>{{ chatLog[textAdventureStore.pageIndex] }}</div>
+        <div
         class="
         flex
         flex-items-end
@@ -81,6 +82,71 @@
         flex-nowrap
         px-3rem"
         v-for="(message, index) in messages"
+        :key="index"
+        :class="message.user_name === 'A' ? 'flex-justify-end' : 'flex-justify-start'">
+        {{ message }}
+        <div class="
+          w-4rem
+          h-4rem
+          mr-0.8rem
+          bg-black
+          rounded-50%
+          line-height-4rem
+          text-center
+          color-white
+          font-700
+          text-2.2rem
+        "
+        v-if="message.user_name === 'B'"
+        >B</div>
+
+        <div class="
+          flex-self-start
+          color-[#000c]
+          max-w-1/2
+          b-rd-[8px]
+          relative
+          "
+          :class="[message.user_name === 'A' ? 'bg-[var(--pink-02)]' : 'bg-black']">
+          <div class="
+            whitespace-pre-line
+            color-white
+            text-1.6rem
+            font-400
+            px-1.6rem
+            py-0.8rem
+            line-height-2.4rem
+          ">
+            <div>{{ message.content }}</div>
+          </div>
+        </div>
+
+        <div class="
+          w-4rem
+          h-4rem
+          ml-0.8rem
+          bg-[var(--pink-02)]
+          rounded-50%
+          line-height-4rem
+          text-center
+          color-white
+          font-700
+          text-2.2rem
+        "
+        v-if="message.user_name === 'A'"
+        >A</div>
+        </div> -->
+        
+        <div 
+        >
+        <div
+        class="
+        flex
+        flex-items-end
+        mb-1.6rem
+        flex-nowrap
+        px-3rem"
+        v-for="(message, index) in chatLog[textAdventureStore.pageIndex]"
         :key="index"
         :class="message.user_name === 'A' ? 'flex-justify-end' : 'flex-justify-start'">
         <div class="
@@ -133,6 +199,7 @@
         "
         v-if="message.user_name === 'A'"
         >A</div>
+        </div>
       </div>
     </div>
 
@@ -253,6 +320,8 @@ interface Message {
   status?: number,
   type?: number,
 }
+
+let chatLog = reactive<any>([])
 let story:any = ref([])
 let chapter = ref(0)
 const messages = ref<Message[]>([
@@ -394,36 +463,6 @@ function onReceived2(data:any) {
       }
       else if(type === 1){
         let status = dataFormat.status
-
-        //接受用户发送数据
-        if(!dataFormat.is_kf){
-          if(messages.value.length === 0){
-            messages.value.push(
-            {
-              content: newMessage.value,
-              user: realUserId.value,
-              user_name: userName.value
-            })
-          }
-          else{
-            messages.value.forEach((item,index)=>{
-              if(userName.value === item.user_name){
-                messages.value[index].content = newMessage.value
-                messages.value[index].user_name = userName.value
-                messages.value[index].user = realUserId.value
-              }
-              else{
-                messages.value.push(
-                {
-                  content: newMessage.value,
-                  user: realUserId.value,
-                  user_name: userName.value
-                })
-              }
-            })
-          }
-        }
-
         
         if(dataFormat.is_kf === true){
         //这里作用是用于控制pageIndex显示情节
@@ -456,7 +495,36 @@ function onReceived2(data:any) {
 
         }
 
+        //接受用户发送数据
+        if(!dataFormat.is_kf){
+          if(messages.value.length === 0){
+            messages.value.push(
+            {
+              content: dataFormat.content,
+              user: dataFormat.user,
+              user_name: dataFormat.user_name
+            })
+          }
+          else{
+            messages.value.forEach((item,index)=>{
+              if(userName.value === item.user_name){
+                messages.value[index].content = dataFormat.content
+                messages.value[index].user_name = dataFormat.user_name
+                messages.value[index].user = dataFormat.user
+              }
+              else{
+                messages.value.push(
+                {
+                  content: dataFormat.content,
+                  user: dataFormat.user,
+                  user_name: dataFormat.user_name
+                })
+              }
+            })
+          }
 
+          chatLog[textAdventureStore.pageIndex] = messages.value
+        }
         
         scrollBottomFlag.value = true;
         scrollToBottom();
@@ -468,6 +536,8 @@ function onReceived2(data:any) {
         clearInterval(countdownInterval); // 清除之前的倒计时
         countdownValue.value = 60; // 重置倒计时值
         countdownInterval = setInterval(updateCountdown, 1000); // 以1秒间隔更新倒计时
+        tempLock.value = false //解锁
+        messages.value = []//清空临时
       }
     }
 
@@ -576,8 +646,6 @@ const readyToSend = () =>{
 
 // 发送消息
 const sendMessage = (type:number) => {
-console.log('------dialogue_id',dialogueId.value);
-
   let sendData = {
     'typeStatus': 'sendMsg',
     'channel_id': channelId.value,
@@ -597,37 +665,38 @@ console.log('------dialogue_id',dialogueId.value);
     tempLock.value = true
     sendData.content = newMessage.value
     isSend.value = true
-    if(messages.value.length === 0){
-      messages.value.push(
-      {
-        content: newMessage.value,
-        user: realUserId.value,
-        user_name: userName.value
-      })
-    }
-    else{
-      messages.value.forEach((item,index)=>{
-        if(userName.value === item.user_name){
-          messages.value[index].content = newMessage.value
-          messages.value[index].user_name = userName.value
-          messages.value[index].user = realUserId.value
-        }
-        else{
-          messages.value.push(
-          {
-            content: newMessage.value,
-            user: realUserId.value,
-            user_name: userName.value
-          })
-        }
-      })
-    }
+    newMessage.value = ''
 
+    // if(messages.value.length === 0){
+    //   messages.value.push(
+    //   {
+    //     content: newMessage.value,
+    //     user: realUserId.value,
+    //     user_name: userName.value
+    //   })
+    // }
+    // else{
+    //   messages.value.forEach((item,index)=>{
+    //     if(userName.value === item.user_name){
+    //       messages.value[index].content = newMessage.value
+    //       messages.value[index].user_name = userName.value
+    //       messages.value[index].user = realUserId.value
+    //     }
+    //     else{
+    //       messages.value.push(
+    //       {
+    //         content: newMessage.value,
+    //         user: realUserId.value,
+    //         user_name: userName.value
+    //       })
+    //     }
+    //   })
+    // }
+    // chatLog[textAdventureStore.pageIndex] = messages.value
   }
   
   socketStore.ws?.sendMsg(sendData)
 
-  // newMessage.value = ''
   // scrollBottomFlag.value = true;
   isEnd.value = false;
   // scrollToBottom();
@@ -705,10 +774,10 @@ const initMessages = () => {
 
 const handlerUnload = (event:any) => {
   // Cancel the event as stated by the standard.
-  event.preventDefault();
-  event.returnValue = ''
-  // Chrome requires returnValue to be set.
-  event.returnValue = '离开将不保存当前数据，如需重开右上角关闭房间';
+  // event.preventDefault();
+  // event.returnValue = ''
+  // // Chrome requires returnValue to be set.
+  // event.returnValue = '离开将不保存当前数据，如需重开右上角关闭房间';
 }
 
 onMounted(()=>{
