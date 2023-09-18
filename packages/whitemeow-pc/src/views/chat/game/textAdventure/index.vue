@@ -7,7 +7,7 @@
       <div class="absolute top--100px left-0 z-666">
         <SvgImage name="star_group.svg" class="w-23rem h-9rem"></SvgImage>
       </div>
-      <div class="absolute top--114px right-48px z-666" v-if="textAdventureStore.pageIndex < 6">
+      <div class="absolute top--114px right-48px z-666" v-if="textAdventureStore.pageIndex === 5">
         <div class="flex-row-start">
           <div class="
             mr-16px
@@ -59,7 +59,7 @@
       ref="messageList"
       >
         <div class="px-2.4rem py-2.4rem">
-          <div class="text-2.8rem font-700 mb-1.6rem" v-if="textAdventureStore.pageIndex < 6">情节{{ chinaNumber }}</div>
+          <div class="text-2.8rem font-700 mb-1.6rem" v-if="textAdventureStore.pageIndex === 5">情节{{ chinaNumber }}</div>
           <div class="text-center" v-if="textAdventureStore.pageIndex === 6">
             <div class="text-2.8rem font-700">游戏总结</div>
             <div class="text-2rem font-700 color-#FF6AF0">未来的职业发展预测</div>
@@ -72,7 +72,7 @@
       </div>
     </div>
 
-    <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex < 6">
+    <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex === 5">
       <div
         class="
         flex
@@ -424,7 +424,6 @@ function onReceived2(data:any) {
           }
         }
 
-        console.log('----status1----');
         
         if(dataFormat.is_kf === true){
         //这里作用是用于控制pageIndex显示情节
@@ -476,7 +475,6 @@ function onReceived2(data:any) {
       if(dataFormat.type === 1){
       let status = dataFormat.status
       dialogueId.value = dataFormat.dialogue_id
-      console.log('----status----',status);
       
       switch(status){
           case 0:
@@ -562,7 +560,7 @@ const carriageReturn = (event:any) => {
   if (event.keyCode == 13) {
     if (!event.metaKey) {
       event.preventDefault();
-      stepStatus.value = 1;
+      // stepStatus.value = 1;
       sendMessage(1);
     } else {
       newMessage.value = newMessage.value + "\n";
@@ -578,6 +576,7 @@ const readyToSend = () =>{
 
 // 发送消息
 const sendMessage = (type:number) => {
+console.log('------dialogue_id',dialogueId.value);
 
   let sendData = {
     'typeStatus': 'sendMsg',
