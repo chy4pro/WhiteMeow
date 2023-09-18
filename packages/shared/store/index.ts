@@ -82,12 +82,12 @@ export const useSocketStore = defineStore('socket', {
   }),
 
   actions: {
-    initWebSocket(realUserId, userName) {
+    initWebSocket(realUserId:string, userName:string) {
       // this.receivedCallBack = received // 赋值
 
       // scoket连接
 
-      return (receivedCallback) => {
+      return (receivedCallback:any) => {
         this.ws = new Socket({
           url: `${import.meta.env.VITE_API_WEBSOCKET_URL}/chatroom/socket?user=${realUserId}&name=${userName}`,
           status: 'open',
@@ -103,7 +103,7 @@ export const useSocketStore = defineStore('socket', {
     webSocketConnect(){
       this.ws.connect();
     },
-    replaceCallBack(received){
+    replaceCallBack(received:any){
       this.ws.received = received
     }
   }

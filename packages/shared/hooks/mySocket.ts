@@ -5,7 +5,7 @@ export function useMySocket() {
   let receivedCallBack = ref<any>(null);
 
 
-  function initWebSocket(realUserId, userName, received) {
+  function initWebSocket(realUserId:string, userName:string, received:any) {
     receivedCallBack.value = received // 赋值
 
     // scoket连接
