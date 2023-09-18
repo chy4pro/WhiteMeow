@@ -52,6 +52,8 @@ export default class Socket {
         // 关闭连接
         this.ws.onclose = (e) => {
             console.log('onclose',e)
+            console.info(e.code + ' ' + e.reason + ' ' + e.wasClean);
+
             this._closeSocket(e)
             // loading.close()
         }

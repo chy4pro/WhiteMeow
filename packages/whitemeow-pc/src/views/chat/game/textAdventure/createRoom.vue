@@ -59,6 +59,7 @@
 <script setup lang="ts">
 import Star from './components/Star.vue'
 import { chatroomAdd } from '@manage/shared/apis/game'
+import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
 import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@manage/shared/store/index.ts';
 const router = useRouter();
 
@@ -67,7 +68,7 @@ const stepStatus = ref(1)
 const loadingCreate = ref(false)
 const realUserId = computed(()=>{
   let result = ''
-  result = loginStore.token ? loginStore.newUserId : loginStore.userId;
+  result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
 
   return result;
 })

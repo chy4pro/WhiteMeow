@@ -14,7 +14,7 @@
       bg-[rgba(255,255,255,0.4)]
       ">
         <div class="overflow-auto">
-          <div class="absolute right-1.6rem top-1.6rem cursor-pointer" @click="$router.push('createRoom')">
+          <div class="absolute right-1.6rem top-1.6rem cursor-pointer"  @click="closeTheRoom">
             <SvgImage name="icon_close.svg" class="w-2.4rem h-2.4rem"></SvgImage>
           </div>
 
@@ -118,7 +118,7 @@
 
           </div>
 
-          <div
+          <a-button
           class="
             mt-4rem
             rounded-6px
@@ -127,16 +127,16 @@
             h-5.6rem
             color-white
             text-2rem
-            line-height-5.6rem
             text-center
             font-700
             cursor-pointer
             "
+            :loading="startLoading"
             v-if="readyStatus && !isInvite"
             @click="startGame"
           >
           开始游戏
-          </div>
+          </a-button>
           <div class="
             mt-4rem
             rounded-6px
@@ -181,16 +181,19 @@ import messageBox from '@manage/shared/components/MessageBox/index.ts';
 import { gameUserMap } from '../../gameUserMap'
 import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
 
-import { chatroomAdd } from '@manage/shared/apis/game'
-import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@manage/shared/store/index.ts';
+import { chatroomAdd,chatroomDelete } from '@manage/shared/apis/game'
+import { useLoginStore, useSocketStore } from '@manage/shared/store/index.ts';
+
+const socketStore = useSocketStore()
 const loginStore = useLoginStore()
 const router = useRouter();
-let ws:any = null
 const isConnect = ref(true);//是否连接websocket
 
 const stepStatus = ref(2)
 const source = window.location.href + '&invite=1'
 const { text, copy, copied, isSupported } = useClipboard({ source })
+
+const startLoading = ref(false)
 const roomNumber = ref('')
 const channelId = ref('')
 const userName = ref('')
@@ -198,7 +201,7 @@ const isInvite = ref(false)
 const readyStatus = ref(false)
 const realUserId = computed(()=>{
   let result = ''
-  result = loginStore.token ? loginStore.newUserId : loginStore.userId;
+  result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
 
   return result;
 })
@@ -216,50 +219,10 @@ const shareLink = () => {
   copy(source)
 }
 
-const initWebSocket = () => {
-  // scoket连接
-  ws = reactive(new Socket({
-    url: `${import.meta.env.VITE_API_WEBSOCKET_URL}/chatroom/socket?user=${loginStore.token ? loginStore.newUserId : loginStore.userId}&name=${userName.value}`,
-    name: '',			// name
-    isHeart:true,			// 是否心跳
-    isReconnection:true,		// 是否断开重连
-    received: function(data:any){
-      // 监听服务器返回信息
-      console.log("received",data)
-      let dataFormat = JSON.parse(data)
-      let tempArr:any = []
-      
-      if(dataFormat){
-        let type = dataFormat.type
-        if(type === 8){
-          if(dataFormat.to_user_id === realUserId){
-            router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value}});
-          }
-        }
-        else{
-          dataFormat.users.forEach((item:any)=>{
-            tempArr.push({
-              'user': item.user,
-              'user_name': item.user_name
-            })
-          })
-          tempArr.forEach((item:any)=>{
-            addPlayer(item)
-          })
-        }
-
-      }
-
-      console.log('---123---',playerList);
-      
-    }
-  }));
-  ws.connect();
-}
 
 // 发送消息
 const sendMessage = (type:number,userName:string) => {
-  let messageId = genIdForMsg(2 ,20);
+  // let messageId = genIdForMsg(2 ,20);
 
   let sendData = {
     'typeStatus': 'sendMsg',
@@ -271,8 +234,8 @@ const sendMessage = (type:number,userName:string) => {
     'open_kf_id': 'uqTIN13j6HKg2nYSyuTay6mHRQULNRSU',
     'type': type,
     "heartbeat": false
-  }
-  ws.sendMsg(sendData)
+}
+  socketStore.ws?.sendMsg(sendData)
 };
 
 const getCurrentRouter = () => {
@@ -287,9 +250,13 @@ const addPlayer = (data:any) =>{
   let onceFlag = true
     playerList.value.forEach((item,index)=>{
       if(item.userId === '' && onceFlag){
-        item.userId = data.user
-        item.userName = data.user_name
-        onceFlag = false
+        if(item.userName === data.user_name){
+          item.userId = data.user
+          //item.userName = data.user_name
+          onceFlag = false
+
+        }
+
       }
     })
 }
@@ -317,10 +284,65 @@ const isFullPlayer = (list:PlayerList[]) => {
     readyStatus.value = true
   }
 }
+// const onReceived2:any = inject('onReceived2')
+function onReceived(data:any) {
+  console.log('---data---',data);
+
+  // 监听服务器返回信息
+  if(data){
+    let dataFormat = JSON.parse(data)
+    let tempArr:any = []
+    
+    if(dataFormat){
+      let type = dataFormat.type
+      // type为8的跳转准备开始游戏
+      if(type === 9){
+        // 代表b进来了
+        stepStatus.value = 0
+        sendMessage(2,userName.value )
+      }
+      else if(type === 8){
+        if(dataFormat.to_user_id === realUserId.value){
+          startLoading.value = false
+
+          if(isInvite.value){
+            router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1}});
+          }
+          else{
+            router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value}});
+          }
+        }
+      }
+      else if(type === 4 || type === 5){
+        dataFormat.users.forEach((item:any)=>{
+          tempArr.push({
+            'user': item.user,
+            'user_name': item.user_name
+          })
+        })
+
+        tempArr.forEach((item:any)=>{
+          addPlayer(item)
+        })
+      }
+
+    }
+
+  }
+}
+// 关闭并删除聊天室
+const closeTheRoom = async() =>{
+  router.push('createRoom')
+  let params = {
+    channel_id: channelId.value
+  }
+  let result = await chatroomDelete(params);
+}
 
 // 开始游戏
 const startGame = () => {
   console.log('start');
+  startLoading.value = true
   sendMessage(8,userName.value)
   
 }
@@ -333,31 +355,54 @@ const initData = () =>{
     userName.value = 'A'
   }
 
-  initWebSocket()
+  //防止用户返回
+  if(socketStore.ws){
+    socketStore.ws.close()
+  }
+
+  const initSocket = socketStore.initWebSocket(realUserId.value, userName.value);
+  initSocket(onReceived)
+  socketStore.replaceCallBack(onReceived)
+  socketStore.ws.callback = onReceived
+  socketStore.webSocketConnect();
+  console.log(socketStore.ws);
+  
+  
   initEmptyPlayer()
 }
 
 onMounted(()=>{
   getCurrentRouter()
   initData()
-
-  // 监听连接状态变化
-  watch(()=> ws.status, async(newValue) => {
-    console.log('myVariable 变化了:', newValue);
-    if(newValue === 'open'){
-      isConnect.value = true;
-      //sendMessage(4,)
-      if(isInvite.value){
-        sendMessage(5,userName.value)
+//   window.addEventListener("beforeunload", (event) => {
+//   // Cancel the event as stated by the standard.
+//   event.preventDefault();
+//   sendMessage(6, userName.value)
+//   // Chrome requires returnValue to be set.
+//   event.returnValue = "";
+// });
+  if(socketStore.ws){
+    // 监听连接状态变化
+    watch(()=> socketStore.ws.status, async(newValue) => {
+      console.log(socketStore.ws);
+      
+      console.log('myVariable 变化了:', newValue);
+      if(newValue === 'open'){
+        isConnect.value = true;
+        //sendMessage(4,)
+        if(isInvite.value){
+          sendMessage(5,userName.value)
+        }
+        else{
+          sendMessage(4,userName.value)
+        }
       }
       else{
-        sendMessage(4,userName.value)
+        isConnect.value = false;
       }
-    }
-    else{
-      isConnect.value = false;
-    }
-  });
+    });
+  }
+
 
   // 监听连接状态变化
   watch(()=> playerList, async(newValue) => {
@@ -367,6 +412,18 @@ onMounted(()=>{
     }
   }, { deep: true });
 })
+
+
+
+// onBeforeUnmount(()=>{
+//   window.addEventListener("beforeunload", (event) => {
+//   // Cancel the event as stated by the standard.
+//   event.preventDefault();
+//   sendMessage(6, userName.value)
+//   // Chrome requires returnValue to be set.
+//   event.returnValue = "";
+// });
+// })
 </script>
 
 <style scoped>
