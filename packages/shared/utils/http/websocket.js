@@ -6,18 +6,20 @@ export default class Socket {
      */
     constructor(options) {
         this.url = options.url;
-        this.callback = options.received;
+        this.callback = options.received || (() => {});
         this.name = options.name || 'default';
         this.ws = null;
-        this.status = null;
+        this.status =  options.ws || null;
         this.pingInterval = null;
         // 心跳检测频率
         this._timeout = 40000;
         this.isHeart = options.isHeart;
         this.isReconnection = options.isReconnection;
     }
-    connect(data) {
+    init(){
         this.ws = new WebSocket(this.url);
+    }
+    connect(data) {
         // const loading = ElLoading.service({
         //     target: document.querySelector('#app'),
         //     lock: true,
@@ -41,7 +43,6 @@ export default class Socket {
         // 接受服务器返回的信息
         this.ws.onmessage = (e) => {
             // loading.close()
-
             if(typeof this.callback === 'function'){
                 return this.callback(e.data)
             }else{
