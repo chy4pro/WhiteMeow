@@ -288,6 +288,7 @@ const userName = ref('')
 let dialogueId:string = ''
 
 let isEnd = ref(true);
+let isSend = ref(false)//当前用户是否发送
 let tempLock = ref(false);
 // let ws:any = null
 
@@ -320,6 +321,7 @@ const startAgain = () =>{
   tempLock.value = false
 }
 
+// let oneTimeStatus0 = ref(true)
 function onReceived2(data:any) {
 
   // 监听服务器返回信息
@@ -328,7 +330,7 @@ function onReceived2(data:any) {
     console.log('onReceived2',dataFormat);
     let type = dataFormat.type
 
-    if(dataFormat&& dataFormat.is_end === false){
+    if(dataFormat&& dataFormat.is_end === false && dataFormat.is_stream_end === false){
       if(type === 9){
         // 代表b进来了
         stepStatus.value = 0
@@ -454,14 +456,19 @@ function onReceived2(data:any) {
       }
     }
 
-    if(dataFormat.is_end === true){
-      clearInterval(countdownInterval); // 清除之前的倒计时
-      countdownValue.value = 60; // 重置倒计时值
-      countdownInterval = setInterval(updateCountdown, 1000); // 以1秒间隔更新倒计时
+    if(dataFormat.is_stream_end === true){
+      if(dataFormat.type === 1 && dataFormat.is_kf === true){
+        clearInterval(countdownInterval); // 清除之前的倒计时
+        countdownValue.value = 60; // 重置倒计时值
+        countdownInterval = setInterval(updateCountdown, 1000); // 以1秒间隔更新倒计时
+      }
+    }
 
+    if(dataFormat.is_end === true){
       if(dataFormat.type === 1){
       let status = dataFormat.status
-
+      console.log('----status----',status);
+      
       switch(status){
           case 0:
             break;
@@ -511,6 +518,10 @@ let disabledSend = computed(() => {
   return tempLock.value
 })
 
+// let disabledSend = computed(() => {
+//   return !isConnect.value  || !isEnd.value || tempLock.value
+// })
+
 const chinaNumber= computed(() => {
   let map = ['一','二','三','四','五','六']
   return map[textAdventureStore.pageIndex]
@@ -535,7 +546,10 @@ const updateCountdown = () => {
     countdownValue.value--;
   }
   else{
-    readyToSend()
+    // 没发送，那么就需要发
+    if(isSend.value === false){
+      readyToSend()
+    }
     clearInterval(countdownInterval)
   }
 }
@@ -592,7 +606,7 @@ const sendMessage = (type:number) => {
   if(type === 1){
     tempLock.value = true
     sendData.content = newMessage.value
-
+    isSend.value = true
     if(messages.value.length === 0){
       messages.value.push(
       {
@@ -670,9 +684,6 @@ const checkOverflow = () =>{
 }
 
 
-const initData = () => {
-  sendMessage(2)
-}
 
 const getCurrentRouter = () => {
   let query = router.currentRoute.value.query
