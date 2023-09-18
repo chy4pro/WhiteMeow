@@ -59,8 +59,8 @@
       ref="messageList"
       >
         <div class="px-2.4rem py-2.4rem">
-          <div class="text-2.8rem font-700 mb-1.6rem" v-if="textAdventureStore.pageIndex === 5">情节{{ chinaNumber }}</div>
-          <div class="text-center" v-if="textAdventureStore.pageIndex === 6">
+          <div class="text-2.8rem font-700 mb-1.6rem" v-if="textAdventureStore.pageIndex < 6">情节{{ chinaNumber }}</div>
+          <div class="text-center" v-if="textAdventureStore.pageIndex === 5">
             <div class="text-2.8rem font-700">游戏总结</div>
             <div class="text-2rem font-700 color-#FF6AF0">未来的职业发展预测</div>
           </div>
@@ -72,7 +72,7 @@
       </div>
     </div>
 
-    <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex === 5">
+    <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex < 6">
       <div
         class="
         flex
@@ -136,7 +136,7 @@
       </div>
     </div>
 
-    <div class="w-full mt-1.4rem flex-row-end" v-if="textAdventureStore.pageIndex === 6">
+    <div class="w-full mt-1.4rem flex-row-end" v-if="textAdventureStore.pageIndex === 5">
       <div class="
       w-14.9rem
       rounded-6px
