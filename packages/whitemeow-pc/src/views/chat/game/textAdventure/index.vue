@@ -285,6 +285,8 @@ const isInvite = ref(false)
 const channelId = ref('')
 const userName = ref('')
 
+let dialogueId:string = ''
+
 let isEnd = ref(true);
 let tempLock = ref(false);
 // let ws:any = null
@@ -309,6 +311,7 @@ const closeTheRoom = async() =>{
 //再来一盘
 const startAgain = () =>{
   stepStatus.value = 0
+  dialogueId = genIdForMsg(2 ,18); 
   textAdventureStore.reset()
   clearInterval(countdownInterval)
   countdownValue.value = 60
@@ -389,6 +392,35 @@ function onReceived2(data:any) {
       else if(type === 1){
         let status = dataFormat.status
 
+        //接受用户发送数据
+        if(!dataFormat.is_kf){
+          if(messages.value.length === 0){
+            messages.value.push(
+            {
+              content: newMessage.value,
+              user: realUserId.value,
+              user_name: userName.value
+            })
+          }
+          else{
+            messages.value.forEach((item,index)=>{
+              if(userName.value === item.user_name){
+                messages.value[index].content = newMessage.value
+                messages.value[index].user_name = userName.value
+                messages.value[index].user = realUserId.value
+              }
+              else{
+                messages.value.push(
+                {
+                  content: newMessage.value,
+                  user: realUserId.value,
+                  user_name: userName.value
+                })
+              }
+            })
+          }
+        }
+
         switch(status){
           case 0:
             textAdventureStore.pageIndex = 0
@@ -459,10 +491,20 @@ function onReceived2(data:any) {
 }
 // provide('onReceived2', onReceived2)
 const goLeft = () =>{
-textAdventureStore.goLeft()
+  if(isEnd.value === true){
+    textAdventureStore.goLeft()
+  }
+  else{
+    messageBox.info('请稍等一下')
+  }
 }
 const goRight = () =>{
-  textAdventureStore.goRight()
+  if(isEnd.value === true){
+    textAdventureStore.goRight()
+  }
+  else{
+    messageBox.info('请稍等一下')
+  }
 }
 
 let disabledSend = computed(() => {
@@ -514,6 +556,8 @@ const readyToSend = () =>{
   // stepStatus.value = 2;
   sendMessage(1)
 }
+
+
 // 发送消息
 const sendMessage = (type:number) => {
   const today = getFormattedDate();
@@ -534,6 +578,7 @@ const sendMessage = (type:number) => {
     'typeStatus': 'sendMsg',
     'channel_id': channelId.value,
     // 'message_id': messageId,''
+    'dialogue_id': dialogueId,
     'content': '',
     'user': window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
     'user_name': userName.value,
@@ -600,7 +645,7 @@ nextTick(() => {
 
 const userTyping = () => {
   checkOverflow()
-  sendMessage(3)
+  // sendMessage(3)
 }
 
 const checkOverflow = () =>{
@@ -666,7 +711,8 @@ const handlerUnload = (event:any) => {
 }
 
 onMounted(()=>{
-  //socketStore.initWebSocket(realUserId.value, userName.value, onReceived); 
+  //socketStore.initWebSocket(realUserId.value, userName.value, onReceived);
+  dialogueId = genIdForMsg(2 ,18); 
   window.addEventListener("beforeunload", handlerUnload);
   textAdventureStore.reset()
   getCurrentRouter()
