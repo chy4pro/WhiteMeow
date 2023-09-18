@@ -4,6 +4,7 @@ export const useTextAdventureStore = defineStore('textAdventure', {
   state: () => ({
     story: [{content: ''}] as any,
     pageIndex: 0,
+    chatLog: [] as any
   }),
   getters: {
     canShowLeft: (state) => state.pageIndex > 0,

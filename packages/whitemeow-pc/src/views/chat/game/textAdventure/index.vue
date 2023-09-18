@@ -285,7 +285,7 @@ const isInvite = ref(false)
 const channelId = ref('')
 const userName = ref('')
 
-let dialogueId:string = ''
+let dialogueId = ref('')
 
 let isEnd = ref(true);
 let isSend = ref(false)//当前用户是否发送
@@ -312,7 +312,7 @@ const closeTheRoom = async() =>{
 //再来一盘
 const startAgain = () =>{
   stepStatus.value = 0
-  dialogueId = genIdForMsg(2 ,18); 
+  dialogueId.value = genIdForMsg(2, 18)
   textAdventureStore.reset()
   clearInterval(countdownInterval)
   countdownValue.value = 60
@@ -334,6 +334,7 @@ function onReceived2(data:any) {
       if(type === 9){
         // 代表b进来了
         stepStatus.value = 0
+        dialogueId.value = genIdForMsg(2, 18)
         sendMessage(2)
       }
       else if(type === 7){
@@ -423,6 +424,10 @@ function onReceived2(data:any) {
           }
         }
 
+        console.log('----status1----');
+        
+        if(dataFormat.is_kf === true){
+        //这里作用是用于控制pageIndex显示情节
         switch(status){
           case 0:
             textAdventureStore.pageIndex = 0
@@ -448,8 +453,11 @@ function onReceived2(data:any) {
           default:
             break;
         }
-
         textAdventureStore.addContent(dataFormat.content)
+
+        }
+
+
         
         scrollBottomFlag.value = true;
         scrollToBottom();
@@ -467,6 +475,7 @@ function onReceived2(data:any) {
     if(dataFormat.is_end === true){
       if(dataFormat.type === 1){
       let status = dataFormat.status
+      dialogueId.value = dataFormat.dialogue_id
       console.log('----status----',status);
       
       switch(status){
@@ -498,20 +507,15 @@ function onReceived2(data:any) {
 }
 // provide('onReceived2', onReceived2)
 const goLeft = () =>{
-  if(isEnd.value === true){
-    textAdventureStore.goLeft()
-  }
-  else{
-    messageBox.info('请稍等一下')
-  }
+  textAdventureStore.goLeft()
 }
 const goRight = () =>{
-  if(isEnd.value === true){
-    textAdventureStore.goRight()
-  }
-  else{
-    messageBox.info('请稍等一下')
-  }
+  textAdventureStore.goRight()
+  // if(isEnd.value === true){
+  // }
+  // else{
+  //   messageBox.info('请稍等一下')
+  // }
 }
 
 let disabledSend = computed(() => {
@@ -574,25 +578,12 @@ const readyToSend = () =>{
 
 // 发送消息
 const sendMessage = (type:number) => {
-  const today = getFormattedDate();
-  let messageId = genIdForMsg(2 ,20);
-  // messages.value.push({
-  //   created_at: getFormattedDate('time'),
-  //   content: newMessage.value,
-  //   emoji: 0,
-  //   isUser: true,
-  //   message_id: messageId
-  // })
-
-
-
-
 
   let sendData = {
     'typeStatus': 'sendMsg',
     'channel_id': channelId.value,
     // 'message_id': messageId,''
-    'dialogue_id': dialogueId,
+    'dialogue_id': dialogueId.value,
     'content': '',
     'user': window.localStorage.getItem('token') ? window.localStorage.getItem('newUserId') : window.localStorage.getItem('userId') || genId('userId',1),
     'user_name': userName.value,
@@ -723,7 +714,6 @@ const handlerUnload = (event:any) => {
 
 onMounted(()=>{
   //socketStore.initWebSocket(realUserId.value, userName.value, onReceived);
-  dialogueId = genIdForMsg(2 ,18); 
   window.addEventListener("beforeunload", handlerUnload);
   textAdventureStore.reset()
   getCurrentRouter()
