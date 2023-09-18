@@ -473,19 +473,19 @@ function onReceived2(data:any) {
           case 0:
             break;
           case 1:
-            stepStatus.value = 2 
+            stepStatus.value = 1 
             break;
           case 2:
-            stepStatus.value = 3 
+            stepStatus.value = 2 
             break;
           case 3:
-            stepStatus.value = 4 
+            stepStatus.value = 3 
             break;
           case 4:
-            stepStatus.value = 5
+            stepStatus.value = 4
             break;
           case 5:
-            stepStatus.value = 6 
+            stepStatus.value = 5 
             break;
           case 6:
             break;
