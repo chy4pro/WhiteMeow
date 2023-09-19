@@ -9,7 +9,10 @@ import Star from "~/test/star.png";
 import Card from "~/test/cover.png";
 import Btn from "~/test/btn.png";
 import Text from "~/test/text.png";
-import Bg from "~/test/bg.png";
+import Pic1 from "~/test/pic1.png";
+import Pic2 from "~/test/pic2.png";
+import Pic3 from "~/test/pic3.png";
+import Pic4 from "~/test/pic4.png";
 
 import LoginDialog from "./comp/loginDialog.vue";
 import { useIndexStore } from "@/store/index";
@@ -52,21 +55,25 @@ const state = reactive({
       label: "小喵解梦",
       desc: "好梦还是恶兆？",
       path: "/chat/testChat/interpretationDream",
+      imgUrl: Pic1,
     },
     {
       label: "心理沙盘",
       desc: "感应性的治愈机制",
       path: "/chat/testChat/sandPlay",
+      imgUrl: Pic2,
     },
     {
       label: "肠道健康测试",
       desc: "肥胖、抑郁、慢性病等风险评",
       path: "",
+      imgUrl: Pic3,
     },
     {
       label: "MBTI",
       desc: "16型人格测试",
       path: "",
+      imgUrl: Pic4,
     },
   ],
 });
@@ -132,7 +139,7 @@ const handleLink = (path) => {
           :style="{ marginRight: (idx + 1) % 2 === 0 ? '0' : '0.7rem' }"
           @click="handleLink(item.path)"
         >
-          <img :src="Bg" alt="" />
+          <img :src="item.imgUrl" alt="" />
           <div class="bottom">
             <div class="name">{{ item.label }}</div>
             <div class="desc">{{ item.desc }}</div>

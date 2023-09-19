@@ -2,6 +2,9 @@
 import Info from "~/message/info.png";
 import { useRouter } from "vue-router";
 
+import { useChatStore } from "@manage/shared/store/index.ts";
+const chatStore = useChatStore();
+
 const router = useRouter();
 
 const props = defineProps({
@@ -9,6 +12,11 @@ const props = defineProps({
     type: Boolean,
   },
 });
+
+const handleSure = () => {
+  router.push({ path: "/chat/testChat/dailyHome" });
+  chatStore.showOnlyOne = false;
+};
 </script>
 
 <template>
@@ -16,7 +24,7 @@ const props = defineProps({
     <div class="content">
       <img class="info" :src="Info" alt="" />
       <div class="desc">每天只能测一次哦，欢迎客官明天再来</div>
-      <div class="btn" @click="router.push({ path: '/chat/testChat/dailyHome' })">确定</div>
+      <div class="btn" @click="handleSure">确定</div>
     </div>
   </div>
 </template>
