@@ -207,12 +207,14 @@ const handleCodeLogin = async () => {
 
     if (data.status === 1) {
       indexStore.handleSetToken(data.token);
+      indexStore.handleSetNewUser(data.user);
 
       getUserInfo();
       return;
     }
 
     indexStore.handleSetUser(data.user);
+    indexStore.handleSetNewUser(data.user);
 
     router.push({
       path: "/login/setPsd",
@@ -240,6 +242,7 @@ const handlePsdLogin = async () => {
     }
 
     indexStore.handleSetToken(data.token);
+    indexStore.handleSetNewUser(data.user);
     getUserInfo();
   } catch (error) {}
 };

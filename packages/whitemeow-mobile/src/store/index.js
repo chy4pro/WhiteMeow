@@ -7,6 +7,7 @@ export const useIndexStore = defineStore('index', () => {
         token: loStore.get('token') ? loStore.get('token') : '',
         user: loStore.get('GlobalUser') ? loStore.get('GlobalUser') : '',
         userInfo: loStore.get('userInfo') ? JSON.parse(loStore.get('userInfo')) : '',
+        newUserId: loStore.get('newUserId') ? loStore.get('newUserId') : '',
     })
 
     const handleSetToken = (str) => {
@@ -19,10 +20,16 @@ export const useIndexStore = defineStore('index', () => {
         loStore.set('GlobalUser', str)
     }
 
+    const handleSetNewUser = (str) => {
+        console.log(str)
+        state.newUserId = str
+        loStore.set('newUserId', str)
+    }
+
     const handleSetUserInfo = (obj) => {
         state.userInfo = obj
         loStore.set('userInfo', obj)
     }
 
-    return { state, handleSetToken, handleSetUser, handleSetUserInfo }
+    return { state, handleSetToken, handleSetUser, handleSetUserInfo, handleSetNewUser }
 })

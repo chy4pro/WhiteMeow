@@ -72,6 +72,7 @@ const handleJump = async () => {
     }
 
     indexStore.handleSetToken(data.token);
+    indexStore.handleSetNewUser(data.user);
 
     getUserInfo();
   } catch (error) {}
@@ -103,6 +104,7 @@ const handleConfirm = async () => {
     }
 
     indexStore.handleSetToken(data.token);
+    indexStore.handleSetNewUser(data.user);
 
     getUserInfo();
   } catch (error) {}
