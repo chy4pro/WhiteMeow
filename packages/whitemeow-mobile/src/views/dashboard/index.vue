@@ -41,7 +41,7 @@ const tab = ref([
   },
   {
     path: "/chat/my",
-    label: "我的喵",
+    label: "我的",
     icon: Icon4,
     type: "my",
     iconActive: Icon4Active,

@@ -185,9 +185,9 @@ const handleBack = () => {
 
 <style scoped lang="scss">
 .xy-comp {
-  height: calc(100% - 12rem);
+  height: calc(100vh - 12rem);
   background-color: #fff;
-  width: 100%;
+  width: 100vw;
   position: absolute;
   left: -2.4rem;
   top: -2rem;
