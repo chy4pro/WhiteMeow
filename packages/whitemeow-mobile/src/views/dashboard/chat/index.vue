@@ -44,6 +44,13 @@ const recordList = reactive({
 });
 
 const clickHeart = (message: Message) => {
+  // const dom:any = document.querySelector('.chat')
+  // const dom2:any = document.querySelector('.scroll-id')
+  // console.log(dom)
+  // console.log(dom2.clientHeight)
+
+  // dom.scrollToTop = `${dom2.clientHeight}px`
+
   let old = message.evaluateIcon;
   if (old === "") {
     message.hoverIcon = "heart_active";
