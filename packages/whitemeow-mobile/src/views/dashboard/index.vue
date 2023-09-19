@@ -16,7 +16,7 @@ const router = useRouter();
 
 const tab = ref([
   {
-    path: "/dashboard",
+    path: "/chat/testChat/dailyHome",
     label: "测试喵",
     type: "test",
     icon: Icon1,
@@ -24,7 +24,7 @@ const tab = ref([
     active: true,
   },
   {
-    path: "/dashboard/chat",
+    path: "/chat",
     label: "聊愈喵",
     type: "chat",
     icon: Icon2,
@@ -32,7 +32,7 @@ const tab = ref([
     active: false,
   },
   {
-    path: "/dashboard/adventure",
+    path: "/chat/adventure",
     label: "冒险喵",
     icon: Icon3,
     type: "adventure",
@@ -40,7 +40,7 @@ const tab = ref([
     active: false,
   },
   {
-    path: "/dashboard/my",
+    path: "/chat/my",
     label: "我的喵",
     icon: Icon4,
     type: "my",
@@ -50,9 +50,9 @@ const tab = ref([
 ]);
 
 const handleLink = (path, idx) => {
-  // if (tab.value[idx].active) {
-  //   return;
-  // }
+  if (tab.value[idx].type === "adventure" || tab.value[idx].type === "my") {
+    return;
+  }
 
   for (const item of tab.value) {
     item.active = false;
@@ -97,11 +97,11 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .dashboard-index {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 
   .children {
-    height: calc(100vh - 5.6rem);
+    height: calc(100% - 5.6rem);
     overflow-y: auto;
   }
 

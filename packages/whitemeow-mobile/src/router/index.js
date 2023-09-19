@@ -10,32 +10,45 @@ const router = createRouter({
     routes: [
         {
             path: '/',
+            redirect: '/home'
+        },
+        {
+            path: '/home',
             name: 'home',
+            meta: {
+                title: '首页'
+            },
             component: () => import('@/views/home/index.vue')
         },
         {
-            path: '/dashboard',
+            path: '/chat',
             name: 'dashboard',
             component: () => import('@/views/dashboard/index.vue'),
             children: [
                 {
-                    path: '',
-                    name: 'test',
-                    meta: {
-                        type: 'test'
-                    },
-                    component: () => import('@/views/dashboard/test/index.vue')
+                    path: '/chat',
+                    redirect: '/chat/freeChat'
                 },
                 {
-                    path: '/dashboard/chat',
+                    path: '/chat/freeChat',
                     name: 'chat',
                     meta: {
-                        type: 'chat'
+                        type: 'chat',
+                        title: '聊愈喵'
                     },
                     component: () => import('@/views/dashboard/chat/index.vue')
                 },
                 {
-                    path: '/dashboard/adventure',
+                    path: '/chat/testChat/dailyHome',
+                    name: 'test',
+                    meta: {
+                        type: 'test',
+                        title: '测试喵'
+                    },
+                    component: () => import('@/views/dashboard/test/index.vue')
+                },
+                {
+                    path: '/chat/adventure',
                     name: 'adventure',
                     meta: {
                         type: 'adventure'
@@ -43,7 +56,7 @@ const router = createRouter({
                     component: () => import('@/views/dashboard/adventure/index.vue')
                 },
                 {
-                    path: '/dashboard/my',
+                    path: '/chat/my',
                     name: 'my',
                     meta: {
                         type: 'my'
@@ -51,26 +64,29 @@ const router = createRouter({
                     component: () => import('@/views/dashboard/my/index.vue')
                 },
                 {
-                    path: '/dashboard/showCard',
+                    path: '/chat/testChat/tarot',
                     name: 'showCard',
                     meta: {
-                        type: 'test'
+                        type: 'test',
+                        title: '每日塔罗'
                     },
                     component: () => import('@/views/dashboard/test/card/showCard.vue')
                 },
                 {
-                    path: '/dashboard/dream',
+                    path: '/chat/testChat/interpretationDream',
                     name: 'dreamIndex',
                     meta: {
-                        type: 'test'
+                        type: 'test',
+                        title: '小喵解梦'
                     },
                     component: () => import('@/views/dashboard/test/dream/index.vue')
                 },
                 {
-                    path: '/dashboard/sand',
+                    path: '/chat/testChat/sandPlay',
                     name: 'sandIndex',
                     meta: {
-                        type: 'test'
+                        type: 'test',
+                        title: '心理沙盘'
                     },
                     component: () => import('@/views/dashboard/test/sand/index.vue')
                 },
@@ -84,21 +100,33 @@ const router = createRouter({
                 {
                     path: '',
                     name: 'loginIndex',
+                    meta: {
+                        title: '登录页'
+                    },
                     component: () => import('@/views/login/index/index.vue')
                 },
                 {
                     path: '/login/setPsd',
                     name: 'setPsd',
+                    meta: {
+                        title: '设置密码'
+                    },
                     component: () => import('@/views/login/setPsd/index.vue')
                 },
                 {
                     path: '/login/setProfile',
                     name: 'setProfile',
+                    meta: {
+                        title: '完善资料'
+                    },
                     component: () => import('@/views/login/setProfile/index.vue')
                 },
                 {
                     path: '/login/forget',
                     name: 'forget',
+                    meta: {
+                        title: '忘记密码'
+                    },
                     component: () => import('@/views/login/forget/index.vue')
                 }
             ]
@@ -106,6 +134,9 @@ const router = createRouter({
         {
             path: '/:pathMatch(.*)',
             name: 'Error',
+            meta: {
+                title: '错误页'
+            },
             component: () => import('@/views/error/index.vue')
         }
     ]
@@ -114,14 +145,18 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     window.scrollTo(0, 0)
 
-    return next()
+    if (to.meta.title) {
+        document.title = to.meta.title
+    }
+
+    // return next()
 
     const store = useIndexStore()
 
     if (to.path.indexOf('/login') > -1) {
         if (store.state.token) {
             return next({
-                path: '/dashboard'
+                path: '/chat/freeChat'
             })
         }
 
@@ -132,25 +167,25 @@ router.beforeEach((to, from, next) => {
         return next()
     }
 
-    if (!store.state.token) {
-        if (to.path === '/') {
-            return next()
-        }
+    // if (!store.state.token) {
+    //     if (to.path === '/') {
+    //         return next()
+    //     }
 
-        if (to.path === '/login') {
-            return next()
-        }
+    //     if (to.path === '/login') {
+    //         return next()
+    //     }
 
-        return next({
-            path: '/login'
-        })
-    }
+    //     return next({
+    //         path: '/login'
+    //     })
+    // }
 
-    if (to.path === '/') {
-        return next({
-            path: '/dashboard'
-        })
-    }
+    // if (to.path === '/') {
+    //     return next({
+    //         path: '/chat/freeChat'
+    //     })
+    // }
 
     next()
 })

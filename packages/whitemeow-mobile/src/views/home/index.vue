@@ -9,9 +9,9 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const handleLink = () => {
-    router.push({
-      path: "/dashboard",
-    });
+  router.push({
+    path: "/chat/freeChat",
+  });
 };
 </script>
 

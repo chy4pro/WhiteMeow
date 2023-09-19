@@ -43,8 +43,8 @@ const handleClick = (bool) => {
   left: 0;
   z-index: 9;
   background-color: rgba(0, 0, 0, 0.4);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 
   .main {
     background-color: #fff;

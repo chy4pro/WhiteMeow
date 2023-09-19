@@ -11,9 +11,13 @@ import Btn from "~/test/btn.png";
 import Text from "~/test/text.png";
 import Bg from "~/test/bg.png";
 
+import LoginDialog from "./comp/loginDialog.vue";
+import { useIndexStore } from "@/store/index";
+
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const store = useIndexStore();
 
 import lunisolar from "lunisolar";
 import zhCn from "lunisolar/locale/zh-cn";
@@ -47,12 +51,12 @@ const state = reactive({
     {
       label: "小喵解梦",
       desc: "好梦还是恶兆？",
-      path: "/dashboard/dream",
+      path: "/chat/testChat/interpretationDream",
     },
     {
       label: "心理沙盘",
       desc: "感应性的治愈机制",
-      path: "/dashboard/sand",
+      path: "/chat/testChat/sandPlay",
     },
     {
       label: "肠道健康测试",
@@ -80,6 +84,8 @@ const handleLink = (path) => {
 
 <template>
   <div class="test-index">
+    <LoginDialog :isShow="!store.state.token" />
+
     <div class="box1">
       <div class="lucky">
         <img class="l" :src="Lucky" alt="" />
@@ -106,7 +112,7 @@ const handleLink = (path) => {
         <div class="right">
           <img class="t" :src="Text" alt="" />
           <img
-            @click="handleLink('/dashboard/showCard')"
+            @click="handleLink('/chat/testChat/tarot')"
             class="b"
             :src="Btn"
             alt=""
@@ -285,7 +291,7 @@ const handleLink = (path) => {
       .item {
         color: rgba(255, 255, 255, 0.8);
         margin-bottom: 0.4rem;
-        width: 100%;
+        width: 90%;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;

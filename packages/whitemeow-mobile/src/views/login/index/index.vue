@@ -92,9 +92,15 @@ watch(
       return;
     }
 
+    // const n = [
+    //   [state.mobileErrorBool, state.passwordErrorBool, state.picCodeErrorBool],
+    //   [state.mobile, state.password, state.picCode],
+    //   [state.isReadBool],
+    // ];
+
     const n = [
-      [state.mobileErrorBool, state.passwordErrorBool, state.picCodeErrorBool],
-      [state.mobile, state.password, state.picCode],
+      [state.mobileErrorBool, state.passwordErrorBool],
+      [state.mobile, state.password],
       [state.isReadBool],
     ];
 
@@ -179,7 +185,7 @@ const getUserInfo = async () => {
     indexStore.handleSetUser("");
 
     router.push({
-      path: "/dashboard",
+      path: "/chat",
     });
   } catch (err) {}
 };
@@ -218,11 +224,11 @@ const handleCodeLogin = async () => {
 };
 
 const handlePsdLogin = async () => {
-  const { captcha, captcha_id, isRememberBool, mobile, password } = state;
+  const { picCode, captcha_id, isRememberBool, mobile, password } = state;
 
   try {
     const { code, data } = await fetchPsdLogin({
-      captcha,
+      captcha: picCode,
       captcha_id,
       is_login_free: isRememberBool ? 1 : 0,
       mobile,
@@ -511,7 +517,7 @@ onMounted(() => {
         />
       </div>
 
-      <div class="inp-wrapper">
+      <!-- <div class="inp-wrapper">
         <div class="inp">
           <div
             style="display: flex; justify-content: space-between; height: 100%"
@@ -532,7 +538,7 @@ onMounted(() => {
           v-if="state.picCodeErrorBool"
           :text="state.picCodeErrorText"
         />
-      </div>
+      </div> -->
     </template>
 
     <div class="sel">

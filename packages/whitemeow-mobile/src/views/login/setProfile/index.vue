@@ -47,7 +47,7 @@ const getUserInfo = async () => {
     indexStore.handleSetUser("");
 
     router.push({
-      path: "/dashboard",
+      path: "/chat",
     });
   } catch (err) {}
 };
