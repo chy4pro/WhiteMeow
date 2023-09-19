@@ -462,6 +462,7 @@ const initWebSocket = () => {
         }
     }
   }));
+  ws.init()
   ws.connect();
 }
 

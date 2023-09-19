@@ -59,6 +59,8 @@
 import Star from './components/Star.vue'
 import { chatroomJoin, chatRoomGetById } from '@manage/shared/apis/game'
 import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@manage/shared/store/index.ts';
+import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
+
 const router = useRouter();
 const loginStore = useLoginStore()
 
@@ -79,7 +81,7 @@ watch(
 
 const realUserId = computed(()=>{
   let result = ''
-  result = loginStore.token ? loginStore.newUserId : loginStore.userId;
+  result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
 
   return result;
 })
