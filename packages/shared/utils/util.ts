@@ -57,10 +57,12 @@ export const getFormattedDate = (format:string = 'date') =>  {
 
 export const handleHtmlFontSize = () => {
   const debounce = (fn: any, timeout: any) => {
-      let timer = null
+      let timer:NodeJS.Timeout | null = null
       return () => {
+        if(timer){
           clearTimeout(timer)
           timer = setTimeout(fn, timeout);
+        }
       }
   }
 

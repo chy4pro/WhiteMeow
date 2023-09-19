@@ -13,7 +13,6 @@ RUN rm -rf ./packages/whitemeow-pc/node_modules
 RUN rm -rf ./packages/whitemeow-mobile/node_modules
 
 # 安装依赖
-RUN npm cache clean --force
 RUN npm install -g pnpm
 RUN pnpm install
 # 打包pc项目
