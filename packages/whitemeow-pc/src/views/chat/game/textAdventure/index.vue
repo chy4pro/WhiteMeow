@@ -756,6 +756,7 @@ const handlerUnload = (event:any) => {
 onMounted(()=>{
   //socketStore.initWebSocket(realUserId.value, userName.value, onReceived);
   window.addEventListener("beforeunload", handlerUnload);
+  window.addEventListener('unload', handlerUnload);
   textAdventureStore.reset()
   getCurrentRouter()
   socketStore.replaceCallBack(onReceived2)
@@ -763,11 +764,8 @@ onMounted(()=>{
   
   watch(()=> currentStatus.value, (newValue, oldValue)=>{
     console.log('newValue123:',newValue);
-    if(newValue === 1){
-      clearInterval(countdownInterval); // 清除之前的倒计时
-      countdownValue.value = 60; // 重置倒计时值
-      messages.value = []
-    }
+    clearInterval(countdownInterval); // 清除之前的倒计时
+    countdownValue.value = 60; // 重置倒计时值
   })
 //   let index = 0
 // let a = setInterval(()=>{
@@ -810,6 +808,7 @@ onBeforeUnmount(()=>{
 })
 
 onBeforeRouteLeave((to, from, next) => {
+  sendMessage(6)
   if(socketStore.ws){
     socketStore.ws.close();
   }
