@@ -346,7 +346,6 @@ let wordCount = ref(0)
 const stepStatus = ref(1)
 const newMessage = ref('');
 const isConnect = ref(true);//是否连接websocket
-const scrollBottomFlag = ref(false);
 const messageList = ref<any>(null);
 
 const roomNumber = ref('')
@@ -524,17 +523,11 @@ function onReceived2(data:any) {
             })
           }
 
-          //这个时机代表接收到对方输入了，准备进入下一轮
-          if(userName.value != dataFormat.user_name && isSend.value === true){
-            clearInterval(countdownInterval); // 清除之前的倒计时
-            countdownValue.value = 60; // 重置倒计时值
-          }
 
           chatLog[textAdventureStore.pageIndex] = messages.value
         }
-        
-        scrollBottomFlag.value = true;
-        scrollToBottom();
+
+        startScrollInterval();
       }
     }
 
@@ -551,7 +544,12 @@ function onReceived2(data:any) {
           isSend.value = false
         }
         else{
-          messages.value = []//清空临时
+          if(messages.value.length === 2){
+            messages.value = []//清空临时
+            //这个时机代表接收到对方输入了，准备进入下一轮
+            clearInterval(countdownInterval); // 清除之前的倒计时
+            countdownValue.value = 60; // 重置倒计时值
+          }
         }
       }
     }
@@ -594,9 +592,7 @@ const goLeft = () =>{
 }
 const goRight = () =>{
   textAdventureStore.goRight()
-  // if(isEnd.value === true){
-  // }
-  // else{
+  // if(!isEnd.value){
   //   messageBox.info('请稍等一下')
   // }
 }
@@ -661,6 +657,10 @@ const readyToSend = () =>{
 
 // 发送消息
 const sendMessage = (type:number) => {
+  if(disabledSend.value){
+    return
+  }
+
   let sendData = {
     'typeStatus': 'sendMsg',
     'channel_id': channelId.value,
@@ -680,41 +680,11 @@ const sendMessage = (type:number) => {
     tempLock.value = true
     sendData.content = newMessage.value
     isSend.value = true
+    isEnd.value = false;
     newMessage.value = ''
-
-    // if(messages.value.length === 0){
-    //   messages.value.push(
-    //   {
-    //     content: newMessage.value,
-    //     user: realUserId.value,
-    //     user_name: userName.value
-    //   })
-    // }
-    // else{
-    //   messages.value.forEach((item,index)=>{
-    //     if(userName.value === item.user_name){
-    //       messages.value[index].content = newMessage.value
-    //       messages.value[index].user_name = userName.value
-    //       messages.value[index].user = realUserId.value
-    //     }
-    //     else{
-    //       messages.value.push(
-    //       {
-    //         content: newMessage.value,
-    //         user: realUserId.value,
-    //         user_name: userName.value
-    //       })
-    //     }
-    //   })
-    // }
-    // chatLog[textAdventureStore.pageIndex] = messages.value
   }
   
   socketStore.ws?.sendMsg(sendData)
-
-  // scrollBottomFlag.value = true;
-  isEnd.value = false;
-  // scrollToBottom();
 };
 
 const scrollToBottom = async() => {
@@ -722,9 +692,26 @@ const scrollToBottom = async() => {
   const container = messageList._value;
   if (container) {
     container.scrollTop = container.scrollHeight;
-    scrollBottomFlag.value = false;
   }
 };
+let scrollInterval: NodeJS.Timeout | null = null;
+
+const startScrollInterval = () => {
+  scrollInterval = setInterval(scrollToBottom, 1000);
+};
+
+const stopScrollInterval = () => {
+  if (scrollInterval) {
+    clearInterval(scrollInterval);
+    scrollInterval = null;
+  }
+};
+
+watchEffect(() => {
+  if (messageList._value) {
+    messageList._value.addEventListener('scroll', stopScrollInterval);
+  }
+});
 
 const inputBoxRef = ref<any>();
 nextTick(() => {
