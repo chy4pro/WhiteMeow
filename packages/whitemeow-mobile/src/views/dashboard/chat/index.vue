@@ -368,7 +368,7 @@ const initWebSocket = () => {
       },
     })
   );
-  ws.init()
+  ws.init();
   ws.connect();
 };
 
@@ -494,46 +494,48 @@ const checkChatRecord = async () => {
 <template>
   <div class="chat-index">
     <div class="chat">
-      <div class="history" @click="showMore">
-        <img :src="Up" alt="" />
-        查看历史聊天记录
-      </div>
-
-      <div v-for="[date, logs] in chatLogsMap" :key="date">
-        <div class="date">
-          {{ date }}
+      <div class="scroll-id">
+        <div class="history" @click="showMore">
+          <img :src="Up" alt="" />
+          查看历史聊天记录
         </div>
 
-        <div v-for="(message, index) in logs" :key="index" class="comm">
-          <div class="isCat" v-if="!message.isUser">
-            <div class="cat-img">
-              <img :src="Cat" alt="" />
+        <div v-for="[date, logs] in chatLogsMap" :key="date">
+          <div class="date">
+            {{ date }}
+          </div>
+
+          <div v-for="(message, index) in logs" :key="index" class="comm">
+            <div class="isCat" v-if="!message.isUser">
+              <div class="cat-img">
+                <img :src="Cat" alt="" />
+              </div>
+              <div class="text">
+                {{ message.content }}
+              </div>
+              <div class="cat-img" style="margin-left: 1rem">
+                <img
+                  @click="clickHeart(message)"
+                  style="width: 1.6rem; height: 1.6rem"
+                  :src="message.evaluateIcon ? HeartActive : Heart"
+                  alt=""
+                />
+              </div>
             </div>
-            <div class="text">
-              {{ message.content }}
+
+            <div class="isMe" v-if="message.isUser">
+              <div class="text">
+                {{ message.content }}
+              </div>
             </div>
-            <div class="cat-img" style="margin-left: 1rem">
+
+            <div>
               <img
-                @click="clickHeart(message)"
-                style="width: 1.6rem; height: 1.6rem"
-                :src="message.evaluateIcon ? HeartActive : Heart"
+                :src="getEmojiUrl(message.emoji?.toString() || '')"
                 alt=""
+                v-if="message.emoji !== 0"
               />
             </div>
-          </div>
-
-          <div class="isMe" v-if="message.isUser">
-            <div class="text">
-              {{ message.content }}
-            </div>
-          </div>
-
-          <div>
-            <img
-              :src="getEmojiUrl(message.emoji?.toString() || '')"
-              alt=""
-              v-if="message.emoji !== 0"
-            />
           </div>
         </div>
       </div>

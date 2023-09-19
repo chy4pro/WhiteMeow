@@ -6,12 +6,16 @@
 <script>
 import HeaderLayout from '@/layout/header.vue'
 import MainLayout from '@/layout/main.vue'
+import { handleHtmlFontSize } from "@manage/shared/utils/index.ts";
 
 export default {
   name: 'App',
   components: {
     HeaderLayout,
     MainLayout
+  },
+  mounted() {
+    handleHtmlFontSize()
   }
 }
 </script>

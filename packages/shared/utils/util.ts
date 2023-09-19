@@ -54,3 +54,46 @@ export const getFormattedDate = (format:string = 'date') =>  {
     return formattedDate;
   }
 }
+
+export const handleHtmlFontSize = () => {
+  const debounce = (fn: any, timeout: any) => {
+      let timer = null
+      return () => {
+          clearTimeout(timer)
+          timer = setTimeout(fn, timeout);
+      }
+  }
+
+  const deviceHandle = () => {
+      const sUserAgent:any = navigator.userAgent.toLowerCase()
+      const bIsIpad = sUserAgent.match(/ipad/i) == 'ipad'
+      const bIsIphoneOs = sUserAgent.match(/iphone os/i) == 'iphone os'
+      const bIsMidp = sUserAgent.match(/midp/i) == 'midp'
+      const bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == 'rv:1.2.3.4'
+      const bIsUc = sUserAgent.match(/ucweb/i) == 'ucweb'
+      const bIsAndroid = sUserAgent.match(/android/i) == 'android'
+      const bIsCE = sUserAgent.match(/windows ce/i) == 'windows ce'
+      const bIsWM = sUserAgent.match(/windows mobile/i) == 'windows mobile'
+      if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+          return 'md'
+      }
+      return 'pc'
+  }
+
+  const handleResize = () => {
+      const { origin, hash } = window.location
+
+      const type = deviceHandle()
+
+      if (type === 'md') {
+          window.location.href = `${origin}/h5/${hash}`
+          return
+      }
+
+      window.location.href = `${origin}/${hash}`
+  }
+
+  handleResize()
+
+  window.addEventListener('resize', debounce(handleResize, 600), false)
+}

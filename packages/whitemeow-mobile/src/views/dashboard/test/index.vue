@@ -38,11 +38,11 @@ const todayGood = lsr.theGods.query("good act 3");
 const todayBad = lsr.theGods.query("bad act 3");
 
 //将数组限定为长度为最大为7的数组
-const splitArr = (arr, size = 7) => {
+const splitArr = (arr, size = 6) => {
   let result = [];
   if (arr.length <= size) return arr;
 
-  result = arr.slice(0, 7);
+  result = arr.slice(0, size);
   return result;
 };
 
@@ -298,10 +298,7 @@ const handleLink = (path) => {
       .item {
         color: rgba(255, 255, 255, 0.8);
         margin-bottom: 0.4rem;
-        width: 90%;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+        width: 100%;
 
         img {
           width: 2.4rem;
