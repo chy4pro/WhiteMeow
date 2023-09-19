@@ -13,6 +13,10 @@ const router = createRouter({
             redirect: '/home'
         },
         {
+            path: '/register',
+            redirect: '/login'
+        },
+        {
             path: '/home',
             name: 'home',
             meta: {
@@ -153,7 +157,7 @@ router.beforeEach((to, from, next) => {
 
     const store = useIndexStore()
 
-    if (to.path.indexOf('/login') > -1) {
+    if (to.path.indexOf('/login') > -1 || to.path.indexOf('/register') > -1) {
         if (store.state.token) {
             return next({
                 path: '/chat/freeChat'

@@ -44,13 +44,6 @@ const recordList = reactive({
 });
 
 const clickHeart = (message: Message) => {
-  // const dom:any = document.querySelector('.chat')
-  // const dom2:any = document.querySelector('.scroll-id')
-  // console.log(dom)
-  // console.log(dom2.clientHeight)
-
-  // dom.scrollToTop = `${dom2.clientHeight}px`
-
   let old = message.evaluateIcon;
   if (old === "") {
     message.hoverIcon = "heart_active";
@@ -501,48 +494,46 @@ const checkChatRecord = async () => {
 <template>
   <div class="chat-index">
     <div class="chat">
-      <div class="scroll-id">
-        <div class="history" @click="showMore">
-          <img :src="Up" alt="" />
-          查看历史聊天记录
+      <div class="history" @click="showMore">
+        <img :src="Up" alt="" />
+        查看历史聊天记录
+      </div>
+
+      <div v-for="[date, logs] in chatLogsMap" :key="date">
+        <div class="date">
+          {{ date }}
         </div>
 
-        <div v-for="[date, logs] in chatLogsMap" :key="date">
-          <div class="date">
-            {{ date }}
-          </div>
-
-          <div v-for="(message, index) in logs" :key="index" class="comm">
-            <div class="isCat" v-if="!message.isUser">
-              <div class="cat-img">
-                <img :src="Cat" alt="" />
-              </div>
-              <div class="text">
-                {{ message.content }}
-              </div>
-              <div class="cat-img" style="margin-left: 1rem">
-                <img
-                  @click="clickHeart(message)"
-                  style="width: 1.6rem; height: 1.6rem"
-                  :src="message.evaluateIcon ? HeartActive : Heart"
-                  alt=""
-                />
-              </div>
+        <div v-for="(message, index) in logs" :key="index" class="comm">
+          <div class="isCat" v-if="!message.isUser">
+            <div class="cat-img">
+              <img :src="Cat" alt="" />
             </div>
-
-            <div class="isMe" v-if="message.isUser">
-              <div class="text">
-                {{ message.content }}
-              </div>
+            <div class="text">
+              {{ message.content }}
             </div>
-
-            <div>
+            <div class="cat-img" style="margin-left: 1rem">
               <img
-                :src="getEmojiUrl(message.emoji?.toString() || '')"
+                @click="clickHeart(message)"
+                style="width: 1.6rem; height: 1.6rem"
+                :src="message.evaluateIcon ? HeartActive : Heart"
                 alt=""
-                v-if="message.emoji !== 0"
               />
             </div>
+          </div>
+
+          <div class="isMe" v-if="message.isUser">
+            <div class="text">
+              {{ message.content }}
+            </div>
+          </div>
+
+          <div>
+            <img
+              :src="getEmojiUrl(message.emoji?.toString() || '')"
+              alt=""
+              v-if="message.emoji !== 0"
+            />
           </div>
         </div>
       </div>
