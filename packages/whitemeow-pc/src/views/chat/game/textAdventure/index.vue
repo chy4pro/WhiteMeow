@@ -294,7 +294,7 @@ import { chatroomDelete } from '@manage/shared/apis/game'
 const loginStore = useLoginStore()
 const socketStore = useSocketStore()
 const textAdventureStore = useTextAdventureStore()
-
+let currentStatus = ref<number>(0)
 const router = useRouter();
 interface Message {
   id?: number,
@@ -369,6 +369,7 @@ const realUserId = computed(()=>{
 
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
+  sendMessage(6)
   router.push('createRoom')
   let params = {
     channel_id: channelId.value
@@ -466,31 +467,9 @@ function onReceived2(data:any) {
         
         if(dataFormat.is_kf === true){
         //这里作用是用于控制pageIndex显示情节
-        switch(status){
-          case 0:
-            textAdventureStore.pageIndex = 0
-            break;
-          case 1:
-            textAdventureStore.pageIndex = 1
-            break;
-          case 2:
-            textAdventureStore.pageIndex = 2 
-            break;
-          case 3:
-            textAdventureStore.pageIndex = 3
-            break;
-          case 4:
-            textAdventureStore.pageIndex = 4
-            break;
-          case 5:
-            textAdventureStore.pageIndex = 5
-            break;
-          case 6:
-            textAdventureStore.pageIndex = 6
-            break;
-          default:
-            break;
-        }
+        textAdventureStore.pageIndex = status
+        currentStatus.value = status
+
         textAdventureStore.addContent(dataFormat.content)
 
         }
@@ -524,7 +503,7 @@ function onReceived2(data:any) {
           }
 
 
-          chatLog[textAdventureStore.pageIndex] = messages.value
+          chatLog.push(messages.value)
         }
 
         startScrollInterval();
@@ -542,14 +521,6 @@ function onReceived2(data:any) {
           tempLock.value = false //解锁
           isEnd.value = true
           isSend.value = false
-        }
-        else{
-          if(messages.value.length === 2){
-            messages.value = []//清空临时
-            //这个时机代表接收到对方输入了，准备进入下一轮
-            clearInterval(countdownInterval); // 清除之前的倒计时
-            countdownValue.value = 60; // 重置倒计时值
-          }
         }
       }
     }
@@ -790,6 +761,14 @@ onMounted(()=>{
   socketStore.replaceCallBack(onReceived2)
   socketStore.ws.callback = onReceived2
   
+  watch(()=> currentStatus.value, (newValue, oldValue)=>{
+    console.log('newValue123:',newValue);
+    if(newValue === 1){
+      clearInterval(countdownInterval); // 清除之前的倒计时
+      countdownValue.value = 60; // 重置倒计时值
+      messages.value = []
+    }
+  })
 //   let index = 0
 // let a = setInterval(()=>{
 //   let pa = {
