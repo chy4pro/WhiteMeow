@@ -13,7 +13,7 @@
         backdrop-blur-78px
       bg-[rgba(255,255,255,0.4)]
       ">
-        <div class="overflow-auto">
+        <div class="overflow-hidden">
           <div class="absolute right-1.6rem top-1.6rem cursor-pointer"  @click="closeTheRoom">
             <SvgImage name="icon_close.svg" class="w-2.4rem h-2.4rem"></SvgImage>
           </div>
