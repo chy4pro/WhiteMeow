@@ -94,7 +94,7 @@
       </div>
     </div>
 
-    <div class="check" @click="$router.push('/dashboard')">更多测试</div>
+    <div class="check" @click="$router.push('/chat/testChat/dailyHome')">更多测试</div>
   </div>
 </template>
   

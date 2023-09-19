@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, watch } from "vue";
 
 import Icon1 from "~/tab/icon1.png";
 import Icon1Active from "~/tab/icon1-active.png";
@@ -64,7 +64,7 @@ const handleLink = (path, idx) => {
   });
 };
 
-onMounted(() => {
+const initStatus = () => {
   const type = router.currentRoute.value.meta.type;
 
   for (const item of tab.value) {
@@ -73,7 +73,17 @@ onMounted(() => {
       item.active = true;
     }
   }
-});
+};
+
+watch(
+  () => router.currentRoute.value,
+  () => {
+    initStatus();
+  },
+  {
+    immediate: true,
+  }
+);
 </script>
 
 <template>

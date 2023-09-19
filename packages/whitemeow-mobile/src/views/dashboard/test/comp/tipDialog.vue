@@ -16,7 +16,7 @@ const props = defineProps({
     <div class="content">
       <img class="info" :src="Info" alt="" />
       <div class="desc">每天只能测一次哦，欢迎客官明天再来</div>
-      <div class="btn" @click="router.push({ path: '/dashboard' })">确定</div>
+      <div class="btn" @click="router.push({ path: '/chat/testChat/dailyHome' })">确定</div>
     </div>
   </div>
 </template>

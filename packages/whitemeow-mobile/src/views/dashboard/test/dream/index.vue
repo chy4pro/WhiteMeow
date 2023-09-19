@@ -104,7 +104,7 @@
       <div
         class="check"
         v-if="formState.status === 2"
-        @click="$router.push('/dashboard')"
+        @click="$router.push('/chat/testChat/dailyHome')"
       >
         更多测试
       </div>

@@ -25,7 +25,7 @@
             alt=""
             @click="
               router.push({
-                path: '/dashboard',
+                path: '/chat/testChat/dailyHome',
               })
             "
           />
