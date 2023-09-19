@@ -9,6 +9,7 @@ import Icon3 from "~/tab/icon3.png";
 import Icon3Active from "~/tab/icon3-active.png";
 import Icon4 from "~/tab/icon4.png";
 import Icon4Active from "~/tab/icon4-active.png";
+import Lock from "~/tab/lock.png";
 
 import { useRouter } from "vue-router";
 
@@ -22,6 +23,7 @@ const tab = ref([
     icon: Icon1,
     iconActive: Icon1Active,
     active: true,
+    lock: false,
   },
   {
     path: "/chat",
@@ -30,6 +32,7 @@ const tab = ref([
     icon: Icon2,
     iconActive: Icon2Active,
     active: false,
+    lock: false,
   },
   {
     path: "/chat/adventure",
@@ -38,6 +41,7 @@ const tab = ref([
     type: "adventure",
     iconActive: Icon3Active,
     active: false,
+    lock: true,
   },
   {
     path: "/chat/my",
@@ -46,6 +50,7 @@ const tab = ref([
     type: "my",
     iconActive: Icon4Active,
     active: false,
+    lock: true,
   },
 ]);
 
@@ -98,8 +103,12 @@ watch(
         :key="idx"
         @click="handleLink(item.path, idx)"
       >
-        <img :src="item.active ? item.iconActive : item.icon" alt="" />
-        <span>{{ item.label }}</span>
+        <div class="normal">
+          <img :src="item.active ? item.iconActive : item.icon" alt="" />
+          <span>{{ item.label }}</span>
+        </div>
+
+        <img v-if="item.lock" class="lock" :src="Lock" alt="" />
       </div>
     </div>
   </div>
@@ -127,7 +136,6 @@ watch(
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
       color: rgba(0, 0, 0, 0.4);
       font-size: 1.2rem;
 
@@ -140,6 +148,18 @@ watch(
         height: 1.6rem;
         line-height: 1.6rem;
         margin-top: 0.2rem;
+      }
+
+      .lock {
+        width: 1.8rem;
+        height: 1.8rem;
+      }
+
+      .normal {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
     }
 

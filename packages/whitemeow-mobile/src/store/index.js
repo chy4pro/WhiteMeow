@@ -21,7 +21,6 @@ export const useIndexStore = defineStore('index', () => {
     }
 
     const handleSetNewUser = (str) => {
-        console.log(str)
         state.newUserId = str
         loStore.set('newUserId', str)
     }
