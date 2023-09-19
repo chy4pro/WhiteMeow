@@ -277,7 +277,6 @@ const handleSubmit = () => {
 
 const initStatus = async () => {
   let result: any = await getEvaluationInfo();
-  console.log(result);
   if (result && result.status === 0) {
     formState.status = 1;
     sendMessage();
@@ -299,7 +298,6 @@ const initWebSocket = () => {
       isReconnection: true, // 是否断开重连
       received: function (data: any) {
         // 监听服务器返回信息
-        console.log("received", data);
         loadingFlipped.value = false;
 
         let dataFormat = JSON.parse(data);
@@ -357,7 +355,6 @@ onMounted(() => {
   watch(
     () => ws.status,
     async (newValue, oldValue) => {
-      console.log("myVariable 变化了:", newValue);
       if (newValue === "open") {
         isConnect.value = true;
         initStatus();

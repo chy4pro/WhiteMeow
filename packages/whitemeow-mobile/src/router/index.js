@@ -21,36 +21,57 @@ const router = createRouter({
                 {
                     path: '',
                     name: 'test',
+                    meta: {
+                        type: 'test'
+                    },
                     component: () => import('@/views/dashboard/test/index.vue')
                 },
                 {
                     path: '/dashboard/chat',
                     name: 'chat',
+                    meta: {
+                        type: 'chat'
+                    },
                     component: () => import('@/views/dashboard/chat/index.vue')
                 },
                 {
                     path: '/dashboard/adventure',
                     name: 'adventure',
+                    meta: {
+                        type: 'adventure'
+                    },
                     component: () => import('@/views/dashboard/adventure/index.vue')
                 },
                 {
                     path: '/dashboard/my',
                     name: 'my',
+                    meta: {
+                        type: 'my'
+                    },
                     component: () => import('@/views/dashboard/my/index.vue')
                 },
                 {
                     path: '/dashboard/showCard',
                     name: 'showCard',
+                    meta: {
+                        type: 'test'
+                    },
                     component: () => import('@/views/dashboard/test/card/showCard.vue')
                 },
                 {
                     path: '/dashboard/dream',
                     name: 'dreamIndex',
+                    meta: {
+                        type: 'test'
+                    },
                     component: () => import('@/views/dashboard/test/dream/index.vue')
                 },
                 {
                     path: '/dashboard/sand',
                     name: 'sandIndex',
+                    meta: {
+                        type: 'test'
+                    },
                     component: () => import('@/views/dashboard/test/sand/index.vue')
                 },
             ]

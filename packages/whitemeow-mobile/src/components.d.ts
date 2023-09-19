@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ACarousel: typeof import('ant-design-vue/es')['Carousel']
     AForm: typeof import('ant-design-vue/es')['Form']
     AFormItem: typeof import('ant-design-vue/es')['FormItem']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']

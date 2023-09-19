@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 import Lucky from "~/test/lucky.png";
 import Can from "~/test/can.png";
@@ -14,6 +14,33 @@ import Bg from "~/test/bg.png";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+import lunisolar from "lunisolar";
+import zhCn from "lunisolar/locale/zh-cn";
+lunisolar.config({
+  lang: "zhCn", // 设换默认语言
+});
+import theGods from "lunisolar/plugins/theGods";
+import theGodsZhCn from "lunisolar/plugins/theGods/locale/zh-cn";
+lunisolar.locale(zhCn).locale(theGodsZhCn);
+lunisolar.extend(theGods);
+
+const lsr = lunisolar();
+
+const todayGood = lsr.theGods.query("good act 3");
+const todayBad = lsr.theGods.query("bad act 3");
+
+//将数组限定为长度为最大为7的数组
+const splitArr = (arr, size = 7) => {
+  let result = [];
+  if (arr.length <= size) return arr;
+
+  result = arr.slice(0, 7);
+  return result;
+};
+
+const goodArr = ref(splitArr(todayGood));
+const badArr = ref(splitArr(todayBad));
 
 const state = reactive({
   card: [
@@ -64,11 +91,11 @@ const handleLink = (path) => {
           </div>
           <div class="item">
             <img :src="Can" alt="" />
-            结婚.出行.交易.开业.安床.求子
+            {{ goodArr.join(".") }}
           </div>
           <div class="item">
             <img :src="Cant" alt="" />
-            祈福.安葬.办满月酒.修造.酬神.
+            {{ badArr.join(".") }}
           </div>
         </div>
       </div>

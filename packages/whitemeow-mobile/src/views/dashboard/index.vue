@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 import Icon1 from "~/tab/icon1.png";
 import Icon1Active from "~/tab/icon1-active.png";
@@ -18,6 +18,7 @@ const tab = ref([
   {
     path: "/dashboard",
     label: "测试喵",
+    type: "test",
     icon: Icon1,
     iconActive: Icon1Active,
     active: true,
@@ -25,6 +26,7 @@ const tab = ref([
   {
     path: "/dashboard/chat",
     label: "聊愈喵",
+    type: "chat",
     icon: Icon2,
     iconActive: Icon2Active,
     active: false,
@@ -33,6 +35,7 @@ const tab = ref([
     path: "/dashboard/adventure",
     label: "冒险喵",
     icon: Icon3,
+    type: "adventure",
     iconActive: Icon3Active,
     active: false,
   },
@@ -40,6 +43,7 @@ const tab = ref([
     path: "/dashboard/my",
     label: "我的喵",
     icon: Icon4,
+    type: "my",
     iconActive: Icon4Active,
     active: false,
   },
@@ -59,6 +63,17 @@ const handleLink = (path, idx) => {
     path,
   });
 };
+
+onMounted(() => {
+  const type = router.currentRoute.value.meta.type;
+
+  for (const item of tab.value) {
+    item.active = false;
+    if (item.type === type) {
+      item.active = true;
+    }
+  }
+});
 </script>
 
 <template>
@@ -93,6 +108,8 @@ const handleLink = (path, idx) => {
   .tab-index {
     height: 5.6rem;
     display: flex;
+    z-index: 10;
+    position: relative;
 
     .item {
       border-top: 1px solid rgba(0, 0, 0, 0.1);
