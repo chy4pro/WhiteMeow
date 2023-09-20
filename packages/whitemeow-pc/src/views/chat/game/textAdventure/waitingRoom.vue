@@ -295,37 +295,38 @@ function onReceived(data:any) {
     
     if(dataFormat){
       let type = dataFormat.type
-      // type为8的跳转准备开始游戏
-      if(type === 9){
-        // 代表b进来了
-        stepStatus.value = 0
-        sendMessage(2,userName.value )
-      }
-      else if(type === 8){
-        if(dataFormat.to_user_id === realUserId.value){
-          startLoading.value = false
+      if(dataFormat.is_stream_end === false){
+        // type为8的跳转准备开始游戏
+        if(type === 9){
+          // 代表b进来了
+          stepStatus.value = 0
+          sendMessage(2,userName.value )
+        }
+        else if(type === 8){
+          if(dataFormat.to_user_id === realUserId.value){
+            startLoading.value = false
 
-          if(isInvite.value){
-            router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1}});
-          }
-          else{
-            router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value}});
+            if(isInvite.value){
+              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1}});
+            }
+            else{
+              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value}});
+            }
           }
         }
-      }
-      else if(type === 4 || type === 5){
-        dataFormat.users.forEach((item:any)=>{
-          tempArr.push({
-            'user': item.user,
-            'user_name': item.user_name
+        else if(type === 4 || type === 5){
+          dataFormat.users.forEach((item:any)=>{
+            tempArr.push({
+              'user': item.user,
+              'user_name': item.user_name
+            })
           })
-        })
 
-        tempArr.forEach((item:any)=>{
-          addPlayer(item)
-        })
+          tempArr.forEach((item:any)=>{
+            addPlayer(item)
+          })
+        }
       }
-
     }
 
   }
