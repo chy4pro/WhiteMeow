@@ -475,35 +475,33 @@ function onReceived2(data:any) {
         }
 
         //接受用户发送数据
-        if(!dataFormat.is_kf){
-          if(messages.value.length === 0){
-            messages.value.push(
-            {
+        if (!dataFormat.is_kf) {
+          if (messages.value.length === 0) {
+            messages.value.push({
               content: dataFormat.content,
               user: dataFormat.user,
               user_name: dataFormat.user_name
             })
-          }
-          else{
-            messages.value.forEach((item,index)=>{
-              if(userName.value === item.user_name){
+          } else {
+            messages.value.forEach((item: any, index: number) => {
+              if (dataFormat.user_name === item.user_name) {
+                console.log(item.user_name)
                 messages.value[index].content = dataFormat.content
                 messages.value[index].user_name = dataFormat.user_name
                 messages.value[index].user = dataFormat.user
-              }
-              else{
-                messages.value.push(
-                {
-                  content: dataFormat.content,
-                  user: dataFormat.user,
-                  user_name: dataFormat.user_name
-                })
+              } else {
+                if(messages.value.length < 2){
+                  messages.value.push({
+                    content: dataFormat.content,
+                    user: dataFormat.user,
+                    user_name: dataFormat.user_name
+                  })
+                }
               }
             })
           }
 
-
-          chatLog.push(messages.value)
+          chatLog[currentStatus.value] = messages.value
         }
 
         startScrollInterval();
@@ -764,6 +762,7 @@ onMounted(()=>{
   
   watch(()=> currentStatus.value, (newValue, oldValue)=>{
     console.log('newValue123:',newValue);
+    messages.value = []
     clearInterval(countdownInterval); // 清除之前的倒计时
     countdownValue.value = 60; // 重置倒计时值
   })
@@ -811,6 +810,7 @@ onBeforeRouteLeave((to, from, next) => {
   sendMessage(6)
   if(socketStore.ws){
     socketStore.ws.close();
+    sendMessage(6)
   }
   next();
 })
