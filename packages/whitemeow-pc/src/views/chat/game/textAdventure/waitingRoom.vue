@@ -133,6 +133,22 @@
           >
           开始游戏
           </a-button>
+
+          <a-button
+          class="
+            mt-4rem
+            rounded-6px
+            text-2rem
+            w-full
+            h-5.6rem
+            l-btn-black
+            "
+            v-if="isInvite"
+            @click="closeTheRoom"
+          >
+          退出游戏
+          </a-button>
+
           <div class="
             mt-4rem
             rounded-6px
@@ -146,7 +162,7 @@
             font-700
             cursor-pointer
             "
-            v-else-if="!isInvite"
+            v-if="!readyStatus && !isInvite"
             @click="shareLink"
             >
             立即邀请
@@ -179,11 +195,14 @@ import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
 
 import { chatroomAdd,chatroomDelete } from '@manage/shared/apis/game'
 import { useLoginStore, useSocketStore } from '@manage/shared/store/index.ts';
+import { message } from 'ant-design-vue';
+import { login } from '@manage/shared/apis/login';
 
 const socketStore = useSocketStore()
 const loginStore = useLoginStore()
 const router = useRouter();
 const isConnect = ref(true);//是否连接websocket
+let realUserId:any = null
 
 const stepStatus = ref(2)
 const source = window.location.href + '&invite=1'
@@ -195,12 +214,6 @@ const channelId = ref('')
 const userName = ref('')
 const isInvite = ref(false)
 const readyStatus = ref(false)
-const realUserId = computed(()=>{
-  let result = ''
-  result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
-
-  return result;
-})
 
 interface PlayerList {
   userName?: string; 
@@ -280,10 +293,26 @@ const isFullPlayer = (list:PlayerList[]) => {
     readyStatus.value = true
   }
 }
+
+// 倒计时3秒
+let countIndex = ref(3)
+let tempCount:any = null
+function countDownGo(){
+  if(countIndex.value === 0){
+    if(tempCount){
+      clearTimeout(tempCount)
+    }
+    router.push('createRoom')
+  }
+  else{
+    tempCount = setTimeout(()=>{
+      countDownGo()
+      countIndex.value --;
+    },1000)
+  }
+}
 // const onReceived2:any = inject('onReceived2')
 function onReceived(data:any) {
-  console.log('---data---',data);
-
   // 监听服务器返回信息
   if(data){
     let dataFormat = JSON.parse(data)
@@ -322,6 +351,19 @@ function onReceived(data:any) {
             addPlayer(item)
           })
         }
+        else if(type === 6){
+          if(dataFormat.user != realUserId.value){
+            //其它玩家发的退出
+            messageBox.info(`对面玩家${dataFormat.user_name}退出，即将离开聊天室`)
+            countDownGo()
+            sendMessage(6, userName.value)
+          }
+          else{
+            //自己发的退出
+            messageBox.info(`正在退出，即将离开聊天室`)
+            countDownGo()
+          }
+        }
       }
     }
 
@@ -329,11 +371,7 @@ function onReceived(data:any) {
 }
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
-  router.push('createRoom')
-  let params = {
-    channel_id: channelId.value
-  }
-  let result = await chatroomDelete(params);
+  sendMessage(6, userName.value)
 }
 
 // 开始游戏
@@ -345,6 +383,13 @@ const startGame = () => {
 }
 
 const initData = () =>{
+  realUserId = computed(()=>{
+    let result = ''
+    result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
+
+    return result;
+  })
+
   if(isInvite.value){
     userName.value = 'B'
   }
@@ -371,6 +416,7 @@ const initData = () =>{
 onMounted(()=>{
   getCurrentRouter()
   initData()
+
 //   window.addEventListener("beforeunload", (event) => {
 //   // Cancel the event as stated by the standard.
 //   event.preventDefault();

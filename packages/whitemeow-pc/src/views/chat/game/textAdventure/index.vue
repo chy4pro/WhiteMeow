@@ -299,16 +299,26 @@ let isSend = ref(false)//当前用户是否发送
 let tempLock = ref(false);
 // let ws:any = null
 
-
+// 倒计时3秒
+let countIndex = ref(3)
+let tempCount:any = null
+function countDownGo(){
+  if(countIndex.value === 0){
+    if(tempCount){
+      clearTimeout(tempCount)
+    }
+    router.push('createRoom')
+  }
+  else{
+    tempCount = setTimeout(()=>{
+      countDownGo()
+      countIndex.value --;
+    },1000)
+  }
+}
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
   sendMessage(6)
-  router.push('createRoom')
-  let params = {
-    channel_id: channelId.value
-  }
-  let result = await chatroomDelete(params);
-  socketStore.ws.close()
 }
 
 //再来一盘
@@ -362,6 +372,19 @@ function onReceived2(data:any) {
         }
         
       }
+      else if(type === 6){
+          if(dataFormat.user != realUserId.value){
+            //其它玩家发的退出
+            messageBox.info(`对面玩家${dataFormat.user_name}退出，即将离开聊天室`)
+            countDownGo()
+            sendMessage(6)
+          }
+          else{
+            //自己发的退出
+            messageBox.info(`正在退出，即将离开聊天室`)
+            countDownGo()
+          }
+        }
       else if(type === 3){
         if(dataFormat.detail && dataFormat.detail.user_name !== userName.value){
           if(messages.value.length === 0){
