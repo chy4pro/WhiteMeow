@@ -54,14 +54,13 @@
                 border-solid
                 rd-50%
                 color-white
-                text-2.6rem
                 font-700
                 flex-col-center
                 "
                 :style="[`background-color:${item.bgColor}`, `border-color:${item.borderColor}`]"
                 >
-                <span v-if="item.userId === realUserId">我</span>
-                <span v-else>{{ item.userName }}</span>
+                <span v-if="item.userId === realUserId" class="text-3.2rem">我</span>
+                <span v-else class="text-4.5rem">{{ item.userName }}</span>
                 </div>
                 <div class="
                 absolute
