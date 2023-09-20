@@ -73,69 +73,6 @@
     </div>
 
     <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex < 6">
-      <!-- <div>{{ chatLog[textAdventureStore.pageIndex] }}</div>
-        <div
-        class="
-        flex
-        flex-items-end
-        mb-1.6rem
-        flex-nowrap
-        px-3rem"
-        v-for="(message, index) in messages"
-        :key="index"
-        :class="message.user_name === 'A' ? 'flex-justify-end' : 'flex-justify-start'">
-        {{ message }}
-        <div class="
-          w-4rem
-          h-4rem
-          mr-0.8rem
-          bg-black
-          rounded-50%
-          line-height-4rem
-          text-center
-          color-white
-          font-700
-          text-2.2rem
-        "
-        v-if="message.user_name === 'B'"
-        >B</div>
-
-        <div class="
-          flex-self-start
-          color-[#000c]
-          max-w-1/2
-          b-rd-[8px]
-          relative
-          "
-          :class="[message.user_name === 'A' ? 'bg-[var(--pink-02)]' : 'bg-black']">
-          <div class="
-            whitespace-pre-line
-            color-white
-            text-1.6rem
-            font-400
-            px-1.6rem
-            py-0.8rem
-            line-height-2.4rem
-          ">
-            <div>{{ message.content }}</div>
-          </div>
-        </div>
-
-        <div class="
-          w-4rem
-          h-4rem
-          ml-0.8rem
-          bg-[var(--pink-02)]
-          rounded-50%
-          line-height-4rem
-          text-center
-          color-white
-          font-700
-          text-2.2rem
-        "
-        v-if="message.user_name === 'A'"
-        >A</div>
-        </div> -->
         
         <div 
         >
@@ -148,7 +85,7 @@
         px-3rem"
         v-for="(message, index) in chatLog[textAdventureStore.pageIndex]"
         :key="index"
-        :class="message.user_name === 'A' ? 'flex-justify-end' : 'flex-justify-start'">
+        :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
         <div class="
           w-4rem
           h-4rem
@@ -290,6 +227,7 @@ import Socket from "@manage/shared/utils/http/websocket.js";
 import { useLoginStore, useSocketStore } from '@manage/shared/store/index.ts';
 import { useTextAdventureStore } from '@manage/shared/store/game.ts';
 import { chatroomDelete } from '@manage/shared/apis/game'
+import { login } from '@manage/shared/apis/login';
 
 const loginStore = useLoginStore()
 const socketStore = useSocketStore()
@@ -480,7 +418,8 @@ function onReceived2(data:any) {
             messages.value.push({
               content: dataFormat.content,
               user: dataFormat.user,
-              user_name: dataFormat.user_name
+              user_name: dataFormat.user_name,
+              isUser: dataFormat.user === loginStore.userId ? true : false,
             })
           } else {
             messages.value.forEach((item: any, index: number) => {
@@ -489,12 +428,14 @@ function onReceived2(data:any) {
                 messages.value[index].content = dataFormat.content
                 messages.value[index].user_name = dataFormat.user_name
                 messages.value[index].user = dataFormat.user
+                messages.value[index].isUser = dataFormat.user === loginStore.userId ? true : false
               } else {
                 if(messages.value.length < 2){
                   messages.value.push({
                     content: dataFormat.content,
                     user: dataFormat.user,
-                    user_name: dataFormat.user_name
+                    user_name: dataFormat.user_name,
+                    isUser: dataFormat.user === loginStore.userId ? true : false,
                   })
                 }
               }
