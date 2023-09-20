@@ -12,6 +12,7 @@
         rounded-8px
         backdrop-blur-78px
       bg-[rgba(255,255,255,0.4)]
+      pb-4rem
       ">
         <div class="overflow-hidden">
           <div class="absolute right-1.6rem top-1.6rem cursor-pointer"  @click="closeTheRoom">
@@ -121,14 +122,10 @@
           class="
             mt-4rem
             rounded-6px
-            bg-black
+            text-2rem
             w-full
             h-5.6rem
-            color-white
-            text-2rem
-            text-center
-            font-700
-            cursor-pointer
+            l-btn-black
             "
             :loading="startLoading"
             v-if="readyStatus && !isInvite"
@@ -160,10 +157,10 @@
             font-500
             text-center
             mt-1.8rem
-            color-black
-            pb-4rem
+            color-black            
             cursor-pointer
           "
+          v-if="!readyStatus"
           @click="$router.push('hasRoom')"
           >已有房间，加入好友</div>
         </div>
