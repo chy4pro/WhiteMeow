@@ -101,14 +101,13 @@
         v-if="message.user_name === 'B'"
         >B</div>
 
-        <div class="
-          flex-self-start
+        <div class="          
           color-[#000c]
           max-w-1/2
           b-rd-[8px]
           relative
           "
-          :class="[message.user_name === 'A' ? 'bg-[var(--pink-02)]' : 'bg-black']">
+          :class="[message.user_name === 'A' ? 'bg-[var(--pink-02)]' : 'bg-black', message.isUser === true ? 'flex-self-start': '']">
           <div class="
             whitespace-pre-line
             color-white
