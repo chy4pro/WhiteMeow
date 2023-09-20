@@ -414,7 +414,7 @@ function onReceived2(data:any) {
               content: dataFormat.content,
               user: dataFormat.user,
               user_name: dataFormat.user_name,
-              isUser: dataFormat.user === loginStore.userId ? true : false,
+              isUser: dataFormat.user === realUserId.value ? true : false,
             })
           } else {
             messages.value.forEach((item: any, index: number) => {
@@ -423,14 +423,14 @@ function onReceived2(data:any) {
                 messages.value[index].content = dataFormat.content
                 messages.value[index].user_name = dataFormat.user_name
                 messages.value[index].user = dataFormat.user
-                messages.value[index].isUser = dataFormat.user === loginStore.userId ? true : false
+                messages.value[index].isUser = dataFormat.user === realUserId.value ? true : false
               } else {
                 if(messages.value.length < 2){
                   messages.value.push({
                     content: dataFormat.content,
                     user: dataFormat.user,
                     user_name: dataFormat.user_name,
-                    isUser: dataFormat.user === loginStore.userId ? true : false,
+                    isUser: dataFormat.user === realUserId.value ? true : false,
                   })
                 }
               }
@@ -580,6 +580,10 @@ const sendMessage = (type:number) => {
     isSend.value = true
     isEnd.value = false;
     newMessage.value = ''
+  }
+
+  if(type === 2){
+    isEnd.value = false;
   }
   
   socketStore.ws?.sendMsg(sendData)
