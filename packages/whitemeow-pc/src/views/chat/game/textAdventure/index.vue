@@ -281,7 +281,9 @@ const messages = ref<Message[]>([
 ])
 
 let countdownInterval:any = null//保存计时器
-let wordCount = ref(0)
+let wordCount = computed<number>(()=>{
+  return newMessage.value.length | 0
+})
 const stepStatus = ref(1)
 const newMessage = ref('');
 const isConnect = ref(true);//是否连接websocket
@@ -650,9 +652,6 @@ const userTyping = () => {
 
 const checkOverflow = () =>{
   const inputBox:any = inputBoxRef.value;
-  if(newMessage){
-    wordCount.value = newMessage.value.length
-  }
   
   if(inputBox){
     const lineHeight = parseInt(window.getComputedStyle(inputBox).height, 10);    
