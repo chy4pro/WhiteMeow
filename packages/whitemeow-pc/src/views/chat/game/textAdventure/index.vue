@@ -262,6 +262,7 @@ interface Message {
 let chatLog = reactive<any>([])
 let story:any = ref([])
 let chapter = ref(0)
+let realUserId:any = null
 const messages = ref<Message[]>([
   // {
   //   created_at: getFormattedDate('time'),
@@ -298,12 +299,6 @@ let isSend = ref(false)//当前用户是否发送
 let tempLock = ref(false);
 // let ws:any = null
 
-const realUserId = computed(()=>{
-  let result = ''
-  result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
-
-  return result;
-})
 
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
@@ -502,18 +497,11 @@ const goLeft = () =>{
 }
 const goRight = () =>{
   textAdventureStore.goRight()
-  // if(!isEnd.value){
-  //   messageBox.info('请稍等一下')
-  // }
 }
 
 let disabledSend = computed(() => {
   return tempLock.value || !isEnd.value
 })
-
-// let disabledSend = computed(() => {
-//   return !isConnect.value  || !isEnd.value || tempLock.value
-// })
 
 const chinaNumber= computed(() => {
   let map = ['一','二','三','四','五','六']
@@ -692,14 +680,24 @@ const handlerUnload = (event:any) => {
   // event.returnValue = '离开将不保存当前数据，如需重开右上角关闭房间';
 }
 
+const handlerWebsocket = () =>{
+  textAdventureStore.reset()
+  socketStore.replaceCallBack(onReceived2)
+  socketStore.ws.callback = onReceived2
+}
 onMounted(()=>{
   //socketStore.initWebSocket(realUserId.value, userName.value, onReceived);
   window.addEventListener("beforeunload", handlerUnload);
   window.addEventListener('unload', handlerUnload);
-  textAdventureStore.reset()
+  realUserId = computed(()=>{
+    let result = ''
+    result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
+
+    return result;
+  })
+
+  handlerWebsocket()
   getCurrentRouter()
-  socketStore.replaceCallBack(onReceived2)
-  socketStore.ws.callback = onReceived2
   
   watch(()=> currentStatus.value, (newValue, oldValue)=>{
     console.log('newValue123:',newValue);
@@ -707,36 +705,6 @@ onMounted(()=>{
     clearInterval(countdownInterval); // 清除之前的倒计时
     countdownValue.value = 60; // 重置倒计时值
   })
-//   let index = 0
-// let a = setInterval(()=>{
-//   let pa = {
-// 	"channel_id": "1701434908804648960",
-// 	"channel_title": "",
-// 	"user": "wmWpQ2GQAAW_bs_JzgqQjCsBt5Phjqj4w",
-// 	"user_name": "用户B",
-// 	"detail": {
-// 		"user": "wmWpQ2GQAAW_bs_JzgqQjCsBt5Phjqj4w"
-// 	},
-// 	"to_user_id": "",
-// 	"kf_id": "uqTIN13j6HKg2nYSyuTay6mHRQULNRSU",
-// 	"type": 1,
-// 	"status": 1,
-// 	"content": "2",
-// 	"message_id": "",
-// 	"send_time": "2023-09-12 16:50:06",
-// 	"dialogue_id": "2",
-// 	"error_message": "",
-// 	"is_end": false,
-// 	"heartbeat": false
-// }
-//   onReceived2(pa)
-//   index ++;
-//   console.log(index);
-  
-//   if(index === 3){
-//     clearInterval(a)
-//   }
-// },1000)
 
   if(isInvite.value){
     sendMessage(9)
