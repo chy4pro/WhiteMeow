@@ -38,7 +38,7 @@ const state = reactive({
   timer: null,
 });
 
-const inpRef = ref(null)
+const inpRef = ref(null);
 
 const handleFocus = () => {
   state.isFocus = true;
@@ -53,7 +53,7 @@ const handleBlur = () => {
 const handleChangeEye = () => {
   state.isEyeActive = !state.isEyeActive;
 
-  inpRef.value.focus()
+  inpRef.value.focus();
 };
 
 const handleInput = (e) => {
@@ -80,7 +80,7 @@ const handleSend = () => {
     state.count -= 1;
   }, 1000);
 
-  inpRef.value.focus()
+  inpRef.value.focus();
 
   emit("handleSendCodeEmit");
 };
@@ -199,6 +199,8 @@ input::-ms-input-placeholder {
     color: rgba(0, 0, 0, 1);
     font-weight: 500;
     font-size: 1.6rem;
+    box-shadow: 0 0 0px 1000px transparent inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
   }
 }
 </style>

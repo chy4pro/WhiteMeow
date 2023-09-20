@@ -4,6 +4,7 @@ import { reactive, defineAsyncComponent, watch } from "vue";
 import { useRouter } from "vue-router";
 
 import { fetchCode, fetchCheckCode } from "@/api/login";
+import { message } from "@/utils/index";
 
 const router = useRouter();
 
@@ -81,9 +82,13 @@ const handleCommit = async () => {
   const { code: codes, mobile } = state;
 
   try {
-    const { code, data } = await fetchCheckCode({ code: codes, mobile });
+    const { code, data, msg } = await fetchCheckCode({ code: codes, mobile });
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
 
@@ -123,9 +128,13 @@ const handleSendCode = async () => {
   const { mobile } = state;
 
   try {
-    const { code } = await fetchCode({ mobile });
+    const { code, msg } = await fetchCode({ mobile });
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
   } catch (error) {}

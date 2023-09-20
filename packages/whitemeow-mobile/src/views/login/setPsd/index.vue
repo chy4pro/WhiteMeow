@@ -6,6 +6,7 @@ import { fetchUpdatePsd, fetchSetInfo } from "@/api/login";
 import { useRouter } from "vue-router";
 
 import { useIndexStore } from "@/store/index";
+import { message } from "@/utils/index";
 
 const router = useRouter();
 const indexStore = useIndexStore();
@@ -74,13 +75,17 @@ const handlePsd = (str, val) => {
 
 const handleSetPsd = async () => {
   try {
-    const { code, data } = await fetchSetInfo({
+    const { code, data, msg } = await fetchSetInfo({
       user: indexStore.state.user,
       password: state.password,
       status: 3,
     });
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
 
@@ -120,12 +125,16 @@ const handleCommit = async () => {
   }
 
   try {
-    const { code, data } = await fetchUpdatePsd({
+    const { code, data, msg } = await fetchUpdatePsd({
       mobile,
       password: state.password,
     });
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
 

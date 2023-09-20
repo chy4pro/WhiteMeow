@@ -55,7 +55,7 @@ const tab = ref([
 ]);
 
 const handleLink = (path, idx) => {
-  if (tab.value[idx].type === "adventure" || tab.value[idx].type === "my") {
+  if (tab.value[idx].lock) {
     return;
   }
 

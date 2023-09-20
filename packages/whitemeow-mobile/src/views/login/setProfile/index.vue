@@ -7,7 +7,7 @@ import Dates from "~/login/date.png";
 
 import { useIndexStore } from "@/store/index";
 import { useRouter } from "vue-router";
-import { getZodiacSign } from "@/utils/index";
+import { getZodiacSign, message } from "@/utils/index";
 
 import { fetchSetInfo, fetchUserInfo } from "@/api/login";
 
@@ -37,9 +37,13 @@ const handleInp = (str) => {
 
 const getUserInfo = async () => {
   try {
-    const { code, data } = await fetchUserInfo();
+    const { code, data, msg } = await fetchUserInfo();
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
 
@@ -60,7 +64,7 @@ const handleJump = async () => {
   state.loading = true;
 
   try {
-    const { code, data } = await fetchSetInfo({
+    const { code, data, msg } = await fetchSetInfo({
       user: indexStore.state.user,
       status: 1,
     });
@@ -68,6 +72,10 @@ const handleJump = async () => {
     state.loading = false;
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
 
@@ -88,7 +96,7 @@ const handleConfirm = async () => {
   state.loading = true;
 
   try {
-    const { code, data } = await fetchSetInfo({
+    const { code, data, msg } = await fetchSetInfo({
       user: indexStore.state.user,
       sex: Number(sex),
       name,
@@ -100,6 +108,10 @@ const handleConfirm = async () => {
     state.loading = false;
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
 

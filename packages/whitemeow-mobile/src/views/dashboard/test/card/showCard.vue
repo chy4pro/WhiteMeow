@@ -473,6 +473,7 @@ onMounted(() => {
       color: #fff;
       font-size: 1.5rem;
       margin-top: 5rem;
+      margin-bottom: 3rem;
 
       img {
         width: 20rem;

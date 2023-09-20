@@ -10,7 +10,7 @@ import {
   fetchUserInfo,
   fetchPsdLogin,
 } from "@/api/login.js";
-import { genId } from "@/utils/index";
+import { genId, message } from "@/utils/index";
 
 import { useIndexStore } from "@/store/index";
 
@@ -175,9 +175,13 @@ const handleCode = (str) => {
 
 const getUserInfo = async () => {
   try {
-    const { code, data } = await fetchUserInfo();
+    const { code, data, msg } = await fetchUserInfo();
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
 
@@ -202,6 +206,10 @@ const handleCodeLogin = async () => {
     });
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
 
@@ -229,7 +237,7 @@ const handlePsdLogin = async () => {
   const { picCode, captcha_id, isRememberBool, mobile, password } = state;
 
   try {
-    const { code, data } = await fetchPsdLogin({
+    const { code, data, msg } = await fetchPsdLogin({
       captcha: picCode,
       captcha_id,
       is_login_free: isRememberBool ? 1 : 0,
@@ -238,6 +246,10 @@ const handlePsdLogin = async () => {
     });
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
 
@@ -316,6 +328,10 @@ const handleSendCode = async () => {
     });
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
   } catch (error) {}
@@ -367,6 +383,10 @@ const handleChangePicCode = async () => {
     const { code, data, msg } = await fetchPicCode();
 
     if (code !== 200) {
+      message({
+        type: "error",
+        text: msg,
+      });
       return;
     }
 
