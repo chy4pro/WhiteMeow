@@ -175,7 +175,7 @@
       >更多测试</div>
     </div>
 
-    <div class="footer">
+    <div class="footer" v-if="stepStatus < 6">
       <div class="whitespace-nowrap mr-1.6rem text-2.4rem font-700">玩家{{ userName }}：</div>
       <div class="bg-white h-56px rounded-8px w-full mr-3rem flex-col-center relative pr-75px">
         <textarea 
