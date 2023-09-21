@@ -15,8 +15,9 @@
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 800;
+    font-family: RedHatDisplayBold;
   }
 
   .check:active {
@@ -39,9 +40,11 @@
       div {
         color: rgba(255, 223, 252, 1);
         position: absolute;
-        bottom: 1rem;
-        left: 0;
-        font-size: 1.6rem;
+        bottom: 0.5rem;
+        left: 1rem;
+        font-size: 1.8rem;
+        font-weight: 800;
+        font-family: RedHatDisplayBold;
       }
     }
 
@@ -58,21 +61,22 @@
       padding-bottom: 1rem;
 
       div {
-        min-height: 10rem;
-        max-height: 12rem;
         overflow-y: auto;
         margin-top: 3rem;
         padding: 0 1.6rem;
+        font-size: 1.6rem;
+        font-weight: 800;
+        font-family: RedHatDisplayBold;
       }
     }
 
     .bg3 {
-      margin-top: -1.7rem;
+      margin-top: -1.5rem;
       background-image: url("~/test/chat3.png");
-      height: 50rem;
+      height: 40rem;
 
       div {
-        max-height: 45rem;
+        max-height: 35rem;
       }
     }
   }
@@ -94,7 +98,9 @@
       </div>
     </div>
 
-    <div class="check" @click="$router.push('/chat/testChat/dailyHome')">更多测试</div>
+    <div class="check" @click="$router.push('/chat/testChat/dailyHome')">
+      更多测试
+    </div>
   </div>
 </template>
   

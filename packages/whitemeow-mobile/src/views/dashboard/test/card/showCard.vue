@@ -18,7 +18,7 @@
       "
       class="box2 comm"
     >
-      <div style="width: 100%;">
+      <div style="width: 100%; margin: 2rem 0">
         <div class="close">
           <img
             :src="Close"
@@ -326,7 +326,7 @@ const initWebSocket = () => {
       },
     })
   );
-  ws.init()
+  ws.init();
   ws.connect();
 };
 
@@ -459,7 +459,6 @@ onMounted(() => {
 
   .box2 {
     padding: 0 2.4rem;
-    margin: 2rem 0;
 
     .close {
       display: flex;

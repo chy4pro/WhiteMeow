@@ -142,8 +142,8 @@ input::-ms-input-placeholder {
   <TipDialog :isShow="chatStore.showOnlyOne" />
 
   <div class="sand-index" v-show="!showDialog">
-    <div class="main">
-      <div ref="messageList" class="messageList">
+    <div class="main" ref="messageList">
+      <div class="messageList">
         <div v-for="[date, logs] in chatLogsMap" :key="date">
           <div class="date">
             {{ date }}
@@ -188,6 +188,8 @@ input::-ms-input-placeholder {
         v-model="newMessage"
         type="text"
         ref="inputBoxRef"
+        @blur="handleBlur"
+        @focus="handleFocus"
         placeholder="你想和我聊些什么？......"
       />
       <img @click="sendMessage" :src="Send" alt="" />
@@ -495,7 +497,7 @@ const initWebSocket = () => {
       },
     })
   );
-  ws.init()
+  ws.init();
   ws.connect();
 };
 
@@ -663,6 +665,14 @@ const getChatRecord = async () => {
   } catch (err) {
   } finally {
   }
+};
+
+const handleBlur = () => {
+  chatStore.handleSetKeypress(false);
+};
+
+const handleFocus = () => {
+  chatStore.handleSetKeypress(true);
 };
 </script>
 

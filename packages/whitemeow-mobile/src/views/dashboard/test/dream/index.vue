@@ -420,10 +420,10 @@ onMounted(() => {
     .bg3 {
       margin-top: -1.5rem;
       background-image: url("~/test/chat3.png");
-      height: 35rem;
+      height: 40rem;
 
       div {
-        max-height: 30rem;
+        max-height: 35rem;
       }
     }
   }

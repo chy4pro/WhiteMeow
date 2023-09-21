@@ -283,7 +283,7 @@ const handleLink = (path, idx) => {
           }
 
           .desc {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: rgba(71, 84, 103, 1);
             width: 100%;
             text-overflow: ellipsis;
@@ -303,6 +303,7 @@ const handleLink = (path, idx) => {
   }
 
   .card {
+    width: 101%;
     height: 22.5rem;
     background: linear-gradient(
       to bottom,
