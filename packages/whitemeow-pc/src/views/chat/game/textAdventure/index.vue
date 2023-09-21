@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex-col-start h-[calc(100%-10.4rem)] overflow-y-auto">
+  <div class="w-full flex-col-start overflow-y-auto" :class="[textAdventureStore.pageIndex === 5 ? 'h-100%' : 'h-[calc(100%-10.4rem)]']">
     <div class="relative mt-130px">
       <div class="absolute top--100px z-666" :class="{'left-50% translate-x--50%':textAdventureStore.pageIndex === 5, 'left-0':textAdventureStore.pageIndex < 5}">
         <SvgImage name="cat_white.svg" class="w-26.1rem h-30.8rem"></SvgImage>
@@ -49,13 +49,13 @@
         relative
         z-777
         w-80rem
-        h-31rem
         overflow-y-auto
         box-border
         rounded-8px
         backdrop-blur-78px
         bg-[rgba(255,255,255,0.4)]
       "
+      :class="[textAdventureStore.pageIndex === 5 ? 'h-46.5rem': 'h-31rem']"
       ref="messageList"
       >
         <div class="px-2.4rem py-2.4rem">
