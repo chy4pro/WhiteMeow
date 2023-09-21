@@ -349,7 +349,9 @@ function onReceived2(data:any) {
         // 代表b进来了
         stepStatus.value = 0
         dialogueId.value = genIdForMsg(2, 18)
-        sendMessage(2)
+        if(!isInvite.value){
+          sendMessage(2)
+        }
       }
       else if(type === 7){
         // 代表断开链接
@@ -610,7 +612,12 @@ const sendMessage = (type:number) => {
     isEnd.value = false;
   }
   
-  socketStore.ws?.sendMsg(sendData)
+  if(socketStore.ws){
+    socketStore.ws?.sendMsg(sendData)
+  }
+  else{
+    router.push('createRoom')
+  }
 };
 
 const scrollToBottom = async() => {
