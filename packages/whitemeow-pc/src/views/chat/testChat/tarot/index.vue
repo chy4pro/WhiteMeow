@@ -60,7 +60,7 @@
 
           <div class="w-35.2rem color-white flex-self-start">
             <h1 class="mb-0.8rem font-700 text-4rem">{{ formState.tarot_name }}</h1>
-            <p class="text-1.2rem font-400 line-height-normal">{{ formState.message }}</p>
+            <p class="text-1.2rem font-400 line-height-normal whitespace-pre-line">{{ formState.message }}</p>
           </div>
         </div>
       </div>
