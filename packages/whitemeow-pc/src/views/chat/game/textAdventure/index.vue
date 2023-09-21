@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex-col-start h-[calc(100%-10.4rem)] overflow-y-auto">
+  <div class="w-full flex-col-start overflow-y-auto" :class="[textAdventureStore.pageIndex === 5 ? 'h-100%' : 'h-[calc(100%-10.4rem)]']">
     <div class="relative mt-130px">
       <div class="absolute top--100px z-666" :class="{'left-50% translate-x--50%':textAdventureStore.pageIndex === 5, 'left-0':textAdventureStore.pageIndex < 5}">
         <SvgImage name="cat_white.svg" class="w-26.1rem h-30.8rem"></SvgImage>
@@ -49,13 +49,13 @@
         relative
         z-777
         w-80rem
-        h-31rem
         overflow-y-auto
         box-border
         rounded-8px
         backdrop-blur-78px
         bg-[rgba(255,255,255,0.4)]
       "
+      :class="[textAdventureStore.pageIndex === 5 ? 'h-46.5rem': 'h-31rem']"
       ref="messageList"
       >
         <div class="px-2.4rem py-2.4rem">
@@ -72,70 +72,7 @@
       </div>
     </div>
 
-    <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex < 6">
-      <!-- <div>{{ chatLog[textAdventureStore.pageIndex] }}</div>
-        <div
-        class="
-        flex
-        flex-items-end
-        mb-1.6rem
-        flex-nowrap
-        px-3rem"
-        v-for="(message, index) in messages"
-        :key="index"
-        :class="message.user_name === 'A' ? 'flex-justify-end' : 'flex-justify-start'">
-        {{ message }}
-        <div class="
-          w-4rem
-          h-4rem
-          mr-0.8rem
-          bg-black
-          rounded-50%
-          line-height-4rem
-          text-center
-          color-white
-          font-700
-          text-2.2rem
-        "
-        v-if="message.user_name === 'B'"
-        >B</div>
-
-        <div class="
-          flex-self-start
-          color-[#000c]
-          max-w-1/2
-          b-rd-[8px]
-          relative
-          "
-          :class="[message.user_name === 'A' ? 'bg-[var(--pink-02)]' : 'bg-black']">
-          <div class="
-            whitespace-pre-line
-            color-white
-            text-1.6rem
-            font-400
-            px-1.6rem
-            py-0.8rem
-            line-height-2.4rem
-          ">
-            <div>{{ message.content }}</div>
-          </div>
-        </div>
-
-        <div class="
-          w-4rem
-          h-4rem
-          ml-0.8rem
-          bg-[var(--pink-02)]
-          rounded-50%
-          line-height-4rem
-          text-center
-          color-white
-          font-700
-          text-2.2rem
-        "
-        v-if="message.user_name === 'A'"
-        >A</div>
-        </div> -->
+    <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex < 5">
         
         <div 
         >
@@ -148,12 +85,11 @@
         px-3rem"
         v-for="(message, index) in chatLog[textAdventureStore.pageIndex]"
         :key="index"
-        :class="message.user_name === 'A' ? 'flex-justify-end' : 'flex-justify-start'">
+        :class="message.isUser === true ? 'flex-justify-end' : 'flex-justify-start'">
         <div class="
           w-4rem
           h-4rem
-          mr-0.8rem
-          bg-black
+          mr-1.6rem
           rounded-50%
           line-height-4rem
           text-center
@@ -161,17 +97,17 @@
           font-700
           text-2.2rem
         "
-        v-if="message.user_name === 'B'"
-        >B</div>
+        :class="message.isUser === true ? 'bg-[var(--pink-02)] order-2' : 'bg-black order-1'"
+        >{{ message.user_name }}</div>
 
         <div class="
-          flex-self-start
           color-[#000c]
           max-w-1/2
           b-rd-[8px]
           relative
+          mr-1.6rem
           "
-          :class="[message.user_name === 'A' ? 'bg-[var(--pink-02)]' : 'bg-black']">
+          :class="[message.isUser === true ? 'flex-self-start bg-[var(--pink-02)] order-1': 'bg-black order-2']">
           <div class="
             whitespace-pre-line
             color-white
@@ -184,21 +120,6 @@
             <div>{{ message.content }}</div>
           </div>
         </div>
-
-        <div class="
-          w-4rem
-          h-4rem
-          ml-0.8rem
-          bg-[var(--pink-02)]
-          rounded-50%
-          line-height-4rem
-          text-center
-          color-white
-          font-700
-          text-2.2rem
-        "
-        v-if="message.user_name === 'A'"
-        >A</div>
         </div>
       </div>
     </div>
@@ -238,7 +159,7 @@
       >更多测试</div>
     </div>
 
-    <div class="footer">
+    <div class="footer" v-show="textAdventureStore.pageIndex < 5">
       <div class="whitespace-nowrap mr-1.6rem text-2.4rem font-700">玩家{{ userName }}：</div>
       <div class="bg-white h-56px rounded-8px w-full mr-3rem flex-col-center relative pr-75px">
         <textarea 
@@ -290,6 +211,7 @@ import Socket from "@manage/shared/utils/http/websocket.js";
 import { useLoginStore, useSocketStore } from '@manage/shared/store/index.ts';
 import { useTextAdventureStore } from '@manage/shared/store/game.ts';
 import { chatroomDelete } from '@manage/shared/apis/game'
+import { login } from '@manage/shared/apis/login';
 
 const loginStore = useLoginStore()
 const socketStore = useSocketStore()
@@ -324,6 +246,7 @@ interface Message {
 let chatLog = reactive<any>([])
 let story:any = ref([])
 let chapter = ref(0)
+let realUserId:any = null
 const messages = ref<Message[]>([
   // {
   //   created_at: getFormattedDate('time'),
@@ -342,7 +265,9 @@ const messages = ref<Message[]>([
 ])
 
 let countdownInterval:any = null//保存计时器
-let wordCount = ref(0)
+let wordCount = computed<number>(()=>{
+  return newMessage.value.length | 0
+})
 const stepStatus = ref(1)
 const newMessage = ref('');
 const isConnect = ref(true);//是否连接websocket
@@ -360,22 +285,26 @@ let isSend = ref(false)//当前用户是否发送
 let tempLock = ref(false);
 // let ws:any = null
 
-const realUserId = computed(()=>{
-  let result = ''
-  result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
-
-  return result;
-})
-
+// 倒计时3秒
+let countIndex = ref(3)
+let tempCount:any = null
+function countDownGo(){
+  if(countIndex.value === 0){
+    if(tempCount){
+      clearTimeout(tempCount)
+    }
+    router.push('createRoom')
+  }
+  else{
+    tempCount = setTimeout(()=>{
+      countDownGo()
+      countIndex.value --;
+    },1000)
+  }
+}
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
   sendMessage(6)
-  router.push('createRoom')
-  let params = {
-    channel_id: channelId.value
-  }
-  let result = await chatroomDelete(params);
-  socketStore.ws.close()
 }
 
 //再来一盘
@@ -389,6 +318,9 @@ const startAgain = () =>{
   chatLog = []
   isEnd.value = false
   tempLock.value = false
+  if(!isInvite.value){
+    sendMessage(2)
+  }
 }
 
 // let oneTimeStatus0 = ref(true)
@@ -405,7 +337,9 @@ function onReceived2(data:any) {
         // 代表b进来了
         stepStatus.value = 0
         dialogueId.value = genIdForMsg(2, 18)
-        sendMessage(2)
+        if(!isInvite.value){
+          sendMessage(2)
+        }
       }
       else if(type === 7){
         // 代表断开链接
@@ -429,6 +363,19 @@ function onReceived2(data:any) {
         }
         
       }
+      else if(type === 6){
+          if(dataFormat.user != realUserId.value){
+            //其它玩家发的退出
+            messageBox.info(`对面玩家${dataFormat.user_name}退出，即将离开聊天室`)
+            countDownGo()
+            sendMessage(6)
+          }
+          else{
+            //自己发的退出
+            messageBox.info(`正在退出，即将离开聊天室`)
+            countDownGo()
+          }
+        }
       else if(type === 3){
         if(dataFormat.detail && dataFormat.detail.user_name !== userName.value){
           if(messages.value.length === 0){
@@ -480,7 +427,8 @@ function onReceived2(data:any) {
             messages.value.push({
               content: dataFormat.content,
               user: dataFormat.user,
-              user_name: dataFormat.user_name
+              user_name: dataFormat.user_name,
+              isUser: dataFormat.user === realUserId.value ? true : false,
             })
           } else {
             messages.value.forEach((item: any, index: number) => {
@@ -489,12 +437,14 @@ function onReceived2(data:any) {
                 messages.value[index].content = dataFormat.content
                 messages.value[index].user_name = dataFormat.user_name
                 messages.value[index].user = dataFormat.user
+                messages.value[index].isUser = dataFormat.user === realUserId.value ? true : false
               } else {
                 if(messages.value.length < 2){
                   messages.value.push({
                     content: dataFormat.content,
                     user: dataFormat.user,
-                    user_name: dataFormat.user_name
+                    user_name: dataFormat.user_name,
+                    isUser: dataFormat.user === realUserId.value ? true : false,
                   })
                 }
               }
@@ -561,18 +511,11 @@ const goLeft = () =>{
 }
 const goRight = () =>{
   textAdventureStore.goRight()
-  // if(!isEnd.value){
-  //   messageBox.info('请稍等一下')
-  // }
 }
 
 let disabledSend = computed(() => {
   return tempLock.value || !isEnd.value
 })
-
-// let disabledSend = computed(() => {
-//   return !isConnect.value  || !isEnd.value || tempLock.value
-// })
 
 const chinaNumber= computed(() => {
   let map = ['一','二','三','四','五','六']
@@ -652,8 +595,17 @@ const sendMessage = (type:number) => {
     isEnd.value = false;
     newMessage.value = ''
   }
+
+  if(type === 2){
+    isEnd.value = false;
+  }
   
-  socketStore.ws?.sendMsg(sendData)
+  if(socketStore.ws){
+    socketStore.ws?.sendMsg(sendData)
+  }
+  else{
+    router.push('createRoom')
+  }
 };
 
 const scrollToBottom = async() => {
@@ -694,9 +646,6 @@ const userTyping = () => {
 
 const checkOverflow = () =>{
   const inputBox:any = inputBoxRef.value;
-  if(newMessage){
-    wordCount.value = newMessage.value.length
-  }
   
   if(inputBox){
     const lineHeight = parseInt(window.getComputedStyle(inputBox).height, 10);    
@@ -751,14 +700,24 @@ const handlerUnload = (event:any) => {
   // event.returnValue = '离开将不保存当前数据，如需重开右上角关闭房间';
 }
 
+const handlerWebsocket = () =>{
+  textAdventureStore.reset()
+  socketStore.replaceCallBack(onReceived2)
+  socketStore.ws.callback = onReceived2
+}
 onMounted(()=>{
   //socketStore.initWebSocket(realUserId.value, userName.value, onReceived);
   window.addEventListener("beforeunload", handlerUnload);
   window.addEventListener('unload', handlerUnload);
-  textAdventureStore.reset()
+  realUserId = computed(()=>{
+    let result = ''
+    result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
+
+    return result;
+  })
+
+  handlerWebsocket()
   getCurrentRouter()
-  socketStore.replaceCallBack(onReceived2)
-  socketStore.ws.callback = onReceived2
   
   watch(()=> currentStatus.value, (newValue, oldValue)=>{
     console.log('newValue123:',newValue);
@@ -766,36 +725,6 @@ onMounted(()=>{
     clearInterval(countdownInterval); // 清除之前的倒计时
     countdownValue.value = 60; // 重置倒计时值
   })
-//   let index = 0
-// let a = setInterval(()=>{
-//   let pa = {
-// 	"channel_id": "1701434908804648960",
-// 	"channel_title": "",
-// 	"user": "wmWpQ2GQAAW_bs_JzgqQjCsBt5Phjqj4w",
-// 	"user_name": "用户B",
-// 	"detail": {
-// 		"user": "wmWpQ2GQAAW_bs_JzgqQjCsBt5Phjqj4w"
-// 	},
-// 	"to_user_id": "",
-// 	"kf_id": "uqTIN13j6HKg2nYSyuTay6mHRQULNRSU",
-// 	"type": 1,
-// 	"status": 1,
-// 	"content": "2",
-// 	"message_id": "",
-// 	"send_time": "2023-09-12 16:50:06",
-// 	"dialogue_id": "2",
-// 	"error_message": "",
-// 	"is_end": false,
-// 	"heartbeat": false
-// }
-//   onReceived2(pa)
-//   index ++;
-//   console.log(index);
-  
-//   if(index === 3){
-//     clearInterval(a)
-//   }
-// },1000)
 
   if(isInvite.value){
     sendMessage(9)

@@ -12,6 +12,7 @@
         rounded-8px
         backdrop-blur-78px
       bg-[rgba(255,255,255,0.4)]
+      pb-4rem
       ">
         <div class="overflow-hidden">
           <div class="absolute right-1.6rem top-1.6rem cursor-pointer"  @click="closeTheRoom">
@@ -41,7 +42,7 @@
               mr-2.4rem
               "
               v-if="item.userId"
-              :style="[`background-color:${item.bgColor}`, `border-color:${item.borderColor}`]"
+              :class="[item.userName === userName ? 'bg-#FF6AF0 border-black' : 'bg-black border-white']"
               >
                 <div class="
                 w-8rem
@@ -54,14 +55,13 @@
                 border-solid
                 rd-50%
                 color-white
-                text-2.6rem
                 font-700
                 flex-col-center
                 "
-                :style="[`background-color:${item.bgColor}`, `border-color:${item.borderColor}`]"
+                :class="[item.userName === userName ? 'bg-#FF6AF0 border-black' : 'bg-black border-white']"
                 >
-                <span v-if="item.userId === realUserId">我</span>
-                <span v-else>{{ item.userName }}</span>
+                <span v-if="item.userId === realUserId" class="text-3.2rem">我</span>
+                <span v-else class="text-4.5rem">{{ item.userName }}</span>
                 </div>
                 <div class="
                 absolute
@@ -122,14 +122,10 @@
           class="
             mt-4rem
             rounded-6px
-            bg-black
+            text-2rem
             w-full
             h-5.6rem
-            color-white
-            text-2rem
-            text-center
-            font-700
-            cursor-pointer
+            l-btn-black
             "
             :loading="startLoading"
             v-if="readyStatus && !isInvite"
@@ -137,6 +133,22 @@
           >
           开始游戏
           </a-button>
+
+          <a-button
+          class="
+            mt-4rem
+            rounded-6px
+            text-2rem
+            w-full
+            h-5.6rem
+            l-btn-black
+            "
+            v-if="isInvite"
+            @click="closeTheRoom"
+          >
+          退出游戏
+          </a-button>
+
           <div class="
             mt-4rem
             rounded-6px
@@ -150,7 +162,7 @@
             font-700
             cursor-pointer
             "
-            v-else-if="!isInvite"
+            v-if="!readyStatus && !isInvite"
             @click="shareLink"
             >
             立即邀请
@@ -161,10 +173,10 @@
             font-500
             text-center
             mt-1.8rem
-            color-black
-            pb-4rem
+            color-black            
             cursor-pointer
           "
+          v-if="!readyStatus"
           @click="$router.push('hasRoom')"
           >已有房间，加入好友</div>
         </div>
@@ -183,11 +195,14 @@ import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
 
 import { chatroomAdd,chatroomDelete } from '@manage/shared/apis/game'
 import { useLoginStore, useSocketStore } from '@manage/shared/store/index.ts';
+import { message } from 'ant-design-vue';
+import { login } from '@manage/shared/apis/login';
 
 const socketStore = useSocketStore()
 const loginStore = useLoginStore()
 const router = useRouter();
 const isConnect = ref(true);//是否连接websocket
+let realUserId:any = null
 
 const stepStatus = ref(2)
 const source = window.location.href + '&invite=1'
@@ -199,12 +214,6 @@ const channelId = ref('')
 const userName = ref('')
 const isInvite = ref(false)
 const readyStatus = ref(false)
-const realUserId = computed(()=>{
-  let result = ''
-  result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
-
-  return result;
-})
 
 interface PlayerList {
   userName?: string; 
@@ -284,10 +293,26 @@ const isFullPlayer = (list:PlayerList[]) => {
     readyStatus.value = true
   }
 }
+
+// 倒计时3秒
+let countIndex = ref(3)
+let tempCount:any = null
+function countDownGo(){
+  if(countIndex.value === 0){
+    if(tempCount){
+      clearTimeout(tempCount)
+    }
+    router.push('createRoom')
+  }
+  else{
+    tempCount = setTimeout(()=>{
+      countDownGo()
+      countIndex.value --;
+    },1000)
+  }
+}
 // const onReceived2:any = inject('onReceived2')
 function onReceived(data:any) {
-  console.log('---data---',data);
-
   // 监听服务器返回信息
   if(data){
     let dataFormat = JSON.parse(data)
@@ -295,48 +320,58 @@ function onReceived(data:any) {
     
     if(dataFormat){
       let type = dataFormat.type
-      // type为8的跳转准备开始游戏
-      if(type === 9){
-        // 代表b进来了
-        stepStatus.value = 0
-        sendMessage(2,userName.value )
-      }
-      else if(type === 8){
-        if(dataFormat.to_user_id === realUserId.value){
-          startLoading.value = false
+      if(dataFormat.is_stream_end === false){
+        // type为8的跳转准备开始游戏
+        if(type === 9){
+          // 代表b进来了
+          stepStatus.value = 0
+          sendMessage(2,userName.value )
+        }
+        else if(type === 8){
+          if(dataFormat.to_user_id === realUserId.value){
+            startLoading.value = false
 
-          if(isInvite.value){
-            router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1}});
+            if(isInvite.value){
+              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1}});
+            }
+            else{
+              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value}});
+            }
+          }
+        }
+        else if(type === 4 || type === 5){
+          dataFormat.users.forEach((item:any)=>{
+            tempArr.push({
+              'user': item.user,
+              'user_name': item.user_name
+            })
+          })
+
+          tempArr.forEach((item:any)=>{
+            addPlayer(item)
+          })
+        }
+        else if(type === 6){
+          if(dataFormat.user != realUserId.value){
+            //其它玩家发的退出
+            messageBox.info(`对面玩家${dataFormat.user_name}退出，即将离开聊天室`)
+            countDownGo()
+            sendMessage(6, userName.value)
           }
           else{
-            router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value}});
+            //自己发的退出
+            messageBox.info(`正在退出，即将离开聊天室`)
+            countDownGo()
           }
         }
       }
-      else if(type === 4 || type === 5){
-        dataFormat.users.forEach((item:any)=>{
-          tempArr.push({
-            'user': item.user,
-            'user_name': item.user_name
-          })
-        })
-
-        tempArr.forEach((item:any)=>{
-          addPlayer(item)
-        })
-      }
-
     }
 
   }
 }
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
-  router.push('createRoom')
-  let params = {
-    channel_id: channelId.value
-  }
-  let result = await chatroomDelete(params);
+  sendMessage(6, userName.value)
 }
 
 // 开始游戏
@@ -348,6 +383,13 @@ const startGame = () => {
 }
 
 const initData = () =>{
+  realUserId = computed(()=>{
+    let result = ''
+    result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
+
+    return result;
+  })
+
   if(isInvite.value){
     userName.value = 'B'
   }
@@ -374,6 +416,7 @@ const initData = () =>{
 onMounted(()=>{
   getCurrentRouter()
   initData()
+
 //   window.addEventListener("beforeunload", (event) => {
 //   // Cancel the event as stated by the standard.
 //   event.preventDefault();

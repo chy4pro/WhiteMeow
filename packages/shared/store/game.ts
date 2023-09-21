@@ -27,6 +27,8 @@ export const useTextAdventureStore = defineStore('textAdventure', {
       }
     },
     addContent(content:string){
+      console.log('content:',content);
+      
       if(this.story.length > this.pageIndex || this.pageIndex === 0){
         let currentContent = this.story[this.pageIndex].content
         if(currentContent === ''){
@@ -37,7 +39,7 @@ export const useTextAdventureStore = defineStore('textAdventure', {
         }
       }
       else{
-        this.story.push({content: ''})
+        this.story.push({content: content || ''})
       }
     }
   }

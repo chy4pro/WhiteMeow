@@ -269,6 +269,10 @@ body{
 .ant-tooltip-placement-bottomLeft .ant-tooltip-arrow{
   top: 0.5px;
 }
+/*progress*/
+.ant-progress-circle.ant-progress-status-success .ant-progress-text{
+  color: #000;
+}
 /*reset ant design*/
 
 /*reset safari*/
