@@ -64,9 +64,14 @@ export default class Socket {
             // loading.close()
         }
     }
-    sendMsg(data) {
+    sendMsg(data) {        
         let msg = JSON.stringify(data)
-        return this.ws.send(msg)
+        if(this.ws){
+            return this.ws.send(msg)
+        }
+        else{
+            this.status = 'close'
+        }
     }
     _resetHeart() {
         clearInterval(this.pingInterval)

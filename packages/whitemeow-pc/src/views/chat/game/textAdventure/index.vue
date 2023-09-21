@@ -514,7 +514,7 @@ const goRight = () =>{
 }
 
 let disabledSend = computed(() => {
-  return tempLock.value || !isEnd.value
+  return !isConnect.value || tempLock.value || !isEnd.value
 })
 
 const chinaNumber= computed(() => {
@@ -569,6 +569,10 @@ const readyToSend = () =>{
 
 // 发送消息
 const sendMessage = (type:number) => {
+  if(isConnect.value === false){
+    connectFail()
+  }
+
   if(disabledSend.value){
     return
   }
@@ -600,11 +604,10 @@ const sendMessage = (type:number) => {
     isEnd.value = false;
   }
   
+  console.log(socketStore.ws);
+  
   if(socketStore.ws){
     socketStore.ws?.sendMsg(sendData)
-  }
-  else{
-    router.push('createRoom')
   }
 };
 
@@ -673,24 +676,6 @@ const getCurrentRouter = () => {
   if(query.invite){isInvite.value = query.invite as string === '1'? true : false}
 }
 
-const initMessages = () => {
-  messages.value.push(
-    {
-      created_at: getFormattedDate('time'),
-      content: '',
-      user: '',
-      user_name: 'A',
-      message_id: ''
-    },
-    {
-      created_at: getFormattedDate('time'),
-      content: '',
-      user: '',
-      user_name: 'B',
-      message_id: ''
-    }
-  )
-}
 
 const handlerUnload = (event:any) => {
   // Cancel the event as stated by the standard.
@@ -700,10 +685,17 @@ const handlerUnload = (event:any) => {
   // event.returnValue = '离开将不保存当前数据，如需重开右上角关闭房间';
 }
 
+const connectFail = () => {
+  messageBox.info('该房间断开，请重新开始')
+  router.push('createRoom')
+}
+
 const handlerWebsocket = () =>{
   textAdventureStore.reset()
-  socketStore.replaceCallBack(onReceived2)
-  socketStore.ws.callback = onReceived2
+  if(socketStore.ws){
+    socketStore.replaceCallBack(onReceived2)  
+    socketStore.ws.callback = onReceived2
+  }
 }
 onMounted(()=>{
   //socketStore.initWebSocket(realUserId.value, userName.value, onReceived);
@@ -726,6 +718,29 @@ onMounted(()=>{
     countdownValue.value = 60; // 重置倒计时值
   })
 
+  watch(()=> isConnect.value, async(newValue) => {    
+    if(newValue === false){
+      connectFail()
+    }
+  });
+
+  if(socketStore.ws){
+    // 监听连接状态变化
+    watch(()=> socketStore.ws.status, async(newValue) => {
+      console.log('myVariable 变化了:', newValue);
+      if(newValue === 'open'){
+        isConnect.value = true;
+      }
+      else{
+        isConnect.value = false;
+      }
+    });
+  }
+  else{
+    isConnect.value = false;
+  }
+
+
   if(isInvite.value){
     sendMessage(9)
   }
@@ -736,10 +751,9 @@ onBeforeUnmount(()=>{
 })
 
 onBeforeRouteLeave((to, from, next) => {
-  sendMessage(6)
   if(socketStore.ws){
-    socketStore.ws.close();
     sendMessage(6)
+    socketStore.ws.close();
   }
   next();
 })
