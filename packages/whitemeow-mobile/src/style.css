@@ -3,6 +3,11 @@
   src: url('./assets/font/RedHatDisplay.ttf');
 }
 
+@font-face {
+  font-family: RedHatDisplayBold;
+  src: url('./assets/font/RedHatDisplayBold.woff');
+}
+
 :root {
   font-family: RedHatDisplay;
   font-weight: 400;

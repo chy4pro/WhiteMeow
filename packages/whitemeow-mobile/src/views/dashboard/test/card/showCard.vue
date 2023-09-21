@@ -18,7 +18,7 @@
       "
       class="box2 comm"
     >
-      <div>
+      <div style="width: 100%;">
         <div class="close">
           <img
             :src="Close"
@@ -404,12 +404,12 @@ onMounted(() => {
 
     .answer {
       color: rgba(255, 223, 252, 1);
-      font-size: 1.6rem;
-      font-weight: 600;
+      font-size: 1.8rem;
+      font-weight: 800;
       margin-bottom: 0.8rem;
       text-align: left;
       width: 100%;
-      padding-left: 0.8rem;
+      padding-left: 1rem;
     }
 
     .chat-bg {
@@ -428,9 +428,9 @@ onMounted(() => {
         div {
           color: rgba(255, 223, 252, 1);
           position: absolute;
-          bottom: 1rem;
-          left: 0;
-          font-size: 1.6rem;
+          bottom: 0.3rem;
+          left: 1rem;
+          font-size: 1.8rem;
         }
       }
 
@@ -443,9 +443,15 @@ onMounted(() => {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          text-align: center;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           color: rgba(0, 0, 0, 1);
+          font-weight: 800;
+          font-family: RedHatDisplayBold;
+          width: 100%;
+          padding: 0 1.5rem;
+          max-height: 8.5rem;
+          overflow-y: auto;
+          margin-top: 0.8rem;
         }
       }
     }
@@ -453,7 +459,7 @@ onMounted(() => {
 
   .box2 {
     padding: 0 2.4rem;
-    margin: 5rem 0;
+    margin: 2rem 0;
 
     .close {
       display: flex;
@@ -484,7 +490,7 @@ onMounted(() => {
 
     .text {
       color: #fff;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       line-height: 2.3rem;
       margin-top: 2rem;
     }
@@ -493,9 +499,10 @@ onMounted(() => {
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 3.2rem;
-      font-weight: 700;
+      font-size: 3.5rem;
+      font-weight: 800;
       color: #fff;
+      font-family: RedHatDisplayBold;
 
       img {
         width: 8rem;
@@ -576,6 +583,8 @@ onMounted(() => {
 }
 textarea.ant-input.customer-textarea {
   --at-apply: w-full h-21rem bg-[#fff] outline-none resize-none border-none;
+  border-radius: 1.2rem;
+  padding: 1.6rem;
 }
 </style>
 

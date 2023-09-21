@@ -3,6 +3,8 @@ import { reactive, nextTick, defineAsyncComponent } from "vue";
 
 import Left from "~/login/left.png";
 import Left2 from "~/login/left2.png";
+import LeftActive from "~/login/left-act.png";
+import Left2Active from "~/login/left2-act.png";
 
 const SelectComp = defineAsyncComponent(() => import("./select.vue"));
 
@@ -25,6 +27,11 @@ const state = reactive({
   day: "",
   isToday: false,
   isShowSelBool: false,
+  mClickLeft: false,
+  mClickRight: false,
+  yClickLeft: false,
+  yClickRight: false,
+  timer: null,
 });
 
 const handleClose = (str) => {
@@ -229,6 +236,7 @@ const handleInit = () => {
         item.style.color = "rgba(106, 106, 109, 1)";
         item.style.borderRadius = "0";
         item.style.fontWeight = 400;
+        item.style.fontFamily = 'RedHatDisplay'
       }
     });
 
@@ -239,6 +247,7 @@ const handleInit = () => {
       item.style.color = "rgba(0, 0, 0, 1)";
       item.style.borderRadius = "50%";
       item.style.fontWeight = 700;
+      item.style.fontFamily = 'RedHatDisplayBold'
 
       handleSelDate(item.innerHTML);
     }
@@ -246,6 +255,33 @@ const handleInit = () => {
 };
 
 const handleGo = (type, name) => {
+  if (state.timer) {
+    clearTimeout(state.timer);
+  }
+
+  if (name === "m") {
+    if (type === "+") {
+      state.mClickRight = true;
+    } else {
+      state.mClickLeft = true;
+    }
+  }
+
+  if (name === "y") {
+    if (type === "+") {
+      state.yClickRight = true;
+    } else {
+      state.yClickLeft = true;
+    }
+  }
+
+  state.timer = setTimeout(() => {
+    state.mClickRight = false;
+    state.mClickLeft = false;
+    state.yClickRight = false;
+    state.yClickLeft = false;
+  }, 100);
+
   if (type === "+") {
     if (name === "m") {
       if (state.month >= 12) {
@@ -315,16 +351,32 @@ watch(
     <div class="main" @click.stop v-show="!state.isShowSelBool">
       <div class="sel-top">
         <div class="left">
-          <img @click.stop="handleGo('-', 'y')" :src="Left2" alt="" />
-          <img @click.stop="handleGo('-', 'm')" :src="Left" alt="" />
+          <img
+            @click.stop="handleGo('-', 'y')"
+            :src="state.yClickLeft ? Left2Active : Left2"
+            alt=""
+          />
+          <img
+            @click.stop="handleGo('-', 'm')"
+            :src="state.mClickLeft ? LeftActive : Left"
+            alt=""
+          />
         </div>
         <div @click="handleSel">
           <span>{{ state.year }} 年 </span>
           <span>{{ state.month }} 月</span>
         </div>
         <div class="right">
-          <img @click.stop="handleGo('+', 'y')" :src="Left2" alt="" />
-          <img @click.stop="handleGo('+', 'm')" :src="Left" alt="" />
+          <img
+            @click.stop="handleGo('+', 'y')"
+            :src="state.yClickRight ? Left2Active : Left2"
+            alt=""
+          />
+          <img
+            @click.stop="handleGo('+', 'm')"
+            :src="state.mClickRight ? LeftActive : Left"
+            alt=""
+          />
         </div>
       </div>
 
@@ -385,7 +437,7 @@ watch(
         display: flex;
         flex-wrap: wrap;
         color: rgba(106, 106, 109, 1);
-        font-size: 1.4rem;
+        font-size: 1.6rem;
       }
     }
 

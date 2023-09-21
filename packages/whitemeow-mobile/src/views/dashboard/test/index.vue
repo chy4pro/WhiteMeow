@@ -38,7 +38,7 @@ const todayGood = lsr.theGods.query("good act 3");
 const todayBad = lsr.theGods.query("bad act 3");
 
 //将数组限定为长度为最大为7的数组
-const splitArr = (arr, size = 6) => {
+const splitArr = (arr, size = 5) => {
   let result = [];
   if (arr.length <= size) return arr;
 
@@ -56,36 +56,55 @@ const state = reactive({
       desc: "好梦还是恶兆？",
       path: "/chat/testChat/interpretationDream",
       imgUrl: Pic1,
+      active: false,
     },
     {
       label: "心理沙盘",
       desc: "感应性的治愈机制",
       path: "/chat/testChat/sandPlay",
       imgUrl: Pic2,
+      active: false,
     },
     {
       label: "肠道健康测试",
       desc: "肥胖、抑郁、慢性病等风险评",
       path: "",
       imgUrl: Pic3,
+      active: false,
     },
     {
       label: "MBTI",
       desc: "16型人格测试",
       path: "",
       imgUrl: Pic4,
+      active: false,
     },
   ],
+  timer: null,
 });
 
-const handleLink = (path) => {
+const handleLink = (path, idx) => {
   if (!path) {
     return;
   }
 
-  router.push({
-    path,
-  });
+  if (idx) {
+    state.card[idx].active = true;
+  }
+
+  if (state.timer) {
+    clearTimeout(state.timer);
+  }
+
+  state.timer = setTimeout(() => {
+    if (idx) {
+      state.card[idx].active = false;
+    }
+
+    router.push({
+      path,
+    });
+  }, 300);
 };
 </script>
 
@@ -133,11 +152,11 @@ const handleLink = (path) => {
       <div class="title">更多测试</div>
       <div class="list">
         <div
-          class="item"
+          :class="['item', item.active && 'scale']"
           v-for="(item, idx) in state.card"
           :key="idx"
           :style="{ marginRight: (idx + 1) % 2 === 0 ? '0' : '0.7rem' }"
-          @click="handleLink(item.path)"
+          @click="handleLink(item.path, String(idx))"
         >
           <img :src="item.imgUrl" alt="" />
           <div class="bottom">
@@ -151,6 +170,66 @@ const handleLink = (path) => {
 </template>
 
 <style scoped lang="scss">
+@keyframes scaleMove {
+  0% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@-webkit-keyframes scaleMove {
+  0% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes turnMove {
+  0% {
+    transform: rotateY(0deg);
+  }
+  25% {
+    transform: rotateY(90deg);
+  }
+  50% {
+    transform: rotateY(0deg);
+  }
+  75% {
+    transform: rotateY(-90deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@-webkit-keyframes turnMove {
+  0% {
+    transform: rotateY(0deg);
+  }
+  25% {
+    transform: rotateY(90deg);
+  }
+  50% {
+    transform: rotateY(0deg);
+  }
+  75% {
+    transform: rotateY(-90deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
 .test-index {
   padding: 1.6rem;
 
@@ -169,6 +248,11 @@ const handleLink = (path) => {
     .list {
       display: flex;
       flex-wrap: wrap;
+
+      .scale {
+        transform: scale(1.1);
+        transition: all 0.3s;
+      }
 
       .item {
         width: 16.8rem;
@@ -190,16 +274,16 @@ const handleLink = (path) => {
           justify-content: center;
           align-items: center;
           height: calc(100% - 13.2rem);
+          font-family: RedHatDisplayBold;
 
           .name {
-            font-size: 1.4rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 800;
             color: rgba(16, 24, 40, 1);
           }
 
           .desc {
-            font-size: 1rem;
-            font-weight: 400;
+            font-size: 1.3rem;
             color: rgba(71, 84, 103, 1);
             width: 100%;
             text-overflow: ellipsis;
@@ -229,6 +313,10 @@ const handleLink = (path) => {
     position: relative;
     display: flex;
 
+    img {
+      display: block;
+    }
+
     .right {
       display: flex;
       align-items: center;
@@ -254,12 +342,14 @@ const handleLink = (path) => {
       .b {
         width: 15rem;
         height: 4rem;
+        animation: scaleMove 2s infinite;
+        -webkit-animation: scaleMove 2s infinite;
       }
     }
 
     .c {
       position: absolute;
-      left: 0.6rem;
+      left: 0.7rem;
       width: calc(100% - 1.5rem);
       height: 9.5rem;
     }
@@ -267,6 +357,8 @@ const handleLink = (path) => {
     .l {
       width: 10.5rem;
       height: 18rem;
+      animation: turnMove 3s infinite;
+      -webkit-animation: turnMove 3s infinite;
     }
   }
 
@@ -288,17 +380,20 @@ const handleLink = (path) => {
 
       .date {
         color: #fff;
-        font-size: 1.4rem;
-        font-weight: 700;
+        font-size: 1.6rem;
+        font-weight: 900;
         height: 2.1rem;
         line-height: 2.1rem;
         text-align: center;
+        font-family: RedHatDisplayBold;
       }
 
       .item {
         color: rgba(255, 255, 255, 0.8);
         margin-bottom: 0.4rem;
         width: 100%;
+        font-size: 1.3rem;
+        font-family: RedHatDisplayBold;
 
         img {
           width: 2.4rem;

@@ -2,6 +2,7 @@
 import { reactive, onMounted } from "vue";
 
 import Left from "~/login/left.png";
+import LeftActive from "~/login/left-act.png";
 
 const emit = defineEmits(["handleEmit"]);
 
@@ -15,6 +16,9 @@ const props = defineProps({
 });
 
 const state = reactive({
+  timer: null,
+  isClickLeft: false,
+  isClickRight: false,
   year: [],
   y: "",
   m: "",
@@ -94,6 +98,21 @@ const handleYear = (type, y) => {
 };
 
 const handleGo = (type) => {
+  if (state.timer) {
+    clearTimeout(state.timer);
+  }
+
+  if (type === "-") {
+    state.isClickLeft = true;
+  } else {
+    state.isClickRight = true;
+  }
+
+  state.timer = setTimeout(() => {
+    state.isClickLeft = false;
+    state.isClickRight = false;
+  }, 100);
+
   if (state.isYearBool) {
     if (type === "-") {
       handleYear("-", Number(state.year[0].value));
@@ -134,7 +153,7 @@ const handleSel = (val) => {
 onMounted(() => {
   state.y = props.year;
   state.m = props.month;
-  
+
   handleYear("-", Number(props.year));
 });
 </script>
@@ -142,9 +161,17 @@ onMounted(() => {
 <template>
   <div class="select-index">
     <div class="top">
-      <img @click="handleGo('-')" :src="Left" alt="" />
+      <img
+        @click="handleGo('-')"
+        :src="state.isClickLeft ? LeftActive : Left"
+        alt=""
+      />
       <span>{{ state.text }}</span>
-      <img @click="handleGo('+')" :src="Left" alt="" />
+      <img
+        @click="handleGo('+')"
+        :src="state.isClickRight ? LeftActive : Left"
+        alt=""
+      />
     </div>
 
     <div class="bottom">
@@ -178,11 +205,12 @@ onMounted(() => {
       align-items: center;
       justify-content: center;
       color: rgba(106, 106, 109, 1);
-      font-size: 1.4rem;
+      font-size: 1.6rem;
     }
     .active {
       color: rgba(255, 106, 240, 1);
-      font-weight: 700;
+      font-weight: 800;
+      font-family: RedHatDisplayBold;
     }
   }
   .top {

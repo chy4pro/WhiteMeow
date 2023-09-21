@@ -724,9 +724,9 @@ onMounted(() => {
     }
 
     .tab-active {
-      font-size: 2rem;
+      font-size: 2.2rem;
       color: rgba(0, 0, 0, 1);
-      font-weight: 700;
+      font-weight: 900;
       justify-content: space-between;
     }
   }

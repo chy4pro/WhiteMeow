@@ -12,8 +12,11 @@ import Icon4Active from "~/tab/icon4-active.png";
 import Lock from "~/tab/lock.png";
 
 import { useRouter } from "vue-router";
+import { useChatStore } from "@manage/shared/store/index.ts";
 
 const router = useRouter();
+
+const chatStore = useChatStore();
 
 const tab = ref([
   {
@@ -93,10 +96,15 @@ watch(
 
 <template>
   <div class="dashboard-index">
-    <div class="children">
+    <div
+      class="children"
+      :style="{
+        height: chatStore.$state.isKeypress ? '100%' : 'calc(100% - 5.6rem)',
+      }"
+    >
       <router-view></router-view>
     </div>
-    <div class="tab-index">
+    <div class="tab-index" v-if="!chatStore.$state.isKeypress">
       <div
         :class="['item', item.active && 'active']"
         v-for="(item, idx) in tab"

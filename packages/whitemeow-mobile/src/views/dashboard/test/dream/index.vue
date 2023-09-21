@@ -1,6 +1,7 @@
 <template>
   <div class="dream-index">
     <TipDialog :isShow="formState.status === 2 && chatStore.showOnlyOne" />
+
     <div v-show="formState.status === 0">
       <div class="chat-bg">
         <div class="chat1">
@@ -58,7 +59,7 @@
         </div>
       </div>
 
-      <div class="answer">
+      <div class="answer" style="display: block">
         <div><strong>再次补充：</strong></div>
         <span>(只有一次补充机会，请尽可能的补充梦境的所有内容)</span>
       </div>
@@ -307,7 +308,7 @@ const initWebSocket = () => {
       },
     })
   );
-  ws.init()
+  ws.init();
   ws.connect();
 };
 
@@ -347,8 +348,9 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 800;
+    font-family: RedHatDisplayBold;
   }
 
   .check:active {
@@ -357,8 +359,11 @@ onMounted(() => {
 
   .answer {
     color: rgba(255, 223, 252, 1);
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     margin-bottom: 1rem;
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
 
     span {
       font-size: 1.3rem;
@@ -382,15 +387,15 @@ onMounted(() => {
       div {
         color: rgba(255, 223, 252, 1);
         position: absolute;
-        bottom: 1rem;
-        left: 0;
-        font-size: 1.6rem;
+        bottom: 0.3rem;
+        left: 1rem;
+        font-size: 1.8rem;
       }
     }
 
     .chat2 {
       position: relative;
-      margin-top: -1.2rem;
+      margin-top: -1.8rem;
       background-image: url("~/test/chat2.png");
       background-size: 100% 100%;
       background-repeat: no-repeat;
@@ -399,23 +404,26 @@ onMounted(() => {
       justify-content: center;
       align-items: center;
       padding-bottom: 1rem;
+      height: 16rem;
 
       div {
-        min-height: 10rem;
         max-height: 12rem;
         overflow-y: auto;
         margin-top: 3rem;
         padding: 0 1.6rem;
+        font-size: 1.6rem;
+        font-weight: 800;
+        font-family: RedHatDisplayBold;
       }
     }
 
     .bg3 {
-      margin-top: -1.7rem;
+      margin-top: -1.5rem;
       background-image: url("~/test/chat3.png");
-      height: 50rem;
+      height: 35rem;
 
       div {
-        max-height: 45rem;
+        max-height: 30rem;
       }
     }
   }
@@ -481,9 +489,13 @@ onMounted(() => {
 }
 textarea.ant-input.customer-textarea {
   --at-apply: w-full h-21rem bg-[#fff] outline-none resize-none border-none;
+  border-radius: 1.2rem;
+  padding: 1.6rem;
 }
 textarea.ant-input.customer-textarea-small {
   --at-apply: w-full h-10rem bg-[#fff] outline-none resize-none border-none;
+  border-radius: 1.2rem;
+  padding: 1.6rem;
 }
 </style>
 

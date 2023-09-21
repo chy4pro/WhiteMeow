@@ -61,12 +61,18 @@ export const useChatStore = defineStore('chat', {
     enterStartDate: window.localStorage.getItem('enterStartDate') as any,//用户上次进来的时间
     showLoginModal: false,
     currentTipText: '',
-    showOnlyOne: false
+    showOnlyOne: false,
+
+    isKeypress: false
   }),
   actions: {
     initEnterStartDate(){
       let result = new Date();
       this.enterStartDate = useStorage('enterStartDate', result.getTime());
+    },
+
+    handleSetKeypress(bool: Boolean) {
+      this.isKeypress = bool
     }
   }
 });

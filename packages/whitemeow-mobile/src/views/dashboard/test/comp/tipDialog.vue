@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 const handleSure = () => {
-  router.push({ path: "/chat/testChat/dailyHome" });
+  // router.push({ path: "/chat/testChat/dailyHome" });
   chatStore.showOnlyOne = false;
 };
 </script>

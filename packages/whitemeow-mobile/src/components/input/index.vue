@@ -115,26 +115,26 @@ const handleSend = () => {
 
 <style scoped lang="scss">
 input::input-placeholder {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.2);
   font-size: 1.4rem;
-  font-weight: 500;
+  // font-weight: 500;
 }
 input::-webkit-input-placeholder {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.2);
   font-size: 1.4rem;
-  font-weight: 500;
+  // font-weight: 500;
 }
 
 input::-moz-placeholder {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.2);
   font-size: 1.4rem;
-  font-weight: 500;
+  // font-weight: 500;
 }
 
 input::-ms-input-placeholder {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.2);
   font-size: 1.4rem;
-  font-weight: 500;
+  // font-weight: 500;
 }
 
 .active {

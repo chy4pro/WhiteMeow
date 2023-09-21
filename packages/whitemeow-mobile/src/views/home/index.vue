@@ -1,34 +1,40 @@
 <script setup>
+import { onMounted, onUnmounted } from "vue";
+
 import Logo from "~/home/logo.png";
-import Cat from "~/home/cat.png";
-import Star from "~/home/star.png";
-import Hi from "~/home/hi.png";
+import Bg from "~/home/bg.png";
 
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const handleLink = () => {
-  router.push({
-    path: "/chat/freeChat",
-  });
-};
+let timer = null;
+
+onMounted(() => {
+  timer = setTimeout(() => {
+    router.push({
+      path: "/chat/freeChat",
+    });
+  }, 2000);
+});
+
+onUnmounted(() => {
+  if (timer) {
+    clearTimeout(timer);
+  }
+});
 </script>
 
 <template>
-  <div class="wrapper" @click="handleLink">
+  <div class="wrapper">
     <div class="main">
       <img class="logo" :src="Logo" alt="" />
       <div class="name">白小喵</div>
       <div class="desc">你的专属聊愈宠物</div>
-      <div class="hi">
-        <img class="star" :src="Star" alt="" />
-        <img class="h" :src="Hi" alt="" />
-      </div>
     </div>
 
     <div class="bottom">
-      <img :src="Cat" alt="" />
+      <img :src="Bg" alt="" />
     </div>
   </div>
 </template>
@@ -46,7 +52,7 @@ const handleLink = () => {
   .bottom {
     position: absolute;
     bottom: 0;
-    height: 29rem;
+    height: 35rem;
     width: 100%;
     display: flex;
 
@@ -62,26 +68,7 @@ const handleLink = () => {
     justify-content: center;
     align-items: center;
     z-index: 9;
-
-    .hi {
-      display: flex;
-      align-items: center;
-      position: relative;
-      margin-top: 8rem;
-
-      .star {
-        width: 2.6rem;
-        height: 4.2rem;
-        position: absolute;
-        left: -7rem;
-      }
-
-      .h {
-        width: 9.9rem;
-        height: 8.3rem;
-        margin-left: 5rem;
-      }
-    }
+    margin-top: -30rem;
 
     .desc {
       height: 1.8rem;
@@ -92,11 +79,12 @@ const handleLink = () => {
 
     .name {
       height: 6rem;
-      font-size: 4.5rem;
+      font-size: 5rem;
       font-weight: 900;
       line-height: 6rem;
       color: rgba(46, 20, 46, 1);
       margin-bottom: 0.8rem;
+      font-family: RedHatDisplayBold !important;
     }
     .logo {
       width: 16rem;

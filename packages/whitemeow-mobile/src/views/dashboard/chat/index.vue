@@ -489,11 +489,19 @@ const checkChatRecord = async () => {
   recordList.page = 0;
   pageTotal.value = result.total as number;
 };
+
+const handleBlur = () => {
+  chatStore.handleSetKeypress(false);
+};
+
+const handleFocus = () => {
+  chatStore.handleSetKeypress(true);
+};
 </script>
 
 <template>
   <div class="chat-index">
-    <div class="chat">
+    <div class="chat" ref="messageList">
       <div class="history" @click="showMore">
         <img :src="Up" alt="" />
         查看历史聊天记录
@@ -545,9 +553,11 @@ const checkChatRecord = async () => {
         v-model="newMessage"
         type="text"
         ref="inputBoxRef"
+        @blur="handleBlur"
+        @focus="handleFocus"
         placeholder="你想和我聊些什么？......"
       />
-      <img @click="sendMessage()" :src="Send" alt="" />
+      <img @click="sendMessage" :src="Send" alt="" />
     </div>
   </div>
 </template>
@@ -646,7 +656,7 @@ input::-ms-input-placeholder {
       .cat-img {
         display: flex;
         align-items: flex-end;
-        margin-right: 2rem;
+        margin-right: 0.8rem;
 
         img {
           width: 4rem;
