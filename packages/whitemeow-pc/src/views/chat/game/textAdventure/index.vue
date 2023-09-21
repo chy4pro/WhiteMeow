@@ -89,8 +89,7 @@
         <div class="
           w-4rem
           h-4rem
-          mr-0.8rem
-          bg-black
+          mr-1.6rem
           rounded-50%
           line-height-4rem
           text-center
@@ -98,16 +97,17 @@
           font-700
           text-2.2rem
         "
-        v-if="message.user_name === 'B'"
-        >B</div>
+        :class="message.isUser === true ? 'bg-[var(--pink-02)] order-2' : 'bg-black order-1'"
+        >{{ message.user_name }}</div>
 
-        <div class="          
+        <div class="
           color-[#000c]
           max-w-1/2
           b-rd-[8px]
           relative
+          mr-1.6rem
           "
-          :class="[message.user_name === 'A' ? 'bg-[var(--pink-02)]' : 'bg-black', message.isUser === true ? 'flex-self-start': '']">
+          :class="[message.isUser === true ? 'flex-self-start bg-[var(--pink-02)] order-1': 'bg-black order-2']">
           <div class="
             whitespace-pre-line
             color-white
@@ -120,21 +120,6 @@
             <div>{{ message.content }}</div>
           </div>
         </div>
-
-        <div class="
-          w-4rem
-          h-4rem
-          ml-0.8rem
-          bg-[var(--pink-02)]
-          rounded-50%
-          line-height-4rem
-          text-center
-          color-white
-          font-700
-          text-2.2rem
-        "
-        v-if="message.user_name === 'A'"
-        >A</div>
         </div>
       </div>
     </div>

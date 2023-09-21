@@ -42,7 +42,7 @@
               mr-2.4rem
               "
               v-if="item.userId"
-              :style="[`background-color:${item.bgColor}`, `border-color:${item.borderColor}`]"
+              :class="[item.userName === userName ? 'bg-#FF6AF0 border-black' : 'bg-black border-white']"
               >
                 <div class="
                 w-8rem
@@ -58,7 +58,7 @@
                 font-700
                 flex-col-center
                 "
-                :style="[`background-color:${item.bgColor}`, `border-color:${item.borderColor}`]"
+                :class="[item.userName === userName ? 'bg-#FF6AF0 border-black' : 'bg-black border-white']"
                 >
                 <span v-if="item.userId === realUserId" class="text-3.2rem">我</span>
                 <span v-else class="text-4.5rem">{{ item.userName }}</span>
