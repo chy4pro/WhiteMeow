@@ -215,6 +215,8 @@ import { message } from "@/utils/index";
 import ResultDialog from "./result.vue";
 import TipDialog from "../comp/tipDialog.vue";
 
+const firstTalk = ref(true);
+
 const chatStore = useChatStore();
 
 const showDialog = ref(false);
@@ -312,6 +314,8 @@ const sendMessage = () => {
 
   if (isConnect.value === true) {
     if (isValidText(newMessage.value)) {
+      firstTalk.value = false;
+      
       const today = getFormattedDate();
       let messageId = genIdForMsg(2, 20);
       messages.value.push({
@@ -668,11 +672,26 @@ const getChatRecord = async () => {
 };
 
 const handleBlur = () => {
-  chatStore.handleSetKeypress(false);
+  setTimeout(() => {
+    chatStore.handleSetKeypress(false);
+  }, 300);
 };
 
 const handleFocus = () => {
-  chatStore.handleSetKeypress(true);
+  setTimeout(() => {
+    chatStore.handleSetKeypress(true);
+
+    const container = messageList._value;
+    if (container) {
+      if (!firstTalk.value) {
+        container.scrollTop = container.scrollHeight;
+      } else {
+        container.scrollTop = 0;
+      }
+
+      scrollBottomFlag.value = false;
+    }
+  }, 300);
 };
 </script>
 

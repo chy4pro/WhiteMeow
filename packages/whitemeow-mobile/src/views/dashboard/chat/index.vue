@@ -5,7 +5,7 @@ import Heart from "~/chat/heart.png";
 import HeartActive from "~/chat/heart-active.png";
 import Up from "~/chat/up.png";
 
-import { ref, nextTick } from "vue";
+import { ref, nextTick, onMounted } from "vue";
 import { getEmojiUrl } from "@manage/shared/utils/index.ts";
 import { chat } from "@manage/shared/apis/chat.ts";
 import Socket from "@manage/shared/utils/http/websocket.js";
@@ -17,6 +17,8 @@ const chatStore = useChatStore();
 import { uniqWith } from "lodash-es";
 
 import { message } from "@/utils/index";
+
+const firstTalk = ref(true);
 
 var chatLogsMap = reactive(new Map<string, Message[]>());
 const messageList = ref<any>(null);
@@ -113,6 +115,8 @@ const sendMessage = () => {
     }
 
     if (isValidText(newMessage.value)) {
+      firstTalk.value = false;
+
       // 处理非空的 messages.value
       const today = getFormattedDate();
       let messageId = genIdForMsg(2, 20);
@@ -418,10 +422,12 @@ onMounted(() => {
       }
     }
   );
-});
 
-nextTick(() => {
-  inputBoxRef?.value.focus();
+  nextTick(() => {
+    setTimeout(() => {
+      inputBoxRef?.value.focus();
+    }, 300);
+  });
 });
 
 interface Message {
@@ -491,17 +497,32 @@ const checkChatRecord = async () => {
 };
 
 const handleBlur = () => {
-  chatStore.handleSetKeypress(false);
+  setTimeout(() => {
+    chatStore.handleSetKeypress(false);
+  }, 300);
 };
 
 const handleFocus = () => {
-  chatStore.handleSetKeypress(true);
+  setTimeout(() => {
+    chatStore.handleSetKeypress(true);
+
+    const container = messageList._value;
+    if (container) {
+      if (!firstTalk.value) {
+        container.scrollTop = container.scrollHeight;
+      } else {
+        container.scrollTop = 0;
+      }
+
+      scrollBottomFlag.value = false;
+    }
+  }, 300);
 };
 </script>
 
 <template>
   <div class="chat-index">
-    <div class="chat" ref="messageList">
+    <div class="chat" ref="messageList" @click="handleBlur">
       <div class="history" @click="showMore">
         <img :src="Up" alt="" />
         查看历史聊天记录
