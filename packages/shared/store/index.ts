@@ -71,7 +71,7 @@ export const useChatStore = defineStore('chat', {
       this.enterStartDate = useStorage('enterStartDate', result.getTime());
     },
 
-    handleSetKeypress(bool: Boolean) {
+    handleSetKeypress(bool: boolean) {
       this.isKeypress = bool
     }
   }
