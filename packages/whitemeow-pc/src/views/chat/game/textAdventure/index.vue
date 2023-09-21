@@ -72,7 +72,7 @@
       </div>
     </div>
 
-    <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex < 6">
+    <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex < 5">
         
         <div 
         >
@@ -159,7 +159,7 @@
       >更多测试</div>
     </div>
 
-    <div class="footer" v-if="stepStatus < 6">
+    <div class="footer" v-show="textAdventureStore.pageIndex < 5">
       <div class="whitespace-nowrap mr-1.6rem text-2.4rem font-700">玩家{{ userName }}：</div>
       <div class="bg-white h-56px rounded-8px w-full mr-3rem flex-col-center relative pr-75px">
         <textarea 
@@ -318,6 +318,9 @@ const startAgain = () =>{
   chatLog = []
   isEnd.value = false
   tempLock.value = false
+  if(!isInvite.value){
+    sendMessage(2)
+  }
 }
 
 // let oneTimeStatus0 = ref(true)
