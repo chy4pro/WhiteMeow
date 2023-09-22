@@ -12,7 +12,7 @@ export default class Socket {
         this.status =  options.ws || null;
         this.pingInterval = null;
         // 心跳检测频率
-        this._timeout = 40000;
+        this._timeout = 10000;
         this.isHeart = options.isHeart;
         this.isReconnection = options.isReconnection;
     }
@@ -26,6 +26,7 @@ export default class Socket {
         //     text: 'Loading',
         //     background: 'rgba(0, 0, 0, 0.7)',
         // })
+        console.log(this);
         // 建立连接
         this.ws.onopen = (e) => {
             this.status = 'open';
@@ -58,7 +59,7 @@ export default class Socket {
             // loading.close()
         }
         // 报错
-        this.onerror = (e) => {
+        this.ws.onerror = (e) => {
             console.log('onerror',e)
             this._closeSocket(e)
             // loading.close()
@@ -68,9 +69,6 @@ export default class Socket {
         let msg = JSON.stringify(data)
         if(this.ws){
             return this.ws.send(msg)
-        }
-        else{
-            this.status = 'close'
         }
     }
     _resetHeart() {

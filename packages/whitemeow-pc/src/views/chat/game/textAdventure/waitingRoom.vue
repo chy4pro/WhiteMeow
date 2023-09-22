@@ -203,6 +203,7 @@ const loginStore = useLoginStore()
 const router = useRouter();
 const isConnect = ref(true);//是否连接websocket
 let realUserId:any = null
+let jumpFlag = ref(true)
 
 const stepStatus = ref(2)
 const source = window.location.href + '&invite=1'
@@ -332,10 +333,10 @@ function onReceived(data:any) {
             startLoading.value = false
 
             if(isInvite.value){
-              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1}});
+              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1, 'id': data.id}});
             }
             else{
-              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value}});
+              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'id': data.id}});
             }
           }
         }
@@ -351,7 +352,7 @@ function onReceived(data:any) {
             addPlayer(item)
           })
         }
-        else if(type === 6){
+        else if(type === 6 && jumpFlag.value === true){
           if(dataFormat.user != realUserId.value){
             //其它玩家发的退出
             messageBox.info(`对面玩家${dataFormat.user_name}退出，即将离开聊天室`)
@@ -372,6 +373,7 @@ function onReceived(data:any) {
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
   sendMessage(6, userName.value)
+  router.push('createRoom')
 }
 
 // 开始游戏
@@ -458,15 +460,13 @@ onMounted(()=>{
 
 
 
-// onBeforeUnmount(()=>{
-//   window.addEventListener("beforeunload", (event) => {
-//   // Cancel the event as stated by the standard.
-//   event.preventDefault();
-//   sendMessage(6, userName.value)
-//   // Chrome requires returnValue to be set.
-//   event.returnValue = "";
-// });
-// })
+onBeforeRouteLeave((to, from, next) => {
+  if(socketStore.ws && to.name !== 'textAdventure'){
+    jumpFlag.value = false
+    sendMessage(6,userName.value)
+  }
+  next();
+})
 </script>
 
 <style scoped>

@@ -65,7 +65,7 @@
             <div class="text-2rem font-700 color-#FF6AF0">未来的职业发展预测</div>
           </div>
           
-          <div class="text-2rem font-400 line-height-normal" v-if="textAdventureStore.story[textAdventureStore.pageIndex]">
+          <div class="text-2rem font-400 line-height-normal whitespace-pre-line" v-if="textAdventureStore.story[textAdventureStore.pageIndex]">
             {{ textAdventureStore.story[textAdventureStore.pageIndex].content }}
           </div>
         </div>
@@ -204,16 +204,10 @@
 
 <script setup lang="ts">
 import messageBox from '@manage/shared/components/MessageBox/index.ts';
-import { useMySocket } from '@manage/shared/hooks/mySocket';
-import { getFormattedDate } from '@manage/shared/utils/util'
 import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
-import Socket from "@manage/shared/utils/http/websocket.js";
-import { useLoginStore, useSocketStore } from '@manage/shared/store/index.ts';
+import { useSocketStore } from '@manage/shared/store/index.ts';
 import { useTextAdventureStore } from '@manage/shared/store/game.ts';
-import { chatroomDelete } from '@manage/shared/apis/game'
-import { login } from '@manage/shared/apis/login';
 
-const loginStore = useLoginStore()
 const socketStore = useSocketStore()
 const textAdventureStore = useTextAdventureStore()
 let currentStatus = ref<number>(0)
@@ -244,26 +238,10 @@ interface Message {
 }
 
 let chatLog = reactive<any>([])
-let story:any = ref([])
-let chapter = ref(0)
 let realUserId:any = null
-const messages = ref<Message[]>([
-  // {
-  //   created_at: getFormattedDate('time'),
-  //   content: '',
-  //   user: '',
-  //   user_name: 'A',
-  //   message_id: ''
-  // },
-  // {
-  //   created_at: getFormattedDate('time'),
-  //   content: '',
-  //   user: '',
-  //   user_name: 'B',
-  //   message_id: ''
-  // }
-])
+const messages = ref<Message[]>([])
 
+let jumpFlag = ref(true)
 let countdownInterval:any = null//保存计时器
 let wordCount = computed<number>(()=>{
   return newMessage.value.length | 0
@@ -305,22 +283,30 @@ function countDownGo(){
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
   sendMessage(6)
+  router.push('createRoom')  
 }
 
+const backToWaitingRoom = () => {
+  if(isInvite.value){
+    router.push({ name: 'waitingRoom', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1, 'id': roomNumber.value}});
+  }
+  else{
+    router.push({ name: 'waitingRoom', query: {'channel_id': channelId.value,'user_name': userName.value, 'id': roomNumber.value}});
+  }
+}
 //再来一盘
 const startAgain = () =>{
-  stepStatus.value = 0
-  dialogueId.value = genIdForMsg(2, 18)
-  textAdventureStore.reset()
-  clearInterval(countdownInterval)
-  countdownValue.value = 60
-  newMessage.value = ''
-  chatLog = []
-  isEnd.value = false
-  tempLock.value = false
-  if(!isInvite.value){
-    sendMessage(2)
-  }
+  // stepStatus.value = 0
+  // dialogueId.value = genIdForMsg(2, 18)
+  // textAdventureStore.reset()
+  // clearInterval(countdownInterval)
+  // countdownValue.value = 60
+  // newMessage.value = ''
+  // chatLog = []
+  // messages.value = []
+  // isEnd.value = false
+  // tempLock.value = false
+  backToWaitingRoom()
 }
 
 // let oneTimeStatus0 = ref(true)
@@ -337,6 +323,8 @@ function onReceived2(data:any) {
         // 代表b进来了
         stepStatus.value = 0
         dialogueId.value = genIdForMsg(2, 18)
+        console.log('isInvite',isInvite.value);
+        
         if(!isInvite.value){
           sendMessage(2)
         }
@@ -363,7 +351,7 @@ function onReceived2(data:any) {
         }
         
       }
-      else if(type === 6){
+      else if(type === 6 && jumpFlag.value === true){
           if(dataFormat.user != realUserId.value){
             //其它玩家发的退出
             messageBox.info(`对面玩家${dataFormat.user_name}退出，即将离开聊天室`)
@@ -505,7 +493,7 @@ function onReceived2(data:any) {
     }
   }
 }
-// provide('onReceived2', onReceived2)
+
 const goLeft = () =>{
   textAdventureStore.goLeft()
 }
@@ -718,11 +706,11 @@ onMounted(()=>{
     countdownValue.value = 60; // 重置倒计时值
   })
 
-  watch(()=> isConnect.value, async(newValue) => {    
-    if(newValue === false){
-      connectFail()
-    }
-  });
+  // watch(()=> isConnect.value, async(newValue) => {    
+  //   if(newValue === false){
+  //     connectFail()
+  //   }
+  // });
 
   if(socketStore.ws){
     // 监听连接状态变化
@@ -733,11 +721,13 @@ onMounted(()=>{
       }
       else{
         isConnect.value = false;
+        connectFail();
       }
     });
   }
   else{
     isConnect.value = false;
+    connectFail();
   }
 
 
@@ -751,9 +741,9 @@ onBeforeUnmount(()=>{
 })
 
 onBeforeRouteLeave((to, from, next) => {
-  if(socketStore.ws){
+  if(socketStore.ws && to.name !== 'waitingRoom'){
+    jumpFlag.value = false
     sendMessage(6)
-    socketStore.ws.close();
   }
   next();
 })

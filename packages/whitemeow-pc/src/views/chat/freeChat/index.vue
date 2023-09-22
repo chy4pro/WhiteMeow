@@ -292,6 +292,7 @@ const sendMessage = () => {
       if(!isEnd.value){
         messageBox.info('请等等哦~')
       }
+      isEnd.value = false;
       // 发送消息
       let sendData = {
         "typeStatus": 'sendMsg',
@@ -405,6 +406,11 @@ const initWebSocket = () => {
         let dataFormat = JSON.parse(data)
         const today = getFormattedDate();
 
+        //判断是否有错误信息
+        if(dataFormat.error_message != ""){
+            isEnd.value = true;
+            return;
+        }
         if (!chatLogsMap.has(today)) {
           chatLogsMap.set(today, []); 
         }
@@ -444,9 +450,8 @@ const initWebSocket = () => {
                 const currentMessage = messages.value[index];
                 currentMessage.emoji = dataFormat.emoji
               }
+              isEnd.value = true;
             }
-
-            isEnd.value = dataFormat.is_end
           }
         }
         
