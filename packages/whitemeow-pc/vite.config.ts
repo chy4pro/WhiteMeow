@@ -30,7 +30,7 @@ export default defineConfig({
     }
   },
   esbuild:{
-    drop: ['console','debugger'], // 删除 所有的console 和 debugger
+    drop: ['debugger'], // 删除 所有的console 和 debugger
   },
   plugins: [
     vue(),
