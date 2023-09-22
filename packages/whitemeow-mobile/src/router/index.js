@@ -52,10 +52,38 @@ const router = createRouter({
                     component: () => import('@/views/dashboard/test/index.vue')
                 },
                 {
-                    path: '/chat/adventure',
-                    name: 'adventure',
+                    path: '/chat/game/createRoom',
+                    name: 'createRoom',
                     meta: {
-                        type: 'adventure'
+                        type: 'adventure',
+                        title: '冒险喵'
+                    },
+                    component: () => import('@/views/dashboard/adventure/createRoom.vue')
+                },
+                {
+                    path: '/chat/game/hasRoom',
+                    name: 'hasRoom',
+                    meta: {
+                        type: 'adventure',
+                        title: '冒险喵'
+                    },
+                    component: () => import('@/views/dashboard/adventure/hasRoom.vue')
+                },
+                {
+                    path: '/chat/game/waitingRoom',
+                    name: 'waitingRoom',
+                    meta: {
+                        type: 'adventure',
+                        title: '冒险喵'
+                    },
+                    component: () => import('@/views/dashboard/adventure/waitingRoom.vue')
+                },
+                {
+                    path: '/chat/game/textAdventure',
+                    name: 'textAdventure',
+                    meta: {
+                        type: 'adventure',
+                        title: '冒险喵'
                     },
                     component: () => import('@/views/dashboard/adventure/index.vue')
                 },
@@ -153,7 +181,7 @@ router.beforeEach((to, from, next) => {
         document.title = to.meta.title
     }
 
-    // return next()
+    return next()
 
     const store = useIndexStore()
 

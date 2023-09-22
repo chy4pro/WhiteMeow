@@ -7,8 +7,11 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AButton: typeof import('ant-design-vue/es')['Button']
     AForm: typeof import('ant-design-vue/es')['Form']
     AFormItem: typeof import('ant-design-vue/es')['FormItem']
+    AInput: typeof import('ant-design-vue/es')['Input']
+    AProgress: typeof import('ant-design-vue/es')['Progress']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     ConfirmDialog: typeof import('./components/confirmDialog/index.vue')['default']
     DatePicker: typeof import('./components/datePicker/index.vue')['default']

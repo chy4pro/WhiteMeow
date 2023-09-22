@@ -142,7 +142,7 @@ input::-ms-input-placeholder {
   <TipDialog :isShow="chatStore.showOnlyOne" />
 
   <div class="sand-index" v-show="!showDialog">
-    <div class="main" ref="messageList">
+    <div class="main" ref="messageList" @click="handleBlur">
       <div class="messageList">
         <div v-for="[date, logs] in chatLogsMap" :key="date">
           <div class="date">
@@ -315,7 +315,7 @@ const sendMessage = () => {
   if (isConnect.value === true) {
     if (isValidText(newMessage.value)) {
       firstTalk.value = false;
-      
+
       const today = getFormattedDate();
       let messageId = genIdForMsg(2, 20);
       messages.value.push({
