@@ -326,7 +326,7 @@ function onReceived(data:any) {
         if(type === 9){
           // 代表b进来了
           stepStatus.value = 0
-          sendMessage2(2,userName.value )
+          // sendMessage2(2,userName.value )
         }
         else if(type === 8){
           if(dataFormat.to_user_id === realUserId.value){
