@@ -406,6 +406,11 @@ const initWebSocket = () => {
         let dataFormat = JSON.parse(data)
         const today = getFormattedDate();
 
+        //判断是否有错误信息
+        if(dataFormat.error_message != ""){
+            isEnd.value = true;
+            return;
+        }
         if (!chatLogsMap.has(today)) {
           chatLogsMap.set(today, []); 
         }
