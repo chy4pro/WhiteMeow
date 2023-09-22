@@ -231,7 +231,7 @@ const shareLink = () => {
 
 
 // 发送消息
-const sendMessage = (type:number,userName:string) => {
+const sendMessage2 = (type:number,userName:string) => {
   // let messageId = genIdForMsg(2 ,20);
 
   let sendData = {
@@ -326,7 +326,7 @@ function onReceived(data:any) {
         if(type === 9){
           // 代表b进来了
           stepStatus.value = 0
-          sendMessage(2,userName.value )
+          sendMessage2(2,userName.value )
         }
         else if(type === 8){
           if(dataFormat.to_user_id === realUserId.value){
@@ -357,7 +357,7 @@ function onReceived(data:any) {
             //其它玩家发的退出
             messageBox.info(`对面玩家${dataFormat.user_name}退出，即将离开聊天室`)
             countDownGo()
-            sendMessage(6, userName.value)
+            sendMessage2(6, userName.value)
           }
           else{
             //自己发的退出
@@ -372,7 +372,7 @@ function onReceived(data:any) {
 }
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
-  sendMessage(6, userName.value)
+  sendMessage2(6, userName.value)
   if(socketStore.ws){
     socketStore.ws.close()
   }
@@ -383,7 +383,7 @@ const closeTheRoom = async() =>{
 const startGame = () => {
   console.log('start');
   startLoading.value = true
-  sendMessage(8,userName.value)
+  sendMessage2(8,userName.value)
   
 }
 
@@ -425,7 +425,7 @@ onMounted(()=>{
 //   window.addEventListener("beforeunload", (event) => {
 //   // Cancel the event as stated by the standard.
 //   event.preventDefault();
-//   sendMessage(6, userName.value)
+//   sendMessage2(6, userName.value)
 //   // Chrome requires returnValue to be set.
 //   event.returnValue = "";
 // });
@@ -437,12 +437,12 @@ onMounted(()=>{
       console.log('myVariable 变化了:', newValue);
       if(newValue === 'open'){
         isConnect.value = true;
-        //sendMessage(4,)
+        //sendMessage2(4,)
         if(isInvite.value){
-          sendMessage(5,userName.value)
+          sendMessage2(5,userName.value)
         }
         else{
-          sendMessage(4,userName.value)
+          sendMessage2(4,userName.value)
         }
       }
       else{
@@ -466,7 +466,7 @@ onMounted(()=>{
 onBeforeRouteLeave((to, from, next) => {
   if(socketStore.ws && to.name !== 'textAdventure'){
     jumpFlag.value = false
-    sendMessage(6,userName.value)
+    sendMessage2(6,userName.value)
   }
   next();
 })
