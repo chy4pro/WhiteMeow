@@ -204,16 +204,10 @@
 
 <script setup lang="ts">
 import messageBox from '@manage/shared/components/MessageBox/index.ts';
-import { useMySocket } from '@manage/shared/hooks/mySocket';
-import { getFormattedDate } from '@manage/shared/utils/util'
 import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
-import Socket from "@manage/shared/utils/http/websocket.js";
-import { useLoginStore, useSocketStore } from '@manage/shared/store/index.ts';
+import { useSocketStore } from '@manage/shared/store/index.ts';
 import { useTextAdventureStore } from '@manage/shared/store/game.ts';
-import { chatroomDelete } from '@manage/shared/apis/game'
-import { login } from '@manage/shared/apis/login';
 
-const loginStore = useLoginStore()
 const socketStore = useSocketStore()
 const textAdventureStore = useTextAdventureStore()
 let currentStatus = ref<number>(0)
@@ -244,26 +238,10 @@ interface Message {
 }
 
 let chatLog = reactive<any>([])
-let story:any = ref([])
-let chapter = ref(0)
 let realUserId:any = null
-const messages = ref<Message[]>([
-  // {
-  //   created_at: getFormattedDate('time'),
-  //   content: '',
-  //   user: '',
-  //   user_name: 'A',
-  //   message_id: ''
-  // },
-  // {
-  //   created_at: getFormattedDate('time'),
-  //   content: '',
-  //   user: '',
-  //   user_name: 'B',
-  //   message_id: ''
-  // }
-])
+const messages = ref<Message[]>([])
 
+let jumpFlag = ref(true)
 let countdownInterval:any = null//保存计时器
 let wordCount = computed<number>(()=>{
   return newMessage.value.length | 0
@@ -321,18 +299,17 @@ const backToWaitingRoom = () => {
 }
 //再来一盘
 const startAgain = () =>{
-  stepStatus.value = 0
-  dialogueId.value = genIdForMsg(2, 18)
-  textAdventureStore.reset()
-  clearInterval(countdownInterval)
-  countdownValue.value = 60
-  newMessage.value = ''
-  chatLog = []
-  messages.value = []
-  sendMessage(9)
-  isEnd.value = false
-  tempLock.value = false
-  //backToWaitingRoom()
+  // stepStatus.value = 0
+  // dialogueId.value = genIdForMsg(2, 18)
+  // textAdventureStore.reset()
+  // clearInterval(countdownInterval)
+  // countdownValue.value = 60
+  // newMessage.value = ''
+  // chatLog = []
+  // messages.value = []
+  // isEnd.value = false
+  // tempLock.value = false
+  backToWaitingRoom()
 }
 
 // let oneTimeStatus0 = ref(true)
@@ -378,7 +355,7 @@ function onReceived2(data:any) {
         }
         
       }
-      else if(type === 6){
+      else if(type === 6 && jumpFlag.value === true){
           if(dataFormat.user != realUserId.value){
             //其它玩家发的退出
             messageBox.info(`对面玩家${dataFormat.user_name}退出，即将离开聊天室`)
@@ -767,13 +744,13 @@ onBeforeUnmount(()=>{
   window.addEventListener('beforeunload', handlerUnload);
 })
 
-// onBeforeRouteLeave((to, from, next) => {
-//   if(socketStore.ws && to.path !== '/waitingRoom'){
-//     sendMessage(6)
-//     socketStore.ws.close();
-//   }
-//   next();
-// })
+onBeforeRouteLeave((to, from, next) => {
+  if(socketStore.ws && to.name !== 'waitingRoom'){
+    jumpFlag.value = false
+    sendMessage(6)
+  }
+  next();
+})
 </script>
 
 <style scoped>

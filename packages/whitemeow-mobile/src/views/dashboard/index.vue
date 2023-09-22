@@ -38,13 +38,13 @@ const tab = ref([
     lock: false,
   },
   {
-    path: "/chat/adventure",
+    path: "/chat/game/createRoom",
     label: "冒险喵",
     icon: Icon3,
     type: "adventure",
     iconActive: Icon3Active,
     active: false,
-    lock: true,
+    lock: false,
   },
   {
     path: "/chat/my",

@@ -26,6 +26,7 @@ export default class Socket {
         //     text: 'Loading',
         //     background: 'rgba(0, 0, 0, 0.7)',
         // })
+        console.log(this);
         // 建立连接
         this.ws.onopen = (e) => {
             this.status = 'open';
