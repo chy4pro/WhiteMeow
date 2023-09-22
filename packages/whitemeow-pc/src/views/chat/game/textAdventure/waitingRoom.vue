@@ -372,6 +372,10 @@ function onReceived(data:any) {
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
   sendMessage(6, userName.value)
+  if(socketStore.ws){
+    socketStore.ws.close()
+  }
+  router.push('createRoom')
 }
 
 // 开始游戏
