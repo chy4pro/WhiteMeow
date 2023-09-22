@@ -65,7 +65,7 @@
             <div class="text-2rem font-700 color-#FF6AF0">未来的职业发展预测</div>
           </div>
           
-          <div class="text-2rem font-400 line-height-normal" v-if="textAdventureStore.story[textAdventureStore.pageIndex]">
+          <div class="text-2rem font-400 line-height-normal whitespace-pre-line" v-if="textAdventureStore.story[textAdventureStore.pageIndex]">
             {{ textAdventureStore.story[textAdventureStore.pageIndex].content }}
           </div>
         </div>
@@ -305,8 +305,17 @@ function countDownGo(){
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
   sendMessage(6)
+  router.push('createRoom')  
 }
 
+const backToWaitingRoom = () => {
+  if(isInvite.value){
+    router.push({ name: 'waitingRoom', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1, 'id': roomNumber.value}});
+  }
+  else{
+    router.push({ name: 'waitingRoom', query: {'channel_id': channelId.value,'user_name': userName.value, 'id': roomNumber.value}});
+  }
+}
 //再来一盘
 const startAgain = () =>{
   stepStatus.value = 0
@@ -316,11 +325,11 @@ const startAgain = () =>{
   countdownValue.value = 60
   newMessage.value = ''
   chatLog = []
+  messages.value = []
+  sendMessage(9)
   isEnd.value = false
   tempLock.value = false
-  if(!isInvite.value){
-    sendMessage(2)
-  }
+  //backToWaitingRoom()
 }
 
 // let oneTimeStatus0 = ref(true)
@@ -337,6 +346,8 @@ function onReceived2(data:any) {
         // 代表b进来了
         stepStatus.value = 0
         dialogueId.value = genIdForMsg(2, 18)
+        console.log('isInvite',isInvite.value);
+        
         if(!isInvite.value){
           sendMessage(2)
         }
@@ -505,7 +516,7 @@ function onReceived2(data:any) {
     }
   }
 }
-// provide('onReceived2', onReceived2)
+
 const goLeft = () =>{
   textAdventureStore.goLeft()
 }
@@ -718,11 +729,11 @@ onMounted(()=>{
     countdownValue.value = 60; // 重置倒计时值
   })
 
-  watch(()=> isConnect.value, async(newValue) => {    
-    if(newValue === false){
-      connectFail()
-    }
-  });
+  // watch(()=> isConnect.value, async(newValue) => {    
+  //   if(newValue === false){
+  //     connectFail()
+  //   }
+  // });
 
   if(socketStore.ws){
     // 监听连接状态变化
@@ -733,11 +744,13 @@ onMounted(()=>{
       }
       else{
         isConnect.value = false;
+        connectFail();
       }
     });
   }
   else{
     isConnect.value = false;
+    connectFail();
   }
 
 
@@ -750,13 +763,13 @@ onBeforeUnmount(()=>{
   window.addEventListener('beforeunload', handlerUnload);
 })
 
-onBeforeRouteLeave((to, from, next) => {
-  if(socketStore.ws){
-    sendMessage(6)
-    socketStore.ws.close();
-  }
-  next();
-})
+// onBeforeRouteLeave((to, from, next) => {
+//   if(socketStore.ws && to.path !== '/waitingRoom'){
+//     sendMessage(6)
+//     socketStore.ws.close();
+//   }
+//   next();
+// })
 </script>
 
 <style scoped>

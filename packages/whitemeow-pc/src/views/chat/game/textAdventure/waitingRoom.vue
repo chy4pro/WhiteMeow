@@ -332,10 +332,10 @@ function onReceived(data:any) {
             startLoading.value = false
 
             if(isInvite.value){
-              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1}});
+              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1, 'id': data.id}});
             }
             else{
-              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value}});
+              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'id': data.id}});
             }
           }
         }
