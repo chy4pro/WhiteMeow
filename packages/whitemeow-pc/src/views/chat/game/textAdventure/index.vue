@@ -204,16 +204,10 @@
 
 <script setup lang="ts">
 import messageBox from '@manage/shared/components/MessageBox/index.ts';
-import { useMySocket } from '@manage/shared/hooks/mySocket';
-import { getFormattedDate } from '@manage/shared/utils/util'
 import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
-import Socket from "@manage/shared/utils/http/websocket.js";
-import { useLoginStore, useSocketStore } from '@manage/shared/store/index.ts';
+import { useSocketStore } from '@manage/shared/store/index.ts';
 import { useTextAdventureStore } from '@manage/shared/store/game.ts';
-import { chatroomDelete } from '@manage/shared/apis/game'
-import { login } from '@manage/shared/apis/login';
 
-const loginStore = useLoginStore()
 const socketStore = useSocketStore()
 const textAdventureStore = useTextAdventureStore()
 let currentStatus = ref<number>(0)
@@ -244,25 +238,8 @@ interface Message {
 }
 
 let chatLog = reactive<any>([])
-let story:any = ref([])
-let chapter = ref(0)
 let realUserId:any = null
-const messages = ref<Message[]>([
-  // {
-  //   created_at: getFormattedDate('time'),
-  //   content: '',
-  //   user: '',
-  //   user_name: 'A',
-  //   message_id: ''
-  // },
-  // {
-  //   created_at: getFormattedDate('time'),
-  //   content: '',
-  //   user: '',
-  //   user_name: 'B',
-  //   message_id: ''
-  // }
-])
+const messages = ref<Message[]>([])
 
 let jumpFlag = ref(true)
 let countdownInterval:any = null//保存计时器
