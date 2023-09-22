@@ -14,6 +14,7 @@ RUN rm -rf ./packages/whitemeow-mobile/node_modules
 
 # 安装依赖
 RUN npm install -g pnpm
+RUN npm config set registry https://registry.npm.taobao.org
 RUN pnpm install
 # 打包pc项目
 RUN pnpm run build:pc
