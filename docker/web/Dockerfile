@@ -19,7 +19,7 @@ RUN pnpm install
 # 打包pc项目
 RUN pnpm run build:pc
 # 打包h5项目
-RUN pnpm run build:mb
+#RUN pnpm run build:mb
 # ======================== 上：npm打包  下：nginx运行 ========================
 # nginx镜像
 FROM nginx:1.15.3-alpine as production-stage
@@ -29,9 +29,10 @@ RUN rm /etc/nginx/nginx.conf
 # 把主机的nginx.conf文件复制到nginx容器的/etc/nginx文件夹下
 COPY ./docker/web/nginx.conf /etc/nginx/
 # 拷贝打包后的pc项目到nginx下运行
+RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build-stage /app/packages/whitemeow-pc/dist /usr/share/nginx/html
 # 拷贝打包后的mobile项目到nginx下运行
-COPY --from=build-stage /app/packages/whitemeow-mobile/dist /usr/share/nginx/html/h5
+#COPY --from=build-stage /app/packages/whitemeow-mobile/dist /usr/share/nginx/html/h5
 # 暴露80端口
 EXPOSE 80
 # 使用daemon off的方式将nginx运行在前台保证镜像不至于退出
