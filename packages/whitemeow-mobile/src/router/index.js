@@ -181,7 +181,7 @@ router.beforeEach((to, from, next) => {
         document.title = to.meta.title
     }
 
-    return next()
+    // return next()
 
     const store = useIndexStore()
 

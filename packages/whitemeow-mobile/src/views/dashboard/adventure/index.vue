@@ -8,6 +8,23 @@
     padding: 0 2.4rem;
     background: linear-gradient(180deg, #fccef5 0%, #cedbfc 100%);
     overflow-y: auto;
+    position: relative;
+
+    .back {
+      width: 2.4rem;
+      height: 2.4rem;
+      position: absolute;
+      top: 50%;
+    }
+
+    .back1 {
+      left: 0;
+    }
+
+    .back2 {
+      transform: rotate(180deg);
+      right: 0;
+    }
 
     .top {
       margin-top: 3rem;
@@ -90,6 +107,8 @@
         margin-top: -12rem;
         width: 100%;
         min-height: 30rem;
+        max-height: 40rem;
+        overflow-y: auto;
         border-radius: 0.6rem;
         background: linear-gradient(
             146.77deg,
@@ -106,8 +125,102 @@
           font-size: 2rem;
           font-weight: 800;
           font-family: RedHatDisplayBold;
-          margin-bottom: 2rem;
         }
+
+        .pink {
+          color: rgba(255, 106, 240, 1);
+          margin-top: 0.5rem;
+        }
+      }
+    }
+
+    .chat {
+      margin: 2.5rem 0;
+
+      .item {
+        margin-bottom: 1.6rem;
+      }
+
+      .item:last-child {
+        margin-bottom: 0;
+      }
+
+      .content {
+        padding: 1rem 1.6rem;
+        border-radius: 0.8rem;
+        color: #fff;
+        font-size: 1.4rem;
+        max-width: 25rem;
+        word-wrap: break-word;
+      }
+
+      .avatar {
+        width: 4rem;
+        height: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2.2rem;
+        color: #fff;
+        font-weight: 800;
+        font-family: RedHatDisplayBold;
+        border-radius: 50%;
+      }
+
+      .user {
+        display: flex;
+        align-items: flex-end;
+      }
+
+      .is-me {
+        display: flex;
+
+        .avatar {
+          background-color: rgba(255, 106, 240, 1);
+        }
+        .content {
+          background-color: rgba(255, 106, 240, 1);
+        }
+      }
+
+      .is-other {
+        display: flex;
+
+        .avatar {
+          background-color: rgba(0, 0, 0, 1);
+        }
+        .content {
+          background-color: rgba(0, 0, 0, 1);
+        }
+      }
+    }
+
+    .action {
+      margin: 2.5rem 0;
+
+      .comm {
+        height: 4.4rem;
+        border-radius: 0.6rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.6rem;
+        font-weight: 800;
+        font-family: RedHatDisplayBold;
+        border: 1px solid transparent;
+        color: #fff;
+        width: 100%;
+      }
+
+      .again {
+        color: rgba(0, 0, 0, 1);
+        border-color: rgba(0, 0, 0, 1);
+        background-color: transparent;
+        margin-bottom: 1.5rem;
+      }
+
+      .test {
+        background-color: rgba(0, 0, 0, 1);
       }
     }
   }
@@ -141,7 +254,7 @@
       }
 
       input {
-        width: 100%;
+        width: 75%;
         height: 100%;
         outline: none;
         border: none;
@@ -166,14 +279,29 @@
     ]"
   >
     <div class="main">
+      <img
+        class="back back1"
+        v-if="textAdventureStore.canShowLeft"
+        @click="goLeft"
+        :src="Back"
+        alt=""
+      />
+      <img
+        class="back back2"
+        v-if="textAdventureStore.canShowRight"
+        @click="goRight"
+        :src="Back"
+        alt=""
+      />
+
       <div class="top">
-        <img class="close" :src="Close" alt="" />
+        <img class="close" @click="closeTheRoom" :src="Close" alt="" />
         <div class="img-wrapper">
           <img class="cat" :src="Cat" alt="" />
-          <div class="timer">
+          <div class="timer" v-if="textAdventureStore.pageIndex < 5">
             <div class="timer-inner">
               <div class="sec">
-                <span class="bold">60</span>
+                <span class="bold">{{ countdown }}</span>
                 <span class="normal">Sec</span>
               </div>
               <div>请在倒计时时间内</div>
@@ -181,231 +309,77 @@
             </div>
           </div>
         </div>
-        <div class="box">
-          <div class="title">情节{{ chinaNumber }}</div>
-          当然，欢迎加入这个文字冒险游戏！我将担任你们的Dungeon Master
-          (DM)。这个世界是一个充满魔法、神秘和未知的地方，你们是一队探险家，现在正站在一条分叉的路口
-          当然，欢迎加入这个文字冒险游戏！我将担任你们的Dungeon Master
-          (DM)。这个世界是一个充满魔法、神秘和未知的地方，你们是一队探险家，现在正站在一条分叉的路口
-          当然，欢迎加入这个文字冒险游戏！我将担任你们的Dungeon Master
-          (DM)。这个世界是一个充满魔法、神秘和未知的地方，你们是一队探险家，现在正站在一条分叉的路口
-        </div>
-      </div>
 
-      <div class="relative mt-130px">
-        <div
-          class="absolute top--100px z-666"
-          :class="{
-            'left-50% translate-x--50%': textAdventureStore.pageIndex === 5,
-            'left-0': textAdventureStore.pageIndex < 5,
-          }"
-        >
-          <SvgImage name="cat_white.svg" class="w-26.1rem h-30.8rem"></SvgImage>
-        </div>
-        <div
-          class="absolute top--100px z-666"
-          :class="{
-            'left-50% translate-x--50%': textAdventureStore.pageIndex === 5,
-            'left-0': textAdventureStore.pageIndex < 5,
-          }"
-        >
-          <SvgImage name="star_group.svg" class="w-23rem h-9rem"></SvgImage>
-        </div>
-        <div
-          class="absolute top--114px right-48px z-666"
-          v-if="textAdventureStore.pageIndex < 5"
-        >
-          <div class="flex-row-start">
-            <div class="mr-16px text-16px font-500">
-              请在倒计时时间内完成你的答案
-            </div>
-            <div>
-              <a-progress
-                type="circle"
-                :percent="percentage"
-                :strokeWidth="8"
-                :size="100"
-                :steps="60"
-                trailColor="#EEE"
-                strokeColor="#FF6AF0"
-                gapPosition="right"
-                strokeLinecap="square"
-              >
-                <template #format="percent">
-                  <div
-                    class="w-84px h-84px bg-white absolute top--42px left-8px flex-col-center rounded-50%"
-                  >
-                    <div class="text-40px font-700">{{ countdown }}</div>
-                    <div class="text-14px font-400">Sec</div>
-                  </div>
-                </template>
-              </a-progress>
-            </div>
+        <div class="box" ref="messageList">
+          <div class="title" v-if="textAdventureStore.pageIndex < 5">
+            情节{{ chinaNumber }}
           </div>
-        </div>
-        <div
-          class="absolute right-0 top--58px cursor-pointer"
-          @click="closeTheRoom"
-        >
-          <SvgImage name="icon_close.svg" class="w-24px h-24px"></SvgImage>
-        </div>
-        <div
-          class="absolute left--3.2rem top-50% translate-y--50% cursor-pointer"
-          v-if="textAdventureStore.canShowLeft"
-          @click="goLeft"
-        >
-          <SvgImage
-            name="icon_arrow_left.svg"
-            class="w-2.4rem h-2.4rem"
-          ></SvgImage>
-        </div>
-        <div
-          class="absolute right--3.2rem top-50% translate-y--50% cursor-pointer"
-          v-if="textAdventureStore.canShowRight"
-          @click="goRight"
-        >
-          <SvgImage
-            name="icon_arrow_right.svg"
-            class="w-2.4rem h-2.4rem"
-          ></SvgImage>
-        </div>
 
-        <div
-          class="relative z-777 w-80rem overflow-y-auto box-border rounded-8px backdrop-blur-78px bg-[rgba(255,255,255,0.4)]"
-          :class="[
-            textAdventureStore.pageIndex === 5 ? 'h-46.5rem' : 'h-31rem',
-          ]"
-          ref="messageList"
-        >
-          <div class="px-2.4rem py-2.4rem">
-            <div
-              class="text-2.8rem font-700 mb-1.6rem"
-              v-if="textAdventureStore.pageIndex < 5"
-            >
-              情节{{ chinaNumber }}
-            </div>
-            <div
-              class="text-center mb-2.4rem"
-              v-if="textAdventureStore.pageIndex === 5"
-            >
-              <div class="text-2.8rem font-700 line-height-normal">
-                游戏总结
-              </div>
-              <div class="text-2rem font-700 color-#FF6AF0">
-                未来的职业发展预测
-              </div>
-            </div>
-
-            <div
-              class="text-2rem font-400 line-height-normal"
-              v-if="textAdventureStore.story[textAdventureStore.pageIndex]"
-            >
-              {{
-                textAdventureStore.story[textAdventureStore.pageIndex].content
-              }}
-            </div>
+          <div v-if="textAdventureStore.pageIndex === 5">
+            <div class="title">游戏总结</div>
+            <div class="title pink">未来的职业发展预测</div>
           </div>
-        </div>
-      </div>
 
-      <div class="w-full mt-2.4rem" v-if="textAdventureStore.pageIndex < 5">
-        <div>
           <div
-            class="flex flex-items-end mb-1.6rem flex-nowrap px-3rem"
-            v-for="(message, index) in chatLog[textAdventureStore.pageIndex]"
-            :key="index"
-            :class="
-              message.isUser === true
-                ? 'flex-justify-end'
-                : 'flex-justify-start'
-            "
+            style="margin-top: 2rem"
+            v-if="textAdventureStore.story[textAdventureStore.pageIndex]"
           >
-            <div
-              class="w-4rem h-4rem mr-1.6rem rounded-50% line-height-4rem text-center color-white font-700 text-2.2rem"
-              :class="
-                message.isUser === true
-                  ? 'bg-[var(--pink-02)] order-2'
-                  : 'bg-black order-1'
-              "
-            >
-              {{ message.user_name }}
-            </div>
-
-            <div
-              class="color-[#000c] max-w-1/2 b-rd-[8px] relative mr-1.6rem"
-              :class="[
-                message.isUser === true
-                  ? 'flex-self-start bg-[var(--pink-02)] order-1'
-                  : 'bg-black order-2',
-              ]"
-            >
-              <div
-                class="whitespace-pre-line color-white text-1.6rem font-400 px-1.6rem py-0.8rem line-height-2.4rem"
-              >
-                <div>{{ message.content }}</div>
-              </div>
-            </div>
+            {{ textAdventureStore.story[textAdventureStore.pageIndex].content }}
           </div>
         </div>
       </div>
 
-      <div
-        class="w-full mt-1.4rem flex-row-end"
-        v-if="textAdventureStore.pageIndex === 5"
-      >
+      <div class="chat" v-if="textAdventureStore.pageIndex < 5">
         <div
-          class="w-14.9rem rounded-6px bg-transparent h-6.4rem color-black text-2rem border-solid border-1px line-height-6.4rem text-center font-700 cursor-pointer mr-1.6rem"
-          @click="startAgain"
+          v-for="(message, index) in chatLog[textAdventureStore.pageIndex]"
+          :key="index"
+          class="item"
+          :style="{
+            display: 'flex',
+            justifyContent: message.isUser === true ? 'flex-end' : 'flex-start',
+          }"
         >
-          再来一局
+          <div class="is-me" v-if="message.isUser === true">
+            <div class="content">{{ message.content }}</div>
+            <div class="user" style="margin-left: 1.5rem">
+              <div class="avatar">{{ message.user_name }}</div>
+            </div>
+          </div>
+
+          <div class="is-other" v-else>
+            <div class="user" style="margin-right: 1.5rem">
+              <div class="avatar">{{ message.user_name }}</div>
+            </div>
+            <div class="content">{{ message.content }}</div>
+          </div>
         </div>
+      </div>
+
+      <div class="action" v-if="textAdventureStore.pageIndex === 5">
+        <div class="again comm" @click="startAgain">再来一局</div>
         <div
-          class="w-14.9rem rounded-6px bg-black h-6.4rem color-white text-2rem line-height-6.4rem text-center font-700 cursor-pointer mr-4rem"
-          @click="$router.push('/chat/testChat')"
+          class="test comm"
+          @click="$router.push('/chat/testChat/dailyHome')"
         >
           更多测试
         </div>
       </div>
-
-      <div class="footer" v-show="textAdventureStore.pageIndex < 5">
-        <div class="whitespace-nowrap mr-1.6rem text-2.4rem font-700">
-          玩家{{ userName }}：
-        </div>
-        <div
-          class="bg-white h-56px rounded-8px w-full mr-3rem flex-col-center relative pr-75px"
-        >
-          <textarea
-            resize="none"
-            class="w-full h-36px outline-none border-none rounded-8px indent-2.4rem text-1.4rem line-height-32px"
-            placeholder="你想和我聊些什么？......"
-            show-count
-            :maxlength="100"
-            v-model="newMessage"
-            ref="inputBoxRef"
-            @keydown="carriageReturn"
-            @input="userTyping"
-            autofocus
-          ></textarea>
-          <div
-            class="absolute right-16px top-50% translate-y--50% text-1.6rem font-400 color-[var(--text-04)]"
-          >
-            {{ wordCount }}/100
-          </div>
-        </div>
-
-        <button
-          @click="readyToSend"
-          :disabled="disabledSend"
-          class="cursor-pointer outline-none border-none bg-transparent w-2.4rem h-2.4rem bg-[url(@manage/shared/assets/images/icon_send_normal.svg)] bg-cover bg-no-repeat bg-center hover:bg-[url(@manage/shared/assets/images/icon_send_hover.svg)] active:bg-[url(@manage/shared/assets/images/icon_send_active.svg)] disabled:bg-[url(@manage/shared/assets/images/icon_send_disable.svg)]"
-        ></button>
-      </div>
     </div>
-    <div class="send-box">
+
+    <div class="send-box" v-show="textAdventureStore.pageIndex < 5">
       <div class="left">
-        <div class="name">name</div>
-        <input type="text" placeholder="请输入你的答案......" />
+        <div class="name">玩家{{ userName }}：</div>
+        <input
+          type="text"
+          ref="inputBoxRef"
+          @keydown="carriageReturn"
+          @input="userTyping"
+          v-model="newMessage"
+          autofocus
+          placeholder="你想和我聊些什么？......"
+        />
       </div>
-      <img :src="Send" alt="" />
+      <img @click="readyToSend" :src="Send" alt="" />
     </div>
   </div>
 </template>
@@ -416,7 +390,11 @@ import { useMySocket } from "@manage/shared/hooks/mySocket";
 import { getFormattedDate } from "@manage/shared/utils/util";
 import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
 import Socket from "@manage/shared/utils/http/websocket.js";
-import { useLoginStore, useSocketStore } from "@manage/shared/store/index.ts";
+import {
+  useLoginStore,
+  useSocketStore,
+  useChatStore,
+} from "@manage/shared/store/index.ts";
 import { useTextAdventureStore } from "@manage/shared/store/game.ts";
 import { chatroomDelete } from "@manage/shared/apis/game";
 import { login } from "@manage/shared/apis/login";
@@ -424,6 +402,9 @@ import { login } from "@manage/shared/apis/login";
 import Send from "~/adventure/send.png";
 import Cat from "~/adventure/cat.png";
 import Close from "~/adventure/close.png";
+import Back from "~/adventure/back.png";
+
+const chatStore = useChatStore();
 
 const loginStore = useLoginStore();
 const socketStore = useSocketStore();
@@ -891,6 +872,8 @@ const getCurrentRouter = () => {
 };
 
 const handlerUnload = (event: any) => {
+  chatStore.handleSetKeypress(false);
+
   // Cancel the event as stated by the standard.
   // event.preventDefault();
   // event.returnValue = ''
@@ -911,7 +894,9 @@ const handlerWebsocket = () => {
   }
 };
 onMounted(() => {
-  return;
+  chatStore.handleSetKeypress(true);
+
+  // return;
   //socketStore.initWebSocket(realUserId.value, userName.value, onReceived);
   window.addEventListener("beforeunload", handlerUnload);
   window.addEventListener("unload", handlerUnload);

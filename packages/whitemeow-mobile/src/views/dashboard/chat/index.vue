@@ -511,7 +511,8 @@ const handleFocus = () => {
       if (!firstTalk.value) {
         container.scrollTop = container.scrollHeight;
       } else {
-        container.scrollTop = 0;
+        // container.scrollTop = 0;
+        window.scrollTo(0, 0);
       }
 
       scrollBottomFlag.value = false;
