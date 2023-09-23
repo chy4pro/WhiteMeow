@@ -38,7 +38,7 @@ export default class Socket {
             }
             // 给后台发送数据
             if(data !== undefined) {
-                return this.ws.send(JSON.stringify({typeStatus: 'init'}))
+                this.ws.send(JSON.stringify({typeStatus: 'init'}))
             }
         }
         // 接受服务器返回的信息
@@ -67,7 +67,7 @@ export default class Socket {
     }
     sendMsg(data) {        
         let msg = JSON.stringify(data)
-        if(this.ws){
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
             return this.ws.send(msg)
         }
     }
@@ -84,19 +84,24 @@ export default class Socket {
         },this._timeout)
     }
     _closeSocket(e) {
+        this.ws.onopen = null;
+        this.ws.onmessage = null;
+        this.ws.onclose = null;
+        this.ws.onerror = null;
         this._resetHeart()
         if(this.status !== 'close') {
             console.log('断开，重连', e)
             if(this.isReconnection){
                 // 重连
-                this.connect()
+                setTimeout(() => {
+                    this.connect();
+                }, 1000);
             }
         }else{
             console.log('手动关闭了', e)
         }
     }
     close() {
-        this.status = 'close'
         this._resetHeart()
         return this.ws.close();
     }

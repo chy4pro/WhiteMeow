@@ -283,6 +283,9 @@ function countDownGo(){
 // 关闭并删除聊天室
 const closeTheRoom = async() =>{
   sendMessage(6)
+  if(socketStore.ws){
+    socketStore.ws.close()
+  }
   router.push('createRoom')  
 }
 
@@ -326,6 +329,7 @@ function onReceived2(data:any) {
         console.log('isInvite',isInvite.value);
         
         if(!isInvite.value){
+          console.log("dialogueId:",dialogueId.value);
           sendMessage(2)
         }
       }

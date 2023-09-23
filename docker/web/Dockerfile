@@ -29,6 +29,7 @@ RUN rm /etc/nginx/nginx.conf
 # 把主机的nginx.conf文件复制到nginx容器的/etc/nginx文件夹下
 COPY ./docker/web/nginx.conf /etc/nginx/
 # 拷贝打包后的pc项目到nginx下运行
+RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build-stage /app/packages/whitemeow-pc/dist /usr/share/nginx/html
 # 拷贝打包后的mobile项目到nginx下运行
 COPY --from=build-stage /app/packages/whitemeow-mobile/dist /usr/share/nginx/html/h5

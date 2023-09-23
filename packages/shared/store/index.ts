@@ -94,16 +94,16 @@ export const useSocketStore = defineStore('socket', {
       // scoket连接
 
       return (receivedCallback:any) => {
-        this.ws = new Socket({
+        this.ws = reactive(new Socket({
           url: `${import.meta.env.VITE_API_WEBSOCKET_URL}/chatroom/socket?user=${realUserId}&name=${userName}`,
-          status: 'open',
           name: '',			// name
-          isHeart:true,			// 是否心跳
+          isHeart:false,			// 是否心跳
           isReconnection:true,		// 是否断开重连
           received: receivedCallback
-        });
+        }));
         this.ws.received = receivedCallback
         this.ws.init()
+        this.ws.connect()
       }
     },
     webSocketConnect(){
