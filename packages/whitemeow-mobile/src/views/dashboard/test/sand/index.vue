@@ -314,6 +314,9 @@ const sendMessage = () => {
 
   if (isConnect.value === true) {
     if (isValidText(newMessage.value)) {
+      nextTick(() => {
+        inputBoxRef?.value.blur();
+      });
       firstTalk.value = false;
 
       const today = getFormattedDate();
@@ -566,9 +569,9 @@ onMounted(() => {
   );
 });
 
-nextTick(() => {
-  inputBoxRef?.value.focus();
-});
+// nextTick(() => {
+//   inputBoxRef?.value.focus();
+// });
 
 interface Message {
   id?: number;

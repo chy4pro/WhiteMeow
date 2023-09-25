@@ -404,12 +404,13 @@ onMounted(() => {
 
     .answer {
       color: rgba(255, 223, 252, 1);
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 800;
       margin-bottom: 0.8rem;
       text-align: left;
       width: 100%;
       padding-left: 1rem;
+      font-family: RedHatDisplayBold;
     }
 
     .chat-bg {
@@ -424,19 +425,22 @@ onMounted(() => {
 
       .chat1 {
         position: relative;
+        height: 9rem;
 
         div {
           color: rgba(255, 223, 252, 1);
           position: absolute;
           bottom: 0.3rem;
           left: 1rem;
-          font-size: 1.8rem;
+          font-size: 1.6rem;
+          font-weight: 800;
+          font-family: RedHatDisplayBold;
         }
       }
 
       .chat2 {
         position: relative;
-        margin-top: -1.3rem;
+        margin-top: -1rem;
 
         div {
           position: absolute;
@@ -462,8 +466,9 @@ onMounted(() => {
     margin: 2rem 0;
 
     .close {
-      display: flex;
-      justify-content: flex-end;
+      position: fixed;
+      right: 1.4rem;
+      top: 1rem;
 
       img {
         width: 2.4rem;
@@ -493,6 +498,7 @@ onMounted(() => {
       font-size: 1.4rem;
       line-height: 2.3rem;
       margin-top: 2rem;
+      margin-bottom: 2rem;
     }
 
     .img-wrapper {

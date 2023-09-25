@@ -199,6 +199,10 @@ router.beforeEach((to, from, next) => {
         return next()
     }
 
+    if (to.path.indexOf('/chat/game') > -1) {
+        return next(false)
+    }
+
     // if (!store.state.token) {
     //     if (to.path === '/') {
     //         return next()

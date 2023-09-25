@@ -94,7 +94,8 @@ const handleClick = () => {
       align-items: center;
       color: #fff;
       font-size: 1.6rem;
-      font-weight: 600;
+      font-weight: 800;
+      font-family: RedHatDisplayBold;
     }
 
     .btn:active {

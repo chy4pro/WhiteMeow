@@ -3,7 +3,7 @@ import Eye from "~/login/eye.png";
 import EyeActive from "~/login/eye-active.png";
 import Close from "~/login/close.png";
 
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted, nextTick } from "vue";
 
 const emit = defineEmits([
   "handleInputEmit",
@@ -27,6 +27,10 @@ const props = defineProps({
   isCanSendBool: {
     type: Boolean,
     default: true,
+  },
+  keyword: {
+    type: String,
+    default: "",
   },
 });
 
@@ -84,6 +88,18 @@ const handleSend = () => {
 
   emit("handleSendCodeEmit");
 };
+
+const handleClose = () => {
+  inpRef.value.value = "";
+  inpRef.value.focus();
+  emit("handleInputEmit", "");
+};
+
+onMounted(() => {
+  nextTick(() => {
+    inpRef.value.value = props.keyword;
+  });
+});
 </script>
 
 <template>
@@ -106,7 +122,7 @@ const handleSend = () => {
     </div>
 
     <div class="icon code" v-if="props.isCode">
-      <!-- <img :src="Close" alt="" /> -->
+      <img @click="handleClose" :src="Close" alt="" />
       <span @click="handleSend" v-if="!state.isSend">获取验证码</span>
       <span class="send" v-else>重新发送 {{ state.count }} S</span>
     </div>

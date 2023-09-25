@@ -348,7 +348,7 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 800;
     font-family: RedHatDisplayBold;
   }
@@ -359,14 +359,16 @@ onMounted(() => {
 
   .answer {
     color: rgba(255, 223, 252, 1);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     margin-bottom: 1rem;
     padding-left: 1rem;
     display: flex;
     align-items: center;
+    font-weight: 800;
+    font-family: RedHatDisplayBold;
 
     span {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
     }
   }
 
@@ -383,13 +385,16 @@ onMounted(() => {
 
     .chat1 {
       position: relative;
+      height: 9rem;
 
       div {
         color: rgba(255, 223, 252, 1);
         position: absolute;
-        bottom: 0.3rem;
+        bottom: 0.8rem;
         left: 1rem;
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        font-weight: 800;
+        font-family: RedHatDisplayBold;
       }
     }
 
@@ -414,6 +419,16 @@ onMounted(() => {
         font-size: 1.6rem;
         font-weight: 800;
         font-family: RedHatDisplayBold;
+      }
+    }
+
+    .bg2 {
+      background-image: url("~/test/chat3.png");
+      height: 26rem;
+      margin-top: -1rem;
+
+      div {
+        max-height: 20rem;
       }
     }
 

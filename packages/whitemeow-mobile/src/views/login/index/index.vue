@@ -143,7 +143,7 @@ watch(
 const handleChangeTab = (str) => {
   state.tab = str;
 
-  state.mobile = "";
+  // state.mobile = "";
   state.code = "";
   state.password = "";
   state.picCode = "";
@@ -459,6 +459,7 @@ onMounted(() => {
             @handleInputEmit="handleMobile"
             @handleInputBlurEmit="handleMobileBlur"
             :isError="state.mobileErrorBool"
+            :keyword="state.mobile"
             placeholder="请输入电话号码"
           />
         </div>
@@ -514,6 +515,7 @@ onMounted(() => {
             @handleInputEmit="handleMobile"
             @handleInputBlurEmit="handleMobileBlur"
             :isError="state.mobileErrorBool"
+            :keyword="state.mobile"
             placeholder="请输入电话号码"
           />
         </div>
@@ -637,8 +639,8 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.6rem;
+    font-weight: 800;
     color: #fff;
     height: 4.4rem;
     margin-top: 4rem;

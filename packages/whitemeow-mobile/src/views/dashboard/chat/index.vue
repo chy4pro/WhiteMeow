@@ -115,6 +115,9 @@ const sendMessage = () => {
     }
 
     if (isValidText(newMessage.value)) {
+      nextTick(() => {
+        inputBoxRef?.value.blur();
+      });
       firstTalk.value = false;
 
       // 处理非空的 messages.value
@@ -423,11 +426,11 @@ onMounted(() => {
     }
   );
 
-  nextTick(() => {
-    setTimeout(() => {
-      inputBoxRef?.value.focus();
-    }, 300);
-  });
+  // nextTick(() => {
+  //   setTimeout(() => {
+  //     inputBoxRef?.value.focus();
+  //   }, 300);
+  // });
 });
 
 interface Message {

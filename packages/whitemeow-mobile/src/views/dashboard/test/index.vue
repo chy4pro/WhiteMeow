@@ -81,6 +81,9 @@ const state = reactive({
     },
   ],
   timer: null,
+  timer2: null,
+  timer3: null,
+  isTurnBool: true,
 });
 
 const handleLink = (path, idx) => {
@@ -106,6 +109,28 @@ const handleLink = (path, idx) => {
     });
   }, 300);
 };
+
+onMounted(() => {
+  state.timer2 = setInterval(() => {
+    state.isTurnBool = false;
+
+    state.timer3 = setTimeout(() => {
+      state.isTurnBool = true;
+    }, 4000);
+  }, 8000);
+});
+
+onUnmounted(() => {
+  if (state.timer2) {
+    clearInterval(state.timer2);
+  }
+  if (state.timer) {
+    clearTimeout(state.timer);
+  }
+  if (state.timer3) {
+    clearTimeout(state.timer3);
+  }
+});
 </script>
 
 <template>
@@ -134,7 +159,11 @@ const handleLink = (path, idx) => {
 
       <div class="card">
         <img class="c" :src="StarBg" alt="" />
-        <img class="l" :src="Card" alt="" />
+        <img
+          :class="['l', state.isTurnBool && 'turnmove']"
+          :src="Card"
+          alt=""
+        />
         <div class="right">
           <img class="t" :src="Text" alt="" />
           <img
@@ -196,39 +225,33 @@ const handleLink = (path, idx) => {
 
 @keyframes turnMove {
   0% {
-    transform: rotateY(0deg);
-  }
-  25% {
-    transform: rotateY(90deg);
+    transform: rotateZ(2deg);
   }
   50% {
-    transform: rotateY(0deg);
-  }
-  75% {
-    transform: rotateY(-90deg);
+    transform: rotateZ(-2deg);
   }
   100% {
-    transform: rotateY(0deg);
+    transform: rotateZ(2deg);
   }
 }
 
-@-webkit-keyframes turnMove {
-  0% {
-    transform: rotateY(0deg);
-  }
-  25% {
-    transform: rotateY(90deg);
-  }
-  50% {
-    transform: rotateY(0deg);
-  }
-  75% {
-    transform: rotateY(-90deg);
-  }
-  100% {
-    transform: rotateY(0deg);
-  }
-}
+// @-webkit-keyframes turnMove {
+//   0% {
+//     transform: rotateY(0deg);
+//   }
+//   25% {
+//     transform: rotateY(90deg);
+//   }
+//   50% {
+//     transform: rotateY(0deg);
+//   }
+//   75% {
+//     transform: rotateY(-90deg);
+//   }
+//   100% {
+//     transform: rotateY(0deg);
+//   }
+// }
 
 .test-index {
   padding: 1.6rem;
@@ -303,13 +326,12 @@ const handleLink = (path, idx) => {
   }
 
   .card {
-    width: 101%;
+    width: 100%;
     height: 22.5rem;
-    background: linear-gradient(
-      to bottom,
-      #fbc4f9 0%,
-      rgba(255, 255, 255, 0) 40%
-    );
+    background-image: url("~/test/jb.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: 100% 100%;
     padding: 2.4rem 1.6rem;
     position: relative;
     display: flex;
@@ -358,8 +380,11 @@ const handleLink = (path, idx) => {
     .l {
       width: 10.5rem;
       height: 18rem;
-      animation: turnMove 3s infinite;
-      -webkit-animation: turnMove 3s infinite;
+    }
+
+    .turnmove {
+      animation: turnMove 0.6s infinite;
+      -webkit-animation: turnMove 0.6s infinite;
     }
   }
 
