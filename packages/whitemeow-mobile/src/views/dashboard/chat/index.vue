@@ -155,6 +155,7 @@ const sendMessage = () => {
           text: "请等等哦~",
         });
       }
+      isEnd.value = false;
       // 发送消息
       let sendData = {
         typeStatus: "sendMsg",
@@ -347,9 +348,8 @@ const initWebSocket = () => {
                 const currentMessage = messages.value[index];
                 currentMessage.emoji = dataFormat.emoji;
               }
+              isEnd.value = true;
             }
-
-            isEnd.value = dataFormat.is_end;
           }
         }
 
