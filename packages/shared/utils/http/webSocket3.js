@@ -63,6 +63,10 @@ export default class Socket {
                 }
                 else{
                     this._resetHeart()
+                    if(this.isHeart) {
+                        // 心跳
+                        this._heartCheck()
+                    }
                     return this.callback(e.data)
                 }
             }else{
@@ -133,7 +137,7 @@ export default class Socket {
                 // setTimeout(() => {
                 //     this.connect();
                 // }, 1000);
-                this.reconnectWebSocket()
+                this.connect()
             }
         }else{
             console.log('手动关闭了', e)
