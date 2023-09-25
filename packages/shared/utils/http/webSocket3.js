@@ -1,5 +1,6 @@
 import { messageCenter } from "./messageCenter.js";
 
+
 export default class Socket {
     /**
      * @description: 初始化实例属性，保存参数
