@@ -530,10 +530,10 @@ const sayHello = () => {
   }
 };
 
-const handleScroll = () => {
-  // nextTick(() => {
-  //   inputBoxRef?.value.blur();
-  // });
+const handleMove = () => {
+  nextTick(() => {
+    inputBoxRef?.value.blur();
+  });
 };
 
 onMounted(() => {
@@ -572,11 +572,11 @@ onMounted(() => {
     }
   );
 
-  window.addEventListener("scroll", handleScroll, false);
+  window.addEventListener("touchmove", handleMove, false);
 });
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll, false);
+  window.removeEventListener("touchmove", handleMove, false);
 });
 
 interface Message {
