@@ -60,8 +60,9 @@
 import Star from './components/Star.vue'
 import { chatroomAdd } from '@manage/shared/apis/game'
 import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
-import { userMessage, useLoginStore, useChatStore, useCounterStore } from '@manage/shared/store/index.ts';
+import { userMessage, useLoginStore, useSocketStore, useCounterStore } from '@manage/shared/store/index.ts';
 const router = useRouter();
+const socketStore = useSocketStore()
 
 const loginStore = useLoginStore()
 const stepStatus = ref(1)
@@ -90,6 +91,13 @@ const createRoom = async() =>{
     router.push({ name: 'waitingRoom', query: {'channel_id': data.channel_id, 'id': data.id}});
   }
 }
+
+onMounted(()=>{
+  if(socketStore.ws){
+    socketStore.ws.close()
+    socketStore.ws = null
+  }
+})
 </script>
 
 <style scoped>

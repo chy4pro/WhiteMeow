@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia';
 import { checkIsNaN } from '../utils/util';
 import { useStorage } from '@vueuse/core'
-import Socket from "../utils/http/websocket.js";
+import Socket from "../utils/http/websocket3.js";
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
@@ -84,7 +84,8 @@ interface MyWebSocket{
 export const useSocketStore = defineStore('socket', {
   state: () => ({
     ws: null as any | null,
-    receivedCallBack: null as any | null
+    receivedCallBack: null as any | null,
+    index: 0
   }),
 
   actions: {
@@ -97,7 +98,7 @@ export const useSocketStore = defineStore('socket', {
         this.ws = reactive(new Socket({
           url: `${import.meta.env.VITE_API_WEBSOCKET_URL}/chatroom/socket?user=${realUserId}&name=${userName}`,
           name: '',			// name
-          isHeart:false,			// 是否心跳
+          isHeart:true,			// 是否心跳
           isReconnection:true,		// 是否断开重连
           received: receivedCallback
         }));

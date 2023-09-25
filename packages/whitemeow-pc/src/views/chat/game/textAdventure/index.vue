@@ -207,6 +207,7 @@ import messageBox from '@manage/shared/components/MessageBox/index.ts';
 import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
 import { useSocketStore } from '@manage/shared/store/index.ts';
 import { useTextAdventureStore } from '@manage/shared/store/game.ts';
+import { messageCenter } from "@manage/shared/utils/http/messageCenter.js";
 
 const socketStore = useSocketStore()
 const textAdventureStore = useTextAdventureStore()
@@ -246,7 +247,6 @@ let countdownInterval:any = null//保存计时器
 let wordCount = computed<number>(()=>{
   return newMessage.value.length | 0
 })
-const stepStatus = ref(1)
 const newMessage = ref('');
 const isConnect = ref(true);//是否连接websocket
 const messageList = ref<any>(null);
@@ -299,9 +299,9 @@ const backToWaitingRoom = () => {
 }
 //再来一盘
 const startAgain = () =>{
-  // stepStatus.value = 0
+  textAdventureStore.stepStatus = 0
   // dialogueId.value = genIdForMsg(2, 18)
-  // textAdventureStore.reset()
+  textAdventureStore.reset()
   // clearInterval(countdownInterval)
   // countdownValue.value = 60
   // newMessage.value = ''
@@ -324,7 +324,7 @@ function onReceived2(data:any) {
     if(dataFormat&& dataFormat.is_end === false && dataFormat.is_stream_end === false){
       if(type === 9){
         // 代表b进来了
-        stepStatus.value = 0
+        textAdventureStore.stepStatus = 0
         dialogueId.value = genIdForMsg(2, 18)
         console.log('isInvite',isInvite.value);
         
@@ -454,10 +454,11 @@ function onReceived2(data:any) {
       if(dataFormat.type === 1){
         if(dataFormat.is_kf === true){
           console.log('dataFormat',dataFormat);
-          
           clearInterval(countdownInterval); // 清除之前的倒计时
           countdownValue.value = 60; // 重置倒计时值
-          countdownInterval = setInterval(updateCountdown, 1000); // 以1秒间隔更新倒计时
+          if(textAdventureStore.stepStatus < 5){
+            countdownInterval = setInterval(updateCountdown, 1000); // 以1秒间隔更新倒计时
+          }
           tempLock.value = false //解锁
           isEnd.value = true
           isSend.value = false
@@ -474,19 +475,19 @@ function onReceived2(data:any) {
           case 0:
             break;
           case 1:
-            stepStatus.value = 1 
+            textAdventureStore.stepStatus = 1 
             break;
           case 2:
-            stepStatus.value = 2 
+            textAdventureStore.stepStatus = 2 
             break;
           case 3:
-            stepStatus.value = 3 
+            textAdventureStore.stepStatus = 3 
             break;
           case 4:
-            stepStatus.value = 4
+            textAdventureStore.stepStatus = 4
             break;
           case 5:
-            stepStatus.value = 5 
+            textAdventureStore.stepStatus = 5 
             break;
           case 6:
             break;
@@ -545,7 +546,6 @@ const carriageReturn = (event:any) => {
   if (event.keyCode == 13) {
     if (!event.metaKey) {
       event.preventDefault();
-      // stepStatus.value = 1;
       sendMessage(1);
     } else {
       newMessage.value = newMessage.value + "\n";
@@ -554,16 +554,12 @@ const carriageReturn = (event:any) => {
 }
 
 const readyToSend = () =>{
-  // stepStatus.value = 2;
   sendMessage(1)
 }
 
 
 // 发送消息
 const sendMessage = (type:number) => {
-  if(isConnect.value === false){
-    connectFail()
-  }
 
   if(disabledSend.value){
     return
@@ -580,7 +576,7 @@ const sendMessage = (type:number) => {
     'kf_id': 'uqTIN13j6HKg2nYSyuTay6mHRQULNRSU',
     'open_kf_id': 'uqTIN13j6HKg2nYSyuTay6mHRQULNRSU',
     'type': type,
-    'status': stepStatus.value,
+    'status': textAdventureStore.stepStatus,
     "heartbeat": false
   }
 
@@ -689,10 +685,46 @@ const handlerWebsocket = () =>{
     socketStore.ws.callback = onReceived2
   }
 }
+
+const reconnectWebSocket = () =>{
+  console.log('正在重连');
+  // 入口函数
+  if (socketStore.ws) {
+    //防止多个websocket同时执行
+    socketStore.ws.clear();
+  }
+  connectWebSocket();
+}
+
+const connectedWebSocket  = () =>{
+  console.log('连接上了');
+  isConnect.value = true;
+
+  if(isInvite.value){
+    sendMessage(5)
+  }
+  else{
+    sendMessage(4)
+  }
+}
+
+const connectWebSocket = () => {
+  setTimeout(()=>{
+    const initSocket = socketStore.initWebSocket(realUserId.value, userName.value);
+    initSocket(onReceived2)
+    socketStore.replaceCallBack(onReceived2)
+    socketStore.ws.callback = onReceived2
+  },100)
+  // socketStore.webSocketConnect();
+}
+
 onMounted(()=>{
   //socketStore.initWebSocket(realUserId.value, userName.value, onReceived);
   window.addEventListener("beforeunload", handlerUnload);
   window.addEventListener('unload', handlerUnload);
+  messageCenter.on("reconnect", reconnectWebSocket); //接收重连消息
+  messageCenter.on("onopen", connectedWebSocket); //接收重连消息
+
   realUserId = computed(()=>{
     let result = ''
     result = window.localStorage.getItem('token') as string ? window.localStorage.getItem('newUserId') as string : window.localStorage.getItem('userId') as string || genId('userId',1) as string;
@@ -717,21 +749,22 @@ onMounted(()=>{
   // });
 
   if(socketStore.ws){
-    // 监听连接状态变化
-    watch(()=> socketStore.ws.status, async(newValue) => {
-      console.log('myVariable 变化了:', newValue);
-      if(newValue === 'open'){
-        isConnect.value = true;
-      }
-      else{
-        isConnect.value = false;
-        connectFail();
-      }
-    });
+    // // 监听连接状态变化
+    if(socketStore.ws.status){
+      watch(()=> socketStore.ws.status, async(newValue) => {
+        console.log('myVariable 变化了:', newValue);
+        if(newValue === 'open'){
+          isConnect.value = true;
+        }
+        else{
+          isConnect.value = false;
+        }
+      });
+    }
   }
   else{
     isConnect.value = false;
-    connectFail();
+    connectWebSocket()
   }
 
 
@@ -748,6 +781,10 @@ onBeforeRouteLeave((to, from, next) => {
   if(socketStore.ws && to.name !== 'waitingRoom'){
     jumpFlag.value = false
     sendMessage(6)
+    socketStore.ws.clear()
+    setTimeout(()=>{
+      socketStore.ws = null
+    },1000)
   }
   next();
 })

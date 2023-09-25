@@ -192,6 +192,7 @@ import Star from './components/Star.vue'
 import messageBox from '@manage/shared/components/MessageBox/index.ts';
 import { gameUserMap } from '../../gameUserMap'
 import { genId, genIdForMsg } from "@manage/shared/utils/idGenerator.js";
+import { messageCenter } from "@manage/shared/utils/http/messageCenter.js";
 
 import { chatroomAdd,chatroomDelete } from '@manage/shared/apis/game'
 import { useLoginStore, useSocketStore } from '@manage/shared/store/index.ts';
@@ -333,10 +334,10 @@ function onReceived(data:any) {
             startLoading.value = false
 
             if(isInvite.value){
-              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1, 'id': data.id}});
+              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'invite': 1, 'id': roomNumber.value}});
             }
             else{
-              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'id': data.id}});
+              router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'id': roomNumber.value}});
             }
           }
         }
@@ -407,20 +408,48 @@ const initData = () =>{
     socketStore.ws.close()
   }
 
-  const initSocket = socketStore.initWebSocket(realUserId.value, userName.value);
-  initSocket(onReceived)
-  socketStore.replaceCallBack(onReceived)
-  socketStore.ws.callback = onReceived
-  socketStore.webSocketConnect();
-  console.log(socketStore.ws);
+
   
-  
+  connectWebSocket()
   initEmptyPlayer()
 }
 
+const reconnectWebSocket = () =>{
+  console.log('正在重连');
+  messageBox.info('断线了正在重连中')
+  // 入口函数
+  if (socketStore.ws) {
+    //防止多个websocket同时执行
+    socketStore.ws.clear();
+  }
+  connectWebSocket();
+}
+const connectWebSocket = () => {
+  setTimeout(()=>{
+    const initSocket = socketStore.initWebSocket(realUserId.value, userName.value);
+    initSocket(onReceived)
+    socketStore.replaceCallBack(onReceived)
+    socketStore.ws.callback = onReceived
+    // socketStore.webSocketConnect();
+    console.log(socketStore.ws);
+  },100)
+}
+
+const connectedWebSocket = () => {
+  isConnect.value = true;
+  //sendMessage2(4,)
+  if(isInvite.value){
+    sendMessage2(5,userName.value)
+  }
+  else{
+    sendMessage2(4,userName.value)
+  }
+}
 onMounted(()=>{
   getCurrentRouter()
   initData()
+  messageCenter.on("reconnect", reconnectWebSocket); //接收重连消息
+  messageCenter.on("onopen", connectedWebSocket); //接收重连消息
 
 //   window.addEventListener("beforeunload", (event) => {
 //   // Cancel the event as stated by the standard.
@@ -467,6 +496,11 @@ onBeforeRouteLeave((to, from, next) => {
   if(socketStore.ws && to.name !== 'textAdventure'){
     jumpFlag.value = false
     sendMessage2(6,userName.value)
+    socketStore.ws.clear()
+
+    setTimeout(()=>{
+      socketStore.ws = null
+    },1000)
   }
   next();
 })

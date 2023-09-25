@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
+import { useStorage } from '@vueuse/core'
 
 export const useTextAdventureStore = defineStore('textAdventure', {
   state: () => ({
     story: [{content: ''}] as any,
     pageIndex: 0,
-    chatLog: [] as any
+    chatLog: [] as any,
+    stepStatus: useStorage('stepStatus', 0) as any,
   }),
   getters: {
     canShowLeft: (state) => state.pageIndex > 0,
@@ -15,6 +17,7 @@ export const useTextAdventureStore = defineStore('textAdventure', {
     reset(){
       this.pageIndex = 0;
       this.story = [{content: ''}];
+      this.stepStatus = 0;
     },
     goLeft() {
       if (this.pageIndex > 0) {
@@ -27,8 +30,6 @@ export const useTextAdventureStore = defineStore('textAdventure', {
       }
     },
     addContent(content:string){
-      console.log('content:',content);
-      
       if(this.story.length > this.pageIndex || this.pageIndex === 0){
         let currentContent = this.story[this.pageIndex].content
         if(currentContent === ''){
