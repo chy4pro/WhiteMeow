@@ -325,18 +325,17 @@ onUnmounted(() => {
   }
 
   .box1 {
-    width: 100.8%;
     border-radius: 0.8rem;
     overflow: hidden;
     box-shadow: 0.2rem 0.5rem 1rem rgba(0, 0, 0, 0.2);
   }
 
   .cards {
-    width: 100%;
+    width: 102%;
     height: 22.5rem;
     background-image: url("~/test/jb.png");
     background-size: 100% 100%;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-position: 100% 100%;
     padding: 2.4rem 1.6rem;
     position: relative;
@@ -379,7 +378,7 @@ onUnmounted(() => {
     .c {
       position: absolute;
       left: 0.7rem;
-      width: calc(100% - 1.5rem);
+      // width: calc(100% - 1.5rem);
       height: 9.5rem;
     }
 
