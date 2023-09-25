@@ -215,8 +215,8 @@ const handlePick = (str) => {
     }
   }
   .confirm {
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.6rem;
+    font-weight: 800;
     background-color: rgba(0, 0, 0, 1);
     display: flex;
     justify-content: center;
@@ -224,6 +224,7 @@ const handlePick = (str) => {
     height: 4.4rem;
     border-radius: 0.6rem;
     color: #fff;
+    font-family: RedHatDisplayBold;
   }
   .confirm:active {
     background-color: rgba(0, 0, 0, 0.8);

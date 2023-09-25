@@ -208,10 +208,11 @@ const handleSendCode = async () => {
     justify-content: center;
     align-items: center;
     border-radius: 0.6rem;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.6rem;
+    font-weight: 800;
     margin-top: 2.4rem;
     color: #fff;
+    font-family: RedHatDisplayBold;
   }
 
   .active {

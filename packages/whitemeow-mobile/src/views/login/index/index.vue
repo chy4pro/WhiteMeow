@@ -644,6 +644,7 @@ onMounted(() => {
     color: #fff;
     height: 4.4rem;
     margin-top: 4rem;
+    font-family: RedHatDisplayBold;
   }
   .btn-active {
     background-color: rgba(0, 0, 0, 1);

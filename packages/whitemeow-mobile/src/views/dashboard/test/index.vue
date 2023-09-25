@@ -162,7 +162,7 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div class="card">
+      <div class="cards">
         <img class="c" :src="StarBg" alt="" />
         <img
           :class="['l', state.isTurnBool && 'turnmove']"
@@ -325,12 +325,13 @@ onUnmounted(() => {
   }
 
   .box1 {
+    width: 100.8%;
     border-radius: 0.8rem;
     overflow: hidden;
     box-shadow: 0.2rem 0.5rem 1rem rgba(0, 0, 0, 0.2);
   }
 
-  .card {
+  .cards {
     width: 100%;
     height: 22.5rem;
     background-image: url("~/test/jb.png");
