@@ -198,7 +198,7 @@ input::-ms-input-placeholder {
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from "vue";
+import { ref, nextTick, onUnmounted, onMounted } from "vue";
 import { useChatStore } from "@manage/shared/store/index.js";
 
 import Socket from "@manage/shared/utils/http/websocket.js";
@@ -214,8 +214,6 @@ import Cat from "~/chat/cat2.png";
 import { message } from "@/utils/index";
 import ResultDialog from "./result.vue";
 import TipDialog from "../comp/tipDialog.vue";
-
-const firstTalk = ref(true);
 
 const chatStore = useChatStore();
 
@@ -317,7 +315,6 @@ const sendMessage = () => {
       nextTick(() => {
         inputBoxRef?.value.blur();
       });
-      firstTalk.value = false;
 
       const today = getFormattedDate();
       let messageId = genIdForMsg(2, 20);
@@ -532,6 +529,13 @@ const sayHello = () => {
     });
   }
 };
+
+const handleScroll = () => {
+  nextTick(() => {
+    inputBoxRef?.value.blur();
+  });
+};
+
 onMounted(() => {
   initData();
   getButtons();
@@ -567,11 +571,13 @@ onMounted(() => {
       }
     }
   );
+
+  window.addEventListener("scroll", handleScroll, false);
 });
 
-// nextTick(() => {
-//   inputBoxRef?.value.focus();
-// });
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll, false);
+});
 
 interface Message {
   id?: number;
@@ -686,12 +692,7 @@ const handleFocus = () => {
 
     const container = messageList._value;
     if (container) {
-      if (!firstTalk.value) {
-        container.scrollTop = container.scrollHeight;
-      } else {
-        // container.scrollTop = 0;
-        window.scrollTo(0, 0);
-      }
+      container.scrollTop = container.scrollHeight;
 
       scrollBottomFlag.value = false;
     }

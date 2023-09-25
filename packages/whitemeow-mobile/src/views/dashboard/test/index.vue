@@ -16,6 +16,7 @@ import Pic4 from "~/test/pic4.png";
 
 import LoginDialog from "./comp/loginDialog.vue";
 import { useIndexStore } from "@/store/index";
+import { message } from "@/utils/index";
 
 import { useRouter } from "vue-router";
 
@@ -88,6 +89,10 @@ const state = reactive({
 
 const handleLink = (path, idx) => {
   if (!path) {
+    message({
+      type: "info",
+      text: "暂未上线，敬请期待...",
+    });
     return;
   }
 
@@ -116,8 +121,8 @@ onMounted(() => {
 
     state.timer3 = setTimeout(() => {
       state.isTurnBool = true;
-    }, 4000);
-  }, 8000);
+    }, 2000);
+  }, 4000);
 });
 
 onUnmounted(() => {

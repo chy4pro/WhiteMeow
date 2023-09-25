@@ -591,6 +591,7 @@ textarea.ant-input.customer-textarea {
   --at-apply: w-full h-21rem bg-[#fff] outline-none resize-none border-none;
   border-radius: 1.2rem;
   padding: 1.6rem;
+  height: 19rem;
 }
 </style>
 

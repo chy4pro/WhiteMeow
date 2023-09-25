@@ -5,7 +5,7 @@ import Heart from "~/chat/heart.png";
 import HeartActive from "~/chat/heart-active.png";
 import Up from "~/chat/up.png";
 
-import { ref, nextTick, onMounted } from "vue";
+import { ref, nextTick, onMounted, onUnmounted } from "vue";
 import { getEmojiUrl } from "@manage/shared/utils/index.ts";
 import { chat } from "@manage/shared/apis/chat.ts";
 import Socket from "@manage/shared/utils/http/websocket.js";
@@ -17,8 +17,6 @@ const chatStore = useChatStore();
 import { uniqWith } from "lodash-es";
 
 import { message } from "@/utils/index";
-
-const firstTalk = ref(true);
 
 var chatLogsMap = reactive(new Map<string, Message[]>());
 const messageList = ref<any>(null);
@@ -118,7 +116,6 @@ const sendMessage = () => {
       nextTick(() => {
         inputBoxRef?.value.blur();
       });
-      firstTalk.value = false;
 
       // 处理非空的 messages.value
       const today = getFormattedDate();
@@ -409,6 +406,13 @@ const sayHello = () => {
     });
   }
 };
+
+const handleScroll = () => {
+  nextTick(() => {
+    inputBoxRef?.value.blur();
+  });
+};
+
 onMounted(() => {
   initData();
   initWebSocket();
@@ -426,11 +430,11 @@ onMounted(() => {
     }
   );
 
-  // nextTick(() => {
-  //   setTimeout(() => {
-  //     inputBoxRef?.value.focus();
-  //   }, 300);
-  // });
+  window.addEventListener("scroll", handleScroll, false);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll, false);
 });
 
 interface Message {
@@ -511,12 +515,7 @@ const handleFocus = () => {
 
     const container = messageList._value;
     if (container) {
-      if (!firstTalk.value) {
-        container.scrollTop = container.scrollHeight;
-      } else {
-        // container.scrollTop = 0;
-        window.scrollTo(0, 0);
-      }
+      container.scrollTop = container.scrollHeight;
 
       scrollBottomFlag.value = false;
     }

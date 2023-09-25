@@ -47,6 +47,9 @@ export const message = obj => {
     div.style.zIndex = '3'
     div.style.color = color[obj.type]
     div.id = 'message-index'
+    div.style.maxWidth = '90%'
+    div.style.minWidth = '60%'
+    div.style.justifyContent = 'center'
 
     const img = document.createElement('img')
     img.src = state[obj.type]
