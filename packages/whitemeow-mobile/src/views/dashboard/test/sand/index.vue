@@ -531,9 +531,9 @@ const sayHello = () => {
 };
 
 const handleScroll = () => {
-  nextTick(() => {
-    inputBoxRef?.value.blur();
-  });
+  // nextTick(() => {
+  //   inputBoxRef?.value.blur();
+  // });
 };
 
 onMounted(() => {
