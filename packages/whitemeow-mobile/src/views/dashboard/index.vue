@@ -44,7 +44,7 @@ const tab = ref([
     type: "adventure",
     iconActive: Icon3Active,
     active: false,
-    lock: false,
+    lock: true,
   },
   {
     path: "/chat/my",

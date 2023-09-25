@@ -272,13 +272,14 @@
 </style>
 
 <template>
-  <div
-    class="room-index"
-    :class="[
-      textAdventureStore.pageIndex === 5 ? 'h-100%' : 'h-[calc(100%-10.4rem)]',
-    ]"
-  >
-    <div class="main">
+  <div class="room-index">
+    <div
+      class="main"
+      :style="{
+        height:
+          textAdventureStore.pageIndex === 5 ? '100%' : 'calc(100% - 5.6rem)',
+      }"
+    >
       <img
         class="back back1"
         v-if="textAdventureStore.canShowLeft"
@@ -872,8 +873,6 @@ const getCurrentRouter = () => {
 };
 
 const handlerUnload = (event: any) => {
-  chatStore.handleSetKeypress(false);
-
   // Cancel the event as stated by the standard.
   // event.preventDefault();
   // event.returnValue = ''
@@ -893,6 +892,9 @@ const handlerWebsocket = () => {
     socketStore.ws.callback = onReceived2;
   }
 };
+onUnmounted(() => {
+  chatStore.handleSetKeypress(false);
+});
 onMounted(() => {
   chatStore.handleSetKeypress(true);
 
