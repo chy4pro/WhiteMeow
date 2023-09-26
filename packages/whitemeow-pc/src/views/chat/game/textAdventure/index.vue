@@ -738,6 +738,9 @@ onMounted(()=>{
   if(isInvite.value){
     sendMessage(9)
   }
+  else{
+    sendMessage(8)
+  }
 })
 
 onBeforeUnmount(()=>{

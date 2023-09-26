@@ -17,7 +17,7 @@ export const tablistMap = [
     iconName: 'icon_mx_',
     path: '/chat/game',
     label: '冒险喵',
-    status: 'normal',
+    status: 'disable',
     tipText: '冒险喵开发中 \n 敬请期待'
   },
   {
@@ -48,7 +48,7 @@ export const loginTablistMap = [
     iconName: 'icon_mx_',
     path: '/chat/game',
     label: '冒险喵',
-    status: 'normal',
+    status: 'disable',
     tipText: '冒险喵开发中 \n 敬请期待'
   },
   {
