@@ -240,26 +240,21 @@ onUnmounted(() => {
   }
 }
 
-// @-webkit-keyframes turnMove {
-//   0% {
-//     transform: rotateY(0deg);
-//   }
-//   25% {
-//     transform: rotateY(90deg);
-//   }
-//   50% {
-//     transform: rotateY(0deg);
-//   }
-//   75% {
-//     transform: rotateY(-90deg);
-//   }
-//   100% {
-//     transform: rotateY(0deg);
-//   }
-// }
+@-webkit-keyframes turnMove {
+  0% {
+    transform: rotateZ(2deg);
+  }
+  50% {
+    transform: rotateZ(-2deg);
+  }
+  100% {
+    transform: rotateZ(2deg);
+  }
+}
 
 .test-index {
   padding: 1.6rem;
+  padding-top: 0.5rem;
 
   .box2 {
     margin-top: 2.4rem;
