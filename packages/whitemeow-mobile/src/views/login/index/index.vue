@@ -684,6 +684,7 @@ onMounted(() => {
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-left: 5rem;
 
         img {
           max-height: 100%;
