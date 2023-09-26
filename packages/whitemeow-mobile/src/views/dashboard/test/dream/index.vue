@@ -61,7 +61,9 @@
 
       <div class="answer" style="display: block">
         <div><strong>再次补充：</strong></div>
-        <span>(只有一次补充机会，请尽可能的补充梦境的所有内容)</span>
+        <span style="font-size: 1.2rem"
+          >(只有一次补充机会，请尽可能的补充梦境的所有内容)</span
+        >
       </div>
 
       <div>
@@ -368,7 +370,7 @@ onMounted(() => {
     font-family: RedHatDisplayBold;
 
     span {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
     }
   }
 
@@ -424,11 +426,11 @@ onMounted(() => {
 
     .bg2 {
       background-image: url("~/test/chat3.png");
-      height: 26rem;
+      height: 21rem;
       margin-top: -1rem;
 
       div {
-        max-height: 20rem;
+        max-height: 15rem;
       }
     }
 
