@@ -10,7 +10,7 @@ export const tablistMap = [
     iconName: 'icon_cs_',
     path: '/chat/testChat',
     label: '测试喵',
-    status: 'normal',
+    status: 'disable',
     tipText: '请先登录 \n 解锁测试喵'
   },
   {
