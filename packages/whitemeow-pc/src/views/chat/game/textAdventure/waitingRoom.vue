@@ -383,8 +383,8 @@ const closeTheRoom = async() =>{
 const startGame = () => {
   console.log('start');
   startLoading.value = true
-  sendMessage2(8,userName.value)
-  
+
+  router.push({ name: 'textAdventure', query: {'channel_id': channelId.value,'user_name': userName.value, 'id': roomNumber.value}});
 }
 
 const initData = () =>{
