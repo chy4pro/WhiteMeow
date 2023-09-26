@@ -6,20 +6,16 @@ const clearStorage = () => {
     // })
 }
 
+
 const globalBaseUrlHandle = () => {
     // 测试环境
     if (window.location.hostname.indexOf("miao.pansi") > -1) {
         return 'https://miaoapi.pansi.com'
     }
 
-    // release环境
-    if (window.location.hostname.indexOf("webrelease.ashgso") > -1) {
-        return 'https://release.ashgso.com/ashleydiscount'
-    }
-
     // 生产环境
-    if (window.location.hostname.indexOf("web.ashgso") > -1) {
-        return 'https://checklist.ashgso.com/ashleydiscount'
+    if (window.location.hostname.indexOf("baixiaomiao") > -1) {
+        return 'https://api.baixiaomiao.ai'
     }
 
     // 本地环境
